@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/common",
+    "packages/the-door"
+  ],
+  "scripts": {
+    "door": "npm run -w packages/the-door",
+    "common": "npm run -w packages/the-door"
+  }
+}

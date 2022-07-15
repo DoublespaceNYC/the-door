@@ -1,0 +1,74 @@
+{
+  "name": "@the-door/the-door-site",
+  "private": true,
+  "description": "Website for the Door.",
+  "version": "1.0.0",
+  "author": "Clay Giffin <clay@claygiffin.com>",
+  "types": "./src/types/index.d.ts",
+  "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@the-door/common": "*",
+    "datocms-structured-text-utils": "^2.0.4",
+    "emotion-normalize": "^11.0.1",
+    "gatsby": "^4.18.0",
+    "gatsby-plugin-emotion": "^7.18.0",
+    "gatsby-plugin-image": "^2.18.0",
+    "gatsby-plugin-manifest": "^4.18.0",
+    "gatsby-plugin-react-helmet": "^5.18.0",
+    "gatsby-plugin-sharp": "^4.18.0",
+    "gatsby-source-datocms": "^4.0.4",
+    "gatsby-source-filesystem": "^4.18.0",
+    "gatsby-transformer-remark": "^5.18.0",
+    "gatsby-transformer-sharp": "^4.18.0",
+    "polished": "^4.2.2",
+    "react": "^18.2.0",
+    "react-datocms": "^3.0.15",
+    "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-intersection-observer": "^9.3.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-helmet": "^6.1.5",
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",
+    "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "gatsby-plugin-eslint": "^4.0.2",
+    "import-sort-style-module": "^6.0.0",
+    "prettier": "^2.7.1",
+    "prettier-plugin-import-sort": "^0.0.7",
+    "typescript": "^4.7.4"
+  },
+  "importSort": {
+    ".js, .jsx, .ts, .tsx": {
+      "style": "module"
+    }
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "0BSD",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "devl": "gatsby develop -H 0.0.0.0 -p 8000",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "start": "gatsby develop",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/claygiffin/@the-door/packages/the-door-site/"
+  },
+  "bugs": {
+    "url": "https://github.com/claygiffin/@the-door/issues"
+  }
+}

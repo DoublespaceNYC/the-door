@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["./src/**/*", "../common/src/components/Layout.tsx"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "exports": {
+    "./components/*": "./src/components/*.tsx",
+    "./theme/*": "./src/theme/*.tsx",
+    "./types": "./src/types/index.ts"
+  }
+}
