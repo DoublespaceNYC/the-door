@@ -64,7 +64,7 @@ const ArticleThumbnail = ({
       h3 {
         order: 2;
         font-size: var(--fs-${featured ? '36' : '24'});
-        color: ${colors?.title || '#333'};
+        color: ${colors?.title || '#444'};
         margin: 0.125em 0;
       }
       h4 {
@@ -76,7 +76,7 @@ const ArticleThumbnail = ({
         margin: 0;
         &:nth-of-type(1) {
           margin-right: 0.75em;
-          color: ${colors?.category || '#333'};
+          color: ${colors?.category || '#444'};
         }
       }
     `,

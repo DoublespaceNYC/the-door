@@ -29,7 +29,9 @@ const MainNav = ({
 }: MainNavProps) => {
   const Logo = logo
 
-  const { ref: scrollRef, inView } = useInView()
+  const { ref: scrollRef, inView } = useInView({
+    initialInView: true,
+  })
   const scrolled = !inView
 
   const [navRef, setNavRef] = useState<HTMLElement | null>(null)
@@ -100,7 +102,7 @@ const MainNav = ({
       }
       ${colors.buttons.map(
         (color, i) => css`
-          &:nth-child(${i + 1}) {
+          &:nth-child(${colors.buttons.length}n + ${i}) {
             > span {
               border-color: ${color};
             }

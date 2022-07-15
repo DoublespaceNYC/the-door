@@ -98,7 +98,7 @@ const HomeCalendar = () => {
         font-size: var(--fs-24);
         order: 2;
         margin: 0 0 0.125em;
-        color: #333;
+        color: #444;
         transition: color 300ms ease;
       }
       h5 {
