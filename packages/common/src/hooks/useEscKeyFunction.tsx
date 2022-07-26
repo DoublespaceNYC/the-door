@@ -14,5 +14,5 @@ export const useEscKeyFunction = (fn: () => void) => {
     return () => {
       document.removeEventListener('keydown', escFunction, false)
     }
-  }, [open, escFunction])
+  }, [escFunction])
 }
