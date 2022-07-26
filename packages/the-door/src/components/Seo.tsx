@@ -1,3 +1,4 @@
+import { graphql, useStaticQuery } from 'gatsby'
 import { Helmet } from 'react-helmet'
 
 type SeoProps = {
@@ -13,11 +14,31 @@ const Seo = ({
   description = ``,
   lang = `en`,
   imageUrl,
-  noSuffix = false,
+  noSuffix,
 }: SeoProps) => {
-  const metaDescription = description || ''
-  const metaTitle = title || ''
-  const titleSuffix = noSuffix ? '' : ''
+  const { datoCmsSite } = useStaticQuery(graphql`
+    query {
+      datoCmsSite {
+        globalSeo {
+          titleSuffix
+          fallbackSeo {
+            description
+            title
+          }
+        }
+      }
+    }
+  `)
+
+  const metaDescription =
+    description ||
+    datoCmsSite?.globalSeo?.fallbackSeo?.description ||
+    ''
+  const metaTitle =
+    title || datoCmsSite?.globalSeo?.fallbackSeo?.title || ''
+  const titleSuffix = noSuffix
+    ? ''
+    : datoCmsSite?.globalSeo?.titleSuffix
 
   return (
     <Helmet

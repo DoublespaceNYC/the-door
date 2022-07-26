@@ -2,8 +2,9 @@ import { SerializedStyles, css } from '@emotion/react'
 import ScrollSlider from '@the-door/common/src/components/ScrollSlider'
 import { graphql, useStaticQuery } from 'gatsby'
 
-import { IServiceGroup } from '../types'
-import ServiceModuleGroup from './ServiceModuleGroup'
+import ServiceModuleGroup, {
+  IServicesGroup,
+} from './ServiceModuleGroup'
 
 type Props = {
   bgColor: string
@@ -12,17 +13,17 @@ type Props = {
 
 const ServicesModule = ({ bgColor, ...props }: Props) => {
   type QueryProps = {
-    serviceGroups: {
-      nodes: IServiceGroup[]
+    servicesGroups: {
+      nodes: IServicesGroup[]
     }
   }
-  const { serviceGroups } = useStaticQuery<QueryProps>(graphql`
+  const { servicesGroups } = useStaticQuery<QueryProps>(graphql`
     query {
-      serviceGroups: allDatoCmsServiceGroup(
+      servicesGroups: allDatoCmsServicesGroup(
         sort: { fields: position }
       ) {
         nodes {
-          ...ServiceGroupFragment
+          ...ServicesGroupFragment
         }
       }
     }
@@ -31,7 +32,10 @@ const ServicesModule = ({ bgColor, ...props }: Props) => {
     sliderContent: css`
       display: grid;
       grid-gap: 0.75rem;
-      grid-template-columns: repeat(${serviceGroups.nodes.length}, 1fr);
+      grid-template-columns: repeat(
+        ${servicesGroups.nodes.length},
+        1fr
+      );
       padding: 0 var(--margin);
     `,
     scrollArea: css`
@@ -50,7 +54,7 @@ const ServicesModule = ({ bgColor, ...props }: Props) => {
       navStyle="above"
       {...props}
     >
-      {serviceGroups.nodes.map((serviceGroup, i) => (
+      {servicesGroups.nodes.map((serviceGroup, i) => (
         <ServiceModuleGroup
           serviceGroup={serviceGroup}
           key={i}

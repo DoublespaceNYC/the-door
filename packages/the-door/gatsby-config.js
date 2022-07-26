@@ -14,10 +14,10 @@ const gatsbyRequiredRules = path.join(
 
 module.exports = {
   siteMetadata: {
-    title: `Gatsby DatoCMS Starter`,
-    description: `A Gatsby starter project using DatoCMS, Emotion, and typescript.`,
+    title: `The Door`,
+    description: `Website for door.org built with DatoCMS, Emotion, and typescript.`,
     author: `Clay Giffin <clay@claygiffin.com>`,
-    siteUrl: `https://github.com/claygiffin/gatsby-datocms-starter/`,
+    siteUrl: `https://www.door.org/`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -50,12 +50,12 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby DatoCMS Starter`,
-        short_name: `gatsby-datocms-starter`,
+        name: `The Door`,
+        short_name: `@the-door/the-door`,
         start_url: `/`,
         background_color: `#000000`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/favicon.svg`, // This path is relative to the root of the site.
       },
     },
     {

@@ -1,11 +1,13 @@
 import { css } from '@emotion/react'
-import DatoLink from '@the-door/common/src/components/DatoLink'
+import DatoLink, {
+  IDatoLink,
+} from '@the-door/common/src/components/DatoLink'
 import VideoStreamPlayer from '@the-door/common/src/components/VideoStreamPlayer'
 import {
   absoluteFill,
   baseGrid,
+  mq,
 } from '@the-door/common/src/theme/mixins'
-import { IDatoLink } from '@the-door/common/src/types'
 import { Fragment } from 'react'
 
 import { colors } from '../theme/variables'
@@ -31,7 +33,7 @@ const HomeHero = ({ heading, ctaText, ctaLink, video }: Props) => {
       ${baseGrid}
       grid-template-rows: 1fr auto;
       min-height: 50vw;
-      padding: 24rem 0 12rem;
+      padding: calc(var(--row-ll) * 2) 0 var(--row-ll);
       box-sizing: border-box;
       color: ${colors.navy};
       h1,
@@ -61,6 +63,9 @@ const HomeHero = ({ heading, ctaText, ctaLink, video }: Props) => {
             transform: translateY(-50%);
             z-index: 0;
           }
+        }
+        ${mq().m} {
+          grid-column: 2 / -2;
         }
       }
       h1 {

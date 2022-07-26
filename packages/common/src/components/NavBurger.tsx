@@ -1,0 +1,90 @@
+import { css } from '@emotion/react'
+import { CSSInterpolation } from '@emotion/serialize'
+
+import ScrollToggle from './ScrollToggle'
+
+type Props = {
+  open: boolean
+  onClick: () => void
+  css?: CSSInterpolation
+}
+const NavBurger = ({ open, onClick, ...props }: Props) => {
+  const style = css`
+    position: relative;
+    align-self: center;
+    box-sizing: content-box;
+    width: 1.5em;
+    height: 100%;
+    min-height: 1.5em;
+    border: none;
+    appearance: none;
+    background-color: transparent;
+    cursor: pointer;
+    pointer-events: all;
+    z-index: 10;
+    transition: color 300ms ease;
+
+    span {
+      position: absolute;
+      height: 2px;
+      width: 2rem;
+      left: 50%;
+      top: calc(50% - 1px);
+      background-color: currentColor;
+      ${!open &&
+      css`
+        &:nth-of-type(1) {
+          transition: transform 150ms ease 150ms, opacity 0ms ease 150ms;
+          transform: translate(-50%, calc(-0.75em + 1px));
+        }
+        &:nth-of-type(2) {
+          transition: transform 150ms ease;
+          transform: translate(-50%, 0);
+        }
+        &:nth-of-type(3) {
+          transition: transform 150ms ease;
+          transform: translate(-50%, 0);
+        }
+        &:nth-of-type(4) {
+          transition: transform 150ms ease 150ms, opacity 0ms ease 150ms;
+          transform: translate(-50%, calc(0.75em - 1px));
+        }
+      `}
+
+      ${open &&
+      css`
+        &:nth-of-type(1) {
+          transition: transform 150ms ease, opacity 0ms ease 150ms;
+          transform: translate(-50%, 0);
+          opacity: 0;
+        }
+        &:nth-of-type(2) {
+          transition: transform 150ms ease 150ms;
+          transform: translate(-50%, 0) rotate(45deg);
+          transition-delay: 150ms;
+        }
+        &:nth-of-type(3) {
+          transition: transform 150ms ease 150ms;
+          transform: translate(-50%, 0) rotate(-45deg);
+          transition-delay: 150ms;
+        }
+        &:nth-of-type(4) {
+          transition: transform 150ms ease 150ms, opacity 0ms ease 150ms;
+          transform: translate(-50%, 0);
+          opacity: 0;
+        }
+      `}
+    }
+  `
+  return (
+    <div onClick={onClick} css={style} {...props}>
+      <span />
+      <span />
+      <span />
+      <span />
+      {open && <ScrollToggle />}
+    </div>
+  )
+}
+
+export default NavBurger

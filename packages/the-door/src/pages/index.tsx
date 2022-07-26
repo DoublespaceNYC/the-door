@@ -1,4 +1,11 @@
-import { IDatoLink, IStructuredText } from '@the-door/common/src/types'
+import CornerPopup, {
+  ICornerPopup,
+} from '@the-door/common/src/components/CornerPopup'
+import { IDatoLink } from '@the-door/common/src/components/DatoLink'
+import {
+  IInternalLink,
+  IStructuredText,
+} from '@the-door/common/src/types'
 import { graphql } from 'gatsby'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
 
@@ -9,6 +16,8 @@ import HomeLatest from '../components/HomeLatest'
 import HomeServices from '../components/HomeServices'
 import HomeWelcome from '../components/HomeWelcome'
 import Layout from '../components/Layout'
+import Seo from '../components/Seo'
+import { colors } from '../theme/variables'
 import { INewsArticle } from '../types'
 
 export const data = graphql`
@@ -98,6 +107,13 @@ export const data = graphql`
       featuredArticle {
         ...NewsArticleFragment
       }
+      latestLink {
+        ...InternalLinkFragment
+      }
+      showPopup
+      popup {
+        ...CornerPopupFragment
+      }
     }
   }
 `
@@ -107,7 +123,7 @@ type Props = {
     home: {
       heroHeading: string
       heroCtaText: string
-      heroCtaLink: IDatoLink[]
+      heroCtaLink: [IDatoLink]
       heroVideo: {
         video: {
           streamingUrl: string
@@ -126,10 +142,9 @@ type Props = {
       }
       servicesHeading: string
       servicesBody: IStructuredText
-      servicesLink: IDatoLink[]
       bsaHeading: string
       bsaBody: IStructuredText
-      bsaLink: IDatoLink[]
+      bsaLink: [IDatoLink]
       bsaImage: {
         gatsbyImageData: IGatsbyImageData
         alt?: string
@@ -142,11 +157,14 @@ type Props = {
         text: string
       }[]
       impactCta: string
-      impactCtaLink: IDatoLink[]
+      impactCtaLink: [IDatoLink]
       facesHeading: string
       facesBody: IStructuredText
       latestHeading: string
       featuredArticle: INewsArticle
+      latestLink: [IInternalLink]
+      showPopup: boolean
+      popup: [ICornerPopup]
     }
   }
 }
@@ -155,6 +173,7 @@ const IndexPage = ({ data }: Props) => {
   const { home } = data
   return (
     <Layout>
+      <Seo title="The Door" noSuffix />
       <HomeHero
         heading={home.heroHeading}
         ctaText={home.heroCtaText}
@@ -167,10 +186,22 @@ const IndexPage = ({ data }: Props) => {
         links={home.welcomeLinks}
         image={home.welcomeImage}
       />
+      {home.showPopup && (
+        <CornerPopup
+          content={home.popup[0]}
+          colors={{
+            bg: '#fff',
+            heading: colors.navy,
+            text: '#333',
+            ctaBg: colors.pink,
+            ctaText: '#fff',
+          }}
+        />
+      )}
+
       <HomeServices
         heading={home.servicesHeading}
         body={home.servicesBody}
-        link={home.servicesLink[0]}
         bsaHeading={home.bsaHeading}
         bsaBody={home.bsaBody}
         bsaLink={home.bsaLink[0]}
@@ -188,6 +219,7 @@ const IndexPage = ({ data }: Props) => {
       <HomeLatest
         heading={home.latestHeading}
         featuredArticle={home.featuredArticle}
+        pageLink={home.latestLink[0]}
       />
     </Layout>
   )

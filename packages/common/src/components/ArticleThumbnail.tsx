@@ -2,12 +2,12 @@ import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import { GatsbyImage } from 'gatsby-plugin-image'
 
-import { absoluteFill } from '../theme/mixins'
+import { absoluteFill, mq } from '../theme/mixins'
 import { IArticle } from '../types'
 
 type Props = {
   article: IArticle
-  featured?: boolean
+  layout: 'Featured' | 'Grid' | 'Carousel'
   colors?: {
     title?: string
     category?: string
@@ -22,11 +22,14 @@ type Props = {
 
 const ArticleThumbnail = ({
   article,
-  featured,
+  layout,
   colors,
   ...props
 }: Props) => {
   const date = new Date(article.meta.createdAt)
+  const featured = layout === 'Featured'
+  const grid = layout === 'Grid'
+  const carousel = layout === 'Carousel'
   const styles = {
     container: css`
       position: relative;
@@ -36,22 +39,16 @@ const ArticleThumbnail = ({
       background: ${colors?.bg || '#fff'};
       justify-items: flex-start;
       cursor: pointer;
-      &:before {
-        content: '';
-        ${absoluteFill};
-        background: ${colors?.shadow || 'transparent'};
-        transform: translate(-1rem, 1rem);
-        z-index: 0;
-        transition: background 300ms ease;
-      }
-      &:hover:before {
-        background: ${colors?.shadowHover || 'transparent'};
-      }
-      &:after {
-        content: '';
-        ${absoluteFill};
-        background: ${colors?.bg || '#fff'};
-        z-index: 0;
+      ${colors?.shadow &&
+      css`
+        box-shadow: -1rem 1rem 0 ${colors?.shadow};
+        transition: box-shadow 300ms ease;
+        &:hover {
+          box-shadow: -1rem 1rem 0 ${colors.shadowHover};
+        }
+      `};
+      ${mq().s} {
+        grid-template-columns: ${grid ? '1fr 1fr' : '1fr'};
       }
     `,
     text: css`
@@ -59,16 +56,25 @@ const ArticleThumbnail = ({
       flex-direction: column;
       padding: ${featured
         ? '2.5em var(--gtr-m) 2.5em 0'
-        : '1rem 1em 1em'};
+        : '1rem 1em 1.5em'};
+      ${mq().s} {
+        padding: ${grid
+          ? '1.5em var(--gtr-m) 2.5em 0'
+          : '1rem 1em 1.5em'};
+      }
       z-index: 1;
       h3 {
         order: 2;
         font-size: var(--fs-${featured ? '36' : '24'});
         color: ${colors?.title || '#444'};
-        margin: 0.125em 0;
+        margin: 0.125em 0 0;
+        line-height: 1;
+        ${mq().s} {
+          font-size: var(--fs-${featured ? '48' : '30'});
+        }
       }
       h4 {
-        font-size: var(--fs-15);
+        font-size: var(--fs-${featured ? '15' : '14'});
         text-transform: uppercase;
         font-weight: 500;
         display: inline-block;
@@ -85,7 +91,7 @@ const ArticleThumbnail = ({
     `,
     excerpt: css`
       order: 4;
-      margin-top: 0.75em;
+      margin-top: 0.5em;
       color: ${colors?.excerpt || '#666'};
       line-height: 1.5;
     `,
@@ -95,12 +101,14 @@ const ArticleThumbnail = ({
       overflow: hidden;
       ${featured &&
       css`
-        grid-row: 1 / 4;
         min-height: 100%;
+        ${mq().s} {
+        }
       `}
     `,
     image: css`
       transition: transform 500ms ease;
+      min-height: 100%;
       div:hover > div > & {
         transform: scale3d(1.05, 1.05, 1);
       }
@@ -124,6 +132,7 @@ const ArticleThumbnail = ({
               month: 'short',
               day: 'numeric',
               year: 'numeric',
+              timeZone: 'America/New_York',
             })}
           </h4>
         </div>

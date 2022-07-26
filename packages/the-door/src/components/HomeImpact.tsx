@@ -1,7 +1,13 @@
 import { css } from '@emotion/react'
-import DatoLink from '@the-door/common/src/components/DatoLink'
-import { baseGrid, linkStyle } from '@the-door/common/src/theme/mixins'
-import { IDatoLink, IStructuredText } from '@the-door/common/src/types'
+import DatoLink, {
+  IDatoLink,
+} from '@the-door/common/src/components/DatoLink'
+import {
+  baseGrid,
+  linkStyle,
+  mq,
+} from '@the-door/common/src/theme/mixins'
+import { IStructuredText } from '@the-door/common/src/types'
 import { StructuredText } from 'react-datocms'
 
 import { colors } from '../theme/variables'
@@ -29,7 +35,7 @@ const HomeImpact = ({
   const styles = {
     section: css`
       ${baseGrid}
-      padding-bottom: 9rem;
+      padding: var(--row-m) 0 var(--row-l);
       color: #fff;
       background: linear-gradient(
         to top right,
@@ -42,7 +48,8 @@ const HomeImpact = ({
       text-align: center;
       position: relative;
       font-size: var(--fs-108);
-      margin: 0.667em 0 0;
+      margin: 0 0 0.125em;
+      line-height: 1;
     `,
     body: css`
       grid-column: 2 / -2;
@@ -68,25 +75,52 @@ const HomeImpact = ({
       grid-column: 2 / -2;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      grid-gap: var(--gtr-m);
+      grid-column-gap: var(--gtr-m);
       text-align: center;
       background: ${colors.green};
       padding: 0 var(--gtr-m);
-      h3 {
+      align-items: center;
+      ${mq().ms} {
+        grid-template-columns: repeat(2, 1fr);
+        padding-bottom: 2rem;
+      }
+    `,
+    stat: (length: number) => css`
+      display: contents;
+      font-size: 10vw;
+      line-height: 1;
+      > span {
+        &:nth-of-type(1) {
+          grid-row: 1 / 2;
+          margin-top: 0.125em;
+          font-size: ${133 - 10 * length}%;
+          align-self: flex-end;
+        }
+        &:nth-of-type(2) {
+          grid-row: 2 / 3;
+          font-size: 25%;
+          max-width: 15ch;
+          margin-bottom: 1em;
+          align-self: flex-start;
+        }
+      }
+      ${mq().ms} {
         display: flex;
         flex-direction: column;
-        font-size: var(--fs-144);
-        margin: 0.125em 0 0;
+        margin: 0;
         > span {
           &:nth-of-type(1) {
-            font-size: 125%;
-            line-height: 1;
+            grid-row: auto;
+            margin-top: 0.125em;
+            font-size: ${200 - 10 * length}%;
+            align-self: center;
           }
           &:nth-of-type(2) {
-            font-size: var(--fs-36);
-            max-width: 15ch;
-            line-height: 1.125;
-            margin-bottom: 1em;
+            grid-row: auto;
+            font-size: 50%;
+            max-width: 100%;
+            margin-bottom: 0;
+            align-self: center;
           }
         }
       }
@@ -107,16 +141,23 @@ const HomeImpact = ({
       }
       > div {
         position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         color: ${colors.green};
         background: #fff;
         font-size: var(--fs-24);
         font-family: var(--almaq);
         text-transform: uppercase;
         letter-spacing: 0.025em;
-        padding: 0.5em 1em;
+        padding: 0.5em 0.75em;
+        > span {
+          padding: 0 0.25em;
+        }
       }
     `,
     ctaLink: css`
+      display: inline-block;
       color: ${colors.greenDark};
       text-underline-offset: 3px;
       text-decoration-thickness: 2px;
@@ -156,7 +197,7 @@ const HomeImpact = ({
       <DatoLink css={styles.link} link={link} />
       <div css={styles.stats}>
         {stats.map((stat, i) => (
-          <h3 key={i}>
+          <h3 key={i} css={styles.stat(stat.number.length)}>
             <span>{stat.number}</span>
             <span>{stat.text}</span>
           </h3>

@@ -3,11 +3,16 @@ import { css, keyframes } from '@emotion/react'
 import { breakpoints } from './variables'
 
 export const mq = (minMax = 'max') => {
-  const bp = Object.create(breakpoints)
-  Object.keys(breakpoints).forEach(key => {
-    bp[key] = `@media (${minMax}-width: ${bp[key]}px)`
+  type breakpoints = typeof breakpoints
+  const mqObject: { [Property in keyof breakpoints]: string } =
+    Object.create(breakpoints)
+  const mqArray = Object.keys(breakpoints) as Array<keyof breakpoints>
+
+  mqArray.forEach(key => {
+    mqObject[key] = `@media (${minMax}-width: ${breakpoints[key]}px)`
   })
-  return bp
+
+  return mqObject
 }
 
 export const baseGrid = css`
@@ -45,9 +50,5 @@ export const linkStyle = css`
   font-weight: 500;
 `
 
-export const animateIn = keyframes`
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-`
+export const widthInCols = (count: number) =>
+  `calc(${count} * var(--col-w) + ${count - 1} * var(--gtr-m))`

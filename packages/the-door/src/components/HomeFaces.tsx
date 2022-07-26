@@ -3,6 +3,7 @@ import ScrollSlider from '@the-door/common/src/components/ScrollSlider'
 import {
   absoluteFill,
   baseGrid,
+  mq,
 } from '@the-door/common/src/theme/mixins'
 import { IStructuredText } from '@the-door/common/src/types'
 import { graphql, useStaticQuery } from 'gatsby'
@@ -35,7 +36,7 @@ const HomeFaces = ({ heading, body }: Props) => {
   const styles = {
     section: css`
       ${baseGrid}
-      grid-template-rows: auto auto auto 18rem;
+      grid-template-rows: auto auto auto calc(var(--row-ll) + var(--row-l));
       background: linear-gradient(
         to bottom right,
         ${colors.purple},
@@ -46,8 +47,9 @@ const HomeFaces = ({ heading, body }: Props) => {
     heading: css`
       grid-column: 2 / -2;
       font-size: var(--fs-108);
-      margin: 1.25em 0 0;
+      margin: var(--row-l) 0 0;
       position: relative;
+      line-height: 1;
     `,
     body: css`
       grid-column: 2 / -2;
@@ -55,6 +57,9 @@ const HomeFaces = ({ heading, body }: Props) => {
       line-height: 1.5;
       > *:last-child {
         margin-bottom: 1rem;
+        ${mq().m} {
+          margin-bottom: 3rem;
+        }
       }
       position: relative;
     `,

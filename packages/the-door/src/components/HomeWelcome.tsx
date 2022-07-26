@@ -1,11 +1,14 @@
 import { css } from '@emotion/react'
-import DatoLink from '@the-door/common/src/components/DatoLink'
+import DatoLink, {
+  IDatoLink,
+} from '@the-door/common/src/components/DatoLink'
 import {
   absoluteFill,
   baseGrid,
   linkStyle,
+  mq,
 } from '@the-door/common/src/theme/mixins'
-import { IDatoLink, IStructuredText } from '@the-door/common/src/types'
+import { IStructuredText } from '@the-door/common/src/types'
 import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 import { StructuredText } from 'react-datocms'
 
@@ -25,7 +28,7 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
   const styles = {
     section: css`
       ${baseGrid}
-      grid-template-rows: 3rem 6rem auto auto auto 4rem;
+      grid-template-rows: 3rem var(--row-m) auto auto auto 4rem;
       margin-top: -3rem;
       color: #fff;
       z-index: 2;
@@ -48,12 +51,18 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
         grid-column: 1 / span 9;
         grid-row: 1 / 2;
         background: ${colors.blueDark};
+        ${mq().s} {
+          grid-column: 1 / span 12;
+        }
       `}
       ${i === 2 &&
       css`
         grid-column: 1 / span 9;
         grid-row: 2 / 4;
         background: ${colors.blue}99;
+        ${mq().s} {
+          grid-column: 1 / span 12;
+        }
       `}
       ${i === 3 &&
       css`
@@ -62,36 +71,57 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
         background: ${colors.blueLight}99;
         height: 6rem;
         top: auto;
+        ${mq().m} {
+          grid-column: span 7 / -1;
+          grid-row: 4 / 6;
+          height: calc(100% + 1.5rem);
+        }
+        ${mq().s} {
+          grid-column: span 12 / -1;
+          grid-row: 5 / 6;
+          height: calc(100% - 2rem);
+        }
       `}
       ${i === 4 &&
       css`
         grid-column: span 8 / -1;
         grid-row: 4 / 6;
         background: ${colors.blue}99;
+        ${mq().m} {
+          display: none;
+        }
       `}
     `,
     heading: css`
       position: relative;
       grid-column: 2 / span 5;
       grid-row: 3 / 4;
-      margin-top: 6rem;
+      margin-top: var(--row-m);
       font-size: var(--fs-108);
       line-height: 1;
       margin-bottom: 0.25em;
       margin-right: var(--gtr-m);
+      ${mq().m} {
+        grid-column: 2 / -2;
+        grid-row: 2 / 4;
+      }
     `,
     body: css`
       position: relative;
       grid-column: 2 / span 5;
       grid-row: 4 / 5;
-      margin: 1em 0 0;
+      margin: 1em 0 var(--row-ll);
       line-height: 1.5;
+      ${mq().m} {
+        grid-column: 2 / span 6;
+      }
+      ${mq().s} {
+        grid-column: 2 / -2;
+        margin: 0 0 2em;
+      }
     `,
     links: css`
-      position: relative;
-      grid-column: 2 / span 5;
-      grid-row: 5 / 6;
-      margin-bottom: 12rem;
+      margin-top: 1.5em;
     `,
     link: css`
       display: block;
@@ -106,6 +136,15 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
       grid-column: span 6 / -2;
       grid-row: 3 / 7;
       ${absoluteFill}
+      ${mq().m} {
+        grid-row: 4 / 6;
+      }
+      ${mq().s} {
+        grid-column: 4 / -2;
+        grid-row: 5 / 7;
+        height: 90vw;
+        position: relative;
+      }
     `,
   }
   return (
@@ -116,11 +155,11 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
       <h2 css={styles.heading}>{heading}</h2>
       <div css={styles.body}>
         <StructuredText data={body.value} />
-      </div>
-      <div css={styles.links}>
-        {links.map((link, i) => (
-          <DatoLink link={link} key={i} css={styles.link} />
-        ))}
+        <div css={styles.links}>
+          {links.map((link, i) => (
+            <DatoLink link={link} key={i} css={styles.link} />
+          ))}
+        </div>
       </div>
       <GatsbyImage
         css={styles.image}

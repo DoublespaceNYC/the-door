@@ -5,13 +5,13 @@ import {
   ReactNode,
   useCallback,
   useEffect,
-  useMemo,
-  useRef,
   useState,
 } from 'react'
 import smoothscroll from 'smoothscroll-polyfill'
 
 import { useElementWidth } from '../hooks/useElementRect'
+import { linkStyle } from '../theme/mixins'
+import DatoLink, { IDatoLink } from './DatoLink'
 
 type Props = {
   children: ReactNode
@@ -20,6 +20,12 @@ type Props = {
   contentCss?: SerializedStyles | SerializedStyles[]
   navStyle?: 'overlay' | 'above'
   snap?: boolean
+  colors?: {
+    arrow: [string, string?]
+    arrowDisabled: string
+    link: [string, string?]
+  }
+  link?: IDatoLink
   css?: SerializedStyles | SerializedStyles[]
 }
 
@@ -30,8 +36,12 @@ const ScrollSlider = ({
   contentCss,
   navStyle = 'overlay',
   snap,
+  link,
+  colors,
   ...props
 }: Props) => {
+  const Link = () => link || <Fragment />
+
   const [scrollPos, setScrollPos] = useState(0)
 
   const [contentRef, setContentRef] = useState<HTMLDivElement | null>(
@@ -104,7 +114,7 @@ const ScrollSlider = ({
       ${navVisible &&
       navStyle === 'above' &&
       css`
-        margin-top: -3rem;
+        margin-top: -4rem;
       `}
     `,
     slider: css`
@@ -145,45 +155,54 @@ const ScrollSlider = ({
       ${navStyle === 'above' &&
       css`
         position: relative;
-        padding: 0 var(--margin);
+        padding-right: var(--margin);
+        margin-bottom: 1rem;
         display: flex;
         justify-content: flex-end;
+        align-items: center;
       `}
     `,
     scrollButton: css`
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 400ms cubic-bezier(0.33, 3, 0.25, 0.5);
       svg {
         position: relative;
         width: auto;
-        height: 37.5%;
         overflow: visible;
         polyline {
           fill: transparent;
           stroke-width: 3;
-          stroke: #fff;
+          stroke: ${colors?.arrow[0] || '#fff'};
+          transition: stroke 300ms ease;
         }
       }
-      transition: background-color 300ms ease,
-        transform 400ms cubic-bezier(0.33, 3, 0.25, 0.5);
+      &:hover {
+        @media (hover: hover) {
+          svg polyline {
+            stroke: ${colors?.arrow[1] || null};
+          }
+        }
+      }
       ${navStyle === 'overlay' &&
       css`
         border: none;
         background-color: transparent;
         position: absolute;
         z-index: 3;
-        top: 50%;
-        display: flex;
         box-sizing: border-box;
         cursor: pointer;
         overflow: hidden;
         width: max(calc(4 * var(--margin)), 5rem);
         height: max(calc(4 * var(--margin)), 5rem);
-        align-items: center;
-        svg {
-          width: auto;
-          height: 50%;
-        }
+        top: 50%;
         --translateXY: translate(-50%, -50%);
         transform: var(--translateXY);
+        svg {
+          position: absolute;
+          height: 50%;
+        }
         @media (hover: hover) {
           &:hover {
             transform: var(--translateXY) scale3d(1.125, 1.125, 1);
@@ -196,7 +215,10 @@ const ScrollSlider = ({
       ${navStyle === 'above' &&
       css`
         width: 3rem;
-        height: 6rem;
+        height: 3rem;
+        svg {
+          height: 75%;
+        }
         @media (hover: hover) {
           &:hover {
             transform: scale3d(1.125, 1.125, 1);
@@ -224,10 +246,20 @@ const ScrollSlider = ({
     `,
     disabled: css`
       svg polyline {
-        stroke: #ffffff33;
+        stroke: ${colors?.arrowDisabled || '#ffffff33'};
       }
       cursor: default;
       pointer-events: none;
+    `,
+    link: css`
+      ${linkStyle}
+      margin: 0 0.5em;
+      color: ${colors?.link[0] || null};
+      &:hover {
+        @media (hover: hover) {
+          color: ${colors?.link[1] || null};
+        }
+      }
     `,
   }
 
@@ -235,6 +267,7 @@ const ScrollSlider = ({
     <div css={styles.outer} {...props}>
       {navVisible && (
         <nav css={styles.nav}>
+          {link && <DatoLink link={link} css={styles.link} />}
           <button
             css={[
               styles.scrollButton,

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { toSlug } from '@the-door/common/src/helpers'
-import { linkStyle } from '@the-door/common/src/theme/mixins'
+import { linkStyle, mq } from '@the-door/common/src/theme/mixins'
 import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
 import { useInView } from 'react-intersection-observer'
@@ -22,6 +22,9 @@ const HomeFacesStory = ({ story }: Props) => {
       width: calc(100vw - var(--margin) * 4);
       display: grid;
       grid-template-columns: 1fr;
+      ${mq().m} {
+        grid-template-rows: auto var(--row-m) auto;
+      }
     `,
     text: css`
       grid-column: 1 / 2;
@@ -29,11 +32,16 @@ const HomeFacesStory = ({ story }: Props) => {
       align-self: center;
       justify-self: flex-start;
       z-index: 2;
-      width: 50ch;
+      max-width: 30ch;
       min-width: 40%;
       background: ${colors.purpleLight}e0;
       padding: 0 var(--gtr-m);
       overflow: hidden;
+      box-sizing: border-box;
+      ${mq().m} {
+        grid-row: 2 / 4;
+        max-width: calc(100% - var(--gtr-m));
+      }
       h3 {
         font-size: var(--fs-48);
         margin: 0.67em 0 0.5em;
@@ -73,13 +81,17 @@ const HomeFacesStory = ({ story }: Props) => {
       max-width: 67%;
       z-index: 1;
       transition: opacity 300ms ease-out;
-      opacity: 0.25;
+      opacity: 0.333;
       ${inView &&
       css`
         opacity: 1;
         transition-delay: 300ms;
         transition-duration: 750ms;
       `}
+      ${mq().m} {
+        grid-row: 1 / 3;
+        max-width: calc(100% - 2 * var(--gtr-m));
+      }
     `,
   }
   return (

@@ -1,7 +1,8 @@
-/**
- * Implement Gatsby's Browser APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/browser-apis/
- */
+import { CornerPopupContextProvider } from '@the-door/common/src/context/CornerPopupContext'
+import { NavButtonModalContextProvider } from '@the-door/common/src/context/NavButtonModalContext'
 
-// You can delete this file if you're not using it
+export const wrapRootElement = ({ element }) => (
+  <NavButtonModalContextProvider>
+    <CornerPopupContextProvider>{element}</CornerPopupContextProvider>
+  </NavButtonModalContextProvider>
+)

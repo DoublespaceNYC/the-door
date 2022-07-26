@@ -1,11 +1,14 @@
 import { css } from '@emotion/react'
-import DatoLink from '@the-door/common/src/components/DatoLink'
+import DatoLink, {
+  IDatoLink,
+} from '@the-door/common/src/components/DatoLink'
 import {
   absoluteFill,
   baseGrid,
   linkStyle,
+  mq,
 } from '@the-door/common/src/theme/mixins'
-import { IDatoLink, IStructuredText } from '@the-door/common/src/types'
+import { IStructuredText } from '@the-door/common/src/types'
 import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 import { StructuredText } from 'react-datocms'
 
@@ -15,7 +18,6 @@ import ServicesModule from './ServicesModule'
 type Props = {
   heading: string
   body: IStructuredText
-  link: IDatoLink
   bsaHeading: string
   bsaBody: IStructuredText
   bsaLink: IDatoLink
@@ -28,7 +30,6 @@ type Props = {
 const HomeServices = ({
   heading,
   body,
-  link,
   bsaHeading,
   bsaBody,
   bsaLink,
@@ -37,7 +38,7 @@ const HomeServices = ({
   const styles = {
     section: css`
       ${baseGrid}
-      grid-template-rows: 16rem auto;
+      grid-template-rows: calc(var(--row-ll) * 1.1) auto;
       background: linear-gradient(
         to bottom right,
         ${colors.teal},
@@ -56,8 +57,16 @@ const HomeServices = ({
       ${absoluteFill}
       grid-column: span 8 / -1;
       grid-row: 1 / 3;
-      height: calc(100% + 6rem);
+      height: calc(100% + var(--row-m));
       background: ${colors.teal}99;
+      ${mq().m} {
+        grid-column: span 7 / -1;
+      }
+      ${mq().s} {
+        grid-column: span 12 / -1;
+        grid-row: 1 / 5;
+        height: 75%;
+      }
     `,
     circle: css`
       grid-column: -1 / 1;
@@ -75,15 +84,26 @@ const HomeServices = ({
       font-size: var(--fs-108);
       line-height: 1;
       margin: 0 0 6rem;
+      ${mq().s} {
+        margin-bottom: 0;
+        grid-column: 2 / -2;
+      }
     `,
     body: css`
       grid-column: auto / span 6;
       position: relative;
       line-height: 1.5;
-      margin-top: 1.5rem;
-      margin-right: var(--gtr-m);
+      margin-top: var(--gtr-s);
+      max-width: 55ch;
       p:last-of-type {
-        margin-bottom: 2em;
+        margin-bottom: 6rem;
+      }
+      ${mq().s} {
+        margin-top: 0;
+        grid-column: 2 / -2;
+        p:last-of-type {
+          margin-bottom: 5rem;
+        }
       }
     `,
     link: css`
@@ -91,7 +111,6 @@ const HomeServices = ({
       position: relative;
       display: block;
       color: #fff;
-      margin-bottom: 6rem;
       max-width: fit-content;
       &:hover {
         color: ${colors.purpleDark};
@@ -99,7 +118,7 @@ const HomeServices = ({
     `,
     services: css`
       grid-column: 1 / -1;
-      margin-bottom: 6rem;
+      margin-bottom: var(--row-m);
     `,
     bsaSection: css`
       position: relative;
@@ -107,10 +126,17 @@ const HomeServices = ({
       display: grid;
       grid-template-columns: 1fr 2fr;
       background: ${colors.teal}99;
-      margin-bottom: 12rem;
+      margin-bottom: var(--row-ll);
+      ${mq().ms} {
+        grid-template-columns: 1fr;
+      }
     `,
     bsaText: css`
       padding: 2em;
+      ${mq().ms} {
+        grid-row: 2 / 3;
+        padding: 1em;
+      }
     `,
     bsaHeading: css`
       text-transform: uppercase;
@@ -136,7 +162,7 @@ const HomeServices = ({
       <h2 css={styles.heading}>{heading}</h2>
       <div css={styles.body}>
         <StructuredText data={body.value} />
-        <DatoLink link={link} css={styles.link} />
+        {/* <DatoLink link={link} css={styles.link} /> */}
       </div>
       <ServicesModule css={styles.services} bgColor={colors.teal} />
       <section css={styles.bsaSection}>

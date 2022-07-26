@@ -31,6 +31,46 @@ export const toAmPmRange = (startTime: string, endTime: string) => {
   )}${ampmMinutes(minute(endTime))}${ampm(hour(endTime))}`
 }
 
+export const formateDateTimeRange = (
+  startDateTimeString: string,
+  endDateTimeString?: string
+) => {
+  const startDateTime = new Date(startDateTimeString)
+  const endDateTime = endDateTimeString && new Date(endDateTimeString)
+
+  const toDateString = (dateTime: Date) =>
+    dateTime.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      timeZone: 'America/New_York',
+    })
+
+  const toTimeString = (dateTime: Date) =>
+    dateTime.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false,
+      timeZone: 'America/New_York',
+    })
+
+  const startDate = toDateString(startDateTime)
+  const startTime = toTimeString(startDateTime)
+  const endDate = endDateTime && toDateString(endDateTime)
+  const endTime = endDateTime && toTimeString(endDateTime)
+  const timeRange = endTime
+    ? toAmPmRange(startTime, endTime)
+    : toAmPm(startTime)
+
+  const multiDay = endDate && endDate !== startDate
+
+  return `${startDate}, ${
+    multiDay
+      ? `${toAmPm(startTime)}–${endDate}, ${endTime && toAmPm(endTime)}`
+      : timeRange
+  }`
+}
+
 export const toDate = (dateString: string, locale = 'en-US') => {
   const date = new Date(`${dateString}T00:00:00`)
   return date.toLocaleString(locale, {

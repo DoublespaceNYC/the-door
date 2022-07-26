@@ -5,7 +5,14 @@ export const InternalLinkFragment = graphql`
     id: originalId
     __typename
     linkText
-    url
+    link {
+      ... on DatoCmsDoorHome {
+        slug
+      }
+      ... on DatoCmsService {
+        slug
+      }
+    }
   }
 `
 export const ExternalLinkFragment = graphql`
@@ -16,8 +23,8 @@ export const ExternalLinkFragment = graphql`
     url
   }
 `
-export const ServiceGroupFragment = graphql`
-  fragment ServiceGroupFragment on DatoCmsServiceGroup {
+export const ServicesGroupFragment = graphql`
+  fragment ServicesGroupFragment on DatoCmsServicesGroup {
     id: originalId
     __typename
     title
@@ -35,6 +42,7 @@ export const ServiceGroupFragment = graphql`
     }
     services {
       title
+      slug
     }
   }
 `
@@ -94,9 +102,26 @@ export const EventFragment = graphql`
     id: originalId
     __typename
     title
-    date
-    startTime
-    endTime
+    startDateTime
+    endDateTime
     location
+  }
+`
+export const CornerPopupFragment = graphql`
+  fragment CornerPopupFragment on DatoCmsCornerPopup {
+    id: originalId
+    __typename
+    heading
+    body {
+      value
+      blocks {
+        ... on DatoCmsInternalLink {
+          ...InternalLinkFragment
+        }
+        ... on DatoCmsExternalLink {
+          ...ExternalLinkFragment
+        }
+      }
+    }
   }
 `

@@ -42,15 +42,21 @@ export const GlobalStyles = () => {
       /* Padding/Gutters/Margins */
       --gtr-s: max(1.25vw, 0.5rem);
       --gtr-m: max(2.5vw, 1rem);
-      --gtr-ml: max(3.333vw, 2rem);
+      --gtr-ml: max(3.75vw, 2rem);
       --gtr-l: max(5vw, 3rem);
       --gtr-ll: max(7.5vw, 4.5rem);
       --margin: calc(1.5 * var(--gtr-m));
+
+      --row-s: calc(1rem + 0.416vw + var(--gtr-s));
+      --row-m: calc(2rem + 0.833vw + var(--gtr-m));
+      --row-l: calc(3rem + 1.25vw + var(--gtr-ml));
+      --row-ll: calc(4rem + 1.67vw + var(--gtr-l));
+
       ${mq().s} {
         --margin: calc(var(--gtr-m) + var(--gtr-s));
       }
       --col-w: calc(
-        (100vw - 2 * var(--margin) - 11 * var(--margin)) / 12
+        (100vw - 2 * var(--margin) - 11 * var(--gtr-m)) / 12
       );
     }
 

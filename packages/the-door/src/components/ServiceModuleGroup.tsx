@@ -3,13 +3,25 @@ import { toSlug } from '@the-door/common/src/helpers'
 import { useElementHeight } from '@the-door/common/src/hooks/useElementRect'
 import { absoluteFill, mq } from '@the-door/common/src/theme/mixins'
 import { Link } from 'gatsby'
-import { GatsbyImage } from 'gatsby-plugin-image'
+import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 import { useCallback, useState } from 'react'
 
-import { IServiceGroup } from '../types'
+export interface IServicesGroup {
+  id: string
+  __typename: string
+  title: string
+  image: {
+    gatsbyImageData: IGatsbyImageData
+    alt?: string
+  }
+  services: {
+    title: string
+    slug: string
+  }[]
+}
 
 type Props = {
-  serviceGroup: IServiceGroup
+  serviceGroup: IServicesGroup
   bgColor: string
 }
 
@@ -29,7 +41,6 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
       justify-content: flex-end;
       min-height: max(50vw, 36rem);
       box-sizing: border-box;
-      background-color: ${bgColor};
       h3 {
         position: relative;
         text-transform: uppercase;
@@ -46,29 +57,32 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
     image: css`
       ${absoluteFill}
       z-index: 0;
-      &:after {
+      &:before {
         content: '';
         ${absoluteFill};
         background: linear-gradient(to bottom, transparent, #000000);
         opacity: 0.75;
+        z-index: 2;
+        transition: opacity 750ms ease;
+        div:hover > &,
+        div:focus > &,
+        div:focus-within > & {
+          opacity: 1;
+        }
       }
-      transition: opacity 750ms ease;
-      div:hover > &,
-      div:focus > &,
-      div:focus-within > & {
-        opacity: 0;
-      }
-    `,
-    imageHover: css`
-      filter: saturate(0) brightness(0.75);
-      mix-blend-mode: luminosity;
       &:after {
-        opacity: 1;
-      }
-      div:hover > &,
-      div:focus > &,
-      div:focus-within > & {
-        opacity: 1;
+        content: '';
+        ${absoluteFill};
+        background-color: ${bgColor};
+        z-index: 3;
+        mix-blend-mode: color;
+        opacity: 0;
+        transition: opacity 750ms ease;
+        div:hover > &,
+        div:focus > &,
+        div:focus-within > & {
+          opacity: 1;
+        }
       }
     `,
     servicesList: css`
@@ -118,12 +132,6 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
   }
   return (
     <div css={styles.serviceGroup}>
-      <GatsbyImage
-        css={[styles.image, styles.imageHover]}
-        image={serviceGroup.image.gatsbyImageData}
-        alt={''}
-        aria-hidden
-      />
       <GatsbyImage
         css={styles.image}
         image={serviceGroup.image.gatsbyImageData}
