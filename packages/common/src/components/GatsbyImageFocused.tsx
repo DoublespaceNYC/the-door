@@ -86,7 +86,7 @@ const GatsbyImageFocused = ({
     if (img) {
       img.style.objectPosition = `${objectPosition.x} ${objectPosition.y}`
     }
-  }, [objectPosition])
+  }, [ref, objectPosition])
 
   return (
     <div ref={node => setRef(node)} {...props}>
