@@ -23,29 +23,6 @@ export const ExternalLinkFragment = graphql`
     url
   }
 `
-export const ServicesGroupFragment = graphql`
-  fragment ServicesGroupFragment on DatoCmsServicesGroup {
-    id: originalId
-    __typename
-    title
-    image {
-      gatsbyImageData(
-        width: 360
-        imgixParams: {
-          q: 50
-          ar: "1:2"
-          fit: "crop"
-          crop: "focalpoint"
-        }
-      )
-      alt
-    }
-    services {
-      title
-      slug
-    }
-  }
-`
 export const StoryFragment = graphql`
   fragment StoryFragment on DatoCmsStory {
     id: originalId
@@ -62,6 +39,13 @@ export const StoryFragment = graphql`
         }
       )
       alt
+      sizes {
+        aspectRatio
+      }
+      focalPoint {
+        x
+        y
+      }
     }
     excerpt
     ctaText
@@ -87,6 +71,13 @@ export const NewsArticleFragment = graphql`
         }
       )
       alt
+      sizes {
+        aspectRatio
+      }
+      focalPoint {
+        x
+        y
+      }
     }
     category
     body {

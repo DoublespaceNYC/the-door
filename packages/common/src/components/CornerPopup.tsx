@@ -63,7 +63,7 @@ const CornerPopup = ({ content, colors, ...props }: Props) => {
       border-radius: 0.75rem;
       padding: 1rem;
       box-sizing: border-box;
-      max-width: 30rem;
+      max-width: min(30rem, 100vw);
       line-height: 1.5;
       h2 {
         font-size: var(--fs-30);

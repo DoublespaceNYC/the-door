@@ -1,5 +1,5 @@
 import { throttle } from 'lodash'
-import { useCallback, useLayoutEffect, useState } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react'
 
 export const useWindowDimensions = () => {
   const [windowDimensions, setWindowDimensions] = useState<{
@@ -19,6 +19,7 @@ export const useWindowDimensions = () => {
     })
   }, [])
   useLayoutEffect(handleResize, [handleResize])
+
   const handleThrottledResize = throttle(handleResize, 1000)
 
   useLayoutEffect(() => {

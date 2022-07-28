@@ -167,9 +167,11 @@ const MainNav = ({
     navButtonsGroup: css`
       display: flex;
       z-index: 2;
+      font-size: var(--fs-18);
     `,
     navItem: css`
       color: ${colors.text};
+      font-size: inherit;
       font-family: var(--almaq);
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -185,17 +187,17 @@ const MainNav = ({
         background-size: 100% 2px;
         transition: background-position 200ms ease;
       }
-      &:hover > span {
-        background-position: 0 100%;
+      @media (hover: hover) {
+        &:hover > span {
+          background-position: 0 100%;
+        }
       }
       @media (max-width: ${breakpoint}px) {
         padding: 0.5em 0.75em;
       }
     `,
-    navButton: css`
-      font-size: var(--fs-18);
-    `,
     lastButton: css`
+      font-size: var(--fs-18);
       margin-right: -1em;
       @media (max-width: ${breakpoint}px) {
         margin-right: 0;
@@ -240,7 +242,7 @@ const MainNav = ({
                 windowWidth <= breakpoint &&
                 buttons.map((button, i) => (
                   <NavButton
-                    css={[styles.navItem]}
+                    buttonCss={styles.navItem}
                     button={button}
                     color={colors.buttons[i % colors.buttons.length]}
                     key={i}
@@ -251,11 +253,8 @@ const MainNav = ({
           <div css={styles.navButtonsGroup}>
             {buttons.map((button, i) => (
               <NavButton
-                css={[
-                  styles.navItem,
-                  styles.navButton,
-                  i + 1 === buttons.length && styles.lastButton,
-                ]}
+                css={i + 1 === buttons.length && styles.lastButton}
+                buttonCss={[styles.navItem]}
                 button={button}
                 color={colors.buttons[i % colors.buttons.length]}
                 showModal

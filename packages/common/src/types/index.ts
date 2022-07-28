@@ -4,6 +4,7 @@ import {
   StructuredText as IStructuredText,
   Record,
 } from 'datocms-structured-text-utils'
+import { IGatsbyImageFocused } from "../components/GatsbyImageFocused"
 
 export type { StructuredText as IStructuredText, Record as IRecord } from 'datocms-structured-text-utils'
 
@@ -29,13 +30,14 @@ export interface IAssetLink extends Record {
   }
 }
 
+interface IArticleImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
+  thumbnailImageData: IGatsbyImageData
+}
+
 export interface IArticle extends Record {
   title: string
   excerpt: string
-  heroImage: {
-    thumbnailImageData: IGatsbyImageData
-    alt?: string
-  }
+  heroImage: IArticleImage
   category: string
   body: IStructuredText
   meta: {

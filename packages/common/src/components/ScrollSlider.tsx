@@ -5,6 +5,7 @@ import {
   ReactNode,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 import smoothscroll from 'smoothscroll-polyfill'
@@ -105,7 +106,9 @@ const ScrollSlider = ({
     })
   }
 
-  const navVisible = sliderRef && containerWidth < contentWidth - 20
+  const navVisible = useMemo(() => {
+    return sliderRef && containerWidth < contentWidth - 20
+  }, [sliderRef, containerWidth, contentWidth])
 
   const styles = {
     outer: css`
@@ -166,6 +169,9 @@ const ScrollSlider = ({
       display: flex;
       align-items: center;
       justify-content: center;
+      --transformXY: translate(-50%, -50%);
+      top: 50%;
+      transform: var(--transformXY) scale3d(1, 1, 1);
       transition: transform 400ms cubic-bezier(0.33, 3, 0.25, 0.5);
       svg {
         position: relative;
@@ -178,11 +184,15 @@ const ScrollSlider = ({
           transition: stroke 300ms ease;
         }
       }
-      &:hover {
-        @media (hover: hover) {
+      @media (hover: hover) {
+        &:hover {
+          transform: var(--transformXY) scale3d(1.125, 1.125, 1);
           svg polyline {
             stroke: ${colors?.arrow[1] || null};
           }
+        }
+        &:active {
+          transform: var(--transformXY) scale3d(1.075, 1.075, 1);
         }
       }
       ${navStyle === 'overlay' &&
@@ -196,50 +206,31 @@ const ScrollSlider = ({
         overflow: hidden;
         width: max(calc(4 * var(--margin)), 5rem);
         height: max(calc(4 * var(--margin)), 5rem);
-        top: 50%;
-        --translateXY: translate(-50%, -50%);
-        transform: var(--translateXY);
         svg {
           position: absolute;
           height: 50%;
         }
-        @media (hover: hover) {
-          &:hover {
-            transform: var(--translateXY) scale3d(1.125, 1.125, 1);
-          }
-        }
-        &:active {
-          transform: var(--translateXY) scale3d(1.075, 1.075, 1);
-        }
       `}
       ${navStyle === 'above' &&
       css`
+        --transformXY: translate(0, 0);
         width: 3rem;
         height: 3rem;
         svg {
           height: 75%;
         }
-        @media (hover: hover) {
-          &:hover {
-            transform: scale3d(1.125, 1.125, 1);
-          }
-        }
-        &:active {
-          transform: scale3d(1.075, 1.075, 1);
-        }
       `}
     `,
     back: css`
       justify-content: flex-end;
-      left: 0;
+      left: 0%;
       svg {
         transform: scaleX(-1);
         right: 20%;
       }
     `,
     forward: css`
-      --translateXY: translate(50%, -50%);
-      right: 0;
+      left: 100%;
       svg {
         left: 20%;
       }

@@ -2,6 +2,9 @@ import { css } from '@emotion/react'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
+import GatsbyImageFocused, {
+  IGatsbyImageFocused,
+} from '@the-door/common/src/components/GatsbyImageFocused'
 import {
   absoluteFill,
   baseGrid,
@@ -9,7 +12,6 @@ import {
   mq,
 } from '@the-door/common/src/theme/mixins'
 import { IStructuredText } from '@the-door/common/src/types'
-import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 import { StructuredText } from 'react-datocms'
 
 import { colors } from '../theme/variables'
@@ -21,10 +23,7 @@ type Props = {
   bsaHeading: string
   bsaBody: IStructuredText
   bsaLink: IDatoLink
-  bsaImage: {
-    gatsbyImageData: IGatsbyImageData
-    alt?: string
-  }
+  bsaImage: IGatsbyImageFocused
 }
 
 const HomeServices = ({
@@ -177,9 +176,12 @@ const HomeServices = ({
             css={[styles.link, styles.bsaLink]}
           />
         </div>
-        <GatsbyImage
+        <GatsbyImageFocused
+          gatsbyImageCss={styles.bsaImage}
           image={bsaImage.gatsbyImageData}
           alt={bsaImage.alt || ''}
+          aspectRatio={bsaImage.sizes.aspectRatio}
+          focalPoint={bsaImage.focalPoint}
         />
       </section>
     </section>

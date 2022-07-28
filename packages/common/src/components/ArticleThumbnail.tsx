@@ -1,9 +1,9 @@
 import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
-import { GatsbyImage } from 'gatsby-plugin-image'
 
-import { absoluteFill, mq } from '../theme/mixins'
+import { mq } from '../theme/mixins'
 import { IArticle } from '../types'
+import GatsbyImageFocused from './GatsbyImageFocused'
 
 type Props = {
   article: IArticle
@@ -43,8 +43,10 @@ const ArticleThumbnail = ({
       css`
         box-shadow: -1rem 1rem 0 ${colors?.shadow};
         transition: box-shadow 300ms ease;
-        &:hover {
-          box-shadow: -1rem 1rem 0 ${colors.shadowHover};
+        @media (hover: hover) {
+          &:hover {
+            box-shadow: -1rem 1rem 0 ${colors.shadowHover};
+          }
         }
       `};
       ${mq().s} {
@@ -109,20 +111,24 @@ const ArticleThumbnail = ({
     image: css`
       transition: transform 500ms ease;
       min-height: 100%;
-      div:hover > div > & {
-        transform: scale3d(1.05, 1.05, 1);
+      @media (hover: hover) {
+        div:hover > div > & {
+          transform: scale3d(1.05, 1.05, 1);
+        }
       }
     `,
   }
   return (
     <div css={styles.container} {...props}>
-      <div css={styles.imageWrap}>
-        <GatsbyImage
-          css={styles.image}
-          image={article.heroImage.thumbnailImageData}
-          alt={article.heroImage.alt || article.title}
-        />
-      </div>
+      <GatsbyImageFocused
+        css={styles.imageWrap}
+        gatsbyImageCss={styles.image}
+        image={article.heroImage.thumbnailImageData}
+        alt={article.heroImage.alt || article.title}
+        originalAspectRatio={article.heroImage.sizes.aspectRatio}
+        aspectRatio={16 / 9}
+        focalPoint={article.heroImage.focalPoint}
+      />
       <div css={styles.text}>
         <h3>{article.title}</h3>
         <div css={styles.details}>

@@ -52,7 +52,7 @@ const Footer = ({
     `,
     logo: css`
       grid-column: 2 / span 3;
-      max-width: 20rem;
+      max-width: min(20rem, 100%);
       margin-bottom: 1em;
       margin-right: var(--gtr-m);
       ${mq().ms} {
@@ -73,8 +73,10 @@ const Footer = ({
         margin: 0.5em 0.25em 0.25em;
         transition: transform 150ms ease;
         color: ${colors.text};
-        &:hover {
-          transform: scale3d(1.2, 1.2, 1);
+        @media (hover: hover) {
+          &:hover {
+            transform: scale3d(1.2, 1.2, 1);
+          }
         }
         &:first-of-type {
           margin-left: 0;
@@ -117,8 +119,10 @@ const Footer = ({
         background-size: 100% 2px;
         transition: background-position 200ms ease;
       }
-      &:hover > span {
-        background-position: 0 100%;
+      @media (hover: hover) {
+        &:hover > span {
+          background-position: 0 100%;
+        }
       }
     `,
     button: css`
@@ -135,8 +139,10 @@ const Footer = ({
             > span {
               border-color: ${color};
             }
-            &:hover {
-              color: ${color};
+            @media (hover: hover) {
+              &:hover {
+                color: ${color};
+              }
             }
           }
         `

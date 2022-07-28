@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from 'react'
 import NavButtonModalContext from '../context/NavButtonModalContext'
 import { useElementWidth } from '../hooks/useElementRect'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
-import { absoluteFill } from '../theme/mixins'
+import { absoluteFill, mq } from '../theme/mixins'
 import DatoLink, { IDatoLink } from './DatoLink'
 
 export interface INavButton {
@@ -20,10 +20,17 @@ type Props = {
   button: INavButton
   color: string
   showModal?: boolean
+  buttonCss?: CSSInterpolation
   css?: CSSInterpolation
 }
 
-const NavButton = ({ button, color, showModal, ...props }: Props) => {
+const NavButton = ({
+  button,
+  color,
+  showModal,
+  buttonCss,
+  ...props
+}: Props) => {
   const [wrapRef, setWrapRef] = useState<HTMLDivElement | null>(null)
   const wrapWidth = useElementWidth(
     button.modalTooltip ? wrapRef : null
@@ -51,8 +58,10 @@ const NavButton = ({ button, color, showModal, ...props }: Props) => {
         background: none !important;
         border-color: ${color};
       }
-      &:hover {
-        color: ${color};
+      @media (hover: hover) {
+        &:hover {
+          color: ${color};
+        }
       }
     `,
     modal: css`
@@ -105,6 +114,9 @@ const NavButton = ({ button, color, showModal, ...props }: Props) => {
         transform: translate3d(0, 75%, 0);
         transition: all 300ms ease;
       `}
+      ${mq().s} {
+        display: none;
+      }
     `,
     close: css`
       position: absolute;
@@ -139,8 +151,11 @@ const NavButton = ({ button, color, showModal, ...props }: Props) => {
     `,
   }
   return (
-    <div css={styles.wrap} ref={node => setWrapRef(node)}>
-      <DatoLink link={button.link[0]} css={styles.button} {...props} />
+    <div css={styles.wrap} ref={node => setWrapRef(node)} {...props}>
+      <DatoLink
+        link={button.link[0]}
+        css={[styles.button, buttonCss]}
+      />
       {button.modalTooltip && (
         <div css={styles.modal}>
           <span>{button.modalHeading}</span>

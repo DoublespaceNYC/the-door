@@ -1,19 +1,18 @@
 import { css } from '@emotion/react'
+import GatsbyImageFocused, {
+  IGatsbyImageFocused,
+} from '@the-door/common/src/components/GatsbyImageFocused'
 import { toSlug } from '@the-door/common/src/helpers'
 import { useElementHeight } from '@the-door/common/src/hooks/useElementRect'
 import { absoluteFill, mq } from '@the-door/common/src/theme/mixins'
 import { Link } from 'gatsby'
-import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 import { useCallback, useState } from 'react'
 
 export interface IServicesGroup {
   id: string
   __typename: string
   title: string
-  image: {
-    gatsbyImageData: IGatsbyImageData
-    alt?: string
-  }
+  image: IGatsbyImageFocused
   services: {
     title: string
     slug: string
@@ -54,7 +53,7 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
         cursor: default;
       }
     `,
-    image: css`
+    imageWrap: css`
       ${absoluteFill}
       z-index: 0;
       &:before {
@@ -75,7 +74,7 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
         ${absoluteFill};
         background-color: ${bgColor};
         z-index: 3;
-        mix-blend-mode: color;
+        mix-blend-mode: overlay;
         opacity: 0;
         transition: opacity 750ms ease;
         div:hover > &,
@@ -83,6 +82,15 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
         div:focus-within > & {
           opacity: 1;
         }
+      }
+    `,
+    image: css`
+      ${absoluteFill}
+      transition: filter 750ms ease;
+      div:hover > div > &,
+      div:focus > div > &,
+      div:focus-within > div > & {
+        filter: saturate(0) contrast(0.75);
       }
     `,
     servicesList: css`
@@ -132,10 +140,14 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
   }
   return (
     <div css={styles.serviceGroup}>
-      <GatsbyImage
-        css={styles.image}
-        image={serviceGroup.image.gatsbyImageData}
+      <GatsbyImageFocused
+        css={styles.imageWrap}
+        gatsbyImageCss={styles.image}
         alt={serviceGroup.image.alt || serviceGroup.title}
+        image={serviceGroup.image.gatsbyImageData}
+        aspectRatio={0.5}
+        originalAspectRatio={serviceGroup.image.sizes.aspectRatio}
+        focalPoint={serviceGroup.image.focalPoint}
       />
       <h3>{serviceGroup.title}</h3>
       <div css={styles.servicesList}>

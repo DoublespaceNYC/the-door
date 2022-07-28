@@ -2,6 +2,9 @@ import { css } from '@emotion/react'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
+import GatsbyImageFocused, {
+  IGatsbyImageFocused,
+} from '@the-door/common/src/components/GatsbyImageFocused'
 import {
   absoluteFill,
   baseGrid,
@@ -9,7 +12,6 @@ import {
   mq,
 } from '@the-door/common/src/theme/mixins'
 import { IStructuredText } from '@the-door/common/src/types'
-import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 import { StructuredText } from 'react-datocms'
 
 import { colors } from '../theme/variables'
@@ -18,10 +20,7 @@ type Props = {
   heading: string
   body: IStructuredText
   links: IDatoLink[]
-  image: {
-    gatsbyImageData: IGatsbyImageData
-    alt?: string
-  }
+  image: IGatsbyImageFocused
 }
 
 const HomeWelcome = ({ heading, body, links, image }: Props) => {
@@ -94,7 +93,7 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
     `,
     heading: css`
       position: relative;
-      grid-column: 2 / span 5;
+      grid-column: 2 / span 6;
       grid-row: 3 / 4;
       margin-top: var(--row-m);
       font-size: var(--fs-108);
@@ -137,7 +136,7 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
       grid-row: 3 / 7;
       ${absoluteFill}
       ${mq().m} {
-        grid-row: 4 / 6;
+        grid-row: 4 / 7;
       }
       ${mq().s} {
         grid-column: 4 / -2;
@@ -145,6 +144,9 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
         height: 90vw;
         position: relative;
       }
+    `,
+    imageInner: css`
+      ${absoluteFill}
     `,
   }
   return (
@@ -161,10 +163,14 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
           ))}
         </div>
       </div>
-      <GatsbyImage
+      <GatsbyImageFocused
         css={styles.image}
+        gatsbyImageCss={styles.imageInner}
         image={image.gatsbyImageData}
         alt={image.alt || ''}
+        focalPoint={image.focalPoint}
+        aspectRatio={4 / 5}
+        originalAspectRatio={image.sizes.aspectRatio}
       />
     </section>
   )

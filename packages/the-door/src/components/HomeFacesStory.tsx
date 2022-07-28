@@ -1,8 +1,8 @@
 import { css } from '@emotion/react'
+import GatsbyImageFocused from '@the-door/common/src/components/GatsbyImageFocused'
 import { toSlug } from '@the-door/common/src/helpers'
 import { linkStyle, mq } from '@the-door/common/src/theme/mixins'
 import { Link } from 'gatsby'
-import { GatsbyImage } from 'gatsby-plugin-image'
 import { useInView } from 'react-intersection-observer'
 
 import { colors } from '../theme/variables'
@@ -38,6 +38,7 @@ const HomeFacesStory = ({ story }: Props) => {
       padding: 0 var(--gtr-m);
       overflow: hidden;
       box-sizing: border-box;
+      margin: 2rem 0;
       ${mq().m} {
         grid-row: 2 / 4;
         max-width: calc(100% - var(--gtr-m));
@@ -73,7 +74,7 @@ const HomeFacesStory = ({ story }: Props) => {
         color: ${colors.yellow};
       }
     `,
-    image: css`
+    imageWrap: css`
       grid-column: 1 / 2;
       grid-row: 1 / 2;
       align-self: stretch;
@@ -93,13 +94,20 @@ const HomeFacesStory = ({ story }: Props) => {
         max-width: calc(100% - 2 * var(--gtr-m));
       }
     `,
+    image: css`
+      min-height: 100%;
+    `,
   }
   return (
     <div css={styles.story} ref={ref}>
-      <GatsbyImage
-        css={styles.image}
+      <GatsbyImageFocused
+        css={styles.imageWrap}
+        gatsbyImageCss={styles.image}
         image={story.image.carouselImageData}
         alt={story.image.alt || story.title}
+        aspectRatio={3 / 2}
+        originalAspectRatio={story.image.sizes.aspectRatio}
+        focalPoint={story.image.focalPoint}
       />
       <div css={styles.text}>
         <div>

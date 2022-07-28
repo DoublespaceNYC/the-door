@@ -1,13 +1,12 @@
 import { css } from '@emotion/react'
-import { CSSInterpolation } from '@emotion/serialize'
 import { Record } from 'datocms-structured-text-utils'
 import { Link } from 'gatsby'
 import { darken, lighten, readableColor, rgba } from 'polished'
-import { ReactNode, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { formateDateTimeRange } from '../helpers'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
-import { linkStyle, mq, widthInCols } from '../theme/mixins'
+import { mq, widthInCols } from '../theme/mixins'
 import { breakpoints } from '../theme/variables'
 import ScrollSlider from './ScrollSlider'
 
@@ -47,86 +46,37 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
   }, [events])
 
   const windowWidth = useWindowWidth()
-  const sidebar = windowWidth && windowWidth > breakpoints.ml
-  const slider = windowWidth && windowWidth <= breakpoints.ml
-
-  const ConditionalWrapper = ({
-    children,
-  }: {
-    children: ReactNode
-  }) => {
-    if (windowWidth) {
-      if (sidebar) {
-        return <div css={styles.eventsSidebar}>{children}</div>
-      } else {
-        return (
-          <ScrollSlider
-            css={styles.eventsSlider}
-            scrollWidthCss={styles.sliderScrollWidth}
-            scrollAreaCss={styles.sliderScrollArea}
-            contentCss={styles.sliderContent}
-            snap={windowWidth > breakpoints.s}
-            navStyle="above"
-            colors={{
-              arrow: [colors.ctaSlider[0]],
-              arrowDisabled: rgba(colors.ctaSlider[0], 0.125),
-              link: [colors.ctaSlider[0], colors.eventTitle[1]],
-            }}
-            link={{
-              id: '',
-              __typename: 'DatoCmsInternalLink',
-              linkText: 'View All',
-              link: {
-                slug: '/calendar/',
-              },
-            }}
-          >
-            {children}
-          </ScrollSlider>
-        )
-      }
-    } else return null
-  }
 
   const styles = {
     section: css`
-      ${sidebar &&
-      css`
-        grid-column: 2 / 3;
-        grid-row: 2 / 3;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        position: absolute;
-      `}
-      ${slider &&
-      css`
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      position: absolute;
+      ${mq().ml} {
         position: relative;
         grid-column: 1 / -1;
         grid-row: 3 / 4;
         z-index: 1;
-      `}
+      }
     `,
     wrap: css`
       background: ${colors.bg};
-      ${sidebar &&
-      css`
-        width: 100%;
-        max-height: 100%;
-        display: flex;
-        flex-direction: column;
-        position: sticky;
-        top: calc(var(--nav-height) + 1rem);
-      `}
-      ${slider &&
-      css`
+      width: 100%;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: calc(var(--nav-height) + 1rem);
+      ${mq().ml} {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        align-items: flex-end;
         justify-content: space-between;
         padding: var(--row-s) 0 var(--row-m);
-      `}
+      }
     `,
     heading: css`
       font-size: var(--fs-36);
@@ -134,35 +84,33 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
       margin: 0;
       text-transform: uppercase;
       letter-spacing: 0.025em;
-      margin: 1em 3rem 0.25em;
-      ${slider &&
-      css`
+      margin: 1em 3rem 0.5em;
+      line-height: 1;
+      ${mq().ml} {
         margin: 0 var(--margin) 0.5em;
-      `}
+      }
     `,
     viewAll: css`
-      ${sidebar &&
-      css`
-        font-family: var(--almaq);
-        font-size: var(--fs-21);
-        text-transform: uppercase;
-        letter-spacing: 0.025em;
-        width: 100%;
-        color: ${colors.ctaText[0]};
-        background: ${colors.ctaBg[0]};
-        text-decoration: none;
-        padding: 1rem 2rem;
-        transition: background 200ms ease, color 300ms ease;
-        box-sizing: border-box;
+      font-family: var(--almaq);
+      font-size: var(--fs-21);
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+      width: 100%;
+      color: ${colors.ctaText[0]};
+      background: ${colors.ctaBg[0]};
+      text-decoration: none;
+      padding: 1rem 2rem;
+      transition: background 200ms ease, color 300ms ease;
+      box-sizing: border-box;
+      @media (hover: hover) {
         &:hover {
           background: ${colors.ctaBg[1] || null};
           color: ${colors.ctaText[1] || null};
         }
-      `}
-      ${slider &&
-      css`
+      }
+      ${mq().ml} {
         display: none;
-      `}
+      }
     `,
     eventsSidebar: css`
       flex: 1;
@@ -189,11 +137,39 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
       }
     `,
     eventsSlider: css`
-      width: 100vw;
-      overflow: hidden;
+      ${mq('min').ml} {
+        flex: 1;
+        margin-left: 3rem;
+        padding-right: 3rem;
+        overflow: auto;
+        &:before {
+          content: '';
+          position: sticky;
+          display: block;
+          width: 100%;
+          height: 1px;
+          left: 0;
+          top: 0;
+          background: ${rgba(
+            readableColor(
+              colors.bg,
+              darken(0.5, colors.bg),
+              lighten(0.5, colors.bg),
+              false
+            ),
+            0.5
+          )};
+        }
+      }
+      ${mq().ml} {
+        width: 100vw;
+        overflow: hidden;
+      }
     `,
     sliderScrollWidth: css`
-      width: calc(100vw - 2 * var(--margin) + var(--gtr-m));
+      ${mq().ml} {
+        width: calc(100vw - 2 * var(--margin) + var(--gtr-m));
+      }
       ${mq().s} {
         width: calc(${widthInCols(8)} + var(--gtr-m));
       }
@@ -202,19 +178,25 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
       scroll-padding-left: var(--margin);
     `,
     sliderContent: css`
-      display: grid;
-      grid-template-columns: repeat(${filteredEvents.length}, auto);
-      grid-gap: var(--gtr-m);
-      padding: 0 var(--margin);
-      align-items: flex-start;
+      ${mq('min').ml} {
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+      }
+      ${mq().ml} {
+        display: grid;
+        grid-template-columns: repeat(${filteredEvents.length}, auto);
+        grid-gap: var(--gtr-m);
+        padding: 0 var(--margin);
+        align-items: flex-start;
+      }
     `,
     event: css`
       display: flex;
       flex-direction: column;
       cursor: pointer;
       box-sizing: border-box;
-      ${sidebar &&
-      css`
+      ${mq('min').ml} {
         padding: 1.5rem 0;
         border-bottom: 1px solid
           ${readableColor(
@@ -227,9 +209,8 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
           border: none;
           margin-bottom: 2rem;
         }
-      `}
-      ${slider &&
-      css`
+      }
+      ${mq().ml} {
         width: ${widthInCols(filteredEvents.length > 3 ? 3 : 4)};
         padding-top: 1rem;
         border-top: 1px solid
@@ -239,13 +220,13 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
             lighten(0.25, colors.bg),
             false
           )};
-        ${mq().ms} {
-          width: ${widthInCols(filteredEvents.length > 2 ? 4 : 6)};
-        }
-        ${mq().s} {
-          width: ${widthInCols(8)};
-        }
-      `}
+      }
+      ${mq().ms} {
+        width: ${widthInCols(filteredEvents.length > 2 ? 4 : 6)};
+      }
+      ${mq().s} {
+        width: ${widthInCols(8)};
+      }
       h4 {
         font-family: var(--almaq);
         font-size: var(--fs-24);
@@ -261,12 +242,14 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
         color: ${colors.eventText[0]};
         font-weight: 500;
       }
-      &:hover {
-        h4 {
-          color: ${colors.eventTitle[1] || null};
-        }
-        h5 {
-          color: ${colors.eventText[1] || null};
+      @media (hover: hover) {
+        &:hover {
+          h4 {
+            color: ${colors.eventTitle[1] || null};
+          }
+          h5 {
+            color: ${colors.eventText[1] || null};
+          }
         }
       }
       > div {
@@ -287,7 +270,27 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
     <section css={styles.section} {...props}>
       <div css={styles.wrap}>
         <h3 css={styles.heading}>Calendar</h3>
-        <ConditionalWrapper>
+        <ScrollSlider
+          css={styles.eventsSlider}
+          scrollWidthCss={styles.sliderScrollWidth}
+          scrollAreaCss={styles.sliderScrollArea}
+          contentCss={styles.sliderContent}
+          snap={windowWidth ? windowWidth > breakpoints.s : false}
+          navStyle="above"
+          colors={{
+            arrow: [colors.ctaSlider[0]],
+            arrowDisabled: rgba(colors.ctaSlider[0], 0.125),
+            link: [colors.ctaSlider[0], colors.ctaSlider[1]],
+          }}
+          link={{
+            id: '',
+            __typename: 'DatoCmsInternalLink',
+            linkText: 'View All',
+            link: {
+              slug: '/calendar/',
+            },
+          }}
+        >
           {filteredEvents.map((event, i) => (
             <div key={i} css={styles.event}>
               <h4>{event.title}</h4>
@@ -302,7 +305,7 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
               <h5>{event.location}</h5>
             </div>
           ))}
-        </ConditionalWrapper>
+        </ScrollSlider>
         <Link to="/calendar/" css={styles.viewAll}>
           View Full Calendar
         </Link>

@@ -2,14 +2,16 @@ import { css, keyframes } from '@emotion/react'
 
 import { breakpoints } from './variables'
 
-export const mq = (minMax = 'max') => {
+export const mq = (minMax: 'min' | 'max' = 'max') => {
   type breakpoints = typeof breakpoints
   const mqObject: { [Property in keyof breakpoints]: string } =
     Object.create(breakpoints)
   const mqArray = Object.keys(breakpoints) as Array<keyof breakpoints>
 
   mqArray.forEach(key => {
-    mqObject[key] = `@media (${minMax}-width: ${breakpoints[key]}px)`
+    mqObject[key] = `@media (${minMax}-width: ${
+      breakpoints[key] + (minMax === 'min' ? 1 : 0)
+    }px)`
   })
 
   return mqObject

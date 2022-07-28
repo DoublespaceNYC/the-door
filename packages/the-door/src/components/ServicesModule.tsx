@@ -23,7 +23,32 @@ const ServicesModule = ({ bgColor, ...props }: Props) => {
         sort: { fields: position }
       ) {
         nodes {
-          ...ServicesGroupFragment
+          id: originalId
+          __typename
+          title
+          image {
+            gatsbyImageData(
+              width: 360
+              imgixParams: {
+                q: 50
+                ar: "1:2"
+                fit: "crop"
+                crop: "focalpoint"
+              }
+            )
+            alt
+            sizes {
+              aspectRatio
+            }
+            focalPoint {
+              x
+              y
+            }
+          }
+          services {
+            title
+            slug
+          }
         }
       }
     }

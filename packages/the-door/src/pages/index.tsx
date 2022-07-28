@@ -2,12 +2,12 @@ import CornerPopup, {
   ICornerPopup,
 } from '@the-door/common/src/components/CornerPopup'
 import { IDatoLink } from '@the-door/common/src/components/DatoLink'
+import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
 import {
   IInternalLink,
   IStructuredText,
 } from '@the-door/common/src/types'
 import { graphql } from 'gatsby'
-import { IGatsbyImageData } from 'gatsby-plugin-image'
 
 import HomeFaces from '../components/HomeFaces'
 import HomeHero from '../components/HomeHero'
@@ -53,8 +53,23 @@ export const data = graphql`
         }
       }
       welcomeImage {
-        gatsbyImageData
+        gatsbyImageData(
+          width: 960
+          imgixParams: {
+            q: 65
+            ar: "4:5"
+            fit: "crop"
+            crop: "focalpoint"
+          }
+        )
+        sizes {
+          aspectRatio
+        }
         alt
+        focalPoint {
+          x
+          y
+        }
       }
       servicesHeading
       servicesBody {
@@ -76,7 +91,14 @@ export const data = graphql`
         ...ExternalLinkFragment
       }
       bsaImage {
-        gatsbyImageData
+        gatsbyImageData(width: 1280, imgixParams: { q: 60 })
+        sizes {
+          aspectRatio
+        }
+        focalPoint {
+          x
+          y
+        }
         alt
       }
       impactHeading
@@ -136,19 +158,13 @@ type Props = {
       welcomeHeading: string
       welcomeBody: IStructuredText
       welcomeLinks: IDatoLink[]
-      welcomeImage: {
-        gatsbyImageData: IGatsbyImageData
-        alt?: string
-      }
+      welcomeImage: IGatsbyImageFocused
       servicesHeading: string
       servicesBody: IStructuredText
       bsaHeading: string
       bsaBody: IStructuredText
       bsaLink: [IDatoLink]
-      bsaImage: {
-        gatsbyImageData: IGatsbyImageData
-        alt?: string
-      }
+      bsaImage: IGatsbyImageFocused
       impactHeading: string
       impactBody: IStructuredText
       impactLink: IDatoLink[]
