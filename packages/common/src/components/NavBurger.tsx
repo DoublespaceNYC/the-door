@@ -77,13 +77,13 @@ const NavBurger = ({ open, onClick, ...props }: Props) => {
     }
   `
   return (
-    <div onClick={onClick} css={style} {...props}>
+    <button onClick={onClick} css={style} {...props}>
       <span />
       <span />
       <span />
       <span />
       {open && <ScrollToggle />}
-    </div>
+    </button>
   )
 }
 

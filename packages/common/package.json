@@ -13,31 +13,30 @@
     "url": "https://github.com/claygiffin/@the-door/issues"
   },
   "homepage": "https://github.com/claygiffin/@the-door#readme",
-  "main": "./src/index.ts",
   "dependencies": {
-    "@emotion/react": "^11.9.3",
+    "@emotion/react": "^11.10.0",
     "datocms-structured-text-utils": "^2.0.4",
     "emotion-normalize": "^11.0.1",
-    "gatsby": "^4.19.0",
-    "gatsby-plugin-image": "^2.19.0",
-    "hls.js": "^1.1.5",
+    "gatsby": "^4.20.0",
+    "gatsby-plugin-image": "^2.20.0",
+    "hls.js": "^1.2.0",
     "html-react-parser": "^3.0.1",
     "polished": "^4.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.4.0",
-    "react-intersection-observer": "^9.3.5",
+    "react-intersection-observer": "^9.4.0",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
-    "@types/react": "^18.0.15",
+    "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/react-helmet": "^6.1.5",
     "@types/smoothscroll-polyfill": "^0.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.30.7",
-    "@typescript-eslint/parser": "^5.30.7",
-    "eslint": "^8.20.0",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-prettier": "^4.2.1",
@@ -53,5 +52,9 @@
     ".js, .jsx, .ts, .tsx": {
       "style": "module"
     }
+  },
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   }
 }

@@ -1,7 +1,9 @@
 import { throttle } from 'lodash'
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react'
+import { useCallback, useLayoutEffect, useState } from 'react'
 
 export const useWindowDimensions = () => {
+  const isBrowser = typeof window !== `undefined`
+
   const [windowDimensions, setWindowDimensions] = useState<{
     width: undefined | number
     height: undefined | number
@@ -11,13 +13,14 @@ export const useWindowDimensions = () => {
   })
 
   const handleResize = useCallback(() => {
-    window.requestAnimationFrame(() => {
-      setWindowDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
+    isBrowser &&
+      window.requestAnimationFrame(() => {
+        setWindowDimensions({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        })
       })
-    })
-  }, [])
+  }, [isBrowser])
   useLayoutEffect(handleResize, [handleResize])
 
   const handleThrottledResize = throttle(handleResize, 1000)

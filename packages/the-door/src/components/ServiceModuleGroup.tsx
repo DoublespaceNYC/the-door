@@ -2,11 +2,11 @@ import { css } from '@emotion/react'
 import GatsbyImageFocused, {
   IGatsbyImageFocused,
 } from '@the-door/common/src/components/GatsbyImageFocused'
-import { toSlug } from '@the-door/common/src/helpers'
+// import { toSlug } from '@the-door/common/src/helpers'
 import { useElementHeight } from '@the-door/common/src/hooks/useElementRect'
 import { absoluteFill, mq } from '@the-door/common/src/theme/mixins'
 import { Link } from 'gatsby'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 
 export interface IServicesGroup {
   id: string
@@ -26,9 +26,6 @@ type Props = {
 
 const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
   const [listRef, setListRef] = useState<HTMLDivElement | null>(null)
-  const listRefCallback = useCallback((node: HTMLDivElement) => {
-    setListRef(node)
-  }, [])
   const listHeight = useElementHeight(listRef)
 
   const styles = {
@@ -151,10 +148,13 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
       />
       <h3>{serviceGroup.title}</h3>
       <div css={styles.servicesList}>
-        <div css={styles.servicesListInner} ref={listRefCallback}>
+        <div
+          css={styles.servicesListInner}
+          ref={node => setListRef(node)}
+        >
           {serviceGroup.services.map((service, i) => (
             <Link
-              to={`/${toSlug(serviceGroup.title)}`}
+              to={`/${service.slug}/`}
               key={i}
               css={styles.serviceLink}
             >

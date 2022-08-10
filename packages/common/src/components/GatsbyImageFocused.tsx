@@ -1,7 +1,6 @@
-import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useElementRect } from '../hooks/useElementRect'
 
@@ -55,7 +54,6 @@ const GatsbyImageFocused = ({
             : 0.5
           : fp
       }
-      console.log(focalPoint.x < 0.5 && focalPoint.x / ratioX)
       return {
         x: getFP(ratioX, focalPoint.x),
         y: getFP(ratioY, focalPoint.y),
@@ -77,20 +75,23 @@ const GatsbyImageFocused = ({
       x: getPosition(ratioX, trueFP.x) * 100 + '%',
       y: getPosition(ratioY, trueFP.y) * 100 + '%',
     }
-  }, [containerAR, aspectRatio])
-
-  useEffect(() => {
-    const img = ref?.querySelector('img[data-main-image]') as
-      | HTMLImageElement
-      | undefined
-    if (img) {
-      img.style.objectPosition = `${objectPosition.x} ${objectPosition.y}`
-    }
-  }, [ref, objectPosition])
+  }, [containerAR, aspectRatio, trueFP])
 
   return (
-    <div ref={node => setRef(node)} {...props}>
-      <GatsbyImage css={gatsbyImageCss} image={image} alt={alt || ''} />
+    <div
+      ref={node => setRef(node)}
+      style={{
+        objectPosition: `${objectPosition.x} ${objectPosition.y}`,
+      }}
+      {...props}
+    >
+      <GatsbyImage
+        css={gatsbyImageCss}
+        image={image}
+        alt={alt || ''}
+        style={{ objectPosition: 'inherit' }}
+        objectPosition="inherit"
+      />
     </div>
   )
 }

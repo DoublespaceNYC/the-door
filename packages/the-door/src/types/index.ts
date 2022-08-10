@@ -1,8 +1,9 @@
-import { IGatsbyImageData } from "gatsby-plugin-image"
-import { IArticle, IStructuredText } from "@the-door/common/src/types"
-import { IGatsbyImageFocused } from "@the-door/common/src/components/GatsbyImageFocused"
+import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
+import { IArticle, IStructuredText } from '@the-door/common/src/types'
+import { IGatsbyImageData } from 'gatsby-plugin-image'
 
-interface IStoryImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
+interface IStoryImage
+  extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   carouselImageData: IGatsbyImageData
 }
 

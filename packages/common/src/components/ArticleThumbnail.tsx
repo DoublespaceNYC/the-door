@@ -29,7 +29,7 @@ const ArticleThumbnail = ({
   const date = new Date(article.meta.createdAt)
   const featured = layout === 'Featured'
   const grid = layout === 'Grid'
-  const carousel = layout === 'Carousel'
+  // const carousel = layout === 'Carousel'
   const styles = {
     container: css`
       position: relative;

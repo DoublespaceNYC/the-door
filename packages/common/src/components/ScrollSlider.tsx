@@ -1,7 +1,6 @@
 import { SerializedStyles, css } from '@emotion/react'
 import throttle from 'lodash/throttle'
 import {
-  Fragment,
   ReactNode,
   useCallback,
   useEffect,
@@ -41,8 +40,6 @@ const ScrollSlider = ({
   colors,
   ...props
 }: Props) => {
-  const Link = () => link || <Fragment />
-
   const [scrollPos, setScrollPos] = useState(0)
 
   const [contentRef, setContentRef] = useState<HTMLDivElement | null>(

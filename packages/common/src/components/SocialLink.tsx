@@ -43,7 +43,7 @@ const SocialLink = ({ social }: Props) => {
     }
   }, [social.socialType])
   return (
-    <a href={social.url} target="_blank" rel="noopener">
+    <a href={social.url} target="_blank" rel="noreferrer">
       {renderIcon}
     </a>
   )

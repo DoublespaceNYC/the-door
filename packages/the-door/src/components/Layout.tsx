@@ -69,6 +69,20 @@ const Layout = ({ children }: Props) => {
           url
         }
       }
+      alert: datoCmsAlertBar {
+        showAlert
+        alert {
+          value
+          blocks {
+            ... on DatoCmsInternalLink {
+              ...InternalLinkFragment
+            }
+            ... on DatoCmsExternalLink {
+              ...ExternalLinkFragment
+            }
+          }
+        }
+      }
     }
   `)
   return (
@@ -82,7 +96,7 @@ const Layout = ({ children }: Props) => {
           bgSecondary: colors.navyDark,
           logo: '#fff',
           text: '#fff',
-          buttons: [colors.pink, colors.green],
+          buttons: [colors.pink, colors.navy],
         },
         breakpoint: nav.breakpoint,
       }}

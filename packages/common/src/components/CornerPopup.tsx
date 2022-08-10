@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import { lighten } from 'polished'
-import { Fragment, useContext, useEffect } from 'react'
+import { Fragment, useContext, useEffect, useRef } from 'react'
 import { StructuredText } from 'react-datocms'
 import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
@@ -39,10 +39,14 @@ const CornerPopup = ({ content, colors, ...props }: Props) => {
   const { inView, ref } = useInView({
     triggerOnce: true,
   })
+  const triggered = useRef(false)
   const { open, setOpen } = useContext(CornerPopupContext)
   useEffect(() => {
-    inView && setOpen(true)
-  }, [inView])
+    if (inView && !triggered.current) {
+      setOpen(true)
+      triggered.current = true
+    }
+  }, [inView, setOpen, triggered])
   useEscKeyFunction(() => setOpen(false))
 
   const styles = {
@@ -135,8 +139,8 @@ const CornerPopup = ({ content, colors, ...props }: Props) => {
                 renderBlock={({ record }) => {
                   if (
                     record.__typename === 'DatoCmsInternalLink' ||
-                    'DatoCmsExternalLink' ||
-                    'DatoCmsAssetLink'
+                    record.__typename === 'DatoCmsExternalLink' ||
+                    record.__typename === 'DatoCmsAssetLink'
                   ) {
                     return <DatoLink link={record} css={styles.cta} />
                   } else return null

@@ -13,11 +13,7 @@ type Props = {
   css?: SerializedStyles | SerializedStyles[]
 }
 
-const VideoStreamPlayer = ({
-  src,
-  thumbnail,
-  ...props
-}: Props) => {
+const VideoStreamPlayer = ({ src, thumbnail, ...props }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -45,9 +41,14 @@ const VideoStreamPlayer = ({
         hls.destroy()
       }
     }
-  }, [videoRef])
+  }, [videoRef, src])
 
-  return <video ref={videoRef} poster={thumbnail} {...props} />
+  return (
+    <video ref={videoRef} poster={thumbnail} {...props}>
+      {/* In the future, add subtitle support */}
+      {/* <track default /> */}
+    </video>
+  )
 }
 
 export default VideoStreamPlayer
