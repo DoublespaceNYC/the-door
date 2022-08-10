@@ -187,16 +187,16 @@ type Props = {
 }
 
 const IndexPage = ({ data }: Props) => {
-  // const { home } = data
+  const { home } = data
 
-  // // Use state to control popup to avoid hydration errors
-  // const [showPopup, setShowPopup] = useState(false)
-  // useEffect(() => setShowPopup(home.showPopup), [home.showPopup])
+  // Use state to control popup to avoid hydration errors
+  const [showPopup, setShowPopup] = useState(false)
+  useEffect(() => setShowPopup(home.showPopup), [home.showPopup])
 
   return (
     <Layout>
       <Seo title="The Door" noSuffix />
-      {/* <HomeHero
+      <HomeHero
         heading={home.heroHeading}
         ctaText={home.heroCtaText}
         ctaLink={home.heroCtaLink[0]}
@@ -241,7 +241,7 @@ const IndexPage = ({ data }: Props) => {
         heading={home.latestHeading}
         featuredArticle={home.featuredArticle}
         pageLink={home.latestLink[0]}
-      /> */}
+      />
     </Layout>
   )
 }
