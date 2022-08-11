@@ -1,7 +1,13 @@
 import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
-import { darken, lighten, readableColor } from 'polished'
-import { useContext, useEffect, useState } from 'react'
+import { darken, getContrast, readableColor } from 'polished'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 
 import NavButtonModalContext from '../context/NavButtonModalContext'
 import { useElementWidth } from '../hooks/useElementRect'
@@ -45,6 +51,17 @@ const NavButton = ({
 
   useEscKeyFunction(() => setOpen(false))
 
+  const textColor = useMemo(() => {
+    const darkText = () => {
+      for (let i = 1; i < 20; i++) {
+        if (getContrast(color, darken(0.05 * i, color)) > 4.5) {
+          return darken(0.05 * i, color)
+        }
+      }
+    }
+    return readableColor(color, darkText(), '#fff', false)
+  }, [color])
+
   const styles = {
     wrap: css`
       display: flex;
@@ -69,7 +86,7 @@ const NavButton = ({
       position: absolute;
       right: 0;
       bottom: 0.75rem;
-      color: ${readableColor(color, darken(0.3, color), '#fff', false)};
+      color: ${textColor};
       font-size: var(--fs-15);
       padding: 1.5rem 1rem 0.75rem;
       max-width: 30ch;
@@ -124,29 +141,18 @@ const NavButton = ({
       right: 0;
       display: flex;
       padding: 0.5rem;
+      opacity: 0.5;
+      transition: opacity 300ms ease;
       svg {
         width: 0.75rem;
         height: 0.75rem;
         path {
           stroke-width: 2;
-          stroke: ${readableColor(
-            color,
-            darken(0.1, color),
-            lighten(0.2, color),
-            false
-          )};
-          transition: stroke 300ms ease;
+          stroke: ${textColor};
         }
       }
       &:hover {
-        svg path {
-          stroke: ${readableColor(
-            color,
-            darken(0.3, color),
-            '#fff',
-            false
-          )};
-        }
+        opacity: 1;
       }
     `,
   }

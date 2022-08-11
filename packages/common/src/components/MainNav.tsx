@@ -1,18 +1,11 @@
 import { Global, css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
-import {
-  FC,
-  Fragment,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import { useElementHeight } from '../hooks/useElementRect'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
-import { absoluteFill, mq } from '../theme/mixins'
+import { absoluteFill } from '../theme/mixins'
 import { IExternalLink, IInternalLink } from '../types'
 import DatoLink from './DatoLink'
 import NavBurger from './NavBurger'
@@ -57,9 +50,6 @@ const MainNav = ({
   const windowWidth = useWindowWidth()
 
   const [navRef, setNavRef] = useState<HTMLElement | null>(null)
-  const navRefCallback = useCallback((node: HTMLElement) => {
-    setNavRef(node)
-  }, [])
   const navHeight = useElementHeight(navRef)
 
   const [burgerOpen, setBurgerOpen] = useState(false)
@@ -68,19 +58,7 @@ const MainNav = ({
     if (windowWidth && windowWidth > breakpoint) {
       setBurgerOpen(false)
     }
-  }, [windowWidth])
-
-  const ConditionalWrapper = ({
-    children,
-  }: {
-    children: ReactNode
-  }) => {
-    if (windowWidth && windowWidth <= breakpoint) {
-      return <div>{children}</div>
-    } else {
-      return <Fragment>{children}</Fragment>
-    }
-  }
+  }, [windowWidth, breakpoint])
 
   const styles = {
     scrollObserver: css`
@@ -164,6 +142,12 @@ const MainNav = ({
         }
       }
     `,
+    navItemsGroupConditional: css`
+      display: contents;
+      @media (max-width: breakpoint) {
+        display: block;
+      }
+    `,
     navButtonsGroup: css`
       display: flex;
       z-index: 2;
@@ -218,10 +202,10 @@ const MainNav = ({
     <Fragment>
       <div aria-hidden css={styles.scrollObserver} ref={scrollRef} />
       <div css={styles.navWrap}>
-        <nav css={styles.nav} ref={navRefCallback}>
+        <nav css={styles.nav} ref={node => setNavRef(node)}>
           <Logo css={styles.logo} fill={colors.logo} />
           <div css={styles.navItemsGroup}>
-            <ConditionalWrapper>
+            <div css={styles.navItemsGroupConditional}>
               {navItems.map((navItem, i) => {
                 if (navItem.__typename === 'DatoCmsLinkGroup') {
                   return (
@@ -248,7 +232,7 @@ const MainNav = ({
                     key={i}
                   />
                 ))}
-            </ConditionalWrapper>
+            </div>
           </div>
           <div css={styles.navButtonsGroup}>
             {buttons.map((button, i) => (

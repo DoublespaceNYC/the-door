@@ -1,12 +1,15 @@
-
-import { IGatsbyImageData } from "gatsby-plugin-image"
 import {
   StructuredText as IStructuredText,
   Record,
 } from 'datocms-structured-text-utils'
-import { IGatsbyImageFocused } from "../components/GatsbyImageFocused"
+import { IGatsbyImageData } from 'gatsby-plugin-image'
 
-export type { StructuredText as IStructuredText, Record as IRecord } from 'datocms-structured-text-utils'
+import { IGatsbyImageFocused } from '../components/GatsbyImageFocused'
+
+export type {
+  StructuredText as IStructuredText,
+  Record as IRecord,
+} from 'datocms-structured-text-utils'
 
 export interface IInternalLink extends Record {
   __typename: 'DatoCmsInternalLink'
@@ -30,7 +33,8 @@ export interface IAssetLink extends Record {
   }
 }
 
-interface IArticleImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
+interface IArticleImage
+  extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   thumbnailImageData: IGatsbyImageData
 }
 
@@ -44,4 +48,3 @@ export interface IArticle extends Record {
     createdAt: string
   }
 }
-

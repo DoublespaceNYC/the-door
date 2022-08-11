@@ -1,4 +1,4 @@
-import { css, keyframes } from '@emotion/react'
+import { css } from '@emotion/react'
 
 import { breakpoints } from './variables'
 

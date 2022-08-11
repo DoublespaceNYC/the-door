@@ -69,6 +69,20 @@ const Layout = ({ children }: Props) => {
           url
         }
       }
+      alert: datoCmsAlertBar {
+        showAlert
+        alert {
+          value
+          blocks {
+            ... on DatoCmsInternalLink {
+              ...InternalLinkFragment
+            }
+            ... on DatoCmsExternalLink {
+              ...ExternalLinkFragment
+            }
+          }
+        }
+      }
     }
   `)
   return (

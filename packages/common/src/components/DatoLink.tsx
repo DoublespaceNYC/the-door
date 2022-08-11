@@ -21,7 +21,7 @@ const DatoLink = ({ link, ...props }: Props) => {
   }
   if (link.__typename === 'DatoCmsExternalLink') {
     return (
-      <a href={link.url} rel="noopener" target="_blank" {...props}>
+      <a href={link.url} rel="noreferrer" target="_blank" {...props}>
         <span>{link.linkText}</span>
       </a>
     )

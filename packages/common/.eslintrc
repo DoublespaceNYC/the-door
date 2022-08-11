@@ -29,8 +29,11 @@
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    // "no-anonymous-exports-page-templates": "warn",
+    // "limited-exports-page-templates": "warn",
     "prettier/prettier": "warn",
     "@typescript-eslint/ban-types": "warn",
-    "no-throw-literal": "warn"
+    "no-throw-literal": "warn",
+    "jsx-a11y/media-has-caption": "off"
   }
 }

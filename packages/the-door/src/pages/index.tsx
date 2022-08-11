@@ -8,6 +8,7 @@ import {
   IStructuredText,
 } from '@the-door/common/src/types'
 import { graphql } from 'gatsby'
+import { useEffect, useState } from 'react'
 
 import HomeFaces from '../components/HomeFaces'
 import HomeHero from '../components/HomeHero'
@@ -187,6 +188,11 @@ type Props = {
 
 const IndexPage = ({ data }: Props) => {
   const { home } = data
+
+  // Use state to control popup to avoid hydration errors
+  const [showPopup, setShowPopup] = useState(false)
+  useEffect(() => setShowPopup(home.showPopup), [home.showPopup])
+
   return (
     <Layout>
       <Seo title="The Door" noSuffix />
@@ -202,7 +208,7 @@ const IndexPage = ({ data }: Props) => {
         links={home.welcomeLinks}
         image={home.welcomeImage}
       />
-      {home.showPopup && (
+      {showPopup && (
         <CornerPopup
           content={home.popup[0]}
           colors={{
@@ -214,7 +220,6 @@ const IndexPage = ({ data }: Props) => {
           }}
         />
       )}
-
       <HomeServices
         heading={home.servicesHeading}
         body={home.servicesBody}

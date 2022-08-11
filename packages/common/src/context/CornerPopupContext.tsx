@@ -1,8 +1,8 @@
-import { ReactNode, createContext, useState } from 'react'
+import { ReactNode, createContext, useState, SetStateAction, Dispatch } from 'react'
 
 interface IContext {
   open: boolean
-  setOpen: (value: boolean) => void
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const defaultValue = {

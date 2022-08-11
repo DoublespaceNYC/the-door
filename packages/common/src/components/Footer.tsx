@@ -157,6 +157,7 @@ const Footer = ({
           css={styles.link}
           href={`tel:${meta.phone.replace(/\D/, '')}`}
           target="_blank"
+          rel="noreferrer"
         >
           <span>{meta.phone}</span>
         </a>
@@ -164,6 +165,7 @@ const Footer = ({
           css={styles.link}
           href={`mailto:${meta.email}`}
           target="_blank"
+          rel="noreferrer"
         >
           <span>{meta.email}</span>
         </a>
@@ -173,7 +175,7 @@ const Footer = ({
             meta.address
           )}`}
           target="_blank"
-          rel="noopener"
+          rel="noreferrer"
         >
           <span>{parse(meta.address.replace('\n', '<br />'))}</span>
         </a>
