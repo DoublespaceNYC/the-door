@@ -1,10 +1,52 @@
 import { CSSInterpolation } from '@emotion/serialize'
+import { Record } from 'datocms-structured-text-utils'
 import { Link } from 'gatsby'
 import { Fragment } from 'react'
 
-import { IAssetLink, IExternalLink, IInternalLink } from '../types'
+export interface IInternalLink extends Record {
+  __typename: 'DatoCmsInternalLink'
+  linkText: string
+  link: {
+    slug: string
+  }
+}
 
-export type IDatoLink = IInternalLink | IExternalLink | IAssetLink
+export interface IExternalLink extends Record {
+  __typename: 'DatoCmsExternalLink'
+  linkText: string
+  url: string
+}
+
+export interface IDocumentLink extends Record {
+  __typename: 'DatoCmsAssetLink'
+  linkText: string
+  document: {
+    url: string
+  }
+}
+
+export interface ILightboxLink extends Record {
+  __typename: 'DatoCmsLightboxLink'
+  linkText: string
+  link: {
+    slug: string
+  }
+}
+
+export type IDatoLink =
+  | IInternalLink
+  | IExternalLink
+  | IDocumentLink
+  | ILightboxLink
+
+export const isDatoLink = (record: Record) => {
+  return [
+    'DatoCmsInternalLink',
+    'DatoCmsExternalLink',
+    'DatoCmsAssetLink',
+    'DatoCmsLightboxLink',
+  ].some(x => x === record.__typename)
+}
 
 type Props = {
   link: IDatoLink

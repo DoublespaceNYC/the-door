@@ -50,6 +50,7 @@ export const linkStyle = css`
   line-height: 1.5;
   margin: 1em 0;
   font-weight: 500;
+  max-width: fit-content;
 `
 
 export const widthInCols = (count: number) =>

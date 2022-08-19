@@ -19,8 +19,8 @@ export const GlobalStyles = () => {
         Lucida, 'DejaVu Serif', 'Bitstream Vera Serif',
         'Liberation Serif', Georgia, serif;
 
-      --almaq: 'Almaq Refined', var(--sans-serif);
-      --brother: 'Brother 1816', var(--sans-serif);
+      --display-font: 'Almaq Refined', var(--sans-serif);
+      --body-font: 'Brother 1816', var(--sans-serif);
 
       /* Font Sizes */
       --fs-144: calc(4rem + 6.667vw);
@@ -67,13 +67,13 @@ export const GlobalStyles = () => {
       }
     }
     body {
-      font-family: var(--brother);
+      font-family: var(--body-font);
       font-size: var(--fs-16);
     }
     h1,
     h2,
     h3 {
-      font-family: var(--almaq);
+      font-family: var(--display-font);
     }
     p {
       line-height: inherit;

@@ -1,0 +1,228 @@
+import { css } from '@emotion/react'
+import { Record } from 'datocms-structured-text-utils'
+import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
+import { rgba } from 'polished'
+import { useMemo } from 'react'
+import { StructuredText, renderMarkRule } from 'react-datocms'
+
+import useReadableColor from '../hooks/useReadableColor'
+import { baseGrid, linkStyle } from '../theme/mixins'
+import { IStructuredText } from '../types'
+import ContentBlockShape, { ShapeType } from './ContentBlockShape'
+import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
+
+interface IBody extends IStructuredText {
+  blocks?: IDatoLink[]
+}
+
+export interface IContentBlock extends Record {
+  __typename: 'DatoCmsContentBlock'
+  heading: string
+  image: [
+    {
+      image: {
+        narrow: IGatsbyImageData
+        medium: IGatsbyImageData
+        wide: IGatsbyImageData
+        alt?: string
+      }
+      layout: 'narrow' | 'medium' | 'wide'
+    }?
+  ]
+  body: IBody
+}
+
+type Props = {
+  block: IContentBlock
+  shape: ShapeType
+  color: string
+  orientation: 'left' | 'right'
+}
+
+const ContentBlock = ({
+  block: { heading, image, body },
+  shape,
+  color,
+  orientation,
+}: Props) => {
+  const left = orientation === 'left'
+  const right = orientation === 'right'
+
+  const layout = image[0] ? image[0].layout : 'noImg'
+
+  const textSpan = useMemo(() => {
+    switch (layout) {
+      case 'noImg':
+        return {
+          l: 8,
+        }
+      case 'narrow':
+        return { l: 7 }
+      case 'medium':
+        return { l: 6 }
+      case 'wide':
+        return { l: 5 }
+    }
+  }, [layout])
+
+  const contentRows = body.value.document.children.length
+
+  const readableColor = useReadableColor(color, '#fff', 3)
+
+  const styles = {
+    section: css`
+      ${baseGrid}
+      grid-template-rows: 1fr var(--gtr-m) auto repeat(${contentRows}, auto) 1fr;
+      color: #333;
+      margin-bottom: var(--row-l);
+      p {
+        margin: 0.5em 0;
+        line-height: 1.75;
+        max-width: 90ch;
+      }
+      a {
+        color: ${readableColor};
+        font-weight: 500;
+        display: inline-block;
+        @media (hover: hover) {
+          &:hover {
+            color: ${rgba(readableColor, 0.75)};
+          }
+        }
+      }
+      ul {
+        padding-inline-start: 1.75em;
+        margin-block: 0.5em 0;
+        max-width: 90ch;
+        box-sizing: border-box;
+        li {
+          padding-inline-start: 0.25em;
+          &::marker {
+            color: ${readableColor};
+          }
+          p {
+            line-height: 1.5;
+            margin: 0 0 0.75em;
+          }
+        }
+      }
+      > {
+        h2,
+        h3,
+        h4,
+        h5,
+        p,
+        ul,
+        ol,
+        a {
+          ${left &&
+          css`
+            grid-column: 2 / span ${textSpan.l};
+            ${layout !== 'noImg' &&
+            css`
+              margin-right: var(--gtr-m);
+            `}
+          `}
+          ${right &&
+          css`
+            grid-column: span ${textSpan.l} / -2;
+            ${layout !== 'noImg' &&
+            css`
+              margin-left: var(--gtr-m);
+            `}
+          `}
+        }
+        &:nth-child(${contentRows + 1}) {
+          margin-bottom: 0;
+        }
+      }
+      &:before {
+        content: '';
+        display: block;
+        grid-row: 1 / 3;
+        ${left &&
+        css`
+          grid-column: 2 / span ${textSpan.l};
+        `}
+        ${right &&
+        css`
+          grid-column: span ${textSpan.l} / -2;
+        `}
+      }
+    `,
+    heading: css`
+      color: ${color};
+      font-size: var(--fs-72);
+      z-index: 2;
+      position: relative;
+      margin: 0 0 0.167em;
+      padding-top: calc(0.333em + 3px);
+      &:before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: calc(100% + var(--col-w) + 2 * var(--gtr-m));
+        height: 3px;
+        background: ${color};
+        top: 0;
+        left: ${left ? 0 : 'auto'};
+        right: ${right ? 0 : 'auto'};
+      }
+    `,
+    image: css`
+      grid-row: 1 / span ${contentRows + 4};
+      position: relative;
+      align-self: flex-start;
+      ${left &&
+      css`
+        grid-column: span ${12 - textSpan.l} / -2;
+      `}
+      ${right &&
+      css`
+        grid-column: 2 / span ${12 - textSpan.l};
+      `};
+    `,
+    linkBlock: css`
+      ${linkStyle}
+    `,
+  }
+  return (
+    <section css={styles.section}>
+      <h2 css={styles.heading}>{heading}</h2>
+      {/* Remember to transform h1, h2 to h3 and h5, h6 to h4 */}
+      <StructuredText
+        data={body}
+        renderBlock={({ record }) => {
+          if (isDatoLink(record)) {
+            return <DatoLink link={record} css={styles.linkBlock} />
+          } else return null
+        }}
+        customMarkRules={[
+          // convert "strong" marks into <b> tags
+          renderMarkRule('h1' || 'h2', ({ children, key }) => {
+            return <h3 key={key}>{children}</h3>
+          }),
+          renderMarkRule('h5' || 'h6', ({ children, key }) => {
+            return <h4 key={key}>{children}</h4>
+          }),
+        ]}
+      />
+      <div css={styles.image}>
+        {image[0] && (
+          <GatsbyImage
+            image={image[0].image[image[0].layout]}
+            alt={image[0].image.alt || ''}
+          />
+        )}
+        <ContentBlockShape
+          shape={shape}
+          color={color}
+          layout={layout}
+          orientation={orientation}
+        />
+      </div>
+    </section>
+  )
+}
+
+export default ContentBlock

@@ -43,7 +43,7 @@ const Footer = ({
       color: ${colors.text};
       padding: var(--row-m) 0;
       font-size: var(--fs-21);
-      font-family: var(--almaq);
+      font-family: var(--display-font);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       ${mq().ms} {

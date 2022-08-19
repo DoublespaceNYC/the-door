@@ -91,7 +91,7 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
       }
     `,
     viewAll: css`
-      font-family: var(--almaq);
+      font-family: var(--display-font);
       font-size: var(--fs-21);
       text-transform: uppercase;
       letter-spacing: 0.025em;
@@ -228,7 +228,7 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
         width: ${widthInCols(8)};
       }
       h4 {
-        font-family: var(--almaq);
+        font-family: var(--display-font);
         font-size: var(--fs-24);
         order: 2;
         margin: 0 0 0.125em;

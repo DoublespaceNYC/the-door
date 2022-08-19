@@ -12,21 +12,22 @@ import {
   mq,
 } from '@the-door/common/src/theme/mixins'
 import { graphql, useStaticQuery } from 'gatsby'
+import { rgba } from 'polished'
 import { useMemo } from 'react'
 
 import { colors } from '../theme/variables'
-import { INewsArticle } from '../types'
+import { IInternalArticle } from '../types'
 
 type Props = {
   heading: string
-  featuredArticle: INewsArticle
+  featuredArticle: IInternalArticle
   pageLink: IDatoLink
 }
 
 const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
   type QueryProps = {
     allNews: {
-      nodes: INewsArticle[]
+      nodes: IInternalArticle[]
     }
     events: {
       nodes: IEvent[]
@@ -34,12 +35,12 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
   }
   const { allNews, events } = useStaticQuery<QueryProps>(graphql`
     query {
-      allNews: allDatoCmsNewsArticle(
+      allNews: allDatoCmsInternalArticle(
         sort: { fields: meta___createdAt }
         limit: 4
       ) {
         nodes {
-          ...NewsArticleFragment
+          ...InternalArticleFragment
         }
       }
       events: allDatoCmsEvent(sort: { fields: startDateTime }) {
@@ -152,7 +153,7 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
           layout="Featured"
           colors={{
             category: colors.yellowDark,
-            shadow: colors.navy + '22',
+            shadow: rgba(colors.navy, 0.15),
             shadowHover: colors.yellow,
           }}
         />
@@ -164,7 +165,7 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
               layout="Grid"
               colors={{
                 category: colors.yellowDark,
-                shadow: colors.navy + '22',
+                shadow: rgba(colors.navy, 0.15),
                 shadowHover: colors.yellow,
               }}
             />
@@ -178,7 +179,7 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
           heading: colors.yellow,
           eventTitle: ['#444', colors.yellow],
           eventText: ['#888'],
-          ctaBg: ['#7794ab', colors.yellow],
+          ctaBg: [colors.gray50, colors.yellow],
           ctaText: ['#fff'],
           ctaSlider: [colors.navy, colors.yellow],
         }}

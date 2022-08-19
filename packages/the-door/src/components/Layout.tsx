@@ -3,6 +3,7 @@ import CommonLayout from '@the-door/common/src/components/Layout'
 import { MainNavProps } from '@the-door/common/src/components/MainNav'
 import { ISocialLink } from '@the-door/common/src/components/SocialLink'
 import { graphql, useStaticQuery } from 'gatsby'
+import { AlertBarProps } from 'packages/common/src/components/AlertBar'
 import { ReactNode } from 'react'
 
 import { colors } from '../theme/variables'
@@ -17,6 +18,7 @@ const Layout = ({ children }: Props) => {
   type QueryProps = {
     nav: Pick<MainNavProps, 'navItems' | 'buttons' | 'breakpoint'>
     footer: Pick<FooterProps, 'navItems' | 'buttons'>
+    alert: Omit<AlertBarProps, 'colors'>
     meta: {
       phone: string
       email: string
@@ -24,56 +26,18 @@ const Layout = ({ children }: Props) => {
       socials: ISocialLink[]
     }
   }
-  const { nav, footer, meta } = useStaticQuery<QueryProps>(graphql`
-    query {
-      nav: datoCmsMainNav {
-        navItems {
-          ... on DatoCmsLinkGroup {
-            __typename
-            linkText: title
-            links {
-              ...InternalLinkFragment
+  const { nav, footer, alert, meta } =
+    useStaticQuery<QueryProps>(graphql`
+      query {
+        nav: datoCmsMainNav {
+          navItems {
+            ... on DatoCmsLinkGroup {
+              __typename
+              linkText: title
+              links {
+                ...InternalLinkFragment
+              }
             }
-          }
-          ... on DatoCmsInternalLink {
-            ...InternalLinkFragment
-          }
-          ... on DatoCmsExternalLink {
-            ...ExternalLinkFragment
-          }
-        }
-        buttons: highlightedLinks {
-          link {
-            ...InternalLinkFragment
-          }
-          modalTooltip
-          modalHeading
-          modalSubheading
-        }
-        breakpoint
-      }
-      footer: datoCmsFooterNav {
-        navItems: links {
-          ...InternalLinkFragment
-        }
-        buttons: highlightedLinks {
-          ...InternalLinkFragment
-        }
-      }
-      meta: datoCmsMetaContent {
-        phone
-        email
-        address
-        socials {
-          socialType
-          url
-        }
-      }
-      alert: datoCmsAlertBar {
-        showAlert
-        alert {
-          value
-          blocks {
             ... on DatoCmsInternalLink {
               ...InternalLinkFragment
             }
@@ -81,10 +45,55 @@ const Layout = ({ children }: Props) => {
               ...ExternalLinkFragment
             }
           }
+          buttons: highlightedLinks {
+            link {
+              ...InternalLinkFragment
+            }
+            modalTooltip
+            modalHeading
+            modalSubheading
+          }
+          breakpoint
+        }
+        footer: datoCmsFooterNav {
+          navItems: links {
+            ...InternalLinkFragment
+          }
+          buttons: highlightedLinks {
+            ...InternalLinkFragment
+          }
+        }
+        meta: datoCmsMetaContent {
+          phone
+          email
+          address
+          socials {
+            socialType
+            url
+          }
+        }
+        alert: datoCmsAlertBar {
+          showAlert
+          alert {
+            value
+            blocks {
+              ... on DatoCmsInternalLink {
+                ...InternalLinkFragment
+              }
+              ... on DatoCmsExternalLink {
+                ...ExternalLinkFragment
+              }
+              ... on DatoCmsLightboxLink {
+                ...LightboxLinkFragment
+              }
+              ... on DatoCmsDocumentLink {
+                ...DocumentLinkFragment
+              }
+            }
+          }
         }
       }
-    }
-  `)
+    `)
   return (
     <CommonLayout
       nav={{
@@ -110,6 +119,15 @@ const Layout = ({ children }: Props) => {
           logo: '#fff',
           text: '#fff',
           buttons: [colors.pink, colors.green],
+        },
+      }}
+      alert={{
+        showAlert: alert.showAlert,
+        alert: alert.alert,
+        colors: {
+          bg: colors.navyDark,
+          text: '#fff',
+          cta: ['#fff', colors.yellow],
         },
       }}
     >

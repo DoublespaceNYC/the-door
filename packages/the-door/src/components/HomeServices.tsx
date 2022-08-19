@@ -12,6 +12,7 @@ import {
   mq,
 } from '@the-door/common/src/theme/mixins'
 import { IStructuredText } from '@the-door/common/src/types'
+import { rgba } from 'polished'
 import { StructuredText } from 'react-datocms'
 
 import { colors } from '../theme/variables'
@@ -41,7 +42,7 @@ const HomeServices = ({
       background: linear-gradient(
         to bottom right,
         ${colors.teal},
-        #00424b
+        ${colors.tealDark}
       );
       color: #fff;
       margin-top: -4rem;
@@ -57,7 +58,7 @@ const HomeServices = ({
       grid-column: span 8 / -1;
       grid-row: 1 / 3;
       height: calc(100% + var(--row-m));
-      background: ${colors.teal}99;
+      background: ${rgba(colors.teal, 0.6)};
       ${mq().m} {
         grid-column: span 7 / -1;
       }
@@ -74,7 +75,7 @@ const HomeServices = ({
       width: 100vw;
       height: 100vw;
       clip-path: circle();
-      background: ${colors.teal}33;
+      background: ${rgba(colors.teal, 0.2)};
       left: -33vw;
     `,
     heading: css`
@@ -124,7 +125,7 @@ const HomeServices = ({
       grid-column: 2 / -2;
       display: grid;
       grid-template-columns: 1fr 2fr;
-      background: ${colors.teal}99;
+      background: ${rgba(colors.teal, 0.6)};
       margin-bottom: var(--row-ll);
       ${mq().ms} {
         grid-template-columns: 1fr;

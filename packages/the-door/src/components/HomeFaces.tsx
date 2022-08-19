@@ -7,6 +7,7 @@ import {
 } from '@the-door/common/src/theme/mixins'
 import { IStructuredText } from '@the-door/common/src/types'
 import { graphql, useStaticQuery } from 'gatsby'
+import { rgba } from 'polished'
 import { StructuredText } from 'react-datocms'
 
 import { colors } from '../theme/variables'
@@ -80,7 +81,7 @@ const HomeFaces = ({ heading, body }: Props) => {
       width: calc(100vw - var(--margin) * 2);
     `,
     decoOne: css`
-      background: ${colors.purpleDark}44;
+      background: ${rgba(colors.purpleDark, 0.25)};
       ${absoluteFill}
       grid-column: span 8 / -1;
       height: 50%;
@@ -90,7 +91,7 @@ const HomeFaces = ({ heading, body }: Props) => {
       ${absoluteFill}
       grid-column: 4 / -4;
       grid-row: 3 / 4;
-      background: ${colors.purple}99;
+      background: ${rgba(colors.purple, 0.6)};
       transform: translateY(6rem);
     `,
   }

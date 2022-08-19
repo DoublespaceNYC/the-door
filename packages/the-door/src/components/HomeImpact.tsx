@@ -147,7 +147,7 @@ const HomeImpact = ({
         color: ${colors.green};
         background: #fff;
         font-size: var(--fs-24);
-        font-family: var(--almaq);
+        font-family: var(--display-font);
         text-transform: uppercase;
         letter-spacing: 0.025em;
         padding: 0.5em 0.75em;

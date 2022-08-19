@@ -1,13 +1,13 @@
 import CornerPopup, {
   ICornerPopup,
 } from '@the-door/common/src/components/CornerPopup'
-import { IDatoLink } from '@the-door/common/src/components/DatoLink'
-import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
 import {
+  IDatoLink,
   IInternalLink,
-  IStructuredText,
-} from '@the-door/common/src/types'
-import { graphql } from 'gatsby'
+} from '@the-door/common/src/components/DatoLink'
+import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
+import { IStructuredText } from '@the-door/common/src/types'
+import { PageProps, graphql } from 'gatsby'
 import { useEffect, useState } from 'react'
 
 import HomeFaces from '../components/HomeFaces'
@@ -19,7 +19,7 @@ import HomeWelcome from '../components/HomeWelcome'
 import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 import { colors } from '../theme/variables'
-import { INewsArticle } from '../types'
+import { IInternalArticle } from '../types'
 
 export const data = graphql`
   query {
@@ -27,11 +27,14 @@ export const data = graphql`
       heroHeading
       heroCtaText
       heroCtaLink {
+        ... on DatoCmsInternalLink {
+          ...InternalLinkFragment
+        }
         ... on DatoCmsExternalLink {
           ...ExternalLinkFragment
         }
-        ... on DatoCmsInternalLink {
-          ...InternalLinkFragment
+        ... on DatoCmsLightboxLink {
+          ...LightboxLinkFragment
         }
       }
       heroVideo {
@@ -128,7 +131,7 @@ export const data = graphql`
       }
       latestHeading
       featuredArticle {
-        ...NewsArticleFragment
+        ...InternalArticleFragment
       }
       latestLink {
         ...InternalLinkFragment
@@ -141,54 +144,50 @@ export const data = graphql`
   }
 `
 
-type Props = {
-  data: {
-    home: {
-      heroHeading: string
-      heroCtaText: string
-      heroCtaLink: [IDatoLink]
-      heroVideo: {
-        video: {
-          streamingUrl: string
-          thumbnailUrl: string
-        }
-        customData?: {
-          thumbnailTime?: string
-        }
+type DataProps = {
+  home: {
+    heroHeading: string
+    heroCtaText: string
+    heroCtaLink: [IDatoLink]
+    heroVideo: {
+      video: {
+        streamingUrl: string
+        thumbnailUrl: string
       }
-      welcomeHeading: string
-      welcomeBody: IStructuredText
-      welcomeLinks: IDatoLink[]
-      welcomeImage: IGatsbyImageFocused
-      servicesHeading: string
-      servicesBody: IStructuredText
-      bsaHeading: string
-      bsaBody: IStructuredText
-      bsaLink: [IDatoLink]
-      bsaImage: IGatsbyImageFocused
-      impactHeading: string
-      impactBody: IStructuredText
-      impactLink: IDatoLink[]
-      impactStats: {
-        number: string
-        text: string
-      }[]
-      impactCta: string
-      impactCtaLink: [IDatoLink]
-      facesHeading: string
-      facesBody: IStructuredText
-      latestHeading: string
-      featuredArticle: INewsArticle
-      latestLink: [IInternalLink]
-      showPopup: boolean
-      popup: [ICornerPopup]
+      customData?: {
+        thumbnailTime?: string
+      }
     }
+    welcomeHeading: string
+    welcomeBody: IStructuredText
+    welcomeLinks: IDatoLink[]
+    welcomeImage: IGatsbyImageFocused
+    servicesHeading: string
+    servicesBody: IStructuredText
+    bsaHeading: string
+    bsaBody: IStructuredText
+    bsaLink: [IDatoLink]
+    bsaImage: IGatsbyImageFocused
+    impactHeading: string
+    impactBody: IStructuredText
+    impactLink: IDatoLink[]
+    impactStats: {
+      number: string
+      text: string
+    }[]
+    impactCta: string
+    impactCtaLink: [IDatoLink]
+    facesHeading: string
+    facesBody: IStructuredText
+    latestHeading: string
+    featuredArticle: IInternalArticle
+    latestLink: [IInternalLink]
+    showPopup: boolean
+    popup: [ICornerPopup]
   }
 }
 
-const IndexPage = ({ data }: Props) => {
-  const { home } = data
-
+const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
   // Use state to control popup to avoid hydration errors
   const [showPopup, setShowPopup] = useState(false)
   useEffect(() => setShowPopup(home.showPopup), [home.showPopup])

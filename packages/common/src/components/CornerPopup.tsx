@@ -93,7 +93,7 @@ const CornerPopup = ({ content, colors, ...props }: Props) => {
     cta: css`
       display: block;
       width: fit-content;
-      font-family: var(--almaq);
+      font-family: var(--display-font);
       font-size: var(--fs-16);
       line-height: 1;
       letter-spacing: 0.05em;

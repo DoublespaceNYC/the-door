@@ -1,9 +1,17 @@
 import { graphql, useStaticQuery } from 'gatsby'
 import { Helmet } from 'react-helmet'
 
+export interface ISEO {
+  title?: string
+  description?: string
+  image?: {
+    url: string
+  }
+}
+
 type SeoProps = {
-  title?: string | null
-  description?: string | null
+  title?: string
+  description?: string
   lang?: string
   imageUrl?: string
   noSuffix?: boolean
@@ -16,29 +24,33 @@ const Seo = ({
   imageUrl,
   noSuffix,
 }: SeoProps) => {
-  const { datoCmsSite } = useStaticQuery(graphql`
+  const { datoCmsSite } = useStaticQuery<QueryProps>(graphql`
     query {
       datoCmsSite {
         globalSeo {
           titleSuffix
           fallbackSeo {
-            description
-            title
+            ...SeoFragment
           }
         }
       }
     }
   `)
 
+  type QueryProps = {
+    datoCmsSite: {
+      globalSeo: {
+        titleSuffix?: string
+        fallbackSeo?: ISEO
+      }
+    }
+  }
+
   const metaDescription =
-    description ||
-    datoCmsSite?.globalSeo?.fallbackSeo?.description ||
-    ''
+    description || datoCmsSite.globalSeo.fallbackSeo?.description || ''
   const metaTitle =
-    title || datoCmsSite?.globalSeo?.fallbackSeo?.title || ''
-  const titleSuffix = noSuffix
-    ? ''
-    : datoCmsSite?.globalSeo?.titleSuffix
+    title || datoCmsSite.globalSeo.fallbackSeo?.title || ''
+  const titleSuffix = noSuffix ? '' : datoCmsSite.globalSeo.titleSuffix
 
   return (
     <Helmet
@@ -83,7 +95,10 @@ const Seo = ({
         {
           name: `image`,
           property: `og:image`,
-          content: imageUrl || undefined,
+          content:
+            datoCmsSite.globalSeo.fallbackSeo?.image?.url ||
+            imageUrl ||
+            undefined,
         },
       ]}
     />

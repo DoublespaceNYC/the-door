@@ -12,6 +12,7 @@ import {
   mq,
 } from '@the-door/common/src/theme/mixins'
 import { IStructuredText } from '@the-door/common/src/types'
+import { rgba } from 'polished'
 import { StructuredText } from 'react-datocms'
 
 import { colors } from '../theme/variables'
@@ -41,7 +42,7 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
         grid-row: 2 / 6;
         background: linear-gradient(
           to top right,
-          #0455a0,
+          ${colors.blueDark},
           ${colors.blue}
         );
       `}
@@ -49,7 +50,7 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
       css`
         grid-column: 1 / span 9;
         grid-row: 1 / 2;
-        background: ${colors.blueDark};
+        background: ${colors.blueMid};
         ${mq().s} {
           grid-column: 1 / span 12;
         }
@@ -58,7 +59,7 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
       css`
         grid-column: 1 / span 9;
         grid-row: 2 / 4;
-        background: ${colors.blue}99;
+        background: ${rgba(colors.blue, 0.6)};
         ${mq().s} {
           grid-column: 1 / span 12;
         }
@@ -67,7 +68,7 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
       css`
         grid-column: span 8 / -1;
         grid-row: 3 / 4;
-        background: ${colors.blueLight}99;
+        background: ${rgba(colors.blueLight, 0.6)};
         height: 6rem;
         top: auto;
         ${mq().m} {
@@ -85,7 +86,7 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
       css`
         grid-column: span 8 / -1;
         grid-row: 4 / 6;
-        background: ${colors.blue}99;
+        background: ${rgba(colors.blue, 0.6)};
         ${mq().m} {
           display: none;
         }
@@ -95,6 +96,7 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
       position: relative;
       grid-column: 2 / span 6;
       grid-row: 3 / 4;
+      max-width: 10ch;
       margin-top: var(--row-m);
       font-size: var(--fs-108);
       line-height: 1;

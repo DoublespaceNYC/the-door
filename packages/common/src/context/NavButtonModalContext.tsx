@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useState, Dispatch, SetStateAction } from 'react'
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useState,
+} from 'react'
 
 interface IContext {
   open: boolean

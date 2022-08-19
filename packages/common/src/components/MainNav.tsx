@@ -1,12 +1,13 @@
 import { Global, css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
+import { Link } from 'gatsby'
 import { FC, Fragment, useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import { useElementHeight } from '../hooks/useElementRect'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { absoluteFill } from '../theme/mixins'
-import { IExternalLink, IInternalLink } from '../types'
+import { IExternalLink, IInternalLink } from './DatoLink'
 import DatoLink from './DatoLink'
 import NavBurger from './NavBurger'
 import NavButton, { INavButton } from './NavButton'
@@ -96,13 +97,16 @@ const MainNav = ({
         z-index: 1;
       }
     `,
+    logoWrap: css`
+      display: flex;
+      z-index: 2;
+    `,
     logo: css`
       align-self: center;
       font-size: var(--fs-48);
       height: 1em;
       margin: 0.25em 0;
       transition: height 300ms ease, margin 300ms ease;
-      z-index: 2;
       ${scrolled &&
       css`
         height: 0.875em;
@@ -156,7 +160,7 @@ const MainNav = ({
     navItem: css`
       color: ${colors.text};
       font-size: inherit;
-      font-family: var(--almaq);
+      font-family: var(--display-font);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       padding: 0.5em 1em;
@@ -165,7 +169,14 @@ const MainNav = ({
       box-sizing: border-box;
       text-decoration: none;
       white-space: nowrap;
+
+      @media (max-width: ${breakpoint}px) {
+        padding: 0.5em 0.75em;
+      }
+    `,
+    navLink: css`
       > span {
+        padding: calc(0.125em + 2px) 0;
         background: linear-gradient(currentColor, currentColor)
           no-repeat 0 calc(100% + 3px);
         background-size: 100% 2px;
@@ -175,9 +186,6 @@ const MainNav = ({
         &:hover > span {
           background-position: 0 100%;
         }
-      }
-      @media (max-width: ${breakpoint}px) {
-        padding: 0.5em 0.75em;
       }
     `,
     lastButton: css`
@@ -203,20 +211,25 @@ const MainNav = ({
       <div aria-hidden css={styles.scrollObserver} ref={scrollRef} />
       <div css={styles.navWrap}>
         <nav css={styles.nav} ref={node => setNavRef(node)}>
-          <Logo css={styles.logo} fill={colors.logo} />
+          <Link to="/" css={styles.logoWrap}>
+            <Logo css={styles.logo} fill={colors.logo} />
+          </Link>
           <div css={styles.navItemsGroup}>
             <div css={styles.navItemsGroupConditional}>
               {navItems.map((navItem, i) => {
                 if (navItem.__typename === 'DatoCmsLinkGroup') {
                   return (
-                    <button css={styles.navItem} key={i}>
+                    <button
+                      css={[styles.navItem, styles.navLink]}
+                      key={i}
+                    >
                       <span>{navItem.linkText}</span>
                     </button>
                   )
                 } else
                   return (
                     <DatoLink
-                      css={styles.navItem}
+                      css={[styles.navItem, styles.navLink]}
                       link={navItem}
                       key={i}
                     />

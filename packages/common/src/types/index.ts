@@ -11,39 +11,18 @@ export type {
   Record as IRecord,
 } from 'datocms-structured-text-utils'
 
-export interface IInternalLink extends Record {
-  __typename: 'DatoCmsInternalLink'
-  linkText: string
-  link: {
-    slug: string
-  }
-}
-
-export interface IExternalLink extends Record {
-  __typename: 'DatoCmsExternalLink'
-  linkText: string
-  url: string
-}
-
-export interface IAssetLink extends Record {
-  __typename: 'DatoCmsAssetLink'
-  linkText: string
-  asset: {
-    url: string
-  }
-}
-
 interface IArticleImage
   extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   thumbnailImageData: IGatsbyImageData
 }
 
-export interface IArticle extends Record {
+export interface IInternalArticle extends Record {
   title: string
   excerpt: string
   heroImage: IArticleImage
   category: string
   body: IStructuredText
+  inLatest: boolean
   meta: {
     createdAt: string
   }

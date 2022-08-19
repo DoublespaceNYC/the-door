@@ -68,9 +68,7 @@ const ScrollSlider = ({
     sliderRef?.scrollTo(0, 0)
   }, [sliderRef])
 
-  if (typeof window !== 'undefined') {
-    smoothscroll.polyfill()
-  }
+  useEffect(() => smoothscroll.polyfill(), [])
 
   const scrollEffect = useCallback(() => {
     contentRef &&

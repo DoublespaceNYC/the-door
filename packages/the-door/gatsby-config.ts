@@ -1,9 +1,9 @@
+import { GatsbyConfig } from "gatsby"
+import { join } from "path"
+
 require('dotenv').config()
-const path = require('path')
-// Get paths of Gatsby's required rules, which as of writing is located at:
-// https://github.com/gatsbyjs/gatsby/tree/fbfe3f63dec23d279a27b54b4057dd611dce74bb/packages/
-// gatsby/src/utils/eslint-rules
-const gatsbyRequiredRules = path.join(
+
+const gatsbyRequiredRules = join(
   '../../',
   'node_modules',
   'gatsby',
@@ -12,7 +12,7 @@ const gatsbyRequiredRules = path.join(
   'eslint-rules'
 )
 
-module.exports = {
+const config: GatsbyConfig = {
   siteMetadata: {
     title: `The Door`,
     description: `Website for door.org built with DatoCMS, Emotion, and typescript.`,
@@ -82,3 +82,5 @@ module.exports = {
     'gatsby-plugin-emotion',
   ],
 }
+
+export default config

@@ -1,9 +1,160 @@
-import Layout from '../components/Layout'
+import { IAnchorLink } from '@the-door/common/src/components/AnchorLink'
+import { IDatoLink } from '@the-door/common/src/components/DatoLink'
+import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
+import { IContactSection } from '@the-door/common/src/components/PageContact'
+import { IPageContent } from '@the-door/common/src/components/PageContent'
+import PageIntro from '@the-door/common/src/components/PageIntro'
+import { IProgramCatalogSection } from '@the-door/common/src/components/ProgramCatalogSection'
+import { IStructuredText } from '@the-door/common/src/types'
+import { PageProps, graphql } from 'gatsby'
 
-const ServicePage = () => {
+import Layout from '../components/Layout'
+import TheDoorPageContact from '../components/PageContact'
+import TheDoorPageContent, {
+  IDoorLayoutOptions,
+} from '../components/PageContent'
+import TheDoorPageHero from '../components/PageHero'
+import TheDoorPageNav from '../components/PageNav'
+import TheDoorProgramCatalogSection from '../components/ProgramCatalogSection'
+import Seo, { ISEO } from '../components/Seo'
+
+export const data = graphql`
+  query ($id: String!) {
+    service: datoCmsService(id: { eq: $id }) {
+      title
+      heroImage {
+        gatsbyImageData(
+          layout: FULL_WIDTH
+          imgixParams: {
+            q: 65
+            ar: "8:3"
+            fit: "crop"
+            crop: "focalpoint"
+          }
+        )
+        sizes {
+          aspectRatio
+        }
+        alt
+        focalPoint {
+          x
+          y
+        }
+      }
+      navCta {
+        ... on DatoCmsInternalLink {
+          ...InternalLinkFragment
+        }
+        ... on DatoCmsExternalLink {
+          ...ExternalLinkFragment
+        }
+        ... on DatoCmsLightboxLink {
+          ...LightboxLinkFragment
+        }
+      }
+      intro {
+        value
+      }
+      pageContent {
+        ... on DatoCmsAnchorLink {
+          ...AnchorLinkFragment
+        }
+        ... on DatoCmsContentBlock {
+          ...ContentBlockFragment
+        }
+      }
+      programCatalog {
+        ...CatalogSectionFragment
+      }
+      contactSection {
+        ...ContactSectionFragment
+      }
+      layoutOptions {
+        ...LayoutOptionsFragment
+      }
+      seo {
+        ...SeoFragment
+      }
+    }
+    section: datoCmsServicesGroup(
+      services: { elemMatch: { id: { eq: $id } } }
+    ) {
+      title
+    }
+  }
+`
+
+type DataProps = {
+  service: {
+    title: string
+    heroImage: IGatsbyImageFocused
+    navCta: [IDatoLink?]
+    intro: IStructuredText
+    pageContent: IPageContent
+    programCatalog: [IProgramCatalogSection?]
+    contactSection: [IContactSection?]
+    layoutOptions: [IDoorLayoutOptions]
+    seo?: ISEO
+  }
+  section: {
+    title: string
+  }
+}
+
+const ServicePage = ({
+  data: {
+    service: {
+      title,
+      heroImage,
+      navCta,
+      intro,
+      pageContent,
+      programCatalog,
+      contactSection,
+      layoutOptions,
+      seo,
+    },
+    section,
+  },
+}: PageProps<DataProps>) => {
+  const anchorLinks = pageContent.filter(
+    block => block.__typename === 'DatoCmsAnchorLink'
+  ) as IAnchorLink[]
   return (
     <Layout>
-      <h1>hello world</h1>
+      <Seo
+        title={seo?.title || title}
+        description={seo?.description}
+        imageUrl={seo?.image?.url}
+      />
+      <TheDoorPageHero
+        title={title}
+        image={heroImage}
+        section={section.title}
+      />
+      <TheDoorPageNav
+        links={[
+          ...anchorLinks,
+          ...(programCatalog[0]?.anchorLink[0]
+            ? [programCatalog[0]?.anchorLink[0]]
+            : []),
+          ...(contactSection[0]?.anchorLink[0]
+            ? [contactSection[0]?.anchorLink[0]]
+            : []),
+        ]}
+        button={navCta[0]}
+      />
+      <PageIntro intro={intro} />
+      <TheDoorPageContent
+        pageContent={pageContent}
+        layoutOptions={layoutOptions[0]}
+      />
+      {programCatalog[0] && (
+        <TheDoorProgramCatalogSection data={programCatalog[0]} />
+      )}
+      {contactSection[0] && (
+        <TheDoorPageContact data={contactSection[0]} />
+      )}
     </Layout>
   )
 }

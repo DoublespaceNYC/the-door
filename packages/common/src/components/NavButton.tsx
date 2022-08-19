@@ -1,17 +1,11 @@
 import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
-import { darken, getContrast, readableColor } from 'polished'
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import NavButtonModalContext from '../context/NavButtonModalContext'
 import { useElementWidth } from '../hooks/useElementRect'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
+import useReadableColor from '../hooks/useReadableColor'
 import { absoluteFill, mq } from '../theme/mixins'
 import DatoLink, { IDatoLink } from './DatoLink'
 
@@ -51,16 +45,7 @@ const NavButton = ({
 
   useEscKeyFunction(() => setOpen(false))
 
-  const textColor = useMemo(() => {
-    const darkText = () => {
-      for (let i = 1; i < 20; i++) {
-        if (getContrast(color, darken(0.05 * i, color)) > 4.5) {
-          return darken(0.05 * i, color)
-        }
-      }
-    }
-    return readableColor(color, darkText(), '#fff', false)
-  }, [color])
+  const textColor = useReadableColor(color, color)
 
   const styles = {
     wrap: css`
@@ -97,7 +82,7 @@ const NavButton = ({
         position: relative;
         &:first-of-type {
           font-size: var(--fs-18);
-          font-family: var(--almaq);
+          font-family: var(--display-font);
           text-transform: uppercase;
           letter-spacing: 0.025em;
           padding-right: 1.75rem;
@@ -142,6 +127,7 @@ const NavButton = ({
       display: flex;
       padding: 0.5rem;
       opacity: 0.5;
+      transform: translateZ(0);
       transition: opacity 300ms ease;
       svg {
         width: 0.75rem;
