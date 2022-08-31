@@ -214,7 +214,7 @@ const ContentBlockShape = ({
             styles.wImg,
             css`
               width: calc(16.67 * var(--gtr-m));
-              max-width: calc(100% + 6rem);
+              max-width: calc(100% + 2 * var(--gtr-m));
               bottom: ${gutter};
               ${orientation === 'left' &&
               css`

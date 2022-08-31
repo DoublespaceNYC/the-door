@@ -4,6 +4,7 @@ import { Fragment } from 'react'
 import { StructuredText } from 'react-datocms'
 
 import { toSlug } from '../helpers'
+import { mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 import { Anchor, IAnchorLink } from './AnchorLink'
 
@@ -38,20 +39,36 @@ const PageContact = ({
       position: relative;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-gap: var(--gtr-m);
+      grid-column-gap: var(--gtr-m);
+      grid-row-gap: var(--row-s);
       background: ${colors.bg};
       color: ${colors.text};
       padding: var(--row-m) var(--margin) var(--row-l);
+      ${mq().m} {
+        grid-template-columns: 1fr 1fr;
+      }
+      ${mq().s} {
+        grid-template-columns: 1fr;
+      }
     `,
     heading: css`
       grid-column: ${contactBlocks.length > 2 ? '1 / -1' : 'auto'};
       font-size: var(--fs-72);
-      margin: 0;
+      margin: 0 0 0.25em;
       line-height: 1;
+      ${mq().m} {
+        grid-column: ${contactBlocks.length > 1 ? '1 / -1' : 'auto'};
+      }
     `,
     block: css`
       border-top: 3px solid ${colors.text};
       margin-top: ${contactBlocks.length <= 2 ? '1.5em' : '0'};
+      ${mq().m} {
+        margin-top: ${contactBlocks.length <= 1 ? '1.5em' : '0'};
+      }
+      ${mq().s} {
+        margin-top: 0;
+      }
       h3 {
         font-family: var(--body-font);
         font-size: var(--fs-24);

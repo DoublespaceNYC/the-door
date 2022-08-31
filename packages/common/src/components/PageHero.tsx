@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { baseGrid } from '../theme/mixins'
+import { baseGrid, mq } from '../theme/mixins'
 import GatsbyImageFocused, {
   IGatsbyImageFocused,
 } from './GatsbyImageFocused'
@@ -22,11 +22,14 @@ const PageHero = ({ title, section, image, colors }: Props) => {
     hero: css`
       width: 100%;
       ${baseGrid}
-      grid-template-rows: auto auto auto 4rem;
+      grid-template-rows: minmax(25vmax, auto) auto auto var(--row-s);
     `,
     image: css`
       grid-column: 1 / -1;
       grid-row: 1 / 4;
+    `,
+    gatsbyImage: css`
+      min-height: 100%;
     `,
     eyebrow: css`
       grid-column: 2 / -2;
@@ -42,6 +45,9 @@ const PageHero = ({ title, section, image, colors }: Props) => {
       text-transform: uppercase;
       font-weight: 500;
       letter-spacing: 0.05em;
+      ${mq().ms} {
+        font-size: var(--fs-14);
+      }
     `,
     title: css`
       grid-column: 2 / -2;
@@ -54,12 +60,16 @@ const PageHero = ({ title, section, image, colors }: Props) => {
       margin: 0;
       padding: 0.222em var(--gtr-m) 0.333em;
       line-height: 1;
+      ${mq().ms} {
+        font-size: var(--fs-84);
+      }
     `,
   }
   return (
     <header css={styles.hero}>
       <GatsbyImageFocused
         css={styles.image}
+        gatsbyImageCss={styles.gatsbyImage}
         image={image.gatsbyImageData}
         alt={image.alt}
         focalPoint={image.focalPoint}

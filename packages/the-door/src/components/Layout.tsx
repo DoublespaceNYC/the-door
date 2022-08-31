@@ -1,9 +1,10 @@
+import { AlertBarProps } from '@the-door/common/src/components/AlertBar'
+import { ICTABar } from '@the-door/common/src/components/CTABar'
 import { FooterProps } from '@the-door/common/src/components/Footer'
 import CommonLayout from '@the-door/common/src/components/Layout'
 import { MainNavProps } from '@the-door/common/src/components/MainNav'
 import { ISocialLink } from '@the-door/common/src/components/SocialLink'
 import { graphql, useStaticQuery } from 'gatsby'
-import { AlertBarProps } from 'packages/common/src/components/AlertBar'
 import { ReactNode } from 'react'
 
 import { colors } from '../theme/variables'
@@ -17,7 +18,9 @@ type Props = {
 const Layout = ({ children }: Props) => {
   type QueryProps = {
     nav: Pick<MainNavProps, 'navItems' | 'buttons' | 'breakpoint'>
-    footer: Pick<FooterProps, 'navItems' | 'buttons'>
+    footer: Pick<FooterProps, 'navItems' | 'buttons'> & {
+      ctaBar: ICTABar
+    }
     alert: Omit<AlertBarProps, 'colors'>
     meta: {
       phone: string
@@ -55,12 +58,29 @@ const Layout = ({ children }: Props) => {
           }
           breakpoint
         }
-        footer: datoCmsFooterNav {
+        footer: datoCmsFooter {
           navItems: links {
             ...InternalLinkFragment
           }
           buttons: highlightedLinks {
             ...InternalLinkFragment
+          }
+          ctaBar {
+            value
+            blocks {
+              ... on DatoCmsInternalLink {
+                ...InternalLinkFragment
+              }
+              ... on DatoCmsExternalLink {
+                ...ExternalLinkFragment
+              }
+              ... on DatoCmsLightboxLink {
+                ...LightboxLinkFragment
+              }
+              ... on DatoCmsFormBlock {
+                ...FormBlockFragment
+              }
+            }
           }
         }
         meta: datoCmsMetaContent {
@@ -128,6 +148,23 @@ const Layout = ({ children }: Props) => {
           bg: colors.navyDark,
           text: '#fff',
           cta: ['#fff', colors.yellow],
+        },
+      }}
+      ctaBar={{
+        data: footer.ctaBar,
+        colors: {
+          bg: colors.navyDark,
+          text: '#fff',
+          boldText: colors.blueLight,
+          form: {
+            fill: 'transparent',
+            border: '#ffffff88',
+            text: '#fff',
+            label: '#ffffffaa',
+            highlight: colors.blueLight,
+            buttonFill: ['#fff', colors.pink],
+            buttonText: [colors.navy, '#fff'],
+          },
         },
       }}
     >

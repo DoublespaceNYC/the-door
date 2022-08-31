@@ -1,4 +1,4 @@
-import { throttle } from 'lodash'
+import { debounce, throttle } from 'lodash'
 import { useCallback, useLayoutEffect, useState } from 'react'
 
 export const useWindowDimensions = () => {
@@ -23,7 +23,7 @@ export const useWindowDimensions = () => {
   }, [isBrowser])
   useLayoutEffect(handleResize, [handleResize])
 
-  const handleThrottledResize = throttle(handleResize, 1000)
+  const handleThrottledResize = debounce(handleResize, 500)
 
   useLayoutEffect(() => {
     window.addEventListener('resize', handleThrottledResize, {

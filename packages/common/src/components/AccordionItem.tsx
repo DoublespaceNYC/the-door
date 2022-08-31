@@ -58,7 +58,7 @@ const AccordionItem = ({
       height: 1em;
       position: relative;
       color: ${colors.button[0]};
-      transform: scaleZ(1);
+      transform: scale3d(0.999, 0.999, 1);
       transition: all 200ms ease;
       margin-right: 0.875em;
       &:before,

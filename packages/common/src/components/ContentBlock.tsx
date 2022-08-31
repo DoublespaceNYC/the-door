@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 import { StructuredText, renderMarkRule } from 'react-datocms'
 
 import useReadableColor from '../hooks/useReadableColor'
-import { baseGrid, linkStyle } from '../theme/mixins'
+import { baseGrid, linkStyle, mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 import ContentBlockShape, { ShapeType } from './ContentBlockShape'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
@@ -55,13 +55,27 @@ const ContentBlock = ({
       case 'noImg':
         return {
           l: 8,
+          m: 9,
+          ms: 12,
         }
       case 'narrow':
-        return { l: 7 }
+        return {
+          l: 7,
+          m: 8,
+          ms: 12,
+        }
       case 'medium':
-        return { l: 6 }
+        return {
+          l: 6,
+          m: 7,
+          ms: 12,
+        }
       case 'wide':
-        return { l: 5 }
+        return {
+          l: 5,
+          m: 7,
+          ms: 12,
+        }
     }
   }, [layout])
 
@@ -75,6 +89,16 @@ const ContentBlock = ({
       grid-template-rows: 1fr var(--gtr-m) auto repeat(${contentRows}, auto) 1fr;
       color: #333;
       margin-bottom: var(--row-l);
+
+      --text-span: ${textSpan.l};
+      ${mq().m} {
+        --text-span: ${textSpan.m};
+      }
+      ${mq().ms} {
+        grid-template-rows: auto;
+        --text-span: ${textSpan.ms};
+      }
+
       p {
         margin: 0.5em 0;
         line-height: 1.75;
@@ -117,18 +141,24 @@ const ContentBlock = ({
         a {
           ${left &&
           css`
-            grid-column: 2 / span ${textSpan.l};
+            grid-column: 2 / span var(--text-span);
             ${layout !== 'noImg' &&
             css`
               margin-right: var(--gtr-m);
+              ${mq().ms} {
+                margin-right: 0;
+              }
             `}
           `}
           ${right &&
           css`
-            grid-column: span ${textSpan.l} / -2;
+            grid-column: span var(--text-span) / -2;
             ${layout !== 'noImg' &&
             css`
               margin-left: var(--gtr-m);
+              ${mq().ms} {
+                margin-left: 0;
+              }
             `}
           `}
         }
@@ -142,11 +172,11 @@ const ContentBlock = ({
         grid-row: 1 / 3;
         ${left &&
         css`
-          grid-column: 2 / span ${textSpan.l};
+          grid-column: 2 / span var(--text-span);
         `}
         ${right &&
         css`
-          grid-column: span ${textSpan.l} / -2;
+          grid-column: span var(--text-span) / -2;
         `}
       }
     `,
@@ -168,6 +198,15 @@ const ContentBlock = ({
         left: ${left ? 0 : 'auto'};
         right: ${right ? 0 : 'auto'};
       }
+      ${mq().ms} {
+        width: fit-content;
+        &:before {
+          width: calc(100% + var(--margin));
+          max-width: calc(100vw - 2 * var(--margin));
+          left: 0;
+          right: 0;
+        }
+      }
     `,
     image: css`
       grid-row: 1 / span ${contentRows + 4};
@@ -175,12 +214,32 @@ const ContentBlock = ({
       align-self: flex-start;
       ${left &&
       css`
-        grid-column: span ${12 - textSpan.l} / -2;
+        grid-column: span calc(12 - var(--text-span)) / -2;
       `}
       ${right &&
       css`
-        grid-column: 2 / span ${12 - textSpan.l};
+        grid-column: 2 / span calc(12 - var(--text-span));
       `};
+      ${mq().ms} {
+        grid-row: auto;
+        margin-top: calc(var(--row-s) + 0.5em);
+        ${left &&
+        css`
+          grid-column: 2 / -2;
+        `}
+        ${right &&
+        css`
+          grid-column: 2 / -2;
+        `}
+      }
+      ${layout === 'noImg' &&
+      css`
+        position: absolute;
+        top: 0;
+        width: 50%;
+        left: ${right && 0};
+        right: ${left && 0};
+      `}
     `,
     linkBlock: css`
       ${linkStyle}
@@ -189,7 +248,6 @@ const ContentBlock = ({
   return (
     <section css={styles.section}>
       <h2 css={styles.heading}>{heading}</h2>
-      {/* Remember to transform h1, h2 to h3 and h5, h6 to h4 */}
       <StructuredText
         data={body}
         renderBlock={({ record }) => {
@@ -198,7 +256,6 @@ const ContentBlock = ({
           } else return null
         }}
         customMarkRules={[
-          // convert "strong" marks into <b> tags
           renderMarkRule('h1' || 'h2', ({ children, key }) => {
             return <h3 key={key}>{children}</h3>
           }),

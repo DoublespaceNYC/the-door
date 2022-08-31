@@ -26,20 +26,22 @@ const AlertBar = ({ alert, colors }: AlertBarProps) => {
     alert: css`
       background: ${colors.bg};
       color: ${colors.text};
-      display: flex;
+      z-index: 11;
+      text-align: center;
       align-items: baseline;
       justify-content: center;
       font-style: italic;
       font-size: var(--fs-16);
       padding: 0.5em var(--margin);
       p {
-        margin: 0;
+        margin: 0 0.167em;
+        display: inline;
       }
     `,
     link: css`
       display: inline-block;
       text-decoration: none;
-      margin-left: 0.333em;
+      margin: 0 0.167em;
       color: ${colors.cta[0]};
       &:after {
         display: inline-block;

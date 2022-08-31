@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 import { Fragment } from 'react'
 import { StructuredText } from 'react-datocms'
+import { mq } from '../theme/mixins'
 
 import { IStructuredText } from '../types'
 
@@ -17,6 +18,9 @@ const PageIntro = ({ intro, textColor = '#333' }: Props) => {
       margin: var(--row-m) var(--margin) var(--row-ll);
       color: ${textColor};
       max-width: 80ch;
+      ${mq().ms} {
+        font-size: var(--fs-18);
+      }
     `,
   }
   if (intro.value) {

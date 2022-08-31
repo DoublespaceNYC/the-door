@@ -2,17 +2,19 @@ import { Fragment, ReactNode } from 'react'
 
 import { GlobalStyles } from '../theme/GlobalStyles'
 import AlertBar, { AlertBarProps } from './AlertBar'
+import CTABar, { CTABarProps, ICTABar } from './CTABar'
 import Footer, { FooterProps } from './Footer'
 import MainNav, { MainNavProps } from './MainNav'
 
 type Props = {
   nav: MainNavProps
+  ctaBar: CTABarProps
   footer: FooterProps
   children: ReactNode
   alert: AlertBarProps
 }
 
-const Layout = ({ nav, footer, alert, children }: Props) => {
+const Layout = ({ nav, footer, alert, ctaBar, children }: Props) => {
   return (
     <Fragment>
       <GlobalStyles />
@@ -29,6 +31,7 @@ const Layout = ({ nav, footer, alert, children }: Props) => {
         breakpoint={nav.breakpoint}
       />
       <main>{children}</main>
+      <CTABar data={ctaBar.data} colors={ctaBar.colors} />
       <Footer
         logo={footer.logo}
         navItems={footer.navItems}

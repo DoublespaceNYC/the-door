@@ -1,4 +1,4 @@
-import { css } from '@emotion/react'
+import { css, keyframes } from '@emotion/react'
 
 import { breakpoints } from './variables'
 
@@ -55,3 +55,18 @@ export const linkStyle = css`
 
 export const widthInCols = (count: number) =>
   `calc(${count} * var(--col-w) + ${count - 1} * var(--gtr-m))`
+
+export const buttonStyle = css`
+  font-family: var(--display-font);
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  padding: 0.5em 0.75em;
+`
+export const animateIn = keyframes`
+  to {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+  }
+`

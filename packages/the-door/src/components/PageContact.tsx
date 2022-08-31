@@ -13,7 +13,7 @@ const TheDoorPageContact = ({ data }: Props) => {
     <PageContact
       data={data}
       colors={{
-        bg: colors.blue,
+        bg: `linear-gradient(to top right, ${colors.blueMid}, ${colors.blue})`,
         text: '#fff',
         link: ['#fff', '#ffffffbf'],
       }}

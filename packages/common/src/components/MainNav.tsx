@@ -119,6 +119,7 @@ const MainNav = ({
       font-size: var(--fs-18);
       @media (max-width: ${breakpoint}px) {
         overflow: auto;
+        pointer-events: none;
         ${absoluteFill}
         height: 100vh;
         background: ${colors.bgSecondary};
@@ -133,6 +134,7 @@ const MainNav = ({
         transition: transform 300ms ease-in, opacity 0ms linear 300ms;
         ${burgerOpen &&
         css`
+          pointer-events: all;
           transform: translate3d(0, 0, 0);
           opacity: 1;
           transition: transform 300ms ease-out;

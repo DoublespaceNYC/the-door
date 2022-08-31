@@ -264,3 +264,64 @@ export const CatalogSectionFragment = graphql`
     }
   }
 `
+export const TextFieldFragment = graphql`
+  fragment TextFieldFragment on DatoCmsTextField {
+    __typename
+    id: originalId
+    label
+    fieldType
+    required
+  }
+`
+export const SelectFieldFragment = graphql`
+  fragment SelectFieldFragment on DatoCmsSelectField {
+    __typename
+    id: originalId
+    label
+    options {
+      id: originalId
+      label
+      value
+    }
+    required
+  }
+`
+export const MultilineTextFieldFragment = graphql`
+  fragment MultilineTextFieldFragment on DatoCmsMultilineTextField {
+    __typename
+    id: originalId
+    label
+    required
+  }
+`
+export const FormFragment = graphql`
+  fragment FormFragment on DatoCmsForm {
+    id: originalId
+    __typename
+    formName
+    submitButtonText
+    successMessage {
+      value
+    }
+    formFields {
+      ... on DatoCmsTextField {
+        ...TextFieldFragment
+      }
+      ... on DatoCmsSelectField {
+        ...SelectFieldFragment
+      }
+      ... on DatoCmsMultilineTextField {
+        ...MultilineTextFieldFragment
+      }
+    }
+  }
+`
+export const FormBlockFragment = graphql`
+  fragment FormBlockFragment on DatoCmsFormBlock {
+    id: originalId
+    __typename
+    form {
+      ...FormFragment
+    }
+  }
+`

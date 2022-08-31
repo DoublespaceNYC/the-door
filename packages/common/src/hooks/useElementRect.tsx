@@ -1,3 +1,4 @@
+import { debounce, throttle } from 'lodash'
 import { useLayoutEffect, useState } from 'react'
 
 export const useElementRect = (element: HTMLElement | null) => {
@@ -7,21 +8,23 @@ export const useElementRect = (element: HTMLElement | null) => {
   })
 
   useLayoutEffect(() => {
-    const resizeObserver = new ResizeObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.borderBoxSize && entry.borderBoxSize.length > 0) {
-          setRect({
-            width: entry.borderBoxSize[0].inlineSize,
-            height: entry.borderBoxSize[0].blockSize,
-          })
-        } else if (entry.contentRect) {
-          setRect({
-            width: entry.contentRect.width,
-            height: entry.contentRect.height,
-          })
-        }
-      })
-    })
+    const resizeObserver = new ResizeObserver(
+      debounce(entries => {
+        entries.forEach((entry: ResizeObserverEntry) => {
+          if (entry.borderBoxSize && entry.borderBoxSize.length > 0) {
+            setRect({
+              width: entry.borderBoxSize[0].inlineSize,
+              height: entry.borderBoxSize[0].blockSize,
+            })
+          } else if (entry.contentRect) {
+            setRect({
+              width: entry.contentRect.width,
+              height: entry.contentRect.height,
+            })
+          }
+        })
+      }, 500)
+    )
     if (element) {
       resizeObserver.observe(element)
     }

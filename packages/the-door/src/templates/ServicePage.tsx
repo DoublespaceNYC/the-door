@@ -15,6 +15,7 @@ import TheDoorPageContent, {
 } from '../components/PageContent'
 import TheDoorPageHero from '../components/PageHero'
 import TheDoorPageNav from '../components/PageNav'
+import PageServices from '../components/PageServices'
 import TheDoorProgramCatalogSection from '../components/ProgramCatalogSection'
 import Seo, { ISEO } from '../components/Seo'
 
@@ -155,6 +156,7 @@ const ServicePage = ({
       {contactSection[0] && (
         <TheDoorPageContact data={contactSection[0]} />
       )}
+      <PageServices />
     </Layout>
   )
 }

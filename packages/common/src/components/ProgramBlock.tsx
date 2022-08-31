@@ -4,6 +4,7 @@ import { Record } from 'datocms-structured-text-utils'
 import { ElementType } from 'react'
 import { StructuredText } from 'react-datocms'
 
+import { buttonStyle, mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 
 export interface IProgram extends Record {
@@ -43,6 +44,11 @@ const ProgramBlock = ({
       display: grid;
       grid-template-columns: 1fr auto;
       grid-auto-flow: dense;
+      grid-column-gap: var(--gtr-s);
+      ${mq().s} {
+        grid-template-columns: 1fr;
+      }
+      padding-bottom: 2em;
     `,
     heading: css`
       grid-column: 1 / 2;
@@ -66,7 +72,6 @@ const ProgramBlock = ({
       max-width: 96ch;
       color: ${colors.body};
       line-height: 1.75;
-      margin-bottom: 2em;
       p {
         margin: 0.67em 0 0;
       }
@@ -81,23 +86,25 @@ const ProgramBlock = ({
       }
     `,
     button: css`
+      ${buttonStyle}
+      width: fit-content;
+      padding-top: 0.6em;
       grid-column: 2 / 3;
       grid-row: 1 / 4;
       align-self: flex-start;
-      color: ${colors.button[0]};
       font-size: var(--fs-21);
-      font-family: var(--display-font);
-      text-transform: uppercase;
-      line-height: 1;
-      letter-spacing: 0.05em;
-      text-decoration: none;
+      color: ${colors.button[0]};
       border: 1px solid currentColor;
-      padding: 0.5em 0.75em;
       margin-top: 1.5em;
       @media (hover: hover) {
         &:hover {
           color: ${colors.button[1]};
         }
+      }
+      ${mq().s} {
+        grid-row: auto;
+        grid-column: auto;
+        margin-top: 1em;
       }
     `,
   }

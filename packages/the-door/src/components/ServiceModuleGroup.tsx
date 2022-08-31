@@ -44,10 +44,14 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
         font-size: var(--fs-36);
         line-height: 1;
         width: 100%;
+        color: #fff;
         border-bottom: 2px solid #fff;
         margin: 0;
         padding-bottom: 0.5em;
         cursor: default;
+      }
+      ${mq().s} {
+        padding: 2rem 1.5rem 2rem;
       }
     `,
     imageWrap: css`

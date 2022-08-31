@@ -162,7 +162,6 @@ const HomeServices = ({
       <h2 css={styles.heading}>{heading}</h2>
       <div css={styles.body}>
         <StructuredText data={body.value} />
-        {/* <DatoLink link={link} css={styles.link} /> */}
       </div>
       <ServicesModule css={styles.services} bgColor={colors.teal} />
       <section css={styles.bsaSection}>

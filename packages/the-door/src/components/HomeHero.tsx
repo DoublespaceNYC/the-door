@@ -89,6 +89,9 @@ const HomeHero = ({ heading, ctaText, ctaLink, video }: Props) => {
     `,
     video: css`
       ${absoluteFill}
+      height: calc(100% + 2px);
+      top: -1px;
+      bottom: -1px;
       object-fit: cover;
     `,
     link: css`
