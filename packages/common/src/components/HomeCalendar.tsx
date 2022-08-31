@@ -265,6 +265,16 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
         font-style: italic;
       }
     `,
+    noEvents: css`
+      font-family: var(--display-font);
+      font-size: var(--fs-30);
+      line-height: 1.125;
+      color: ${colors.eventText};
+      margin: 1em 0 2em;
+      ${mq().ml} {
+        margin: 0;
+      }
+    `,
   }
   return (
     <section css={styles.section} {...props}>
@@ -291,24 +301,32 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
             },
           }}
         >
-          {filteredEvents.map((event, i) => (
-            <div key={i} css={styles.event}>
-              <h4>{event.title}</h4>
-              <div>
-                <h5>
-                  {formateDateTimeRange(
-                    event.startDateTime,
-                    event.endDateTime
-                  )}
-                </h5>
+          {filteredEvents.length > 0 ? (
+            filteredEvents.map((event, i) => (
+              <div key={i} css={styles.event}>
+                <h4>{event.title}</h4>
+                <div>
+                  <h5>
+                    {formateDateTimeRange(
+                      event.startDateTime,
+                      event.endDateTime
+                    )}
+                  </h5>
+                </div>
+                <h5>{event.location}</h5>
               </div>
-              <h5>{event.location}</h5>
-            </div>
-          ))}
+            ))
+          ) : (
+            <h4 css={styles.noEvents}>
+              There are currently no upcoming events.
+            </h4>
+          )}
         </ScrollSlider>
-        <Link to="/calendar/" css={styles.viewAll}>
-          View Full Calendar
-        </Link>
+        {filteredEvents.length > 0 && (
+          <Link to="/calendar/" css={styles.viewAll}>
+            View Full Calendar
+          </Link>
+        )}
       </div>
     </section>
   )

@@ -1,4 +1,4 @@
-import { debounce, throttle } from 'lodash'
+import { debounce } from 'lodash'
 import { useLayoutEffect, useState } from 'react'
 
 export const useElementRect = (element: HTMLElement | null) => {

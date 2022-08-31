@@ -64,7 +64,6 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
       align-items: flex-start;
       position: relative;
       margin-top: calc(-1 * var(--row-l));
-      overflow: hidden;
       ${mq().ml} {
         grid-template-columns: auto;
       }

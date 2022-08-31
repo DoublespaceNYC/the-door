@@ -1,5 +1,4 @@
 import { css } from '@emotion/react'
-import { CSSInterpolation } from '@emotion/serialize'
 import { Record } from 'datocms-structured-text-utils'
 import { ChangeEvent, Fragment, useEffect, useState } from 'react'
 

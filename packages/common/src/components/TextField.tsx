@@ -1,5 +1,5 @@
 import { Record } from 'datocms-structured-text-utils'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 import { toSlug } from '../helpers'
 import { FieldStyles } from './Form'
@@ -43,7 +43,7 @@ const TextField = ({
     }
   }, [value])
 
-  const getFormattedPhoneNum = (e: any) => {
+  const getFormattedPhoneNum = useCallback((e: any) => {
     let output = ''
     const inputType = e.nativeEvent.inputType
     const input = e.target.value
@@ -76,17 +76,20 @@ const TextField = ({
       }
     )
     return output
-  }
+  }, [])
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let v
-    if (fieldType === 'tel') {
-      v = getFormattedPhoneNum(e)
-    } else {
-      v = e.target.value
-    }
-    setValue(v)
-  }
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      let v
+      if (fieldType === 'tel') {
+        v = getFormattedPhoneNum(e)
+      } else {
+        v = e.target.value
+      }
+      setValue(v)
+    },
+    [fieldType, getFormattedPhoneNum]
+  )
 
   useEffect(() => {
     onChange(name, value)

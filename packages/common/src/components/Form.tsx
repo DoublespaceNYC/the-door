@@ -4,14 +4,11 @@ import {
   StructuredText as IStructuredText,
   Record,
 } from 'datocms-structured-text-utils'
-import { Fragment, SyntheticEvent, useState } from 'react'
+import { Fragment, SyntheticEvent, useCallback, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 import { BsCheck2Circle } from 'react-icons/bs'
 
-import {
-  useElementHeight,
-  useElementRect,
-} from '../hooks/useElementRect'
+import { useElementRect } from '../hooks/useElementRect'
 import useReadableColor from '../hooks/useReadableColor'
 import { absoluteFill, animateIn, buttonStyle } from '../theme/mixins'
 import LoadingSpinner from './LoadingSpinner'
@@ -86,77 +83,77 @@ const Form = ({
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
-  const handleChange = (name: string, value: string) => {
+  const handleChange = useCallback((name: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [name]: value,
     }))
-  }
+  }, [])
 
-  const handleSubmit = (
-    formData: { [key: string]: string },
-    formName: string
-  ) => {
-    const submitFunction = async (data: {
-      url: string
-      method: string
-      headers?: { [key: string]: string }
-      body: string
-    }) => {
-      setSubmitting(true)
-      try {
-        const response = await fetch(data.url, {
-          method: data.method,
-          headers: data.headers,
-          body: data.body,
-        })
-        if (response) {
-          setSubmitting(false)
-        }
-        if (response.ok) {
-          setSubmitted(true)
-        } else {
+  const handleSubmit = useCallback(
+    (formData: { [key: string]: string }, formName: string) => {
+      const submitFunction = async (data: {
+        url: string
+        method: string
+        headers?: { [key: string]: string }
+        body: string
+      }) => {
+        setSubmitting(true)
+        try {
+          const response = await fetch(data.url, {
+            method: data.method,
+            headers: data.headers,
+            body: data.body,
+          })
+          if (response) {
+            setSubmitting(false)
+          }
+          if (response.ok) {
+            setSubmitted(true)
+          } else {
+            alert(
+              `Sorry, there was an error submitting this form: ${response.status} ${response.statusText}`
+            )
+          }
+        } catch (error) {
           alert(
-            `Sorry, there was an error submitting this form: ${response.status} ${response.statusText}`
+            `Sorry, there was an error submitting this form: ${error}`
           )
         }
-      } catch (error) {
-        alert(
-          `Sorry, there was an error submitting this form: ${error}`
-        )
       }
-    }
-    if (formType === 'Netlify') {
-      const encode = (data: { [key: string]: string }) => {
-        return Object.keys(data)
-          .map(
-            key =>
-              encodeURIComponent(key) +
-              '=' +
-              encodeURIComponent(data[key])
-          )
-          .join('&')
+      if (formType === 'Netlify') {
+        const encode = (data: { [key: string]: string }) => {
+          return Object.keys(data)
+            .map(
+              key =>
+                encodeURIComponent(key) +
+                '=' +
+                encodeURIComponent(data[key])
+            )
+            .join('&')
+        }
+        submitFunction({
+          url: '/',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: encode({
+            'form-name': formName,
+            ...formData,
+          }),
+        })
       }
-      submitFunction({
-        url: '/',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: encode({
-          'form-name': formName,
-          ...formData,
-        }),
-      })
-    }
-    if (formType === 'Mailchimp') {
-      submitFunction({
-        url: `/.netlify/functions/mailChimpSubscribe`,
-        method: 'POST',
-        body: JSON.stringify({ listId, ...formData }),
-      })
-    }
-  }
+      if (formType === 'Mailchimp') {
+        submitFunction({
+          url: `/.netlify/functions/mailChimpSubscribe`,
+          method: 'POST',
+          body: JSON.stringify({ listId, ...formData }),
+        })
+      }
+    },
+    []
+  )
 
   const textHighlight = useReadableColor(colors.highlight, colors.fill)
   const styles = {

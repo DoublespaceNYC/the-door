@@ -30,7 +30,7 @@ const PageNav = ({ links, button, colors }: Props) => {
 
   const condensed = navWidth > navWrapWidth
 
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  // const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const styles = {
     navWrap: css`

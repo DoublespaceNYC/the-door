@@ -1,8 +1,8 @@
 import { css } from '@emotion/react'
 import { Fragment } from 'react'
 import { StructuredText } from 'react-datocms'
-import { mq } from '../theme/mixins'
 
+import { mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 
 type Props = {

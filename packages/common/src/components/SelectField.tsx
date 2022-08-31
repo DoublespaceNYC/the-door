@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
 import { toSlug } from '../helpers'
@@ -40,11 +40,15 @@ const SelectField = ({
       setShrink(false)
     }
   }
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const idToValue =
-      options.find(option => option.id === e.target.value)?.value || ''
-    setValue(idToValue)
-  }
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      const idToValue =
+        options.find(option => option.id === e.target.value)?.value ||
+        ''
+      setValue(idToValue)
+    },
+    [options]
+  )
   useEffect(() => {
     if (value.length > 0) {
       setShrink(true)

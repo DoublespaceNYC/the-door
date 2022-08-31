@@ -2,7 +2,7 @@ import { Fragment, ReactNode } from 'react'
 
 import { GlobalStyles } from '../theme/GlobalStyles'
 import AlertBar, { AlertBarProps } from './AlertBar'
-import CTABar, { CTABarProps, ICTABar } from './CTABar'
+import CTABar, { CTABarProps } from './CTABar'
 import Footer, { FooterProps } from './Footer'
 import MainNav, { MainNavProps } from './MainNav'
 
