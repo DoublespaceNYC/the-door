@@ -1,8 +1,9 @@
 import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
-import { useContext, useEffect, useState } from 'react'
+import { HTMLAttributes, useContext, useEffect, useState } from 'react'
 
 import NavButtonModalContext from '../context/NavButtonModalContext'
+import NavMenuContext from '../context/NavMenuContext'
 import { useElementWidth } from '../hooks/useElementRect'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import useReadableColor from '../hooks/useReadableColor'
@@ -16,12 +17,11 @@ export interface INavButton {
   modalSubheading: string
 }
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   button: INavButton
   color: string
   showModal?: boolean
   buttonCss?: CSSInterpolation
-  css?: CSSInterpolation
 }
 
 const NavButton = ({
@@ -37,6 +37,7 @@ const NavButton = ({
   )
 
   const { open, setOpen } = useContext(NavButtonModalContext)
+  const { open: navOpen } = useContext(NavMenuContext)
 
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
@@ -109,7 +110,7 @@ const NavButton = ({
         transform: translate3d(0, 100%, 0);
         transition: all 500ms ease;
       `}
-      ${(!open || !loaded) &&
+      ${(!open || !loaded || navOpen) &&
       css`
         pointer-events: none;
         opacity: 0;
@@ -152,7 +153,11 @@ const NavButton = ({
         <div css={styles.modal}>
           <span>{button.modalHeading}</span>
           <span>{button.modalSubheading}</span>
-          <button css={styles.close} onClick={() => setOpen(false)}>
+          <button
+            css={styles.close}
+            onClick={() => setOpen(false)}
+            tabIndex={open ? 0 : -1}
+          >
             <svg viewBox="0 0 12 12">
               <path d="M1 1L11 11" />
               <path d="M1 11L11 1" />

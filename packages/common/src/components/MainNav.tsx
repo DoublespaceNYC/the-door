@@ -1,27 +1,33 @@
 import { Global, css } from '@emotion/react'
-import { CSSInterpolation } from '@emotion/serialize'
 import { Link } from 'gatsby'
-import { FC, Fragment, useEffect, useState } from 'react'
+import {
+  FC,
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
 
+import NavMenuContext from '../context/NavMenuContext'
 import { useElementHeight } from '../hooks/useElementRect'
+import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
-import { absoluteFill } from '../theme/mixins'
+import { absoluteFill, mq } from '../theme/mixins'
+import { LogoProps } from '../types'
 import { IExternalLink, IInternalLink } from './DatoLink'
 import DatoLink from './DatoLink'
 import NavBurger from './NavBurger'
 import NavButton, { INavButton } from './NavButton'
-
-interface ILinkGroup {
-  __typename: 'DatoCmsLinkGroup'
-  linkText: string
-  links: IInternalLink[]
-}
+import NavLinkGroup, { ILinkGroup } from './NavLinkGroup'
+import ScrollToggle from './ScrollToggle'
 
 type INavItem = ILinkGroup | IInternalLink | IExternalLink
 
 export type MainNavProps = {
-  logo: FC<{ css?: CSSInterpolation; fill?: string }>
+  logo: FC<LogoProps>
   navItems: INavItem[]
   buttons: INavButton[]
   colors: {
@@ -55,11 +61,34 @@ const MainNav = ({
 
   const [burgerOpen, setBurgerOpen] = useState(false)
 
+  const navItemsGroupRef = useRef<HTMLDivElement>(null)
+  const dropdownContainerRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     if (windowWidth && windowWidth > breakpoint) {
       setBurgerOpen(false)
     }
   }, [windowWidth, breakpoint])
+
+  const [activeNavGroup, setActiveNavGroup] = useState<number | null>(
+    null
+  )
+
+  const { open: navOpen, setOpen: setNavOpen } =
+    useContext(NavMenuContext)
+
+  useEffect(() => {
+    if (activeNavGroup !== null || burgerOpen) {
+      setNavOpen(true)
+    } else {
+      setNavOpen(false)
+    }
+  }, [activeNavGroup, burgerOpen])
+
+  useEscKeyFunction(() => {
+    setActiveNavGroup(null)
+    setBurgerOpen(false)
+  })
 
   const styles = {
     scrollObserver: css`
@@ -79,6 +108,11 @@ const MainNav = ({
       z-index: 10;
       font-size: var(--fs-48);
       height: 1.5em;
+      transition: height 300ms ease;
+      ${navOpen &&
+      css`
+        height: calc(1.5em + var(--alert-height));
+      `}
     `,
     nav: css`
       display: grid;
@@ -94,12 +128,12 @@ const MainNav = ({
         display: block;
         ${absoluteFill}
         background: ${colors.bg};
-        z-index: 1;
+        z-index: 4;
       }
     `,
     logoWrap: css`
       display: flex;
-      z-index: 2;
+      z-index: 5;
     `,
     logo: css`
       align-self: center;
@@ -112,13 +146,21 @@ const MainNav = ({
         height: 0.875em;
         margin: 0.125em 0;
       `}
+      ${mq().s} {
+        height: 1em;
+        margin: 0.125em 0;
+      }
     `,
     navItemsGroup: css`
+      display: contents;
+    `,
+    navItemsGroupConditional: css`
       display: flex;
-      z-index: 2;
+      z-index: 5;
       font-size: var(--fs-18);
       @media (max-width: ${breakpoint}px) {
         overflow: auto;
+        flex-direction: column;
         pointer-events: none;
         ${absoluteFill}
         height: 100vh;
@@ -127,36 +169,28 @@ const MainNav = ({
         font-size: var(--fs-36);
         padding: calc(var(--nav-height) + 1em) var(--gtr-s) 1.5em;
         box-sizing: border-box;
-        align-items: flex-start;
+        align-items: center;
         justify-content: center;
         opacity: 0;
         transform: translate3d(0, -100%, 0);
-        transition: transform 300ms ease-in, opacity 0ms linear 300ms;
+        transition: transform 300ms ease-in, opacity 0ms linear 300ms,
+          filter 300ms ease;
         ${burgerOpen &&
         css`
           pointer-events: all;
           transform: translate3d(0, 0, 0);
           opacity: 1;
-          transition: transform 300ms ease-out;
+          transition: transform 300ms ease-out, filter 1000ms ease;
         `}
-        > div {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          min-height: 100%;
-        }
-      }
-    `,
-    navItemsGroupConditional: css`
-      display: contents;
-      @media (max-width: breakpoint) {
-        display: block;
+        ${activeNavGroup !== null &&
+        css`
+          filter: brightness(0.5);
+        `}
       }
     `,
     navButtonsGroup: css`
       display: flex;
-      z-index: 2;
+      z-index: 5;
       font-size: var(--fs-18);
     `,
     navItem: css`
@@ -182,7 +216,7 @@ const MainNav = ({
         background: linear-gradient(currentColor, currentColor)
           no-repeat 0 calc(100% + 3px);
         background-size: 100% 2px;
-        transition: background-position 200ms ease;
+        transition: background-position 100ms ease;
       }
       @media (hover: hover) {
         &:hover > span {
@@ -207,6 +241,19 @@ const MainNav = ({
         display: flex;
       }
     `,
+    dropdownContainer: css`
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      overflow: hidden;
+      ${navOpen &&
+      css`
+        pointer-events: all;
+      `}
+    `,
   }
   return (
     <Fragment>
@@ -216,38 +263,56 @@ const MainNav = ({
           <Link to="/" css={styles.logoWrap}>
             <Logo css={styles.logo} fill={colors.logo} />
           </Link>
-          <div css={styles.navItemsGroup}>
-            <div css={styles.navItemsGroupConditional}>
-              {navItems.map((navItem, i) => {
-                if (navItem.__typename === 'DatoCmsLinkGroup') {
-                  return (
-                    <button
-                      css={[styles.navItem, styles.navLink]}
-                      key={i}
-                    >
-                      <span>{navItem.linkText}</span>
-                    </button>
-                  )
-                } else
-                  return (
-                    <DatoLink
-                      css={[styles.navItem, styles.navLink]}
-                      link={navItem}
-                      key={i}
-                    />
-                  )
-              })}
-              {windowWidth &&
-                windowWidth <= breakpoint &&
-                buttons.map((button, i) => (
-                  <NavButton
-                    buttonCss={styles.navItem}
-                    button={button}
-                    color={colors.buttons[i % colors.buttons.length]}
-                    key={i}
-                  />
-                ))}
-            </div>
+          <div css={styles.navItemsGroup} ref={navItemsGroupRef}>
+            {windowWidth &&
+              dropdownContainerRef.current &&
+              navItemsGroupRef.current &&
+              createPortal(
+                <nav css={styles.navItemsGroupConditional}>
+                  {navItems.map((navItem, i) => {
+                    if (navItem.__typename === 'DatoCmsLinkGroup') {
+                      return (
+                        <NavLinkGroup
+                          data={navItem}
+                          onOpen={() => setActiveNavGroup(i)}
+                          onClose={() => setActiveNavGroup(null)}
+                          open={activeNavGroup === i}
+                          buttonCss={[styles.navItem, styles.navLink]}
+                          portalTarget={dropdownContainerRef.current}
+                          breakpoint={breakpoint}
+                          colors={{
+                            bg: colors.bgSecondary,
+                            text: colors.text,
+                          }}
+                          key={i}
+                        />
+                      )
+                    } else
+                      return (
+                        <DatoLink
+                          css={[styles.navItem, styles.navLink]}
+                          link={navItem}
+                          key={i}
+                        />
+                      )
+                  })}
+                  {windowWidth &&
+                    windowWidth <= breakpoint &&
+                    buttons.map((button, i) => (
+                      <NavButton
+                        buttonCss={styles.navItem}
+                        button={button}
+                        color={
+                          colors.buttons[i % colors.buttons.length]
+                        }
+                        key={i}
+                      />
+                    ))}
+                </nav>,
+                windowWidth <= breakpoint
+                  ? dropdownContainerRef.current
+                  : navItemsGroupRef.current
+              )}
           </div>
           <div css={styles.navButtonsGroup}>
             {buttons.map((button, i) => (
@@ -264,10 +329,22 @@ const MainNav = ({
           <NavBurger
             open={burgerOpen}
             css={styles.burger}
-            onClick={() => setBurgerOpen(prev => !prev)}
+            onClick={() => {
+              if (burgerOpen) {
+                setBurgerOpen(false)
+                setActiveNavGroup(null)
+              } else {
+                setBurgerOpen(true)
+              }
+            }}
+          />
+          <div
+            css={styles.dropdownContainer}
+            ref={dropdownContainerRef}
           />
         </nav>
       </div>
+      {navOpen && <ScrollToggle />}
       <Global
         styles={css`
           :root {

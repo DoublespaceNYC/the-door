@@ -1,14 +1,15 @@
-import { SerializedStyles, css } from '@emotion/react'
+import { css } from '@emotion/react'
 import ScrollSlider from '@the-door/common/src/components/ScrollSlider'
+import { mq } from '@the-door/common/src/theme/mixins'
 import { graphql, useStaticQuery } from 'gatsby'
+import { HTMLAttributes } from 'react'
 
 import ServiceModuleGroup, {
   IServicesGroup,
 } from './ServiceModuleGroup'
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   bgColor: string
-  css?: SerializedStyles | SerializedStyles[]
 }
 
 const ServicesModule = ({ bgColor, ...props }: Props) => {
@@ -69,6 +70,9 @@ const ServicesModule = ({ bgColor, ...props }: Props) => {
     scrollWidth: css`
       font-size: var(--fs-21);
       width: calc(15ch + 0.75rem + 4rem);
+      ${mq().s} {
+        width: calc(15ch + 0.75rem + 3rem);
+      }
     `,
   }
   return (

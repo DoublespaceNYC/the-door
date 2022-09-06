@@ -1,6 +1,9 @@
-import { css } from '@emotion/react'
+import { Global, css } from '@emotion/react'
+import { useContext, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 
+import NavMenuContext from '../context/NavMenuContext'
+import { useElementHeight } from '../hooks/useElementRect'
 import { IStructuredText } from '../types'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
 
@@ -22,10 +25,26 @@ export type AlertBarProps = {
 }
 
 const AlertBar = ({ alert, colors }: AlertBarProps) => {
+  const [ref, setRef] = useState<HTMLDivElement | null>(null)
+  const alertHeight = useElementHeight(ref)
+  const { open: navOpen } = useContext(NavMenuContext)
   const styles = {
+    wrap: css`
+      transition: height 300ms ease;
+      overflow: hidden;
+      ${alertHeight &&
+      css`
+        height: ${alertHeight}px;
+      `}
+      ${navOpen &&
+      css`
+        height: 0;
+      `}
+    `,
     alert: css`
       background: ${colors.bg};
       color: ${colors.text};
+      position: relative;
       z-index: 11;
       text-align: center;
       align-items: baseline;
@@ -58,14 +77,23 @@ const AlertBar = ({ alert, colors }: AlertBarProps) => {
     `,
   }
   return (
-    <div css={styles.alert}>
-      <StructuredText
-        data={alert}
-        renderBlock={({ record }) => {
-          if (isDatoLink(record)) {
-            return <DatoLink link={record} css={styles.link} />
-          } else return null
-        }}
+    <div css={styles.wrap}>
+      <div css={styles.alert} ref={node => setRef(node)}>
+        <StructuredText
+          data={alert}
+          renderBlock={({ record }) => {
+            if (isDatoLink(record)) {
+              return <DatoLink link={record} css={styles.link} />
+            } else return null
+          }}
+        />
+      </div>
+      <Global
+        styles={css`
+          :root {
+            --alert-height: ${alertHeight}px;
+          }
+        `}
       />
     </div>
   )

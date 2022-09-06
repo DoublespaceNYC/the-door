@@ -1,12 +1,12 @@
 import { css } from '@emotion/react'
-import { CSSInterpolation } from '@emotion/serialize'
+import { HTMLAttributes } from 'react'
 
 import { mq } from '../theme/mixins'
-import { IArticle } from '../types'
 import GatsbyImageFocused from './GatsbyImageFocused'
+import { IInternalArticle } from './InternalArticle'
 
-type Props = {
-  article: IArticle
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  article: IInternalArticle
   layout: 'Featured' | 'Grid' | 'Carousel'
   colors?: {
     title?: string
@@ -17,7 +17,6 @@ type Props = {
     shadow?: string
     shadowHover?: string
   }
-  css?: CSSInterpolation
 }
 
 const ArticleThumbnail = ({
@@ -132,7 +131,7 @@ const ArticleThumbnail = ({
       <div css={styles.text}>
         <h3>{article.title}</h3>
         <div css={styles.details}>
-          <h4>{article.category}</h4>
+          <h4>{article.category.name}</h4>
           <h4>
             {date.toLocaleDateString('en-US', {
               month: 'short',

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import { lighten } from 'polished'
-import { Fragment, useContext, useEffect, useRef } from 'react'
+import { Fragment, useContext, useEffect } from 'react'
 import { StructuredText } from 'react-datocms'
 import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
@@ -29,25 +29,26 @@ type Props = {
     ctaBg: string
     ctaText: string
   }
-  css?: CSSInterpolation
+  triggerCss?: CSSInterpolation
 }
 
-const CornerPopup = ({ content, colors, ...props }: Props) => {
+const CornerPopup = ({ content, colors, triggerCss }: Props) => {
   const isBrowser = typeof window !== `undefined`
   const portalTarget =
     isBrowser && document.getElementById('popup-container')
   const { inView, ref } = useInView({
     triggerOnce: true,
   })
-  const triggered = useRef(false)
-  const { open, setOpen } = useContext(CornerPopupContext)
+  const { triggered, setTriggered, closed, setClosed } =
+    useContext(CornerPopupContext)
+  const open = triggered && !closed
+
   useEffect(() => {
-    if (inView && !triggered.current) {
-      setOpen(true)
-      triggered.current = true
+    if (inView) {
+      setTriggered(true)
     }
-  }, [inView, setOpen, triggered])
-  useEscKeyFunction(() => setOpen(false))
+  }, [inView, setTriggered])
+  useEscKeyFunction(() => setClosed(true))
 
   const styles = {
     container: css`
@@ -56,7 +57,7 @@ const CornerPopup = ({ content, colors, ...props }: Props) => {
       bottom: 0;
       right: 0;
       overflow: hidden;
-      z-index: 10;
+      z-index: 8;
       filter: drop-shadow(0 0.167rem 0.333rem #00000033);
       pointer-events: none;
     `,
@@ -128,7 +129,7 @@ const CornerPopup = ({ content, colors, ...props }: Props) => {
   }
   return (
     <Fragment>
-      <div ref={ref} {...props} />
+      <div ref={ref} css={triggerCss} />
       {portalTarget &&
         createPortal(
           <div css={styles.container}>
@@ -146,7 +147,10 @@ const CornerPopup = ({ content, colors, ...props }: Props) => {
                   } else return null
                 }}
               />
-              <button css={styles.close} onClick={() => setOpen(false)}>
+              <button
+                css={styles.close}
+                onClick={() => setClosed(true)}
+              >
                 <svg viewBox="0 0 12 12">
                   <path d="M1 1L11 11" />
                   <path d="M1 11L11 1" />

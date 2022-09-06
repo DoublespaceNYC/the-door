@@ -44,6 +44,9 @@ const HomeFaces = ({ heading, body }: Props) => {
         ${colors.purpleDark}
       );
       color: #fff;
+      ${mq().ms} {
+        grid-template-rows: auto auto auto var(--row-m);
+      }
     `,
     heading: css`
       grid-column: 2 / -2;
@@ -93,6 +96,13 @@ const HomeFaces = ({ heading, body }: Props) => {
       grid-row: 3 / 4;
       background: ${rgba(colors.purple, 0.6)};
       transform: translateY(6rem);
+      ${mq().ms} {
+        height: calc(50%);
+        top: auto;
+        bottom: 6rem;
+        grid-column: 1 / span 8;
+        transform: none;
+      }
     `,
   }
   return (

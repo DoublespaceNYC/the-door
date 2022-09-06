@@ -1,6 +1,5 @@
 import { css } from '@emotion/react'
-import { CSSInterpolation } from '@emotion/serialize'
-import { ElementType, ReactNode, useState } from 'react'
+import { ElementType, HTMLAttributes, ReactNode, useState } from 'react'
 
 import { useElementHeight } from '../hooks/useElementRect'
 
@@ -12,7 +11,7 @@ export type IAccordionColors = {
   subdivider: string
 }
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   heading: string
   subheading?: string
   children: ReactNode
@@ -20,7 +19,6 @@ type Props = {
   headingLevel?: number
   open: boolean
   onClick: () => void
-  css?: CSSInterpolation
 }
 
 const AccordionItem = ({
@@ -60,7 +58,7 @@ const AccordionItem = ({
       color: ${colors.button[0]};
       transform: scale3d(0.999, 0.999, 1);
       transition: all 200ms ease;
-      margin-right: 0.875em;
+      margin-right: var(--gtr-s);
       &:before,
       &:after {
         content: '';

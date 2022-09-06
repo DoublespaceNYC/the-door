@@ -103,7 +103,12 @@ export const InternalArticleFragment = graphql`
         y
       }
     }
-    category
+    category {
+      name
+    }
+    tags {
+      name
+    }
     body {
       value
     }
@@ -175,6 +180,13 @@ export const ContentBlockFragment = graphql`
         medium: gatsbyImageData(width: 840, imgixParams: { q: 65 })
         wide: gatsbyImageData(width: 960, imgixParams: { q: 65 })
         alt
+        sizes {
+          aspectRatio
+        }
+        focalPoint {
+          x
+          y
+        }
       }
       layout
     }

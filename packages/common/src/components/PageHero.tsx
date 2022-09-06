@@ -22,7 +22,7 @@ const PageHero = ({ title, section, image, colors }: Props) => {
     hero: css`
       width: 100%;
       ${baseGrid}
-      grid-template-rows: minmax(25vmax, auto) auto auto var(--row-s);
+      grid-template-rows: minmax(25vmax, 1fr) auto auto var(--row-s);
     `,
     image: css`
       grid-column: 1 / -1;

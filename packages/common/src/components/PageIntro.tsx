@@ -20,6 +20,7 @@ const PageIntro = ({ intro, textColor = '#333' }: Props) => {
       max-width: 80ch;
       ${mq().ms} {
         font-size: var(--fs-18);
+        margin-bottom: var(--row-l);
       }
     `,
   }

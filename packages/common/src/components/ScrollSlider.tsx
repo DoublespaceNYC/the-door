@@ -1,5 +1,6 @@
 import { SerializedStyles, css } from '@emotion/react'
 import throttle from 'lodash/throttle'
+import { HTMLAttributes } from 'react'
 import {
   ReactNode,
   useCallback,
@@ -13,7 +14,7 @@ import { useElementWidth } from '../hooks/useElementRect'
 import { linkStyle } from '../theme/mixins'
 import DatoLink, { IDatoLink } from './DatoLink'
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode
   scrollWidthCss?: SerializedStyles | SerializedStyles[]
   scrollAreaCss?: SerializedStyles | SerializedStyles[]
@@ -26,7 +27,6 @@ type Props = {
     link: [string, string?]
   }
   link?: IDatoLink
-  css?: SerializedStyles | SerializedStyles[]
 }
 
 const ScrollSlider = ({
@@ -153,7 +153,7 @@ const ScrollSlider = ({
       ${navStyle === 'above' &&
       css`
         position: relative;
-        padding-right: var(--margin);
+        padding-right: calc(var(--margin) - 0.67rem);
         margin-bottom: 1rem;
         display: flex;
         justify-content: flex-end;
@@ -164,7 +164,7 @@ const ScrollSlider = ({
       display: flex;
       align-items: center;
       justify-content: center;
-      --transformXY: translate(-50%, -50%);
+      --transformXY: translate(0%, -50%);
       top: 50%;
       transform: var(--transformXY) scale3d(1, 1, 1);
       transition: transform 400ms cubic-bezier(0.33, 3, 0.25, 0.5);
@@ -199,7 +199,7 @@ const ScrollSlider = ({
         box-sizing: border-box;
         cursor: pointer;
         overflow: hidden;
-        width: max(calc(4 * var(--margin)), 5rem);
+        width: max(calc(2 * var(--margin)), 2.5rem);
         height: max(calc(4 * var(--margin)), 5rem);
         svg {
           position: absolute;
@@ -211,23 +211,30 @@ const ScrollSlider = ({
         --transformXY: translate(0, 0);
         width: 3rem;
         height: 3rem;
+        justify-content: center;
         svg {
           height: 75%;
+          left: auto !important;
+          right: auto !important;
         }
       `}
     `,
     back: css`
-      justify-content: flex-end;
-      left: 0%;
+      ${navStyle === 'overlay' &&
+      css`
+        left: 0%;
+      `}
       svg {
-        transform: scaleX(-1);
-        right: 20%;
+        transform: scaleX(-1) translateX(20%);
       }
     `,
     forward: css`
-      left: 100%;
+      ${navStyle === 'overlay' &&
+      css`
+        right: 0%;
+      `}
       svg {
-        left: 20%;
+        transform: translateX(20%);
       }
     `,
     disabled: css`

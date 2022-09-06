@@ -1,6 +1,6 @@
 import { CSSInterpolation } from '@emotion/serialize'
 import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
-import { useMemo, useState } from 'react'
+import { HTMLAttributes, useMemo, useState } from 'react'
 
 import { useElementRect } from '../hooks/useElementRect'
 
@@ -16,7 +16,7 @@ export interface IGatsbyImageFocused {
   alt?: string
 }
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   image: IGatsbyImageData
   alt?: string
   focalPoint: {
@@ -26,7 +26,6 @@ type Props = {
   aspectRatio: number
   originalAspectRatio?: number
   gatsbyImageCss?: CSSInterpolation
-  css?: CSSInterpolation
 }
 const GatsbyImageFocused = ({
   image,

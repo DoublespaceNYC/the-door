@@ -23,7 +23,7 @@ export const useElementRect = (element: HTMLElement | null) => {
             })
           }
         })
-      }, 500)
+      }, 100)
     )
     if (element) {
       resizeObserver.observe(element)

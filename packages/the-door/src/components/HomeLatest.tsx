@@ -6,6 +6,7 @@ import DatoLink, {
 import HomeCalendar, {
   IEvent,
 } from '@the-door/common/src/components/HomeCalendar'
+import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
 import {
   absoluteFill,
   linkStyle,
@@ -16,7 +17,6 @@ import { rgba } from 'polished'
 import { useMemo } from 'react'
 
 import { colors } from '../theme/variables'
-import { IInternalArticle } from '../types'
 
 type Props = {
   heading: string
@@ -66,6 +66,9 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
       margin-top: calc(-1 * var(--row-l));
       ${mq().ml} {
         grid-template-columns: auto;
+      }
+      ${mq().ms} {
+        margin-top: 0;
       }
       &:after {
         content: '';

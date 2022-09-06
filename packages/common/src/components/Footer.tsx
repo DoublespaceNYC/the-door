@@ -1,14 +1,14 @@
 import { css } from '@emotion/react'
-import { CSSInterpolation } from '@emotion/serialize'
 import parse from 'html-react-parser'
-import { FC } from 'react'
+import { FC, HTMLAttributes } from 'react'
 
 import { baseGrid, mq } from '../theme/mixins'
+import { LogoProps } from '../types'
 import DatoLink, { IDatoLink } from './DatoLink'
 import SocialLink, { ISocialLink } from './SocialLink'
 
-export type FooterProps = {
-  logo: FC<{ css?: CSSInterpolation; fill?: string }>
+export interface FooterProps extends HTMLAttributes<HTMLElement> {
+  logo: FC<LogoProps>
   navItems: IDatoLink[]
   buttons: IDatoLink[]
   meta: {
@@ -23,7 +23,6 @@ export type FooterProps = {
     text: string
     buttons: string[]
   }
-  css?: CSSInterpolation
 }
 
 const Footer = ({
@@ -117,7 +116,7 @@ const Footer = ({
         background: linear-gradient(currentColor, currentColor)
           no-repeat 0 calc(100% + 3px);
         background-size: 100% 2px;
-        transition: background-position 200ms ease;
+        transition: background-position 100ms ease;
       }
       @media (hover: hover) {
         &:hover > span {
@@ -150,7 +149,7 @@ const Footer = ({
     `,
   }
   return (
-    <footer {...props} css={styles.footer}>
+    <footer css={styles.footer} {...props}>
       <Logo css={styles.logo} fill={colors.logo} />
       <div css={styles.meta}>
         <a

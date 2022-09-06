@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
-import { CSSInterpolation } from '@emotion/serialize'
 import { Record } from 'datocms-structured-text-utils'
+import { HTMLAttributes } from 'react'
 import { ElementType } from 'react'
 import { StructuredText } from 'react-datocms'
 
@@ -24,11 +24,10 @@ export interface IProgramColors {
   button: [string, string]
 }
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   program: IProgram
   headingLevel?: number
   colors: IProgramColors
-  css?: CSSInterpolation
 }
 
 const ProgramBlock = ({

@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { Link } from 'gatsby'
 import { darken, lighten, readableColor, rgba } from 'polished'
+import { HTMLAttributes } from 'react'
 import { useMemo } from 'react'
 
 import { formateDateTimeRange } from '../helpers'
@@ -18,7 +19,7 @@ export interface IEvent extends Record {
   location: string
 }
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLElement> {
   events: IEvent[]
   colors: {
     bg: string

@@ -1,11 +1,18 @@
 import { css, keyframes } from '@emotion/react'
+import { HTMLAttributes } from 'react'
+
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  color?: string
+  speed?: number
+  count?: number
+}
 
 const LoadingSpinner = ({
   color = 'black',
   speed = 1200,
   count = 12,
   ...props
-}) => {
+}: Props) => {
   const spinnerAnimation = keyframes`
     0%, 20%, 80%, 100% {
       transform: translate(-50%, -50%) scale(0.333);

@@ -1,8 +1,5 @@
 import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
-import {
-  IInternalArticle as IInternalArticleCommon,
-  IStructuredText,
-} from '@the-door/common/src/types'
+import { IStructuredText } from '@the-door/common/src/types'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
 
 interface IStoryImage
@@ -18,8 +15,4 @@ export interface IStory {
   excerpt: string
   ctaText: string
   body: IStructuredText
-}
-
-export interface IInternalArticle extends IInternalArticleCommon {
-  category: 'News' | 'Report' | 'Press Release' | 'Event Recap'
 }

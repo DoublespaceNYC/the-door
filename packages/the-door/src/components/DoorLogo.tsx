@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
+import { LogoProps } from '@the-door/common/src/types'
 
-const DoorLogo = ({ fill = '#fff', ...props }) => {
+const DoorLogo = ({ fill = '#fff', ...props }: LogoProps) => {
   const style = css`
     path {
       fill: ${fill};

@@ -1,6 +1,10 @@
-import { CSSInterpolation } from '@emotion/serialize'
 import { Record } from 'datocms-structured-text-utils'
-import { ReactNode, SyntheticEvent, useEffect } from 'react'
+import {
+  HTMLAttributes,
+  ReactNode,
+  SyntheticEvent,
+  useEffect,
+} from 'react'
 import smoothscroll from 'smoothscroll-polyfill'
 
 import { toSlug } from '../helpers'
@@ -10,9 +14,8 @@ export interface IAnchorLink extends Record {
   linkText: string
 }
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   id: string
-  css?: CSSInterpolation
 }
 
 export const Anchor = ({ id, ...props }: Props) => {
@@ -34,13 +37,18 @@ export const Anchor = ({ id, ...props }: Props) => {
   )
 }
 
-type AnchorLinkProps = {
+interface AnchorLinkProps extends HTMLAttributes<HTMLAnchorElement> {
   id: string
+  onClick?: () => void
   children?: ReactNode
-  css?: CSSInterpolation
 }
 
-const AnchorLink = ({ id, children, ...props }: AnchorLinkProps) => {
+const AnchorLink = ({
+  id,
+  children,
+  onClick = () => null,
+  ...props
+}: AnchorLinkProps) => {
   useEffect(() => smoothscroll.polyfill(), [])
 
   const slugId = toSlug(id)
@@ -55,6 +63,7 @@ const AnchorLink = ({ id, children, ...props }: AnchorLinkProps) => {
     document.getElementById(slugId)?.scrollIntoView({
       behavior: 'smooth',
     })
+    onClick()
   }
 
   return (

@@ -1,19 +1,17 @@
-import { SerializedStyles } from '@emotion/react'
 import Hls from 'hls.js'
+import { HTMLAttributes } from 'react'
 import { useEffect, useRef } from 'react'
 
-type Props = {
+interface VideoProps extends HTMLAttributes<HTMLVideoElement> {
   src: string
   thumbnail?: string
-  controls?: boolean
-  loop?: boolean
-  autoPlay?: boolean
-  muted?: boolean
-  playsInline?: boolean
-  css?: SerializedStyles | SerializedStyles[]
 }
 
-const VideoStreamPlayer = ({ src, thumbnail, ...props }: Props) => {
+const VideoStreamPlayer = ({
+  src,
+  thumbnail,
+  ...props
+}: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {

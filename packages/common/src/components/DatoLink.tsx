@@ -1,7 +1,6 @@
-import { CSSInterpolation } from '@emotion/serialize'
 import { Record } from 'datocms-structured-text-utils'
 import { Link } from 'gatsby'
-import { Fragment } from 'react'
+import { Fragment, HTMLAttributes } from 'react'
 
 export interface IInternalLink extends Record {
   __typename: 'DatoCmsInternalLink'
@@ -43,14 +42,13 @@ export const isDatoLink = (record: Record) => {
   return [
     'DatoCmsInternalLink',
     'DatoCmsExternalLink',
-    'DatoCmsAssetLink',
+    'DatoCmsDocumentLink',
     'DatoCmsLightboxLink',
   ].some(x => x === record.__typename)
 }
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLAnchorElement> {
   link: IDatoLink
-  css?: CSSInterpolation
 }
 
 const DatoLink = ({ link, ...props }: Props) => {

@@ -1,13 +1,13 @@
 import { css } from '@emotion/react'
-import { CSSInterpolation } from '@emotion/serialize'
+import { HTMLAttributes } from 'react'
 
 import ScrollToggle from './ScrollToggle'
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLButtonElement> {
   open: boolean
   onClick: () => void
-  css?: CSSInterpolation
 }
+
 const NavBurger = ({ open, onClick, ...props }: Props) => {
   const style = css`
     position: relative;

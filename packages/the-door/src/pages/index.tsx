@@ -6,6 +6,7 @@ import {
   IInternalLink,
 } from '@the-door/common/src/components/DatoLink'
 import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
+import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
 import { IStructuredText } from '@the-door/common/src/types'
 import { PageProps, graphql } from 'gatsby'
 import { useEffect, useState } from 'react'
@@ -19,7 +20,6 @@ import HomeWelcome from '../components/HomeWelcome'
 import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 import { colors } from '../theme/variables'
-import { IInternalArticle } from '../types'
 
 export const data = graphql`
   query {

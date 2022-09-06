@@ -23,7 +23,7 @@ export const useWindowDimensions = () => {
   }, [isBrowser])
   useLayoutEffect(handleResize, [handleResize])
 
-  const handleThrottledResize = debounce(handleResize, 500)
+  const handleThrottledResize = debounce(handleResize, 100)
 
   useLayoutEffect(() => {
     window.addEventListener('resize', handleThrottledResize, {

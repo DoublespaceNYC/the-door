@@ -36,9 +36,49 @@ const Layout = ({ children }: Props) => {
           navItems {
             ... on DatoCmsLinkGroup {
               __typename
-              linkText: title
+              linkText
+              title
+              description {
+                value
+              }
               links {
-                ...InternalLinkFragment
+                ... on DatoCmsServicesGroupLink {
+                  __typename
+                  servicesGroup {
+                    title
+                    services {
+                      title
+                      slug
+                    }
+                  }
+                }
+                ... on DatoCmsInternalLink {
+                  ...InternalLinkFragment
+                }
+              }
+              backgroundImage {
+                gatsbyImageData(
+                  width: 960
+                  imgixParams: {
+                    q: 60
+                    ar: "1:1"
+                    fit: "crop"
+                    crop: "focalpoint"
+                    con: 30
+                    sat: 30
+                    blendColor: "#000"
+                    blendAlpha: 60
+                    blendMode: "normal"
+                  }
+                )
+                alt
+                focalPoint {
+                  x
+                  y
+                }
+                sizes {
+                  aspectRatio
+                }
               }
             }
             ... on DatoCmsInternalLink {

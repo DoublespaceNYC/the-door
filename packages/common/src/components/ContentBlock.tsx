@@ -10,9 +10,19 @@ import { baseGrid, linkStyle, mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 import ContentBlockShape, { ShapeType } from './ContentBlockShape'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
+import GatsbyImageFocused, {
+  IGatsbyImageFocused,
+} from './GatsbyImageFocused'
 
 interface IBody extends IStructuredText {
   blocks?: IDatoLink[]
+}
+
+interface IContentBlockImage
+  extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
+  narrow: IGatsbyImageData
+  medium: IGatsbyImageData
+  wide: IGatsbyImageData
 }
 
 export interface IContentBlock extends Record {
@@ -20,12 +30,7 @@ export interface IContentBlock extends Record {
   heading: string
   image: [
     {
-      image: {
-        narrow: IGatsbyImageData
-        medium: IGatsbyImageData
-        wide: IGatsbyImageData
-        alt?: string
-      }
+      image: IContentBlockImage
       layout: 'narrow' | 'medium' | 'wide'
     }?
   ]
@@ -191,7 +196,10 @@ const ContentBlock = ({
         content: '';
         position: absolute;
         display: block;
-        width: calc(100% + var(--col-w) + 2 * var(--gtr-m));
+        width: calc(
+          100% + var(--col-w) + var(--gtr-m)
+            ${layout !== 'noImg' ? '* 2' : ''}
+        );
         height: 3px;
         background: ${color};
         top: 0;
@@ -223,6 +231,9 @@ const ContentBlock = ({
       ${mq().ms} {
         grid-row: auto;
         margin-top: calc(var(--row-s) + 0.5em);
+        [data-gatsby-image-wrapper] {
+          max-height: 100vw;
+        }
         ${left &&
         css`
           grid-column: 2 / -2;
@@ -236,9 +247,13 @@ const ContentBlock = ({
       css`
         position: absolute;
         top: 0;
-        width: 50%;
         left: ${right && 0};
         right: ${left && 0};
+        width: 100%;
+        ${mq().ms} {
+          margin-top: calc(var(--row-s) * -1);
+          width: 50%;
+        }
       `}
     `,
     linkBlock: css`
@@ -266,8 +281,10 @@ const ContentBlock = ({
       />
       <div css={styles.image}>
         {image[0] && (
-          <GatsbyImage
+          <GatsbyImageFocused
             image={image[0].image[image[0].layout]}
+            focalPoint={image[0].image.focalPoint}
+            aspectRatio={image[0].image.sizes.aspectRatio}
             alt={image[0].image.alt || ''}
           />
         )}

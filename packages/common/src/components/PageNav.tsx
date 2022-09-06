@@ -1,5 +1,11 @@
 import { css } from '@emotion/react'
-import { Fragment, useState } from 'react'
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
 import { useElementWidth } from '../hooks/useElementRect'
@@ -30,7 +36,22 @@ const PageNav = ({ links, button, colors }: Props) => {
 
   const condensed = navWidth > navWrapWidth
 
-  // const [dropdownOpen, setDropdownOpen] = useState(false)
+  const condensedRef = useRef<HTMLDivElement>(null)
+
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+
+  const handleOutsideClick = useCallback((e: MouseEvent) => {
+    if (!condensedRef.current?.contains(e.target as Node)) {
+      setDropdownOpen(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('click', handleOutsideClick)
+    return () => {
+      window.removeEventListener('click', handleOutsideClick)
+    }
+  }, [handleOutsideClick])
 
   const styles = {
     navWrap: css`
@@ -98,6 +119,7 @@ const PageNav = ({ links, button, colors }: Props) => {
       background: ${colors.bg};
       width: fit-content;
       margin: 0 var(--margin);
+      padding: 0 !important;
       nav {
         position: absolute;
         z-index: 1;
@@ -108,14 +130,20 @@ const PageNav = ({ links, button, colors }: Props) => {
         pointer-events: none;
         display: flex;
         flex-direction: column;
-        padding: 0.5em;
+        padding: 0.5em 0;
         min-width: 100%;
         background: ${colors.divider};
         transform: translate3d(0, calc(100% - 3rem), 0);
         transition: opacity 300ms ease, transform 300ms ease;
       }
-      > button {
+      button {
+        background: ${colors.bg};
+        transition: color 300ms ease;
+      }
+      button,
+      a {
         position: relative;
+        padding: 0.667em;
         color: ${colors.text[0]};
         z-index: 2;
         @media (hover: hover) {
@@ -124,7 +152,8 @@ const PageNav = ({ links, button, colors }: Props) => {
           }
         }
       }
-      &:focus-within {
+      ${dropdownOpen &&
+      css`
         nav {
           opacity: 1;
           pointer-events: all;
@@ -133,17 +162,27 @@ const PageNav = ({ links, button, colors }: Props) => {
         > button {
           color: ${colors.text[1]};
         }
-      }
+      `}
     `,
     arrow: css`
       font-size: 125%;
       margin: 0 -0.125em -0.2em;
+      transition: transform 300ms ease;
+      ${dropdownOpen &&
+      css`
+        transform: scale3d(1, -1, 1) translateY(-8%);
+      `}
     `,
   }
   const NavContent = () => (
     <Fragment>
       {links.map((link, i) => (
-        <AnchorLink id={link.linkText} key={i} css={styles.anchorLink}>
+        <AnchorLink
+          id={link.linkText}
+          key={i}
+          css={styles.anchorLink}
+          onClick={() => setDropdownOpen(false)}
+        >
           {link.linkText}
         </AnchorLink>
       ))}
@@ -153,7 +192,11 @@ const PageNav = ({ links, button, colors }: Props) => {
   )
   return (
     <Fragment>
-      <div css={styles.navWrap} ref={node => setNavWrapRef(node)}>
+      <div
+        css={styles.navWrap}
+        ref={node => setNavWrapRef(node)}
+        aria-hidden={condensed}
+      >
         <nav
           css={[styles.nav, styles.horizontalNav]}
           ref={node => setNavRef(node)}
@@ -162,8 +205,8 @@ const PageNav = ({ links, button, colors }: Props) => {
         </nav>
       </div>
       {condensed && (
-        <div css={[styles.nav, styles.dropdownNav]}>
-          <button>
+        <div css={[styles.nav, styles.dropdownNav]} ref={condensedRef}>
+          <button onClick={() => setDropdownOpen(prev => !prev)}>
             Jump to section <BiChevronDown css={styles.arrow} />
           </button>
           <nav>

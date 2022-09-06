@@ -10,7 +10,7 @@ import { useState } from 'react'
 
 export interface IServicesGroup {
   id: string
-  __typename: string
+  __typename: 'DatoCmsServicesGroup'
   title: string
   image: IGatsbyImageFocused
   services: {
@@ -37,6 +37,8 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
       justify-content: flex-end;
       min-height: max(50vw, 36rem);
       box-sizing: border-box;
+      text-align: left;
+      cursor: default;
       h3 {
         position: relative;
         text-transform: uppercase;
@@ -64,9 +66,9 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
         opacity: 0.75;
         z-index: 2;
         transition: opacity 750ms ease;
-        div:hover > &,
-        div:focus > &,
-        div:focus-within > & {
+        button:hover > &,
+        button:focus > &,
+        button:focus-within > & {
           opacity: 1;
         }
       }
@@ -78,9 +80,9 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
         mix-blend-mode: overlay;
         opacity: 0;
         transition: opacity 750ms ease;
-        div:hover > &,
-        div:focus > &,
-        div:focus-within > & {
+        button:hover > &,
+        button:focus > &,
+        button:focus-within > & {
           opacity: 1;
         }
       }
@@ -88,9 +90,9 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
     image: css`
       ${absoluteFill}
       transition: filter 750ms ease;
-      div:hover > div > &,
-      div:focus > div > &,
-      div:focus-within > div > & {
+      button:hover > div > &,
+      button:focus > div > &,
+      button:focus-within > div > & {
         filter: saturate(0) contrast(0.75);
       }
     `,
@@ -102,9 +104,9 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
       transition: all ${300 + Math.round(0.5 * listHeight)}ms ease-out;
       height: 0;
       margin: 0.5em 0 6rem;
-      div:hover > &,
-      div:focus > &,
-      div:focus-within > & {
+      button:hover > &,
+      button:focus > &,
+      button:focus-within > & {
         height: ${listHeight}px;
         margin-bottom: 1rem;
         ${mq().m} {
@@ -132,7 +134,7 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
         background: linear-gradient(#fff, #fff) no-repeat 0
           calc(100% + 3px);
         background-size: 100% 2px;
-        transition: background-position 200ms ease;
+        transition: background-position 100ms ease;
       }
       &:hover > span {
         background-position: 0 100%;
@@ -140,7 +142,7 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
     `,
   }
   return (
-    <div css={styles.serviceGroup}>
+    <button css={styles.serviceGroup}>
       <GatsbyImageFocused
         css={styles.imageWrap}
         gatsbyImageCss={styles.image}
@@ -167,7 +169,7 @@ const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
           ))}
         </div>
       </div>
-    </div>
+    </button>
   )
 }
 

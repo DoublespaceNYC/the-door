@@ -7,13 +7,17 @@ import {
 } from 'react'
 
 interface IContext {
-  open: boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
+  triggered: boolean
+  setTriggered: Dispatch<SetStateAction<boolean>>
+  closed: boolean
+  setClosed: Dispatch<SetStateAction<boolean>>
 }
 
 const defaultValue = {
-  open: false,
-  setOpen: () => null,
+  triggered: false,
+  setTriggered: () => null,
+  closed: false,
+  setClosed: () => null,
 }
 
 const CornerPopupContext = createContext<IContext>(defaultValue)
@@ -23,12 +27,15 @@ export const CornerPopupContextProvider = ({
 }: {
   children: ReactNode
 }) => {
-  const [open, setOpen] = useState(defaultValue.open)
+  const [triggered, setTriggered] = useState(defaultValue.triggered)
+  const [closed, setClosed] = useState(defaultValue.closed)
   return (
     <CornerPopupContext.Provider
       value={{
-        open,
-        setOpen: value => setOpen(value),
+        triggered,
+        setTriggered: value => setTriggered(value),
+        closed,
+        setClosed: value => setClosed(value),
       }}
     >
       {children}

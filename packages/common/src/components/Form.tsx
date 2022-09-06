@@ -4,6 +4,7 @@ import {
   StructuredText as IStructuredText,
   Record,
 } from 'datocms-structured-text-utils'
+import { HTMLAttributes } from 'react'
 import { Fragment, SyntheticEvent, useCallback, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 import { BsCheck2Circle } from 'react-icons/bs'
@@ -51,12 +52,11 @@ export type FormColors = {
   buttonBorder?: [string, string]
 }
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   data: IForm
   colors: FormColors
   formType: 'Netlify' | 'Mailchimp'
   listId?: string
-  css?: CSSInterpolation
   successCss?: CSSInterpolation
   simpleSuccess?: boolean
 }
@@ -152,7 +152,7 @@ const Form = ({
         })
       }
     },
-    []
+    [formType, listId]
   )
 
   const textHighlight = useReadableColor(colors.highlight, colors.fill)
