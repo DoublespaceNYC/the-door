@@ -4,9 +4,13 @@ import { FooterProps } from '@the-door/common/src/components/Footer'
 import CommonLayout from '@the-door/common/src/components/Layout'
 import { MainNavProps } from '@the-door/common/src/components/MainNav'
 import { ISocialLink } from '@the-door/common/src/components/SocialLink'
+import QueryContext from '@the-door/common/src/context/QueryContext'
+import ThemeContext from '@the-door/common/src/context/ThemeContext'
 import { graphql, useStaticQuery } from 'gatsby'
-import { ReactNode } from 'react'
+import { ReactNode, useContext, useEffect } from 'react'
 
+import useEventsQuery from '../hooks/useEventsQuery'
+import useNewsQuery from '../hooks/useNewsQuery'
 import { colors } from '../theme/variables'
 import Door50Logo from './Door50Logo'
 import DoorLogo from './DoorLogo'
@@ -154,6 +158,22 @@ const Layout = ({ children }: Props) => {
         }
       }
     `)
+  const { allInternalArticles, allExternalArticles } = useNewsQuery()
+  const { allEvents } = useEventsQuery()
+  const {
+    setAllInternalArticles,
+    setAllExternalArticles,
+    setAllEvents,
+  } = useContext(QueryContext)
+  useEffect(() => {
+    setAllInternalArticles(allInternalArticles)
+    setAllExternalArticles(allExternalArticles)
+    setAllEvents(allEvents)
+  })
+  const { setTheme } = useContext(ThemeContext)
+  useEffect(() => {
+    setTheme('The Door')
+  }, [setTheme])
   return (
     <CommonLayout
       nav={{

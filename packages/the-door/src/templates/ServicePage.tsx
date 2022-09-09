@@ -1,5 +1,4 @@
 import { IAnchorLink } from '@the-door/common/src/components/AnchorLink'
-import { IDatoLink } from '@the-door/common/src/components/DatoLink'
 import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
 import { IContactSection } from '@the-door/common/src/components/PageContact'
 import { IPageContent } from '@the-door/common/src/components/PageContent'
@@ -7,6 +6,7 @@ import PageIntro from '@the-door/common/src/components/PageIntro'
 import { IProgramCatalogSection } from '@the-door/common/src/components/ProgramCatalogSection'
 import { IStructuredText } from '@the-door/common/src/types'
 import { PageProps, graphql } from 'gatsby'
+import { useMemo } from 'react'
 
 import Layout from '../components/Layout'
 import TheDoorPageContact from '../components/PageContact'
@@ -42,24 +42,10 @@ export const data = graphql`
           y
         }
       }
-      navCta {
-        ... on DatoCmsInternalLink {
-          ...InternalLinkFragment
-        }
-        ... on DatoCmsExternalLink {
-          ...ExternalLinkFragment
-        }
-        ... on DatoCmsLightboxLink {
-          ...LightboxLinkFragment
-        }
-      }
       intro {
         value
       }
       pageContent {
-        ... on DatoCmsAnchorLink {
-          ...AnchorLinkFragment
-        }
         ... on DatoCmsContentBlock {
           ...ContentBlockFragment
         }
@@ -89,7 +75,6 @@ type DataProps = {
   service: {
     title: string
     heroImage: IGatsbyImageFocused
-    navCta: [IDatoLink?]
     intro: IStructuredText
     pageContent: IPageContent
     programCatalog: [IProgramCatalogSection?]
@@ -107,7 +92,6 @@ const ServicePage = ({
     service: {
       title,
       heroImage,
-      navCta,
       intro,
       pageContent,
       programCatalog,
@@ -118,9 +102,11 @@ const ServicePage = ({
     section,
   },
 }: PageProps<DataProps>) => {
-  const anchorLinks = pageContent.filter(
-    block => block.__typename === 'DatoCmsAnchorLink'
-  ) as IAnchorLink[]
+  const anchorLinks = useMemo(() => {
+    return pageContent
+      .map(block => block.anchorLink[0])
+      .filter(block => block !== undefined) as IAnchorLink[]
+  }, [pageContent])
   return (
     <Layout>
       <Seo
@@ -143,7 +129,6 @@ const ServicePage = ({
             ? [contactSection[0]?.anchorLink[0]]
             : []),
         ]}
-        button={navCta[0]}
       />
       <PageIntro intro={intro} />
       <TheDoorPageContent

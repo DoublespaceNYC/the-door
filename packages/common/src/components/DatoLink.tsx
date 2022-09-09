@@ -65,6 +65,8 @@ const DatoLink = ({ link, ...props }: Props) => {
         <span>{link.linkText}</span>
       </a>
     )
+  } else {
+    return <a {...props}>{link.linkText}</a>
   }
   return <Fragment />
 }

@@ -1,4 +1,5 @@
-import { SerializedStyles, css } from '@emotion/react'
+import { css } from '@emotion/react'
+import { CSSInterpolation } from '@emotion/serialize'
 import throttle from 'lodash/throttle'
 import { HTMLAttributes } from 'react'
 import {
@@ -16,9 +17,9 @@ import DatoLink, { IDatoLink } from './DatoLink'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode
-  scrollWidthCss?: SerializedStyles | SerializedStyles[]
-  scrollAreaCss?: SerializedStyles | SerializedStyles[]
-  contentCss?: SerializedStyles | SerializedStyles[]
+  scrollWidthCss?: CSSInterpolation
+  scrollAreaCss?: CSSInterpolation
+  contentCss?: CSSInterpolation
   navStyle?: 'overlay' | 'above'
   snap?: boolean
   colors?: {
@@ -109,10 +110,10 @@ const ScrollSlider = ({
     outer: css`
       position: relative;
       overflow: hidden;
-      ${navVisible &&
+      ${!navVisible &&
       navStyle === 'above' &&
       css`
-        margin-top: -4rem;
+        margin-top: 4rem;
       `}
     `,
     slider: css`

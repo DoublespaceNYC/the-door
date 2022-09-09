@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
+import { IGatsbyImageData } from 'gatsby-plugin-image'
 import { rgba } from 'polished'
 import { useMemo } from 'react'
 import { StructuredText, renderMarkRule } from 'react-datocms'
@@ -8,7 +8,9 @@ import { StructuredText, renderMarkRule } from 'react-datocms'
 import useReadableColor from '../hooks/useReadableColor'
 import { baseGrid, linkStyle, mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
+import { Anchor, IAnchorLink } from './AnchorLink'
 import ContentBlockShape, { ShapeType } from './ContentBlockShape'
+import ContentCarousel, { ICarousel } from './ContentCarousel'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
 import GatsbyImageFocused, {
   IGatsbyImageFocused,
@@ -16,6 +18,11 @@ import GatsbyImageFocused, {
 
 interface IBody extends IStructuredText {
   blocks?: IDatoLink[]
+}
+
+interface ITextBlock extends Record {
+  __typename: 'DatoCmsTextBlock'
+  body: IBody
 }
 
 interface IContentBlockImage
@@ -27,6 +34,7 @@ interface IContentBlockImage
 
 export interface IContentBlock extends Record {
   __typename: 'DatoCmsContentBlock'
+  anchorLink: [IAnchorLink?]
   heading: string
   image: [
     {
@@ -34,7 +42,7 @@ export interface IContentBlock extends Record {
       layout: 'narrow' | 'medium' | 'wide'
     }?
   ]
-  body: IBody
+  content: (ITextBlock | ICarousel)[]
 }
 
 type Props = {
@@ -45,7 +53,7 @@ type Props = {
 }
 
 const ContentBlock = ({
-  block: { heading, image, body },
+  block: { anchorLink, heading, image, content },
   shape,
   color,
   orientation,
@@ -84,9 +92,34 @@ const ContentBlock = ({
     }
   }, [layout])
 
-  const contentRows = body.value.document.children.length
+  const contentRows = content.length
 
   const readableColor = useReadableColor(color, '#fff', 3)
+
+  const textGridCss = css`
+    ${left &&
+    css`
+      grid-column: 2 / span var(--text-span);
+      ${layout !== 'noImg' &&
+      css`
+        margin-right: var(--gtr-m);
+        ${mq().ms} {
+          margin-right: 0;
+        }
+      `}
+    `}
+    ${right &&
+    css`
+      grid-column: span var(--text-span) / -2;
+      ${layout !== 'noImg' &&
+      css`
+        margin-left: var(--gtr-m);
+        ${mq().ms} {
+          margin-left: 0;
+        }
+      `}
+    `}
+  `
 
   const styles = {
     section: css`
@@ -94,7 +127,6 @@ const ContentBlock = ({
       grid-template-rows: 1fr var(--gtr-m) auto repeat(${contentRows}, auto) 1fr;
       color: #333;
       margin-bottom: var(--row-l);
-
       --text-span: ${textSpan.l};
       ${mq().m} {
         --text-span: ${textSpan.m};
@@ -103,7 +135,50 @@ const ContentBlock = ({
         grid-template-rows: auto;
         --text-span: ${textSpan.ms};
       }
-
+      &:before {
+        content: '';
+        display: block;
+        grid-row: 1 / 3;
+        ${textGridCss}
+      }
+    `,
+    heading: css`
+      color: ${color};
+      font-size: var(--fs-72);
+      z-index: 2;
+      position: relative;
+      margin: 0 0 0.167em;
+      padding-top: calc(0.333em + 3px);
+      ${textGridCss}
+      &:before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: calc(
+          100% + var(--col-w) + var(--gtr-m)
+            ${layout !== 'noImg' ? '* 2' : ''}
+        );
+        height: 3px;
+        background: ${color};
+        top: 0;
+        left: ${left ? 0 : 'auto'};
+        right: ${right ? 0 : 'auto'};
+      }
+      ${mq().ms} {
+        width: fit-content;
+        &:before {
+          width: calc(100% + var(--margin));
+          max-width: calc(100vw - 2 * var(--margin));
+          left: 0;
+          right: 0;
+        }
+      }
+    `,
+    textBlock: css`
+      ${textGridCss}
+      &:nth-child(${contentRows + 1}) {
+        margin-bottom: 0;
+      }
       p {
         margin: 0.5em 0;
         line-height: 1.75;
@@ -133,86 +208,6 @@ const ContentBlock = ({
             line-height: 1.5;
             margin: 0 0 0.75em;
           }
-        }
-      }
-      > {
-        h2,
-        h3,
-        h4,
-        h5,
-        p,
-        ul,
-        ol,
-        a {
-          ${left &&
-          css`
-            grid-column: 2 / span var(--text-span);
-            ${layout !== 'noImg' &&
-            css`
-              margin-right: var(--gtr-m);
-              ${mq().ms} {
-                margin-right: 0;
-              }
-            `}
-          `}
-          ${right &&
-          css`
-            grid-column: span var(--text-span) / -2;
-            ${layout !== 'noImg' &&
-            css`
-              margin-left: var(--gtr-m);
-              ${mq().ms} {
-                margin-left: 0;
-              }
-            `}
-          `}
-        }
-        &:nth-child(${contentRows + 1}) {
-          margin-bottom: 0;
-        }
-      }
-      &:before {
-        content: '';
-        display: block;
-        grid-row: 1 / 3;
-        ${left &&
-        css`
-          grid-column: 2 / span var(--text-span);
-        `}
-        ${right &&
-        css`
-          grid-column: span var(--text-span) / -2;
-        `}
-      }
-    `,
-    heading: css`
-      color: ${color};
-      font-size: var(--fs-72);
-      z-index: 2;
-      position: relative;
-      margin: 0 0 0.167em;
-      padding-top: calc(0.333em + 3px);
-      &:before {
-        content: '';
-        position: absolute;
-        display: block;
-        width: calc(
-          100% + var(--col-w) + var(--gtr-m)
-            ${layout !== 'noImg' ? '* 2' : ''}
-        );
-        height: 3px;
-        background: ${color};
-        top: 0;
-        left: ${left ? 0 : 'auto'};
-        right: ${right ? 0 : 'auto'};
-      }
-      ${mq().ms} {
-        width: fit-content;
-        &:before {
-          width: calc(100% + var(--margin));
-          max-width: calc(100vw - 2 * var(--margin));
-          left: 0;
-          right: 0;
         }
       }
     `,
@@ -262,23 +257,45 @@ const ContentBlock = ({
   }
   return (
     <section css={styles.section}>
+      {anchorLink[0] && <Anchor id={anchorLink[0].linkText} />}
       <h2 css={styles.heading}>{heading}</h2>
-      <StructuredText
-        data={body}
-        renderBlock={({ record }) => {
-          if (isDatoLink(record)) {
-            return <DatoLink link={record} css={styles.linkBlock} />
-          } else return null
-        }}
-        customMarkRules={[
-          renderMarkRule('h1' || 'h2', ({ children, key }) => {
-            return <h3 key={key}>{children}</h3>
-          }),
-          renderMarkRule('h5' || 'h6', ({ children, key }) => {
-            return <h4 key={key}>{children}</h4>
-          }),
-        ]}
-      />
+      {content.map((block, i) => {
+        if (block.__typename === 'DatoCmsTextBlock') {
+          return (
+            <div css={styles.textBlock} key={i}>
+              <StructuredText
+                key={i}
+                data={block.body}
+                renderBlock={({ record }) => {
+                  if (isDatoLink(record)) {
+                    return (
+                      <DatoLink link={record} css={styles.linkBlock} />
+                    )
+                  } else return null
+                }}
+                customMarkRules={[
+                  renderMarkRule('h1' || 'h2', ({ children, key }) => {
+                    return <h3 key={key}>{children}</h3>
+                  }),
+                  renderMarkRule('h5' || 'h6', ({ children, key }) => {
+                    return <h4 key={key}>{children}</h4>
+                  }),
+                ]}
+              />
+            </div>
+          )
+        }
+        if (block.__typename === 'DatoCmsCarousel') {
+          return (
+            <ContentCarousel
+              data={block}
+              key={i}
+              color={color}
+              orientation={orientation}
+            />
+          )
+        }
+      })}
       <div css={styles.image}>
         {image[0] && (
           <GatsbyImageFocused

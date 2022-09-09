@@ -1,10 +1,9 @@
 import { Record } from 'datocms-structured-text-utils'
 
-import { Anchor, IAnchorLink } from './AnchorLink'
 import ContentBlock, { IContentBlock } from './ContentBlock'
 import { ShapeType, shapeArray } from './ContentBlockShape'
 
-export type IPageContent = (IAnchorLink | IContentBlock)[]
+export type IPageContent = IContentBlock[]
 
 export interface ILayoutOptions extends Record {
   __typename: 'DatoCmsLayoutOptionsBlock'
@@ -31,9 +30,6 @@ const PageContent = ({
   return (
     <div css={{ paddingBottom: 'var(--row-s)' }}>
       {pageContent.map((record, i) => {
-        if (record.__typename === 'DatoCmsAnchorLink') {
-          return <Anchor id={record.linkText} key={i} />
-        }
         if (record.__typename === 'DatoCmsContentBlock') {
           blockIndex++
           const cI = (blockIndex + colorIndex) % colors.length

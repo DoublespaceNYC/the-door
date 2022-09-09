@@ -1,5 +1,4 @@
 import { css } from '@emotion/react'
-import { Record } from 'datocms-structured-text-utils'
 import { Link } from 'gatsby'
 import { darken, lighten, readableColor, rgba } from 'polished'
 import { HTMLAttributes } from 'react'
@@ -9,15 +8,8 @@ import { formateDateTimeRange } from '../helpers'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { mq, widthInCols } from '../theme/mixins'
 import { breakpoints } from '../theme/variables'
+import { IEvent } from './Event'
 import ScrollSlider from './ScrollSlider'
-
-export interface IEvent extends Record {
-  title: string
-  date: string
-  startDateTime: string
-  endDateTime: string
-  location: string
-}
 
 interface Props extends HTMLAttributes<HTMLElement> {
   events: IEvent[]
@@ -314,7 +306,11 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
                     )}
                   </h5>
                 </div>
-                <h5>{event.location}</h5>
+                <h5>
+                  {event.location === 'Off Campus'
+                    ? event.offCampusLocation
+                    : event.location}
+                </h5>
               </div>
             ))
           ) : (

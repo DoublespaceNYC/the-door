@@ -1,5 +1,5 @@
 export const colors = {
-  navy: 'rgb(14, 62, 116)',
+  navy: '#0e3e74',
   navyDark: '#0B2142',
   blueLight: '#75BDFF',
   blue: '#4497E3',
@@ -19,6 +19,6 @@ export const colors = {
   purpleDark: '#32245e',
   gray95: '#EEF4FA',
   gray92: '#DEEAF7',
-  gray50: 'hsl(211, 18%, 50%)',
-  gray40: 'hsl(211, 15%, 40%)',
+  gray50: '#697f96',
+  gray40: '#576575',
 }

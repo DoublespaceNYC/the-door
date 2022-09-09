@@ -10,6 +10,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions, graphql 
         nodes {
           slug
           id
+          locale
         }
       }
     }
@@ -18,6 +19,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions, graphql 
   type PageNode = {
     slug: string
     id: string
+    locale: 'en' | 'es' | 'fr'
   }
 
   type QueryProps = {
@@ -34,7 +36,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions, graphql 
 
   data?.allDatoCmsService.nodes.forEach((node: PageNode) => {
     createPage({
-      path: `/${node.slug}/`,
+      path: `${node.locale === 'en' ? '' : '/' + node.locale}/${node.slug}/`,
       component: resolve(`./src/templates/ServicePage.tsx`),
       context: {
         id: node.id

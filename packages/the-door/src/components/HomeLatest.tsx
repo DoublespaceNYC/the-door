@@ -3,18 +3,17 @@ import ArticleThumbnail from '@the-door/common/src/components/ArticleThumbnail'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
-import HomeCalendar, {
-  IEvent,
-} from '@the-door/common/src/components/HomeCalendar'
+import { IEvent } from '@the-door/common/src/components/Event'
+import HomeCalendar from '@the-door/common/src/components/HomeCalendar'
 import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
+import QueryContext from '@the-door/common/src/context/QueryContext'
 import {
   absoluteFill,
   linkStyle,
   mq,
 } from '@the-door/common/src/theme/mixins'
 import { graphql, useStaticQuery } from 'gatsby'
-import { rgba } from 'polished'
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 
 import { colors } from '../theme/variables'
 
@@ -33,16 +32,8 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
       nodes: IEvent[]
     }
   }
-  const { allNews, events } = useStaticQuery<QueryProps>(graphql`
+  const { events } = useStaticQuery<QueryProps>(graphql`
     query {
-      allNews: allDatoCmsInternalArticle(
-        sort: { fields: meta___createdAt }
-        limit: 4
-      ) {
-        nodes {
-          ...InternalArticleFragment
-        }
-      }
       events: allDatoCmsEvent(sort: { fields: startDateTime }) {
         nodes {
           ...EventFragment
@@ -50,9 +41,10 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
       }
     }
   `)
+  const { allNews } = useContext(QueryContext)
 
   const allNewsFiltered = useMemo(() => {
-    return allNews.nodes
+    return allNews
       .filter(article => article.id !== featuredArticle.id)
       .slice(0, 3)
   }, [allNews, featuredArticle])
@@ -153,24 +145,10 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
           css={styles.featured}
           article={featuredArticle}
           layout="Featured"
-          colors={{
-            category: colors.yellowDark,
-            shadow: rgba(colors.navy, 0.15),
-            shadowHover: colors.yellow,
-          }}
         />
         <div css={styles.articles}>
           {allNewsFiltered.map((article, i) => (
-            <ArticleThumbnail
-              key={i}
-              article={article}
-              layout="Grid"
-              colors={{
-                category: colors.yellowDark,
-                shadow: rgba(colors.navy, 0.15),
-                shadowHover: colors.yellow,
-              }}
-            />
+            <ArticleThumbnail key={i} article={article} layout="Grid" />
           ))}
         </div>
       </section>

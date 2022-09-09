@@ -14,7 +14,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "checkJs": true,
+    "checkJs": false,
     "strict": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

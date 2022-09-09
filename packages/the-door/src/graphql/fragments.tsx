@@ -1,6 +1,6 @@
 import { graphql } from 'gatsby'
 
-export const InternalLinkFragment = graphql`
+export const Fragments = graphql`
   fragment InternalLinkFragment on DatoCmsInternalLink {
     id: originalId
     __typename
@@ -14,23 +14,17 @@ export const InternalLinkFragment = graphql`
       }
     }
   }
-`
-export const ExternalLinkFragment = graphql`
   fragment ExternalLinkFragment on DatoCmsExternalLink {
     id: originalId
     __typename
     linkText
     url
   }
-`
-export const LightboxLinkFragment = graphql`
   fragment LightboxLinkFragment on DatoCmsLightboxLink {
     id: originalId
     __typename
     linkText
   }
-`
-export const DocumentLinkFragment = graphql`
   fragment DocumentLinkFragment on DatoCmsDocumentLink {
     id: originalId
     __typename
@@ -39,15 +33,11 @@ export const DocumentLinkFragment = graphql`
       url
     }
   }
-`
-export const AnchorLinkFragment = graphql`
   fragment AnchorLinkFragment on DatoCmsAnchorLink {
     id: originalId
     __typename
     linkText
   }
-`
-export const StoryFragment = graphql`
   fragment StoryFragment on DatoCmsStory {
     id: originalId
     __typename
@@ -77,8 +67,6 @@ export const StoryFragment = graphql`
       value
     }
   }
-`
-export const InternalArticleFragment = graphql`
   fragment InternalArticleFragment on DatoCmsInternalArticle {
     id: originalId
     __typename
@@ -113,12 +101,43 @@ export const InternalArticleFragment = graphql`
       value
     }
     inLatest
-    meta {
-      createdAt
+    publicationDate
+    slug
+    seo {
+      ...SeoFragment
     }
   }
-`
-export const EventFragment = graphql`
+  fragment ExternalArticleFragment on DatoCmsExternalArticle {
+    id: originalId
+    __typename
+    title
+    heroImage {
+      thumbnailImageData: gatsbyImageData(
+        width: 960
+        imgixParams: {
+          q: 50
+          ar: "16:9"
+          fit: "crop"
+          crop: "focalpoint"
+        }
+      )
+      alt
+      sizes {
+        aspectRatio
+      }
+      focalPoint {
+        x
+        y
+      }
+    }
+    publication
+    publicationDate
+    url
+    tags {
+      name
+    }
+    inLatest
+  }
   fragment EventFragment on DatoCmsEvent {
     id: originalId
     __typename
@@ -126,9 +145,12 @@ export const EventFragment = graphql`
     startDateTime
     endDateTime
     location
+    offCampusLocation
+    tags {
+      name
+    }
+    slug
   }
-`
-export const CornerPopupFragment = graphql`
   fragment CornerPopupFragment on DatoCmsCornerPopup {
     id: originalId
     __typename
@@ -151,12 +173,9 @@ export const CornerPopupFragment = graphql`
       }
     }
   }
-`
-export const ContentBlockFragment = graphql`
-  fragment ContentBlockFragment on DatoCmsContentBlock {
+  fragment TextBlockFragment on DatoCmsTextBlock {
     id: originalId
     __typename
-    heading
     body {
       value
       blocks {
@@ -172,6 +191,77 @@ export const ContentBlockFragment = graphql`
         ... on DatoCmsDocumentLink {
           ...DocumentLinkFragment
         }
+      }
+    }
+  }
+  fragment CarouselLinkFragment on DatoCmsCarouselLink {
+    id: originalId
+    __typename
+    title
+    categorization
+    date
+    linkType
+    document {
+      url
+    }
+    url
+  }
+  fragment CarouselMediaBlockFragment on DatoCmsCarouselMediaBlock {
+    id: originalId
+    __typename
+    caption {
+      value
+    }
+    media {
+      gatsbyImageData(
+        width: 960
+        imgixParams: {
+          q: 50
+          ar: "3:2"
+          fit: "crop"
+          crop: "focalpoint"
+        }
+      )
+      alt
+      sizes {
+        aspectRatio
+      }
+      focalPoint {
+        x
+        y
+      }
+      video {
+        streamingUrl
+      }
+    }
+  }
+  fragment CarouselFragment on DatoCmsCarousel {
+    id: originalId
+    __typename
+    contentType
+    tags {
+      name
+    }
+    links {
+      ...CarouselLinkFragment
+    }
+    media {
+      ...CarouselMediaBlockFragment
+    }
+  }
+  fragment ContentBlockFragment on DatoCmsContentBlock {
+    id: originalId
+    __typename
+    anchorLink {
+      ...AnchorLinkFragment
+    }
+    heading
+    content {
+      ... on DatoCmsTextBlock {
+        ...TextBlockFragment
+      }
+      ... on DatoCmsCarousel {
+        ...CarouselFragment
       }
     }
     image {
@@ -191,8 +281,6 @@ export const ContentBlockFragment = graphql`
       layout
     }
   }
-`
-export const SeoFragment = graphql`
   fragment SeoFragment on DatoCmsSeoField {
     title
     description
@@ -207,8 +295,6 @@ export const SeoFragment = graphql`
       )
     }
   }
-`
-export const LayoutOptionsFragment = graphql`
   fragment LayoutOptionsFragment on DatoCmsLayoutOptionsBlock {
     id: originalId
     __typename
@@ -216,8 +302,6 @@ export const LayoutOptionsFragment = graphql`
     startOrientation
     startShape
   }
-`
-export const ContactBlockFragment = graphql`
   fragment ContactBlockFragment on DatoCmsContactBlock {
     id: originalId
     __typename
@@ -226,8 +310,6 @@ export const ContactBlockFragment = graphql`
       value
     }
   }
-`
-export const ContactSectionFragment = graphql`
   fragment ContactSectionFragment on DatoCmsContactSection {
     id: originalId
     __typename
@@ -239,8 +321,6 @@ export const ContactSectionFragment = graphql`
       ...ContactBlockFragment
     }
   }
-`
-export const ProgramFragment = graphql`
   fragment ProgramFragment on DatoCmsProgram {
     id: originalId
     __typename
@@ -252,8 +332,6 @@ export const ProgramFragment = graphql`
     registration
     url
   }
-`
-export const CatalogGroupFragment = graphql`
   fragment CatalogGroupFragment on DatoCmsCatalogGroup {
     id: originalId
     __typename
@@ -262,8 +340,6 @@ export const CatalogGroupFragment = graphql`
       ...ProgramFragment
     }
   }
-`
-export const CatalogSectionFragment = graphql`
   fragment CatalogSectionFragment on DatoCmsCatalogSection {
     id: originalId
     __typename
@@ -275,8 +351,6 @@ export const CatalogSectionFragment = graphql`
       ...CatalogGroupFragment
     }
   }
-`
-export const TextFieldFragment = graphql`
   fragment TextFieldFragment on DatoCmsTextField {
     __typename
     id: originalId
@@ -284,8 +358,6 @@ export const TextFieldFragment = graphql`
     fieldType
     required
   }
-`
-export const SelectFieldFragment = graphql`
   fragment SelectFieldFragment on DatoCmsSelectField {
     __typename
     id: originalId
@@ -297,16 +369,12 @@ export const SelectFieldFragment = graphql`
     }
     required
   }
-`
-export const MultilineTextFieldFragment = graphql`
   fragment MultilineTextFieldFragment on DatoCmsMultilineTextField {
     __typename
     id: originalId
     label
     required
   }
-`
-export const FormFragment = graphql`
   fragment FormFragment on DatoCmsForm {
     id: originalId
     __typename
@@ -327,8 +395,6 @@ export const FormFragment = graphql`
       }
     }
   }
-`
-export const FormBlockFragment = graphql`
   fragment FormBlockFragment on DatoCmsFormBlock {
     id: originalId
     __typename

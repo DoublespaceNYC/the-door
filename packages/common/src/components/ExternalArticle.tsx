@@ -1,7 +1,4 @@
-import {
-  StructuredText as IStructuredText,
-  Record,
-} from 'datocms-structured-text-utils'
+import { Record } from 'datocms-structured-text-utils'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
 
 import { IGatsbyImageFocused } from '../components/GatsbyImageFocused'
@@ -11,21 +8,20 @@ interface IArticleImage
   thumbnailImageData: IGatsbyImageData
 }
 
-export interface IInternalArticle extends Record {
-  __typename: 'DatoCmsInternalArticle'
+export interface IExternalArticle extends Record {
+  __typename: 'DatoCmsExternalArticle'
   title: string
   excerpt: string
   heroImage: IArticleImage
-  category: { name: string }
+  url: string
+  publication: string
   tags: { name: string }[]
-  body: IStructuredText
   inLatest: boolean
   publicationDate: string
-  slug: string
 }
 
-const InternalArticle = () => {
+const ExternalArticle = () => {
   return <article></article>
 }
 
-export default InternalArticle
+export default ExternalArticle

@@ -83,7 +83,7 @@ const MainNav = ({
     } else {
       setNavOpen(false)
     }
-  }, [activeNavGroup, burgerOpen])
+  }, [activeNavGroup, burgerOpen, setNavOpen])
 
   useEscKeyFunction(() => {
     setActiveNavGroup(null)
