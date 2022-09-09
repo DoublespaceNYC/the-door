@@ -25,7 +25,7 @@ const ArticleThumbnail = ({
 
   const slug =
     article.__typename === 'DatoCmsInternalArticle'
-      ? `/${article.slug}}/`
+      ? `/${article.slug}/`
       : article.url
 
   const featured = layout === 'Featured'

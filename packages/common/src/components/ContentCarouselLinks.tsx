@@ -1,5 +1,4 @@
 import { css } from '@emotion/react'
-import { Block } from 'datocms-structured-text-utils'
 import { rgba } from 'polished'
 import { HTMLAttributes } from 'react'
 

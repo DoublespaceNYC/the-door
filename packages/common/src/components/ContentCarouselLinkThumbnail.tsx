@@ -112,7 +112,7 @@ const ContentCarouselLinkThumbnail = ({
           ? link.document?.url
           : link.linkType === 'External Link'
           ? link.url
-          : ''
+          : '/'
       }
       css={styles.container}
       {...props}

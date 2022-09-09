@@ -33,7 +33,7 @@ const EventThumbnail = ({
         shadowHover: dateColor,
       }
     }
-  }, [highlightColor, theme, dateColor])
+  }, [theme, dateColor])
   const styles = {
     container: css`
       position: relative;
