@@ -1,7 +1,11 @@
-import type { GatsbyNode } from "gatsby"
-import { resolve } from "path"
+import { resolve } from 'path'
 
-export const createPages: GatsbyNode["createPages"] = async ({ actions, graphql }) => {
+import type { GatsbyNode } from 'gatsby'
+
+export const createPages: GatsbyNode['createPages'] = async ({
+  actions,
+  graphql,
+}) => {
   const { createPage } = actions
 
   const datoQuery: QueryProps = await graphql(`
@@ -33,14 +37,15 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions, graphql 
 
   const { data } = datoQuery
 
-
   data?.allDatoCmsService.nodes.forEach((node: PageNode) => {
     createPage({
-      path: `${node.locale === 'en' ? '' : '/' + node.locale}/${node.slug}/`,
+      path: `${node.locale === 'en' ? '' : '/' + node.locale}/${
+        node.slug
+      }/`,
       component: resolve(`./src/templates/ServicePage.tsx`),
       context: {
-        id: node.id
-      }
+        id: node.id,
+      },
     })
   })
 }

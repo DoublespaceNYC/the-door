@@ -1,5 +1,6 @@
-import { GatsbyConfig } from "gatsby"
-import { join } from "path"
+import { join } from 'path'
+
+import { GatsbyConfig } from 'gatsby'
 
 require('dotenv').config()
 

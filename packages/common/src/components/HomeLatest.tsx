@@ -3,7 +3,6 @@ import ArticleThumbnail from '@the-door/common/src/components/ArticleThumbnail'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
-import { IEvent } from '@the-door/common/src/components/Event'
 import HomeCalendar from '@the-door/common/src/components/HomeCalendar'
 import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
 import QueryContext from '@the-door/common/src/context/QueryContext'
@@ -12,10 +11,10 @@ import {
   linkStyle,
   mq,
 } from '@the-door/common/src/theme/mixins'
-import { graphql, useStaticQuery } from 'gatsby'
 import { useContext, useMemo } from 'react'
 
-import { colors } from '../theme/variables'
+import ThemeContext from '../context/ThemeContext'
+import { doorColors } from '../theme/variables'
 
 type Props = {
   heading: string
@@ -24,30 +23,26 @@ type Props = {
 }
 
 const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
-  type QueryProps = {
-    allNews: {
-      nodes: IInternalArticle[]
-    }
-    events: {
-      nodes: IEvent[]
-    }
-  }
-  const { events } = useStaticQuery<QueryProps>(graphql`
-    query {
-      events: allDatoCmsEvent(sort: { fields: startDateTime }) {
-        nodes {
-          ...EventFragment
-        }
-      }
-    }
-  `)
-  const { allNews } = useContext(QueryContext)
+  const { allNews, allEvents } = useContext(QueryContext)
 
   const allNewsFiltered = useMemo(() => {
     return allNews
       .filter(article => article.id !== featuredArticle.id)
       .slice(0, 3)
   }, [allNews, featuredArticle])
+
+  const { theme } = useContext(ThemeContext)
+
+  const colors = useMemo(() => {
+    if (theme === 'The Door') {
+      return {
+        bg: doorColors.purpleDark,
+        heading: doorColors.yellow,
+        pageLink: [doorColors.navy],
+      }
+    }
+  }, [theme])
+
   const styles = {
     section: css`
       display: grid;
@@ -74,7 +69,7 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
         ${absoluteFill};
         grid-column: 1 / -1;
         grid-row: 2 / 3;
-        background: ${colors.purpleDark};
+        background: ${colors?.bg};
       }
       ${mq().ml} {
         &:after {
@@ -100,7 +95,7 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
       z-index: 1;
       font-size: var(--fs-108);
       margin: 0;
-      color: ${colors.yellow};
+      color: ${colors?.heading};
       line-height: 1;
       flex: 1;
     `,
@@ -126,13 +121,13 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
       ${linkStyle}
       display: block;
       max-width: fit-content;
-      color: ${colors.navy};
+      color: ${colors?.pageLink[0]};
       position: relative;
       z-index: 1;
       align-self: flex-end;
       margin-left: 0.5em;
       &:hover {
-        color: ${colors.yellow};
+        color: ${colors?.pageLink[1]};
       }
     `,
   }
@@ -152,18 +147,7 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
           ))}
         </div>
       </section>
-      <HomeCalendar
-        events={events.nodes}
-        colors={{
-          bg: '#fff',
-          heading: colors.yellow,
-          eventTitle: ['#444', colors.yellow],
-          eventText: ['#888'],
-          ctaBg: [colors.gray50, colors.yellow],
-          ctaText: ['#fff'],
-          ctaSlider: [colors.navy, colors.yellow],
-        }}
-      />
+      <HomeCalendar events={allEvents} />
     </section>
   )
 }

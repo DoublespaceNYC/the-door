@@ -1,11 +1,13 @@
 import { css } from '@emotion/react'
 import { Block } from 'datocms-structured-text-utils'
 import { rgba } from 'polished'
-import { HTMLAttributes, useContext, useMemo } from 'react'
+import { Fragment, HTMLAttributes, useContext, useMemo } from 'react'
 
 import ThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
+import DocumentIcon from './DocumentIcon'
+import ExternalLinkIcon from './ExternalLinkIcon'
 
 export interface ICarouselLink extends Block {
   __typename: 'DatoCmsCarouselLink'
@@ -104,6 +106,9 @@ const ContentCarouselLinkThumbnail = ({
         }
       }
     `,
+    icon: css`
+      font-size: 90%;
+    `,
   }
   return (
     <a
@@ -114,12 +119,29 @@ const ContentCarouselLinkThumbnail = ({
           ? link.url
           : '/'
       }
+      rel="noreferrer"
+      target="_blank"
       css={styles.container}
       {...props}
     >
       <h3 css={styles.title}>{link.title}</h3>
       <div css={styles.details}>
-        <h4>{link.categorization}</h4>
+        <h4>
+          {link.categorization}
+          {link.linkType === 'Document' ? (
+            <Fragment>
+              &#8196;
+              <DocumentIcon css={styles.icon} />
+            </Fragment>
+          ) : link.linkType === 'External Link' ? (
+            <Fragment>
+              &#8196;
+              <ExternalLinkIcon css={styles.icon} />
+            </Fragment>
+          ) : (
+            '/'
+          )}
+        </h4>
         {date && (
           <h4>
             {date.toLocaleDateString('en-US', {

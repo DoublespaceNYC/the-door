@@ -3,7 +3,7 @@ import { Record } from 'datocms-structured-text-utils'
 export interface IEvent extends Record {
   title: string
   startDateTime: string
-  endDateTime: string
+  endDateTime?: string
   location:
     | 'Manhattan Youth Center'
     | 'Bronx Youth Center'

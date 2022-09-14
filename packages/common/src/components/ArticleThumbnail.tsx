@@ -1,11 +1,12 @@
 import { css } from '@emotion/react'
 import { rgba } from 'polished'
-import { HTMLAttributes, useContext, useMemo } from 'react'
+import { Fragment, HTMLAttributes, useContext, useMemo } from 'react'
 
 import ThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import { IExternalArticle } from './ExternalArticle'
+import ExternalLinkIcon from './ExternalLinkIcon'
 import GatsbyImageFocused from './GatsbyImageFocused'
 import { IInternalArticle } from './InternalArticle'
 
@@ -134,6 +135,9 @@ const ArticleThumbnail = ({
         }
       }
     `,
+    icon: css`
+      font-size: 90%;
+    `,
   }
   return (
     <a
@@ -168,6 +172,12 @@ const ArticleThumbnail = ({
               article.category.name}
             {article.__typename === 'DatoCmsExternalArticle' &&
               article.publication}
+            {article.__typename === 'DatoCmsExternalArticle' && (
+              <Fragment>
+                &#8196;
+                <ExternalLinkIcon css={styles.icon} />
+              </Fragment>
+            )}
           </h4>
           <h4>
             {date.toLocaleDateString('en-US', {

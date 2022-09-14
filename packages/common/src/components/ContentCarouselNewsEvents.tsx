@@ -3,6 +3,7 @@ import { rgba } from 'polished'
 import { HTMLAttributes, useContext, useMemo } from 'react'
 
 import QueryContext from '../context/QueryContext'
+import { mq } from '../theme/mixins'
 import ArticleThumbnail from './ArticleThumbnail'
 import { IEvent } from './Event'
 import EventThumbnail from './EventThumbnail'
@@ -69,10 +70,16 @@ const ContentCarouselNewsEvents = ({
         ${taggedItems.length === 2 &&
         css`
           justify-content: flex-end;
+          ${mq().ms} {
+            justify-content: flex-start;
+          }
         `}
         ${taggedItems.length === 1 &&
         css`
           justify-content: center;
+          ${mq().ms} {
+            justify-content: flex-start;
+          }
         `}
       `}
     `,
@@ -84,6 +91,12 @@ const ContentCarouselNewsEvents = ({
     `,
     thumbnail: css`
       width: calc(4 * var(--col-w) + 3 * var(--gtr-m));
+      ${mq().m} {
+        width: calc(6 * var(--col-w) + 5 * var(--gtr-m));
+      }
+      ${mq().s} {
+        width: calc(9 * var(--col-w) + 8 * var(--gtr-m));
+      }
     `,
   }
   return (

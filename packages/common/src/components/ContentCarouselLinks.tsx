@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import { rgba } from 'polished'
 import { HTMLAttributes } from 'react'
 
+import { mq } from '../theme/mixins'
 import ContentCarouselLinkThumbnail, {
   ICarouselLink,
 } from './ContentCarouselLinkThumbnail'
@@ -45,6 +46,12 @@ const ContentCarouselLinks = ({
     `,
     thumbnail: css`
       width: calc(4 * var(--col-w) + 3 * var(--gtr-m));
+      ${mq().m} {
+        width: calc(6 * var(--col-w) + 5 * var(--gtr-m));
+      }
+      ${mq().s} {
+        width: calc(9 * var(--col-w) + 8 * var(--gtr-m));
+      }
     `,
   }
   return (

@@ -1,6 +1,9 @@
+import { CSSInterpolation } from '@emotion/serialize'
 import { Record } from 'datocms-structured-text-utils'
 import { Link } from 'gatsby'
 import { Fragment, HTMLAttributes } from 'react'
+
+import ExternalLinkIcon from './ExternalLinkIcon'
 
 export interface IInternalLink extends Record {
   __typename: 'DatoCmsInternalLink'
@@ -49,9 +52,11 @@ export const isDatoLink = (record: Record) => {
 
 interface Props extends HTMLAttributes<HTMLAnchorElement> {
   link: IDatoLink
+  icon?: boolean
+  iconCss?: CSSInterpolation
 }
 
-const DatoLink = ({ link, ...props }: Props) => {
+const DatoLink = ({ link, icon = true, iconCss, ...props }: Props) => {
   if (link.__typename === 'DatoCmsInternalLink') {
     return (
       <Link to={`/${link.link.slug}/`.replace('//', '/')} {...props}>
@@ -62,7 +67,15 @@ const DatoLink = ({ link, ...props }: Props) => {
   if (link.__typename === 'DatoCmsExternalLink') {
     return (
       <a href={link.url} rel="noreferrer" target="_blank" {...props}>
-        <span>{link.linkText}</span>
+        <span>
+          {link.linkText}
+          {icon && (
+            <Fragment>
+              {' '}
+              <ExternalLinkIcon css={iconCss} />
+            </Fragment>
+          )}
+        </span>
       </a>
     )
   } else {

@@ -45,10 +45,10 @@ export const linkStyle = css`
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: 0.5em;
   text-decoration-thickness: 2px;
-  line-height: 1.5;
-  margin: 1em 0;
+  line-height: 2;
+  margin: 0.75em 0;
   font-weight: 500;
   max-width: fit-content;
 `

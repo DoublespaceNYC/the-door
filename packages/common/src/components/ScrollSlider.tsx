@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import throttle from 'lodash/throttle'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useRef } from 'react'
 import {
   ReactNode,
   useCallback,
@@ -9,6 +9,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { createPortal } from 'react-dom'
 import smoothscroll from 'smoothscroll-polyfill'
 
 import { useElementWidth } from '../hooks/useElementRect'
@@ -17,21 +18,23 @@ import DatoLink, { IDatoLink } from './DatoLink'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode
+  navContainer?: HTMLElement | null
   scrollWidthCss?: CSSInterpolation
   scrollAreaCss?: CSSInterpolation
   contentCss?: CSSInterpolation
   navStyle?: 'overlay' | 'above'
   snap?: boolean
   colors?: {
-    arrow: [string, string?]
-    arrowDisabled: string
-    link: [string, string?]
+    arrow: [string?, string?]
+    arrowDisabled?: string
+    link: [string?, string?]
   }
   link?: IDatoLink
 }
 
 const ScrollSlider = ({
   children,
+  navContainer,
   scrollWidthCss,
   scrollAreaCss,
   contentCss,
@@ -102,19 +105,17 @@ const ScrollSlider = ({
     })
   }
 
+  const navRef = useRef<HTMLDivElement | null>(null)
   const navVisible = useMemo(() => {
     return sliderRef && containerWidth < contentWidth - 20
   }, [sliderRef, containerWidth, contentWidth])
+
+  const navPortalTarget = navContainer || navRef.current
 
   const styles = {
     outer: css`
       position: relative;
       overflow: hidden;
-      ${!navVisible &&
-      navStyle === 'above' &&
-      css`
-        margin-top: 4rem;
-      `}
     `,
     slider: css`
       position: relative;
@@ -163,11 +164,12 @@ const ScrollSlider = ({
     `,
     scrollButton: css`
       display: flex;
+      flex: none;
       align-items: center;
       justify-content: center;
       --transformXY: translate(0%, -50%);
       top: 50%;
-      transform: var(--transformXY) scale3d(1, 1, 1);
+      transform: var(--transformXY) scale3d(0.999, 0.999, 1);
       transition: transform 400ms cubic-bezier(0.33, 3, 0.25, 0.5);
       svg {
         position: relative;
@@ -184,7 +186,7 @@ const ScrollSlider = ({
         &:hover {
           transform: var(--transformXY) scale3d(1.125, 1.125, 1);
           svg polyline {
-            stroke: ${colors?.arrow[1] || null};
+            stroke: ${colors?.arrow[1]};
           }
         }
         &:active {
@@ -249,6 +251,7 @@ const ScrollSlider = ({
       ${linkStyle}
       margin: 0 0.5em;
       color: ${colors?.link[0] || null};
+      flex: none;
       &:hover {
         @media (hover: hover) {
           color: ${colors?.link[1] || null};
@@ -259,51 +262,55 @@ const ScrollSlider = ({
 
   return (
     <div css={styles.outer} {...props}>
-      {navVisible && (
-        <nav css={styles.nav}>
-          {link && <DatoLink link={link} css={styles.link} />}
-          <button
-            css={[
-              styles.scrollButton,
-              styles.back,
-              scrollPos >= -10 && styles.disabled,
-            ]}
-            onClick={handleScrollBack}
-            onKeyPress={handleScrollBack}
-            aria-label="scroll back"
-          >
-            <svg
-              width="24px"
-              height="48px"
-              viewBox="0 0 24 48"
-              vectorEffect="non-scaling-stroke"
+      <div ref={navRef} />
+      {navVisible &&
+        navPortalTarget &&
+        createPortal(
+          <nav css={styles.nav}>
+            {link && <DatoLink link={link} css={styles.link} />}
+            <button
+              css={[
+                styles.scrollButton,
+                styles.back,
+                scrollPos >= -10 && styles.disabled,
+              ]}
+              onClick={handleScrollBack}
+              onKeyPress={handleScrollBack}
+              aria-label="scroll back"
             >
-              <polyline
-                points="1 45.5 22.5 24 1 2.5"
+              <svg
+                width="24px"
+                height="48px"
+                viewBox="0 0 24 48"
                 vectorEffect="non-scaling-stroke"
-              />
-            </svg>
-          </button>
-          <button
-            css={[
-              styles.scrollButton,
-              styles.forward,
-              containerWidth - scrollPos >= contentWidth - 10 &&
-                styles.disabled,
-            ]}
-            onClick={handleScrollForward}
-            onKeyPress={handleScrollForward}
-            aria-label="scroll forward"
-          >
-            <svg width="24px" height="48px" viewBox="0 0 24 48">
-              <polyline
-                points="1 45.5 22.5 24 1 2.5"
-                vectorEffect="non-scaling-stroke"
-              />
-            </svg>
-          </button>
-        </nav>
-      )}
+              >
+                <polyline
+                  points="1 45.5 22.5 24 1 2.5"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+            </button>
+            <button
+              css={[
+                styles.scrollButton,
+                styles.forward,
+                containerWidth - scrollPos >= contentWidth - 10 &&
+                  styles.disabled,
+              ]}
+              onClick={handleScrollForward}
+              onKeyPress={handleScrollForward}
+              aria-label="scroll forward"
+            >
+              <svg width="24px" height="48px" viewBox="0 0 24 48">
+                <polyline
+                  points="1 45.5 22.5 24 1 2.5"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+            </button>
+          </nav>,
+          navPortalTarget
+        )}
       <div css={scrollWidthCss} ref={scrollWidthRefCallback} />
       <div css={styles.slider}>
         <div css={scrollAreaCss} ref={sliderRefCallback}>

@@ -254,6 +254,12 @@ const MainNav = ({
         pointer-events: all;
       `}
     `,
+    linkIcon: css`
+      font-size: 80%;
+      svg {
+        transform: translate(0.1em, -0.2em);
+      }
+    `,
   }
   return (
     <Fragment>
@@ -291,6 +297,7 @@ const MainNav = ({
                       return (
                         <DatoLink
                           css={[styles.navItem, styles.navLink]}
+                          iconCss={styles.linkIcon}
                           link={navItem}
                           key={i}
                         />

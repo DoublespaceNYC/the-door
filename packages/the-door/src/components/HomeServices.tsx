@@ -56,8 +56,8 @@ const HomeServices = ({
     decoration: css`
       ${absoluteFill}
       grid-column: span 8 / -1;
-      grid-row: 1 / 3;
-      height: calc(100% + var(--row-m));
+      grid-row: 1 / 4;
+      height: calc(100% - 4 * var(--row-m));
       background: ${rgba(colors.teal, 0.6)};
       ${mq().m} {
         grid-column: span 7 / -1;
@@ -83,7 +83,7 @@ const HomeServices = ({
       position: relative;
       font-size: var(--fs-108);
       line-height: 1;
-      margin: 0 0 6rem;
+      margin: 0 0 var(--row-m);
       ${mq().s} {
         margin-bottom: 0;
         grid-column: 2 / -2;
@@ -95,15 +95,13 @@ const HomeServices = ({
       line-height: 1.5;
       margin-top: var(--gtr-s);
       max-width: 55ch;
+      margin-bottom: var(--row-m);
       p:last-of-type {
-        margin-bottom: 6rem;
+        margin-bottom: 0rem;
       }
       ${mq().s} {
         margin-top: 0;
         grid-column: 2 / -2;
-        p:last-of-type {
-          margin-bottom: 5rem;
-        }
       }
     `,
     link: css`
@@ -124,7 +122,7 @@ const HomeServices = ({
       position: relative;
       grid-column: 2 / -2;
       display: grid;
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: minmax(45ch, 1fr) 2fr;
       background: ${rgba(colors.teal, 0.6)};
       margin-bottom: var(--row-ll);
       ${mq().ms} {

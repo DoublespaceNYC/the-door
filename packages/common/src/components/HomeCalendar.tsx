@@ -1,30 +1,22 @@
 import { css } from '@emotion/react'
 import { Link } from 'gatsby'
-import { darken, lighten, readableColor, rgba } from 'polished'
-import { HTMLAttributes } from 'react'
+import { rgba } from 'polished'
+import { HTMLAttributes, useContext, useRef } from 'react'
 import { useMemo } from 'react'
 
+import ThemeContext from '../context/ThemeContext'
 import { formateDateTimeRange } from '../helpers'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { mq, widthInCols } from '../theme/mixins'
-import { breakpoints } from '../theme/variables'
+import { breakpoints, doorColors } from '../theme/variables'
 import { IEvent } from './Event'
 import ScrollSlider from './ScrollSlider'
 
 interface Props extends HTMLAttributes<HTMLElement> {
   events: IEvent[]
-  colors: {
-    bg: string
-    heading: string
-    eventTitle: [string, string?]
-    eventText: [string, string?]
-    ctaBg: [string, string?]
-    ctaText: [string, string?]
-    ctaSlider: [string, string?]
-  }
 }
 
-const HomeCalendar = ({ events, colors, ...props }: Props) => {
+const HomeCalendar = ({ events, ...props }: Props) => {
   const filteredEvents = useMemo(() => {
     const today = new Date()
     return events.filter(event => {
@@ -39,6 +31,26 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
   }, [events])
 
   const windowWidth = useWindowWidth()
+
+  const { theme } = useContext(ThemeContext)
+
+  const sliderNavRef = useRef<HTMLDivElement | null>(null)
+
+  const colors = useMemo(() => {
+    if (theme === 'The Door') {
+      return {
+        bg: '#fff',
+        heading: doorColors.yellow,
+        eventTitle: ['#444', doorColors.yellow],
+        eventText: ['#888'],
+        ctaBg: [doorColors.gray50, doorColors.yellow],
+        ctaText: ['#fff'],
+        ctaSlider: [doorColors.navy, doorColors.yellow],
+        dividerTop: '#80808080',
+        divider: '#ddd',
+      }
+    }
+  }, [theme])
 
   const styles = {
     section: css`
@@ -56,7 +68,7 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
       }
     `,
     wrap: css`
-      background: ${colors.bg};
+      background: ${colors?.bg};
       width: 100%;
       max-height: 100%;
       display: flex;
@@ -65,7 +77,7 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
       top: calc(var(--nav-height) + 1rem);
       ${mq().ml} {
         width: 100%;
-        display: flex;
+        flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
         padding: var(--row-s) 0 var(--row-m);
@@ -73,14 +85,14 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
     `,
     heading: css`
       font-size: var(--fs-36);
-      color: ${colors.heading};
+      color: ${colors?.heading};
       margin: 0;
       text-transform: uppercase;
       letter-spacing: 0.025em;
       margin: 1em 3rem 0.5em;
       line-height: 1;
       ${mq().ml} {
-        margin: 0 var(--margin) 0.5em;
+        margin: 0.25em var(--margin) 0.5em;
       }
     `,
     viewAll: css`
@@ -89,16 +101,16 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
       text-transform: uppercase;
       letter-spacing: 0.025em;
       width: 100%;
-      color: ${colors.ctaText[0]};
-      background: ${colors.ctaBg[0]};
+      color: ${colors?.ctaText[0]};
+      background: ${colors?.ctaBg[0]};
       text-decoration: none;
       padding: 1rem 2rem;
       transition: background 200ms ease, color 300ms ease;
       box-sizing: border-box;
       @media (hover: hover) {
         &:hover {
-          background: ${colors.ctaBg[1] || null};
-          color: ${colors.ctaText[1] || null};
+          background: ${colors?.ctaBg[1] || null};
+          color: ${colors?.ctaText[1] || null};
         }
       }
       ${mq().ml} {
@@ -118,21 +130,15 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
         height: 1px;
         left: 0;
         top: 0;
-        background: ${rgba(
-          readableColor(
-            colors.bg,
-            darken(0.5, colors.bg),
-            lighten(0.5, colors.bg),
-            false
-          ),
-          0.5
-        )};
+        background: ${colors?.dividerTop};
       }
     `,
+    sliderNav: css``,
     eventsSlider: css`
       ${mq('min').ml} {
         flex: 1;
         margin-left: 3rem;
+        margin-top: 0;
         padding-right: 3rem;
         overflow: auto;
         &:before {
@@ -143,15 +149,7 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
           height: 1px;
           left: 0;
           top: 0;
-          background: ${rgba(
-            readableColor(
-              colors.bg,
-              darken(0.5, colors.bg),
-              lighten(0.5, colors.bg),
-              false
-            ),
-            0.5
-          )};
+          background: ${colors?.dividerTop};
         }
       }
       ${mq().ml} {
@@ -191,13 +189,7 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
       box-sizing: border-box;
       ${mq('min').ml} {
         padding: 1.5rem 0;
-        border-bottom: 1px solid
-          ${readableColor(
-            colors.bg,
-            darken(0.125, colors.bg),
-            lighten(0.125, colors.bg),
-            false
-          )};
+        border-bottom: 1px solid ${colors?.divider};
         &:last-of-type {
           border: none;
           margin-bottom: 2rem;
@@ -206,13 +198,7 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
       ${mq().ml} {
         width: ${widthInCols(filteredEvents.length > 3 ? 3 : 4)};
         padding-top: 1rem;
-        border-top: 1px solid
-          ${readableColor(
-            colors.bg,
-            darken(0.25, colors.bg),
-            lighten(0.25, colors.bg),
-            false
-          )};
+        border-top: 1px solid ${colors?.divider};
       }
       ${mq().ms} {
         width: ${widthInCols(filteredEvents.length > 2 ? 4 : 6)};
@@ -225,23 +211,23 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
         font-size: var(--fs-24);
         order: 2;
         margin: 0 0 0.125em;
-        color: ${colors.eventTitle[0]};
+        color: ${colors?.eventTitle[0]};
         transition: color 300ms ease;
         width: max-content;
         max-width: 100%;
       }
       h5 {
         font-size: var(--fs-14);
-        color: ${colors.eventText[0]};
+        color: ${colors?.eventText[0]};
         font-weight: 500;
       }
       @media (hover: hover) {
         &:hover {
           h4 {
-            color: ${colors.eventTitle[1] || null};
+            color: ${colors?.eventTitle[1]};
           }
           h5 {
-            color: ${colors.eventText[1] || null};
+            color: ${colors?.eventText[1]};
           }
         }
       }
@@ -262,7 +248,7 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
       font-family: var(--display-font);
       font-size: var(--fs-30);
       line-height: 1.125;
-      color: ${colors.eventText};
+      color: ${colors?.eventText};
       margin: 1em 0 2em;
       ${mq().ml} {
         margin: 0;
@@ -273,17 +259,20 @@ const HomeCalendar = ({ events, colors, ...props }: Props) => {
     <section css={styles.section} {...props}>
       <div css={styles.wrap}>
         <h3 css={styles.heading}>Calendar</h3>
+        <div ref={sliderNavRef} css={styles.sliderNav} />
         <ScrollSlider
           css={styles.eventsSlider}
           scrollWidthCss={styles.sliderScrollWidth}
           scrollAreaCss={styles.sliderScrollArea}
           contentCss={styles.sliderContent}
           snap={windowWidth ? windowWidth > breakpoints.s : false}
+          navContainer={sliderNavRef.current}
           navStyle="above"
           colors={{
-            arrow: [colors.ctaSlider[0]],
-            arrowDisabled: rgba(colors.ctaSlider[0], 0.125),
-            link: [colors.ctaSlider[0], colors.ctaSlider[1]],
+            arrow: [colors?.ctaSlider[0] as string],
+            arrowDisabled:
+              colors?.ctaSlider[0] && rgba(colors?.ctaSlider[0], 0.125),
+            link: [colors?.ctaSlider[0], colors?.ctaSlider[1]],
           }}
           link={{
             id: '',
