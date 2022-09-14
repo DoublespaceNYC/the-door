@@ -31,6 +31,7 @@
     "@typescript-eslint/no-explicit-any": "off",
     "prettier/prettier": "warn",
     "@typescript-eslint/ban-types": "warn",
-    "no-throw-literal": "warn"
+    "no-throw-literal": "warn",
+    "react/no-unknown-property": "off"
   }
 }

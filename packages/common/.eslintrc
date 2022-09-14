@@ -34,6 +34,7 @@
     "prettier/prettier": "warn",
     "@typescript-eslint/ban-types": "warn",
     "no-throw-literal": "warn",
-    "jsx-a11y/media-has-caption": "off"
+    "jsx-a11y/media-has-caption": "off",
+    "react/no-unknown-property": "off"
   }
 }
