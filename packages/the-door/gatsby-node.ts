@@ -83,7 +83,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
 
 export const createResolvers: GatsbyNode['createResolvers'] = ({ createResolvers }) => {
   const today = new Date()
-  today.setHours(23, 59, 59)
+  today.setHours(0, 0, 0, 0)
   createResolvers({
     DatoCmsEvent: {
       isUpcoming: {
