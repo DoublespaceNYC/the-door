@@ -4,6 +4,7 @@ import { NavMenuContextProvider } from '@the-door/common/src/context/NavMenuCont
 import { QueryContextProvider } from '@the-door/common/src/context/QueryContext'
 import { ThemeContextProvider } from '@the-door/common/src/context/ThemeContext'
 import { GatsbySSR } from 'gatsby'
+import * as React from 'react'
 
 export const wrapPageElement: GatsbySSR['wrapPageElement'] = ({
   element,
