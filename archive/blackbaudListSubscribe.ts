@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { URLSearchParams } from 'url'
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
 
 const handler: Handler = async (event, context) => {
   // Only allow POST
