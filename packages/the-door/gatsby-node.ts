@@ -67,8 +67,13 @@ export const createPages: GatsbyNode['createPages'] = async ({
 }
 
 export const createResolvers: GatsbyNode['createResolvers'] = ({ createResolvers }) => {
-  const today = new Date()
+  const convertTZ = (date: Date, tzString: string) => {
+    return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", { timeZone: tzString }));
+  }
+  const newDate = new Date()
+  const today = convertTZ(newDate, 'America/New_York')
   today.setHours(0, 0, 0, 0)
+
   createResolvers({
     DatoCmsEvent: {
       isUpcoming: {
@@ -77,6 +82,26 @@ export const createResolvers: GatsbyNode['createResolvers'] = ({ createResolvers
           const { start_date_time, end_date_time } = source.entityPayload.attributes
           const cutoff = new Date(end_date_time || start_date_time)
           return cutoff > today
+        }
+      },
+      buildTime: {
+        type: `String!`,
+        resolve: async () => {
+          return newDate.toString()
+        }
+      },
+      midnightToday: {
+        type: `String!`,
+        resolve: async () => {
+          return today.toString()
+        }
+      },
+      cutoffTime: {
+        type: `String!`,
+        resolve: async (source, args, context, info) => {
+          const { start_date_time, end_date_time } = source.entityPayload.attributes
+          const cutoff = new Date(end_date_time || start_date_time)
+          return cutoff.toString()
         }
       },
     },
