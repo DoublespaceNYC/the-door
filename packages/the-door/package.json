@@ -75,5 +75,6 @@
   },
   "bugs": {
     "url": "https://github.com/claygiffin/@the-door/issues"
-  }
+  },
+  "type": "module"
 }

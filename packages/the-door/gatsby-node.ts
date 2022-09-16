@@ -17,21 +17,6 @@ export const createPages: GatsbyNode['createPages'] = async ({
           locale
         }
       }
-      # allDatoCmsEvent {
-      #   nodes {
-      #     originalId
-      #     __typename
-      #     title
-      #     startDateTime
-      #     endDateTime
-      #     location
-      #     offCampusLocation
-      #     tags {
-      #       name
-      #     }
-      #     slug
-      #   }
-      # }
     }
   `)
 
@@ -100,7 +85,7 @@ export const createResolvers: GatsbyNode['createResolvers'] = ({ createResolvers
 
 export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({ actions: { createTypes } }) => {
   createTypes(`
-    type DatoCmsEvent implements Node @infer {
+    type DatoCmsEvent implements Node {
       isUpcoming: Boolean!
     }
   `)
