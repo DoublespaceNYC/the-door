@@ -102,13 +102,13 @@ const ContentCarouselMediaBlock = ({
       z-index: 2;
       width: calc(25% + var(--gtr-m));
       background: ${colors.gray};
-      padding: 1em max(var(--gtr-m), 1.25em);
+      padding: 1em 1.5em;
       overflow: hidden;
       box-sizing: border-box;
       color: ${colors.text};
       ${mq().m} {
         grid-row: 2 / 4;
-        padding: 0.5em max(var(--gtr-m), 1.25em);
+        padding: 0.5em 1.25em;
         width: calc(100% - var(--gtr-m));
         align-self: flex-start;
         ${!data.media.isImage &&

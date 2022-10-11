@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
+import { lighten } from 'polished'
 import { Fragment, useMemo } from 'react'
 import { StructuredText } from 'react-datocms'
 
@@ -34,17 +35,18 @@ const PageContact = ({
   const colors = useMemo(() => {
     const common = {
       text: '#fff',
-      link: ['#fff', '#ffffffbf'],
     }
     switch (theme) {
       case 'The Door':
         return {
           ...common,
           bg: `linear-gradient(to top right, ${doorColors.blueMid}, ${doorColors.blue})`,
+          link: ['#fff', lighten(0.1, doorColors.green)],
         }
       default:
         return {
           ...common,
+          link: ['#fff', '#ffffffbf'],
           bg: '',
         }
     }
