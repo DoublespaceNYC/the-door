@@ -3,6 +3,7 @@ import {
   ReactNode,
   SetStateAction,
   createContext,
+  useContext,
   useLayoutEffect,
   useState,
 } from 'react'
@@ -11,7 +12,7 @@ import { IEvent } from '../components/Event'
 import { IExternalArticle } from '../components/ExternalArticle'
 import { IInternalArticle } from '../components/InternalArticle'
 
-interface IContext {
+interface IQueryContext {
   allInternalArticles: IInternalArticle[]
   setAllInternalArticles: Dispatch<SetStateAction<IInternalArticle[]>>
   allExternalArticles: IExternalArticle[]
@@ -21,38 +22,34 @@ interface IContext {
   setAllEvents: Dispatch<SetStateAction<IEvent[]>>
 }
 
-const defaultValue = {
-  allInternalArticles: [] as IInternalArticle[],
-  setAllInternalArticles: () => null,
-  allExternalArticles: [] as IExternalArticle[],
-  setAllExternalArticles: () => null,
-  allNews: [] as (IInternalArticle | IExternalArticle)[],
-  allEvents: [] as IEvent[],
-  setAllEvents: () => null,
-}
+const QueryContext = createContext<IQueryContext | undefined>(undefined)
 
-const QueryContext = createContext<IContext>(defaultValue)
+const useQueryContext = () => useContext(QueryContext) as IQueryContext
 
 export const QueryContextProvider = ({
   children,
 }: {
   children: ReactNode
 }) => {
-  const [allInternalArticles, setAllInternalArticles] = useState(
-    defaultValue.allInternalArticles
-  )
-  const [allExternalArticles, setAllExternalArticles] = useState(
-    defaultValue.allExternalArticles
-  )
-  const [allNews, setAllNews] = useState(defaultValue.allNews)
+  const [allInternalArticles, setAllInternalArticles] = useState<
+    IInternalArticle[]
+  >([])
+  const [allExternalArticles, setAllExternalArticles] = useState<
+    IExternalArticle[]
+  >([])
+  const [allNews, setAllNews] = useState<
+    (IInternalArticle | IExternalArticle)[]
+  >([])
   useLayoutEffect(() => {
-    setAllNews(
-      [...allInternalArticles, ...allExternalArticles].sort((a, b) =>
-        b.publicationDate.localeCompare(a.publicationDate)
+    if (allInternalArticles && allExternalArticles) {
+      setAllNews(
+        [...allInternalArticles, ...allExternalArticles].sort((a, b) =>
+          b.publicationDate.localeCompare(a.publicationDate)
+        )
       )
-    )
+    }
   }, [allInternalArticles, allExternalArticles])
-  const [allEvents, setAllEvents] = useState(defaultValue.allEvents)
+  const [allEvents, setAllEvents] = useState<IEvent[]>([])
   return (
     <QueryContext.Provider
       value={{
@@ -70,4 +67,4 @@ export const QueryContextProvider = ({
   )
 }
 
-export default QueryContext
+export default useQueryContext

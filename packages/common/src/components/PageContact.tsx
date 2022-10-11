@@ -1,10 +1,12 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { Fragment } from 'react'
+import { Fragment, useMemo } from 'react'
 import { StructuredText } from 'react-datocms'
 
+import useThemeContext from '../context/ThemeContext'
 import { toSlug } from '../helpers'
 import { mq } from '../theme/mixins'
+import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
 import { Anchor, IAnchorLink } from './AnchorLink'
 
@@ -23,17 +25,30 @@ export interface IContactSection extends Record {
 
 type Props = {
   data: IContactSection
-  colors: {
-    bg: string
-    text: string
-    link: [string, string]
-  }
 }
 
 const PageContact = ({
   data: { heading, anchorLink, contactBlocks },
-  colors,
-}: Props) => {
+}: Props): JSX.Element => {
+  const { theme } = useThemeContext()
+  const colors = useMemo(() => {
+    const common = {
+      text: '#fff',
+      link: ['#fff', '#ffffffbf'],
+    }
+    switch (theme) {
+      case 'The Door':
+        return {
+          ...common,
+          bg: `linear-gradient(to top right, ${doorColors.blueMid}, ${doorColors.blue})`,
+        }
+      default:
+        return {
+          ...common,
+          bg: '',
+        }
+    }
+  }, [theme])
   const styles = {
     section: css`
       position: relative;

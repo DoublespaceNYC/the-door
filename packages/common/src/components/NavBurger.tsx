@@ -8,7 +8,7 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
   onClick: () => void
 }
 
-const NavBurger = ({ open, onClick, ...props }: Props) => {
+const NavBurger = ({ open, onClick, ...props }: Props): JSX.Element => {
   const style = css`
     position: relative;
     align-self: center;

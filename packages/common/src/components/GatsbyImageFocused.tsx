@@ -5,6 +5,7 @@ import { HTMLAttributes, useMemo, useState } from 'react'
 import { useElementRect } from '../hooks/useElementRect'
 
 export interface IGatsbyImageFocused {
+  isImage: true
   gatsbyImageData: IGatsbyImageData
   sizes: {
     aspectRatio: number
@@ -27,6 +28,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   originalAspectRatio?: number
   gatsbyImageCss?: CSSInterpolation
 }
+
 const GatsbyImageFocused = ({
   image,
   alt,
@@ -35,10 +37,10 @@ const GatsbyImageFocused = ({
   originalAspectRatio,
   gatsbyImageCss,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const [ref, setRef] = useState<HTMLDivElement | null>(null)
-  const rect = useElementRect(ref)
-  const containerAR = rect.width / rect.height
+  const { width, height } = useElementRect(ref)
+  const containerAR = (width && height && width / height) || 0
 
   const trueFP = useMemo(() => {
     if (originalAspectRatio) {
@@ -96,3 +98,17 @@ const GatsbyImageFocused = ({
 }
 
 export default GatsbyImageFocused
+
+// export const ImageFocalData = graphql`
+//   fragment ImageFocalData on DatoCmsFileField {
+//     isImage
+//     alt
+//     sizes {
+//       aspectRatio
+//     }
+//     focalPoint {
+//       x
+//       y
+//     }
+//   }
+// `

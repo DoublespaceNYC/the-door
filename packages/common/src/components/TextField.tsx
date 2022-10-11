@@ -21,7 +21,7 @@ const TextField = ({
   data: { label, fieldType, required },
   onChange,
   fieldStyles,
-}: FieldProps) => {
+}: FieldProps): JSX.Element => {
   const name = toSlug(label)
   const [shrink, setShrink] = useState(false)
   const [value, setValue] = useState('')

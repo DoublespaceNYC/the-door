@@ -1,24 +1,3 @@
-export const colors = {
-  navy: '#0e3e74',
-  navyDark: '#0B2142',
-  blueLight: '#75BDFF',
-  blue: '#4497E3',
-  blueMid: '#2578C6',
-  blueDark: '#0455a0',
-  pinkLight: '#ff5386',
-  pink: '#FD2F6E',
-  pinkDark: '#C20B43',
-  teal: '#00A4BC',
-  tealDark: '#00424b',
-  green: '#b3c90c',
-  greenDark: '#497900',
-  yellow: '#FDAF17',
-  yellowDark: '#E79B07',
-  purpleLight: '#7A63C7',
-  purple: '#604AA8',
-  purpleDark: '#32245e',
-  gray95: '#EEF4FA',
-  gray92: '#DEEAF7',
-  gray50: '#697f96',
-  gray40: '#576575',
-}
+import { doorColors } from '@the-door/common/src/theme/variables'
+
+export const colors = doorColors

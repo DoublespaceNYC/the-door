@@ -3,30 +3,30 @@ import {
   ReactNode,
   SetStateAction,
   createContext,
+  useContext,
   useState,
 } from 'react'
 
 type ThemeOptions = 'The Door' | 'BSA'
 
-interface IContext {
+interface IThemeContext {
   theme?: ThemeOptions
   setTheme: Dispatch<SetStateAction<ThemeOptions>>
 }
 
-const defaultValue = {
-  theme: undefined,
-  setTheme: () => null,
-}
+const ThemeContext = createContext<IThemeContext | undefined>(undefined)
 
-const ThemeContext = createContext<IContext>(defaultValue)
+const useThemeContext = () => {
+  return useContext(ThemeContext) as IThemeContext
+}
 
 export const ThemeContextProvider = ({
   children,
 }: {
   children: ReactNode
-}) => {
+}): JSX.Element => {
   const [theme, setTheme] = useState<ThemeOptions | undefined>(
-    defaultValue.theme
+    undefined
   )
   return (
     <ThemeContext.Provider
@@ -40,4 +40,4 @@ export const ThemeContextProvider = ({
   )
 }
 
-export default ThemeContext
+export default useThemeContext

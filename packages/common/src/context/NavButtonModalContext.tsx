@@ -3,6 +3,7 @@ import {
   ReactNode,
   SetStateAction,
   createContext,
+  useContext,
   useState,
 } from 'react'
 
@@ -11,19 +12,19 @@ interface IContext {
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const defaultValue = {
-  open: true,
-  setOpen: () => null,
-}
+const NavButtonModalContext = createContext<IContext | undefined>(
+  undefined
+)
 
-const NavButtonModalContext = createContext<IContext>(defaultValue)
+const useNavButtonModalContext = () =>
+  useContext(NavButtonModalContext) as IContext
 
 export const NavButtonModalContextProvider = ({
   children,
 }: {
   children: ReactNode
 }) => {
-  const [open, setOpen] = useState(defaultValue.open)
+  const [open, setOpen] = useState(true)
   return (
     <NavButtonModalContext.Provider
       value={{
@@ -36,4 +37,4 @@ export const NavButtonModalContextProvider = ({
   )
 }
 
-export default NavButtonModalContext
+export default useNavButtonModalContext

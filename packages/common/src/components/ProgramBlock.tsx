@@ -1,10 +1,12 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useMemo } from 'react'
 import { ElementType } from 'react'
 import { StructuredText } from 'react-datocms'
 
+import useThemeContext from '../context/ThemeContext'
 import { buttonStyle, mq } from '../theme/mixins'
+import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
 
 export interface IProgram extends Record {
@@ -16,28 +18,39 @@ export interface IProgram extends Record {
   url: string
 }
 
-export interface IProgramColors {
-  heading: string
-  location: string
-  body: string
-  link: [string, string]
-  button: [string, string]
-}
-
 interface Props extends HTMLAttributes<HTMLDivElement> {
   program: IProgram
   headingLevel?: number
-  colors: IProgramColors
 }
 
 const ProgramBlock = ({
   program: { programTitle, location, description, registration, url },
-  colors,
   headingLevel = 4,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const Heading = `h${headingLevel}` as ElementType
   const Subheading = `h${headingLevel + 1}` as ElementType
+  const { theme } = useThemeContext()
+  const colors = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          heading: '#fff',
+          location: '#ffffffaa',
+          body: '#fff',
+          link: ['#fff', doorColors.pinkLight],
+          button: ['#fff', doorColors.pinkLight],
+        }
+      default:
+        return {
+          heading: 'transparent',
+          location: 'transparent',
+          body: 'transparent',
+          link: 'transparent',
+          button: 'transparent',
+        }
+    }
+  }, [theme])
   const styles = {
     block: css`
       display: grid;

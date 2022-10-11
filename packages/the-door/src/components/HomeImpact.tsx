@@ -31,7 +31,7 @@ const HomeImpact = ({
   stats,
   cta,
   ctaLink,
-}: Props) => {
+}: Props): JSX.Element => {
   const styles = {
     section: css`
       ${baseGrid}
@@ -194,7 +194,7 @@ const HomeImpact = ({
       <div css={styles.body}>
         <StructuredText data={body.value} />
       </div>
-      <DatoLink css={styles.link} link={link} />
+      <DatoLink css={styles.link} data={link} />
       <div css={styles.stats}>
         {stats.map((stat, i) => (
           <h3 key={i} css={styles.stat(stat.number.length)}>
@@ -207,7 +207,7 @@ const HomeImpact = ({
         <div>
           <span>{cta}</span>{' '}
           <span>
-            <DatoLink link={ctaLink} css={styles.ctaLink} />
+            <DatoLink data={ctaLink} css={styles.ctaLink} />
           </span>
         </div>
       </div>

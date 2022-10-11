@@ -13,7 +13,7 @@ export interface IEvent extends Record {
   slug: string
 }
 
-const Event = () => {
+const Event = (): JSX.Element => {
   return <div></div>
 }
 

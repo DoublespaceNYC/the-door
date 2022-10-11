@@ -1,13 +1,15 @@
 import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import { lighten } from 'polished'
-import { Fragment, useContext, useEffect } from 'react'
+import { Fragment, useEffect, useMemo } from 'react'
 import { StructuredText } from 'react-datocms'
 import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
 
-import CornerPopupContext from '../context/CornerPopupContext'
+import useCornerPopupContext from '../context/CornerPopupContext'
+import useThemeContext from '../context/ThemeContext'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
+import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
 import DatoLink, { IDatoLink } from './DatoLink'
 
@@ -22,17 +24,10 @@ export interface ICornerPopup {
 
 type Props = {
   content: ICornerPopup
-  colors: {
-    bg: string
-    heading: string
-    text: string
-    ctaBg: string
-    ctaText: string
-  }
   triggerCss?: CSSInterpolation
 }
 
-const CornerPopup = ({ content, colors, triggerCss }: Props) => {
+const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
   const isBrowser = typeof window !== `undefined`
   const portalTarget =
     isBrowser && document.getElementById('popup-container')
@@ -40,7 +35,7 @@ const CornerPopup = ({ content, colors, triggerCss }: Props) => {
     triggerOnce: true,
   })
   const { triggered, setTriggered, closed, setClosed } =
-    useContext(CornerPopupContext)
+    useCornerPopupContext()
   const open = triggered && !closed
 
   useEffect(() => {
@@ -49,6 +44,29 @@ const CornerPopup = ({ content, colors, triggerCss }: Props) => {
     }
   }, [inView, setTriggered])
   useEscKeyFunction(() => setClosed(true))
+
+  const { theme } = useThemeContext()
+
+  const colors = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: '#fff',
+          heading: doorColors.navy,
+          text: '#333',
+          ctaBg: doorColors.pink,
+          ctaText: '#fff',
+        }
+      default:
+        return {
+          bg: '#fff',
+          heading: '#333',
+          text: '#333',
+          ctaBg: '#888',
+          ctaText: '#fff',
+        }
+    }
+  }, [theme])
 
   const styles = {
     container: css`
@@ -143,7 +161,7 @@ const CornerPopup = ({ content, colors, triggerCss }: Props) => {
                     record.__typename === 'DatoCmsExternalLink' ||
                     record.__typename === 'DatoCmsAssetLink'
                   ) {
-                    return <DatoLink link={record} css={styles.cta} />
+                    return <DatoLink data={record} css={styles.cta} />
                   } else return null
                 }}
               />

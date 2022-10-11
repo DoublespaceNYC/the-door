@@ -14,30 +14,30 @@ type Props = {
   alert: AlertBarProps
 }
 
-const Layout = ({ nav, footer, alert, ctaBar, children }: Props) => {
+const Layout = ({
+  nav,
+  footer,
+  alert,
+  ctaBar,
+  children,
+}: Props): JSX.Element => {
   return (
     <Fragment>
       <GlobalStyles />
-      <AlertBar
-        alert={alert.alert}
-        colors={alert.colors}
-        showAlert={alert.showAlert}
-      />
+      <AlertBar alert={alert.alert} showAlert={alert.showAlert} />
       <MainNav
         logo={nav.logo}
         navItems={nav.navItems}
         buttons={nav.buttons}
-        colors={nav.colors}
         breakpoint={nav.breakpoint}
       />
       <main>{children}</main>
-      <CTABar data={ctaBar.data} colors={ctaBar.colors} />
+      <CTABar data={ctaBar.data} />
       <Footer
         logo={footer.logo}
         navItems={footer.navItems}
         buttons={footer.buttons}
         meta={footer.meta}
-        colors={footer.colors}
       />
       <div id="popup-container" />
     </Fragment>

@@ -1,8 +1,8 @@
 import { css } from '@emotion/react'
 import { rgba } from 'polished'
-import { HTMLAttributes, useContext, useMemo } from 'react'
+import { HTMLAttributes, useMemo } from 'react'
 
-import QueryContext from '../context/QueryContext'
+import useQueryContext from '../context/QueryContext'
 import { mq } from '../theme/mixins'
 import ArticleThumbnail from './ArticleThumbnail'
 import { IEvent } from './Event'
@@ -26,38 +26,21 @@ const ContentCarouselNewsEvents = ({
   color,
   orientation,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const tagNames = useMemo(() => tags?.map(tag => tag.name), [tags])
-  const { allInternalArticles, allExternalArticles, allEvents } =
-    useContext(QueryContext)
+  const { allNews, allEvents } = useQueryContext()
   const taggedItems = useMemo(() => {
     if (contentType === 'News') {
-      console.log(
-        [...allInternalArticles, ...allExternalArticles].filter(
-          article =>
-            article.tags.some(tag => tagNames?.includes(tag.name))
-        )
+      return allNews.filter(article =>
+        article.tags.some(tag => tagNames?.includes(tag.name))
       )
-      return [...allInternalArticles, ...allExternalArticles]
-        .sort((a, b) =>
-          b.publicationDate.localeCompare(a.publicationDate)
-        )
-        .filter(article =>
-          article.tags.some(tag => tagNames?.includes(tag.name))
-        )
     }
     if (contentType === 'Events') {
-      return allEvents.filter(event =>
+      return allEvents?.filter(event =>
         event.tags.some(tag => tagNames?.includes(tag.name))
       )
     } else return []
-  }, [
-    allInternalArticles,
-    allExternalArticles,
-    tagNames,
-    allEvents,
-    contentType,
-  ])
+  }, [allNews, tagNames, allEvents, contentType])
 
   const styles = {
     slider: css`
@@ -70,24 +53,21 @@ const ContentCarouselNewsEvents = ({
         ${taggedItems.length === 2 &&
         css`
           justify-content: flex-end;
-          ${mq().ms} {
-            justify-content: flex-start;
-          }
         `}
         ${taggedItems.length === 1 &&
         css`
           justify-content: center;
-          ${mq().ms} {
-            justify-content: flex-start;
-          }
         `}
+        ${mq().ms} {
+          justify-content: flex-start;
+        }
       `}
     `,
     sliderContent: css`
       display: grid;
       grid-gap: var(--gtr-m);
       grid-template-columns: repeat(${taggedItems.length}, auto);
-      padding: 0 var(--margin) 1rem;
+      padding: 0 var(--margin) var(--shadow-offset-hover);
     `,
     thumbnail: css`
       width: calc(4 * var(--col-w) + 3 * var(--gtr-m));

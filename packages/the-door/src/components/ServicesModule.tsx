@@ -12,7 +12,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   bgColor: string
 }
 
-const ServicesModule = ({ bgColor, ...props }: Props) => {
+const ServicesModule = ({ bgColor, ...props }: Props): JSX.Element => {
   type QueryProps = {
     servicesGroups: {
       nodes: IServicesGroup[]

@@ -3,22 +3,25 @@ import { Link } from 'gatsby'
 import {
   FC,
   Fragment,
-  useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
 import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
 
-import NavMenuContext from '../context/NavMenuContext'
+import useNavMenuContext from '../context/NavMenuContext'
+import useThemeContext from '../context/ThemeContext'
 import { useElementHeight } from '../hooks/useElementRect'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { absoluteFill, mq } from '../theme/mixins'
+import { doorColors } from '../theme/variables'
 import { LogoProps } from '../types'
-import { IExternalLink, IInternalLink } from './DatoLink'
 import DatoLink from './DatoLink'
+import { IExternalLink } from './ExternalLink'
+import { IInternalLink } from './InternalLink'
 import NavBurger from './NavBurger'
 import NavButton, { INavButton } from './NavButton'
 import NavLinkGroup, { ILinkGroup } from './NavLinkGroup'
@@ -30,13 +33,6 @@ export type MainNavProps = {
   logo: FC<LogoProps>
   navItems: INavItem[]
   buttons: INavButton[]
-  colors: {
-    bg: string
-    bgSecondary: string
-    logo: string
-    text: string
-    buttons: string[]
-  }
   breakpoint: number
 }
 
@@ -44,9 +40,8 @@ const MainNav = ({
   logo,
   navItems,
   buttons,
-  colors,
   breakpoint,
-}: MainNavProps) => {
+}: MainNavProps): JSX.Element => {
   const Logo = logo
 
   const { ref: scrollRef, inView } = useInView({
@@ -74,8 +69,7 @@ const MainNav = ({
     null
   )
 
-  const { open: navOpen, setOpen: setNavOpen } =
-    useContext(NavMenuContext)
+  const { open: navOpen, setOpen: setNavOpen } = useNavMenuContext()
 
   useEffect(() => {
     if (activeNavGroup !== null || burgerOpen) {
@@ -89,6 +83,29 @@ const MainNav = ({
     setActiveNavGroup(null)
     setBurgerOpen(false)
   })
+
+  const { theme } = useThemeContext()
+
+  const colors = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: doorColors.navy,
+          bgSecondary: doorColors.navyDark,
+          logo: '#fff',
+          text: '#fff',
+          buttons: [doorColors.pink, doorColors.green],
+        }
+      default:
+        return {
+          bg: 'transparent',
+          bgSecondary: 'transparent',
+          logo: 'transparent',
+          text: 'transparent',
+          buttons: ['transparent', 'transparent'],
+        }
+    }
+  }, [theme])
 
   const styles = {
     scrollObserver: css`
@@ -217,6 +234,14 @@ const MainNav = ({
           no-repeat 0 calc(100% + 3px);
         background-size: 100% 2px;
         transition: background-position 100ms ease;
+
+        /* Icon CSS */
+        > span {
+          font-size: 80%;
+          svg {
+            transform: translate(0.1em, -0.2em);
+          }
+        }
       }
       @media (hover: hover) {
         &:hover > span {
@@ -253,12 +278,6 @@ const MainNav = ({
       css`
         pointer-events: all;
       `}
-    `,
-    linkIcon: css`
-      font-size: 80%;
-      svg {
-        transform: translate(0.1em, -0.2em);
-      }
     `,
   }
   return (
@@ -297,8 +316,7 @@ const MainNav = ({
                       return (
                         <DatoLink
                           css={[styles.navItem, styles.navLink]}
-                          iconCss={styles.linkIcon}
-                          link={navItem}
+                          data={navItem}
                           key={i}
                         />
                       )

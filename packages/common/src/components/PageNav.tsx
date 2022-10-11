@@ -3,29 +3,25 @@ import {
   Fragment,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
+import useThemeContext from '../context/ThemeContext'
 import { useElementWidth } from '../hooks/useElementRect'
 import { mq } from '../theme/mixins'
+import { doorColors } from '../theme/variables'
 import AnchorLink, { IAnchorLink } from './AnchorLink'
 import DatoLink, { IDatoLink } from './DatoLink'
 
 type Props = {
   links: IAnchorLink[]
   button?: IDatoLink
-  colors: {
-    bg: string
-    text: [string, string]
-    divider: string
-    buttonText: [string, string]
-    langText: [string, string]
-  }
 }
 
-const PageNav = ({ links, button, colors }: Props) => {
+const PageNav = ({ links, button }: Props): JSX.Element => {
   const [navWrapRef, setNavWrapRef] = useState<HTMLDivElement | null>(
     null
   )
@@ -52,6 +48,28 @@ const PageNav = ({ links, button, colors }: Props) => {
       window.removeEventListener('click', handleOutsideClick)
     }
   }, [handleOutsideClick])
+
+  const { theme } = useThemeContext()
+  const colors = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: doorColors.gray95,
+          divider: doorColors.gray92,
+          text: [doorColors.blue, doorColors.blueDark],
+          buttonText: [doorColors.pink, doorColors.purple],
+          langText: [doorColors.gray50, doorColors.gray40],
+        }
+      default:
+        return {
+          bg: '',
+          divider: '',
+          text: ['', ''],
+          buttonText: ['', ''],
+          langText: ['', ''],
+        }
+    }
+  }, [theme])
 
   const styles = {
     navWrap: css`
@@ -187,7 +205,7 @@ const PageNav = ({ links, button, colors }: Props) => {
         </AnchorLink>
       ))}
       {links.length > 0 && button && <div css={styles.divider} />}
-      {button && <DatoLink link={button} css={styles.button} />}
+      {button && <DatoLink data={button} css={styles.button} />}
     </Fragment>
   )
   return (

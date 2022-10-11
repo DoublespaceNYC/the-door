@@ -52,14 +52,7 @@ export const Fragments = graphql`
           crop: "focalpoint"
         }
       )
-      alt
-      sizes {
-        aspectRatio
-      }
-      focalPoint {
-        x
-        y
-      }
+      ...ImageFocalData
     }
     excerpt
     ctaText
@@ -82,14 +75,7 @@ export const Fragments = graphql`
           crop: "focalpoint"
         }
       )
-      alt
-      sizes {
-        aspectRatio
-      }
-      focalPoint {
-        x
-        y
-      }
+      ...ImageFocalData
     }
     category {
       name
@@ -121,14 +107,7 @@ export const Fragments = graphql`
           crop: "focalpoint"
         }
       )
-      alt
-      sizes {
-        aspectRatio
-      }
-      focalPoint {
-        x
-        y
-      }
+      ...ImageFocalData
     }
     publication
     publicationDate
@@ -222,16 +201,10 @@ export const Fragments = graphql`
           crop: "focalpoint"
         }
       )
-      alt
-      sizes {
-        aspectRatio
-      }
-      focalPoint {
-        x
-        y
-      }
+      ...ImageFocalData
       video {
         streamingUrl
+        thumbnailUrl
       }
     }
   }
@@ -269,14 +242,7 @@ export const Fragments = graphql`
         narrow: gatsbyImageData(width: 720, imgixParams: { q: 65 })
         medium: gatsbyImageData(width: 840, imgixParams: { q: 65 })
         wide: gatsbyImageData(width: 960, imgixParams: { q: 65 })
-        alt
-        sizes {
-          aspectRatio
-        }
-        focalPoint {
-          x
-          y
-        }
+        ...ImageFocalData
       }
       layout
     }
@@ -400,6 +366,17 @@ export const Fragments = graphql`
     __typename
     form {
       ...FormFragment
+    }
+  }
+  fragment ImageFocalData on DatoCmsFileField {
+    isImage
+    alt
+    sizes {
+      aspectRatio
+    }
+    focalPoint {
+      x
+      y
     }
   }
 `

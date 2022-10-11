@@ -3,32 +3,32 @@ import {
   ReactNode,
   SetStateAction,
   createContext,
+  useContext,
   useState,
 } from 'react'
 
-interface IContext {
+interface ICornerPopupContext {
   triggered: boolean
   setTriggered: Dispatch<SetStateAction<boolean>>
   closed: boolean
   setClosed: Dispatch<SetStateAction<boolean>>
 }
 
-const defaultValue = {
-  triggered: false,
-  setTriggered: () => null,
-  closed: false,
-  setClosed: () => null,
-}
+const CornerPopupContext = createContext<
+  ICornerPopupContext | undefined
+>(undefined)
 
-const CornerPopupContext = createContext<IContext>(defaultValue)
+const useCornerPopupContext = () => {
+  return useContext(CornerPopupContext) as ICornerPopupContext
+}
 
 export const CornerPopupContextProvider = ({
   children,
 }: {
   children: ReactNode
 }) => {
-  const [triggered, setTriggered] = useState(defaultValue.triggered)
-  const [closed, setClosed] = useState(defaultValue.closed)
+  const [triggered, setTriggered] = useState(false)
+  const [closed, setClosed] = useState(false)
   return (
     <CornerPopupContext.Provider
       value={{
@@ -43,4 +43,4 @@ export const CornerPopupContextProvider = ({
   )
 }
 
-export default CornerPopupContext
+export default useCornerPopupContext

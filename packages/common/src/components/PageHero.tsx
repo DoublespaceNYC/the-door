@@ -1,6 +1,8 @@
 import { css } from '@emotion/react'
 
+import useThemeContext from '../context/ThemeContext'
 import { baseGrid, mq } from '../theme/mixins'
+import { doorColors } from '../theme/variables'
 import GatsbyImageFocused, {
   IGatsbyImageFocused,
 } from './GatsbyImageFocused'
@@ -9,15 +11,16 @@ type Props = {
   title: string
   section?: string
   image: IGatsbyImageFocused
-  colors: {
-    bg: string
-    text: string
-    eyebrowBg: string
-    eyebrowText: string
-  }
 }
 
-const PageHero = ({ title, section, image, colors }: Props) => {
+const PageHero = ({ title, section, image }: Props): JSX.Element => {
+  const { theme } = useThemeContext()
+  const colors = {
+    bg: theme === 'The Door' ? doorColors.blue : '',
+    text: '#fff',
+    eyebrowBg: theme === 'The Door' ? doorColors.blueMid : '',
+    eyebrowText: '#fff',
+  }
   const styles = {
     hero: css`
       width: 100%;

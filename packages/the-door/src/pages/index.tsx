@@ -1,13 +1,11 @@
 import CornerPopup, {
   ICornerPopup,
 } from '@the-door/common/src/components/CornerPopup'
-import {
-  IDatoLink,
-  IInternalLink,
-} from '@the-door/common/src/components/DatoLink'
+import { IDatoLink } from '@the-door/common/src/components/DatoLink'
 import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
 import HomeLatest from '@the-door/common/src/components/HomeLatest'
 import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
+import { IInternalLink } from '@the-door/common/src/components/InternalLink'
 import { IStructuredText } from '@the-door/common/src/types'
 import { PageProps, graphql } from 'gatsby'
 import { useEffect, useState } from 'react'
@@ -19,7 +17,99 @@ import HomeServices from '../components/HomeServices'
 import HomeWelcome from '../components/HomeWelcome'
 import Layout from '../components/Layout'
 import Seo from '../components/Seo'
-import { colors } from '../theme/variables'
+
+type DataProps = {
+  home: {
+    heroHeading: string
+    heroCtaText: string
+    heroCtaLink: [IDatoLink]
+    heroVideo: {
+      video: {
+        streamingUrl: string
+        thumbnailUrl: string
+      }
+      customData?: {
+        thumbnailTime?: string
+      }
+    }
+    welcomeHeading: string
+    welcomeBody: IStructuredText
+    welcomeLinks: IDatoLink[]
+    welcomeImage: IGatsbyImageFocused
+    servicesHeading: string
+    servicesBody: IStructuredText
+    bsaHeading: string
+    bsaBody: IStructuredText
+    bsaLink: [IDatoLink]
+    bsaImage: IGatsbyImageFocused
+    impactHeading: string
+    impactBody: IStructuredText
+    impactLink: IDatoLink[]
+    impactStats: {
+      number: string
+      text: string
+    }[]
+    impactCta: string
+    impactCtaLink: [IDatoLink]
+    facesHeading: string
+    facesBody: IStructuredText
+    latestHeading: string
+    featuredArticle: IInternalArticle
+    latestLink: [IInternalLink]
+    showPopup: boolean
+    popup: [ICornerPopup]
+  }
+}
+
+const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
+  // Use state to control popup to avoid hydration errors
+  const [showPopup, setShowPopup] = useState(false)
+  useEffect(() => setShowPopup(home.showPopup), [home.showPopup])
+
+  return (
+    <Layout>
+      <HomeHero
+        heading={home.heroHeading}
+        ctaText={home.heroCtaText}
+        ctaLink={home.heroCtaLink[0]}
+        video={home.heroVideo}
+      />
+      <HomeWelcome
+        heading={home.welcomeHeading}
+        body={home.welcomeBody}
+        links={home.welcomeLinks}
+        image={home.welcomeImage}
+      />
+      {showPopup && <CornerPopup content={home.popup[0]} />}
+      <HomeServices
+        heading={home.servicesHeading}
+        body={home.servicesBody}
+        bsaHeading={home.bsaHeading}
+        bsaBody={home.bsaBody}
+        bsaLink={home.bsaLink[0]}
+        bsaImage={home.bsaImage}
+      />
+      <HomeImpact
+        heading={home.impactHeading}
+        body={home.impactBody}
+        link={home.impactLink[0]}
+        stats={home.impactStats}
+        cta={home.impactCta}
+        ctaLink={home.impactCtaLink[0]}
+      />
+      <HomeFaces heading={home.facesHeading} body={home.facesBody} />
+      <HomeLatest
+        heading={home.latestHeading}
+        featuredArticle={home.featuredArticle}
+        pageLink={home.latestLink[0]}
+      />
+    </Layout>
+  )
+}
+
+export const Head = (): JSX.Element => (
+  <Seo title={`The Door`} hideSuffix />
+)
 
 export const data = graphql`
   query {
@@ -143,106 +233,5 @@ export const data = graphql`
     }
   }
 `
-
-type DataProps = {
-  home: {
-    heroHeading: string
-    heroCtaText: string
-    heroCtaLink: [IDatoLink]
-    heroVideo: {
-      video: {
-        streamingUrl: string
-        thumbnailUrl: string
-      }
-      customData?: {
-        thumbnailTime?: string
-      }
-    }
-    welcomeHeading: string
-    welcomeBody: IStructuredText
-    welcomeLinks: IDatoLink[]
-    welcomeImage: IGatsbyImageFocused
-    servicesHeading: string
-    servicesBody: IStructuredText
-    bsaHeading: string
-    bsaBody: IStructuredText
-    bsaLink: [IDatoLink]
-    bsaImage: IGatsbyImageFocused
-    impactHeading: string
-    impactBody: IStructuredText
-    impactLink: IDatoLink[]
-    impactStats: {
-      number: string
-      text: string
-    }[]
-    impactCta: string
-    impactCtaLink: [IDatoLink]
-    facesHeading: string
-    facesBody: IStructuredText
-    latestHeading: string
-    featuredArticle: IInternalArticle
-    latestLink: [IInternalLink]
-    showPopup: boolean
-    popup: [ICornerPopup]
-  }
-}
-
-const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
-  // Use state to control popup to avoid hydration errors
-  const [showPopup, setShowPopup] = useState(false)
-  useEffect(() => setShowPopup(home.showPopup), [home.showPopup])
-
-  return (
-    <Layout>
-      <Seo title="The Door" noSuffix />
-      <HomeHero
-        heading={home.heroHeading}
-        ctaText={home.heroCtaText}
-        ctaLink={home.heroCtaLink[0]}
-        video={home.heroVideo}
-      />
-      <HomeWelcome
-        heading={home.welcomeHeading}
-        body={home.welcomeBody}
-        links={home.welcomeLinks}
-        image={home.welcomeImage}
-      />
-      {showPopup && (
-        <CornerPopup
-          content={home.popup[0]}
-          colors={{
-            bg: '#fff',
-            heading: colors.navy,
-            text: '#333',
-            ctaBg: colors.pink,
-            ctaText: '#fff',
-          }}
-        />
-      )}
-      <HomeServices
-        heading={home.servicesHeading}
-        body={home.servicesBody}
-        bsaHeading={home.bsaHeading}
-        bsaBody={home.bsaBody}
-        bsaLink={home.bsaLink[0]}
-        bsaImage={home.bsaImage}
-      />
-      <HomeImpact
-        heading={home.impactHeading}
-        body={home.impactBody}
-        link={home.impactLink[0]}
-        stats={home.impactStats}
-        cta={home.impactCta}
-        ctaLink={home.impactCtaLink[0]}
-      />
-      <HomeFaces heading={home.facesHeading} body={home.facesBody} />
-      <HomeLatest
-        heading={home.latestHeading}
-        featuredArticle={home.featuredArticle}
-        pageLink={home.latestLink[0]}
-      />
-    </Layout>
-  )
-}
 
 export default IndexPage

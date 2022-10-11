@@ -23,7 +23,7 @@ type Props = {
   social: ISocialLink
 }
 
-const SocialLink = ({ social }: Props) => {
+const SocialLink = ({ social }: Props): JSX.Element => {
   const renderIcon = useMemo(() => {
     switch (social.socialType) {
       case 'Facebook':

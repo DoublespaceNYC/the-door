@@ -1,8 +1,8 @@
 import { css } from '@emotion/react'
 import { rgba } from 'polished'
-import { HTMLAttributes, useContext, useMemo } from 'react'
+import { HTMLAttributes, useMemo } from 'react'
 
-import ThemeContext from '../context/ThemeContext'
+import useThemeContext from '../context/ThemeContext'
 import { formateDateTimeRange } from '../helpers'
 import useReadableColor from '../hooks/useReadableColor'
 import { doorColors } from '../theme/variables'
@@ -17,11 +17,11 @@ const EventThumbnail = ({
   event,
   highlightColor = '#666',
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const startDate = new Date(event.startDateTime)
 
   const dateColor = useReadableColor(highlightColor, highlightColor, 2)
-  const { theme } = useContext(ThemeContext)
+  const { theme } = useThemeContext()
   const colors = useMemo(() => {
     if (theme === 'The Door') {
       return {
@@ -42,11 +42,13 @@ const EventThumbnail = ({
       grid-template-columns: auto 1fr;
       background: ${colors?.bg};
       color: ${colors?.text};
-      box-shadow: -1rem 1rem 0 ${colors?.shadow};
+      box-shadow: calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
+        ${colors?.shadow};
       transition: box-shadow 300ms ease;
       @media (hover: hover) {
         &:hover {
-          box-shadow: -1rem 1rem 0 ${colors?.shadowHover};
+          box-shadow: calc(-1 * var(--shadow-offset-hover))
+            var(--shadow-offset-hover) 0 ${colors?.shadowHover};
         }
       }
     `,

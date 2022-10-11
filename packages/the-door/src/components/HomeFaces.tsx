@@ -19,7 +19,7 @@ type Props = {
   body: IStructuredText
 }
 
-const HomeFaces = ({ heading, body }: Props) => {
+const HomeFaces = ({ heading, body }: Props): JSX.Element => {
   type QueryProps = {
     stories: {
       nodes: IStory[]

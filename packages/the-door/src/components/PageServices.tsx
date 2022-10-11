@@ -4,7 +4,7 @@ import { mq } from '@the-door/common/src/theme/mixins'
 import { colors } from '../theme/variables'
 import ServicesModule from './ServicesModule'
 
-const PageServices = () => {
+const PageServices = (): JSX.Element => {
   const styles = {
     section: css`
       padding: var(--row-m) 0 var(--row-l);

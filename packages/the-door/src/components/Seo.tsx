@@ -1,108 +1,87 @@
 import { graphql, useStaticQuery } from 'gatsby'
-import { Helmet } from 'react-helmet'
+import { Fragment, ReactNode } from 'react'
 
 export interface ISEO {
   title?: string
   description?: string
-  image?: {
+  twitterCard?: string
+  image: {
     url: string
   }
 }
 
-type SeoProps = {
+type Props = {
   title?: string
   description?: string
-  lang?: string
   imageUrl?: string
-  noSuffix?: boolean
+  hideSuffix?: boolean
+  children?: ReactNode
 }
 
 const Seo = ({
-  title = ``,
-  description = ``,
-  lang = `en`,
+  title,
+  description,
   imageUrl,
-  noSuffix,
-}: SeoProps) => {
-  const { datoCmsSite } = useStaticQuery<QueryProps>(graphql`
+  hideSuffix,
+  children,
+}: Props): JSX.Element => {
+  const {
+    site: {
+      globalSeo: {
+        // siteName,
+        titleSuffix,
+        fallbackSeo: { defaultTitle, defaultDescription },
+      },
+    },
+  } = useStaticQuery(graphql`
     query {
-      datoCmsSite {
+      site: datoCmsSite {
         globalSeo {
+          siteName
           titleSuffix
           fallbackSeo {
-            ...SeoFragment
+            defaultTitle: title
+            defaultDescription: description
           }
         }
       }
     }
   `)
 
-  type QueryProps = {
-    datoCmsSite: {
-      globalSeo: {
-        titleSuffix?: string
-        fallbackSeo?: ISEO
-      }
-    }
-  }
-
-  const metaDescription =
-    description || datoCmsSite.globalSeo.fallbackSeo?.description || ''
-  const metaTitle =
-    title || datoCmsSite.globalSeo.fallbackSeo?.title || ''
-  const titleSuffix = noSuffix ? '' : datoCmsSite.globalSeo.titleSuffix
+  const metaDescription = description || defaultDescription
+  const metaTitle = title || defaultTitle
 
   return (
-    <Helmet
-      htmlAttributes={{
-        lang,
-      }}
-      title={metaTitle}
-      titleTemplate={`%s${titleSuffix}`}
-      meta={[
-        {
-          name: `description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:title`,
-          content: `${metaTitle}${titleSuffix}`,
-        },
-        {
-          property: `og:description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:type`,
-          content: `website`,
-        },
-        {
-          name: `twitter:card`,
-          content: `summary`,
-        },
-        {
-          name: `twitter:creator`,
-          content: ``,
-        },
-        {
-          name: `twitter:title`,
-          content: metaTitle + titleSuffix,
-        },
-        {
-          name: `twitter:description`,
-          content: metaDescription,
-        },
-        {
-          name: `image`,
-          property: `og:image`,
-          content:
-            datoCmsSite.globalSeo.fallbackSeo?.image?.url ||
-            imageUrl ||
-            undefined,
-        },
-      ]}
-    />
+    <Fragment>
+      <title>
+        {!hideSuffix ? `${metaTitle}${titleSuffix}` : metaTitle}
+      </title>
+      <meta name="description" content={metaDescription} />
+      <meta property="og:title" content={metaTitle} />
+      <meta property="og:description" content={metaDescription} />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary" />
+      {/* <meta
+        name="twitter:creator"
+        content={site.siteMetadata?.author || ``}
+      /> */}
+      <meta name="twitter:description" content={metaDescription} />
+      <meta name="twitter:title" content={metaTitle} />
+      {imageUrl && <meta property="og:image" content={imageUrl} />}
+      {children}
+    </Fragment>
   )
 }
+
+export const SEOFragment = graphql`
+  fragment SEOFragment on DatoCmsSeoField {
+    title
+    description
+    twitterCard
+    image {
+      url(imgixParams: { maxW: 1080 })
+    }
+  }
+`
 
 export default Seo

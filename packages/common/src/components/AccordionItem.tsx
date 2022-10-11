@@ -1,21 +1,20 @@
 import { css } from '@emotion/react'
-import { ElementType, HTMLAttributes, ReactNode, useState } from 'react'
+import {
+  ElementType,
+  HTMLAttributes,
+  ReactNode,
+  useMemo,
+  useState,
+} from 'react'
 
+import useThemeContext from '../context/ThemeContext'
 import { useElementHeight } from '../hooks/useElementRect'
-
-export type IAccordionColors = {
-  heading: [string, string]
-  subheading?: [string, string]
-  button: [string, string]
-  divider: string
-  subdivider: string
-}
+import { doorColors } from '../theme/variables'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   heading: string
   subheading?: string
   children: ReactNode
-  colors: IAccordionColors
   headingLevel?: number
   open: boolean
   onClick: () => void
@@ -25,18 +24,40 @@ const AccordionItem = ({
   heading,
   subheading,
   children,
-  colors,
   headingLevel = 3,
   open = false,
   onClick,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const Heading = `h${headingLevel}` as ElementType
   const Subheading = `h${headingLevel + 1}` as ElementType
   const [contentsRef, setContentsRef] = useState<HTMLDivElement | null>(
     null
   )
   const contentsHeight = useElementHeight(contentsRef)
+
+  const { theme } = useThemeContext()
+
+  const colors = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          heading: ['#fff', doorColors.pinkLight],
+          subheading: ['#fff', doorColors.pinkLight],
+          button: ['#fff', doorColors.pinkLight],
+          divider: '#fff',
+          subdivider: '#ffffff88',
+        }
+      default:
+        return {
+          heading: ['#fff', '#fff'],
+          subheading: ['#fff', '#fff'],
+          button: ['#fff', '#fff'],
+          divider: '#fff',
+          subdivider: '#ffffff88',
+        }
+    }
+  }, [theme])
 
   const styles = {
     accordion: css``,

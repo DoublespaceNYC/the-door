@@ -58,6 +58,9 @@ export const GlobalStyles = () => {
       --col-w: calc(
         (100vw - 2 * var(--margin) - 11 * var(--gtr-m)) / 12
       );
+
+      --shadow-offset: min(calc(0.5 * var(--gtr-m)), 1rem);
+      --shadow-offset-hover: calc(var(--shadow-offset) * 1.5);
     }
 
     html {

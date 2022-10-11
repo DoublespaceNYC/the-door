@@ -10,7 +10,10 @@ type Props = {
   textColor?: string
 }
 
-const PageIntro = ({ intro, textColor = '#333' }: Props) => {
+const PageIntro = ({
+  intro,
+  textColor = '#333',
+}: Props): JSX.Element => {
   const styles = {
     intro: css`
       font-size: var(--fs-21);

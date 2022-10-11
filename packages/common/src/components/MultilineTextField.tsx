@@ -22,7 +22,7 @@ const MultilineTextField = ({
   data: { label, required },
   onChange,
   fieldStyles,
-}: FieldProps) => {
+}: FieldProps): JSX.Element => {
   const name = toSlug(label)
 
   const [shrink, setShrink] = useState(false)
@@ -65,11 +65,6 @@ const MultilineTextField = ({
       height: 100%;
       border: none;
     `,
-    label: css`
-      top: 1.5835em;
-      bottom: auto;
-      line-height: 1.333;
-    `,
   }
 
   return (
@@ -80,7 +75,6 @@ const MultilineTextField = ({
           fieldStyles.label,
           shrink && fieldStyles.shrink,
           required && fieldStyles.required,
-          styles.label,
         ]}
       >
         {label}

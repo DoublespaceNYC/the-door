@@ -24,7 +24,10 @@ type Props = {
   bgColor: string
 }
 
-const ServiceModuleGroup = ({ serviceGroup, bgColor }: Props) => {
+const ServiceModuleGroup = ({
+  serviceGroup,
+  bgColor,
+}: Props): JSX.Element => {
   const [listRef, setListRef] = useState<HTMLDivElement | null>(null)
   const listHeight = useElementHeight(listRef)
 

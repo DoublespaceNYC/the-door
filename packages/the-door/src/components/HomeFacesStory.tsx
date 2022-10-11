@@ -3,6 +3,7 @@ import GatsbyImageFocused from '@the-door/common/src/components/GatsbyImageFocus
 import { toSlug } from '@the-door/common/src/helpers'
 import { linkStyle, mq } from '@the-door/common/src/theme/mixins'
 import { Link } from 'gatsby'
+import { rgba } from 'polished'
 import { useInView } from 'react-intersection-observer'
 
 import { colors } from '../theme/variables'
@@ -12,7 +13,7 @@ type Props = {
   story: IStory
 }
 
-const HomeFacesStory = ({ story }: Props) => {
+const HomeFacesStory = ({ story }: Props): JSX.Element => {
   const { ref, inView } = useInView({
     rootMargin: '50% -20%',
   })
@@ -34,7 +35,7 @@ const HomeFacesStory = ({ story }: Props) => {
       z-index: 2;
       max-width: 30ch;
       min-width: 40%;
-      background: ${colors.purpleLight}e0;
+      background: ${rgba(colors.purpleLight, 0.875)};
       padding: 0 var(--gtr-m);
       overflow: hidden;
       box-sizing: border-box;

@@ -34,7 +34,7 @@ const HomeServices = ({
   bsaBody,
   bsaLink,
   bsaImage,
-}: Props) => {
+}: Props): JSX.Element => {
   const styles = {
     section: css`
       ${baseGrid}
@@ -170,7 +170,7 @@ const HomeServices = ({
           </div>
 
           <DatoLink
-            link={bsaLink}
+            data={bsaLink}
             css={[styles.link, styles.bsaLink]}
           />
         </div>

@@ -5,7 +5,7 @@ import { HTMLAttributes } from 'react'
 import { mq } from '../theme/mixins'
 import ContentCarouselLinkThumbnail, {
   ICarouselLink,
-} from './ContentCarouselLinkThumbnail'
+} from './ContentCarousel__Links__Block'
 import ScrollSlider from './ScrollSlider'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -19,7 +19,7 @@ const ContentCarouselLinks = ({
   color,
   orientation,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const styles = {
     slider: css`
       grid-column: 1 / -1;
@@ -36,13 +36,16 @@ const ContentCarouselLinks = ({
         css`
           justify-content: center;
         `}
+        ${mq().ms} {
+          justify-content: flex-start;
+        }
       `}
     `,
     sliderContent: css`
       display: grid;
       grid-gap: var(--gtr-m);
       grid-template-columns: repeat(${links.length}, auto);
-      padding: 0 var(--margin) 1rem;
+      padding: 0 var(--margin) var(--shadow-offset-hover);
     `,
     thumbnail: css`
       width: calc(4 * var(--col-w) + 3 * var(--gtr-m));

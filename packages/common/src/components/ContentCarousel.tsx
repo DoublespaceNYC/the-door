@@ -2,11 +2,13 @@ import {
   Block,
   StructuredText as IStructuredText,
 } from 'datocms-structured-text-utils'
-import { HTMLAttributes } from 'react'
+import { Fragment, HTMLAttributes } from 'react'
 
-import ContentCarouselLinks from './ContentCarouselLinks'
-import { ICarouselLink } from './ContentCarouselLinkThumbnail'
-import ContentCarouselNewsEvents from './ContentCarouselNewsEvents'
+import ContentCarouselLinks from './ContentCarousel__Links'
+import { ICarouselLink } from './ContentCarousel__Links__Block'
+import ContentCarouselMedia from './ContentCarousel__Media'
+import { ICarouselMediaBlock } from './ContentCarousel__Media__Block'
+import ContentCarouselNewsEvents from './ContentCarousel__NewsEvents'
 import { IGatsbyImageFocused } from './GatsbyImageFocused'
 
 export interface ICarouselMedia extends Block {
@@ -28,7 +30,7 @@ export interface ICarousel extends Block {
     name: string
   }[]
   links: ICarouselLink[]
-  media: ICarouselMedia[]
+  media: ICarouselMediaBlock[]
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -42,7 +44,7 @@ const ContentCarousel = ({
   color,
   orientation,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   switch (contentType) {
     case 'News':
     case 'Events':
@@ -63,8 +65,10 @@ const ContentCarousel = ({
           orientation={orientation}
         />
       )
+    case 'Media':
+      return <ContentCarouselMedia data={media} color={color} />
     default:
-      return null
+      return <Fragment />
   }
 }
 

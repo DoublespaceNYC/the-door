@@ -43,7 +43,7 @@ const ScrollSlider = ({
   link,
   colors,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const [scrollPos, setScrollPos] = useState(0)
 
   const [contentRef, setContentRef] = useState<HTMLDivElement | null>(
@@ -116,6 +116,11 @@ const ScrollSlider = ({
     outer: css`
       position: relative;
       overflow: hidden;
+      ${navStyle === 'above' &&
+      !navVisible &&
+      css`
+        margin-top: 1.5rem;
+      `}
     `,
     slider: css`
       position: relative;
@@ -267,7 +272,7 @@ const ScrollSlider = ({
         navPortalTarget &&
         createPortal(
           <nav css={styles.nav}>
-            {link && <DatoLink link={link} css={styles.link} />}
+            {link && <DatoLink data={link} css={styles.link} />}
             <button
               css={[
                 styles.scrollButton,

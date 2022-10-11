@@ -4,14 +4,13 @@ import { FooterProps } from '@the-door/common/src/components/Footer'
 import CommonLayout from '@the-door/common/src/components/Layout'
 import { MainNavProps } from '@the-door/common/src/components/MainNav'
 import { ISocialLink } from '@the-door/common/src/components/SocialLink'
-import QueryContext from '@the-door/common/src/context/QueryContext'
-import ThemeContext from '@the-door/common/src/context/ThemeContext'
+import useQueryContext from '@the-door/common/src/context/QueryContext'
+import useThemeContext from '@the-door/common/src/context/ThemeContext'
 import { graphql, useStaticQuery } from 'gatsby'
-import { ReactNode, useContext, useEffect } from 'react'
+import { ReactNode, useLayoutEffect } from 'react'
 
 import useEventsQuery from '../hooks/useEventsQuery'
 import useNewsQuery from '../hooks/useNewsQuery'
-import { colors } from '../theme/variables'
 import Door50Logo from './Door50Logo'
 import DoorLogo from './DoorLogo'
 
@@ -164,14 +163,14 @@ const Layout = ({ children }: Props) => {
     setAllInternalArticles,
     setAllExternalArticles,
     setAllEvents,
-  } = useContext(QueryContext)
-  useEffect(() => {
+  } = useQueryContext()
+  useLayoutEffect(() => {
     setAllInternalArticles(allInternalArticles)
     setAllExternalArticles(allExternalArticles)
     setAllEvents(allEvents)
   })
-  const { setTheme } = useContext(ThemeContext)
-  useEffect(() => {
+  const { setTheme } = useThemeContext()
+  useLayoutEffect(() => {
     setTheme('The Door')
   }, [setTheme])
   return (
@@ -180,13 +179,6 @@ const Layout = ({ children }: Props) => {
         logo: DoorLogo,
         navItems: nav.navItems,
         buttons: nav.buttons,
-        colors: {
-          bg: colors.navy,
-          bgSecondary: colors.navyDark,
-          logo: '#fff',
-          text: '#fff',
-          buttons: [colors.pink, colors.green],
-        },
         breakpoint: nav.breakpoint,
       }}
       footer={{
@@ -194,38 +186,13 @@ const Layout = ({ children }: Props) => {
         navItems: footer.navItems,
         buttons: footer.buttons,
         meta: meta,
-        colors: {
-          bg: colors.navy,
-          logo: '#fff',
-          text: '#fff',
-          buttons: [colors.pink, colors.green],
-        },
       }}
       alert={{
         showAlert: alert.showAlert,
         alert: alert.alert,
-        colors: {
-          bg: colors.navyDark,
-          text: '#fff',
-          cta: ['#fff', colors.yellow],
-        },
       }}
       ctaBar={{
         data: footer.ctaBar,
-        colors: {
-          bg: colors.navyDark,
-          text: '#fff',
-          boldText: colors.blueLight,
-          form: {
-            fill: 'transparent',
-            border: '#ffffff88',
-            text: '#fff',
-            label: '#ffffffaa',
-            highlight: colors.blueLight,
-            buttonFill: ['#fff', colors.pink],
-            buttonText: [colors.navy, '#fff'],
-          },
-        },
       }}
     >
       {children}

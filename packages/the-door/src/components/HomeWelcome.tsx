@@ -24,7 +24,12 @@ type Props = {
   image: IGatsbyImageFocused
 }
 
-const HomeWelcome = ({ heading, body, links, image }: Props) => {
+const HomeWelcome = ({
+  heading,
+  body,
+  links,
+  image,
+}: Props): JSX.Element => {
   const styles = {
     section: css`
       ${baseGrid}
@@ -161,7 +166,7 @@ const HomeWelcome = ({ heading, body, links, image }: Props) => {
         <StructuredText data={body.value} />
         <div css={styles.links}>
           {links.map((link, i) => (
-            <DatoLink link={link} key={i} css={styles.link} />
+            <DatoLink data={link} key={i} css={styles.link} />
           ))}
         </div>
       </div>

@@ -1,7 +1,10 @@
 import { Record } from 'datocms-structured-text-utils'
+import { useMemo } from 'react'
 
+import useThemeContext from '../context/ThemeContext'
+import { bsaColors, doorColors } from '../theme/variables'
 import ContentBlock, { IContentBlock } from './ContentBlock'
-import { ShapeType, shapeArray } from './ContentBlockShape'
+import { ShapeType, shapeArray } from './ContentBlock__Shape'
 
 export type IPageContent = IContentBlock[]
 
@@ -14,15 +17,43 @@ export interface ILayoutOptions extends Record {
 
 type Props = {
   pageContent: IPageContent
-  colors: string[]
   layoutOptions: ILayoutOptions
 }
 
 const PageContent = ({
   pageContent,
-  colors,
-  layoutOptions: { startColor, startShape, startOrientation },
-}: Props) => {
+  layoutOptions: {
+    startColor: startColorName,
+    startShape,
+    startOrientation,
+  },
+}: Props): JSX.Element => {
+  const { theme } = useThemeContext()
+  const colors = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return [
+          doorColors.purple,
+          doorColors.pink,
+          doorColors.teal,
+          doorColors.green,
+        ]
+      default:
+        return ['#888']
+    }
+  }, [theme])
+
+  const startColor = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return doorColors[startColorName as keyof typeof doorColors]
+      case 'BSA':
+        return bsaColors[startColorName as keyof typeof bsaColors]
+      default:
+        return colors[0]
+    }
+  }, [theme, colors, startColorName])
+
   const colorIndex = colors.indexOf(startColor)
   const shapeIndex = shapeArray.indexOf(startShape)
   const oddOrientation = startOrientation === 'left' ? 'right' : 'left'

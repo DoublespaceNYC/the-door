@@ -18,7 +18,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   id: string
 }
 
-export const Anchor = ({ id, ...props }: Props) => {
+export const Anchor = ({ id, ...props }: Props): JSX.Element => {
   return (
     <div
       css={{

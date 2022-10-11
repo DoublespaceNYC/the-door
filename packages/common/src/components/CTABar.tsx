@@ -3,15 +3,16 @@ import {
   StructuredText as IStructuredText,
   isParagraph,
 } from 'datocms-structured-text-utils'
+import { useMemo } from 'react'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 
+import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
-import DatoLink, {
-  IExternalLink,
-  IInternalLink,
-  ILightboxLink,
-} from './DatoLink'
-import Form, { FormColors, IFormBlock } from './Form'
+import { doorColors } from '../theme/variables'
+import DatoLink, { ILightboxLink } from './DatoLink'
+import { IExternalLink } from './ExternalLink'
+import Form, { IFormBlock } from './Form'
+import { IInternalLink } from './InternalLink'
 
 export interface ICTABar extends IStructuredText {
   blocks: (IInternalLink | IExternalLink | ILightboxLink | IFormBlock)[]
@@ -19,20 +20,26 @@ export interface ICTABar extends IStructuredText {
 
 export type CTABarProps = {
   data: ICTABar
-  colors: {
-    bg: string
-    text: string
-    boldText: string
-    form: FormColors
-  }
 }
 
-const CTABar = ({ data, colors }: CTABarProps) => {
+const CTABar = ({ data }: CTABarProps): JSX.Element => {
+  const { theme } = useThemeContext()
+
+  const colors = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: doorColors.navyDark,
+          text: '#fff',
+          boldText: doorColors.blueLight,
+        }
+    }
+  }, [theme])
   const styles = {
     section: css`
-      background: ${colors.bg};
+      background: ${colors?.bg};
       padding: 1rem var(--margin);
-      color: ${colors.text};
+      color: ${colors?.text};
       display: flex;
       grid-gap: 1.5em;
       justify-content: center;
@@ -48,7 +55,7 @@ const CTABar = ({ data, colors }: CTABarProps) => {
           font-size: var(--fs-30);
         }
         strong {
-          color: ${colors.boldText};
+          color: ${colors?.boldText};
           ${mq().m} {
             display: block;
           }
@@ -71,7 +78,7 @@ const CTABar = ({ data, colors }: CTABarProps) => {
     `,
     formSuccess: css`
       font-size: var(--fs-30);
-      color: ${colors.boldText};
+      color: ${colors?.boldText};
     `,
   }
   return (
@@ -83,11 +90,11 @@ const CTABar = ({ data, colors }: CTABarProps) => {
             return (
               <Form
                 data={record.form}
-                colors={colors.form}
                 formType="Netlify"
                 css={styles.form}
                 successCss={styles.formSuccess}
                 simpleSuccess
+                theme="Dark"
               />
             )
           }
@@ -96,7 +103,7 @@ const CTABar = ({ data, colors }: CTABarProps) => {
             record.__typename === 'DatoCmsInternalLink' ||
             record.__typename === 'DatoCmsLightboxLink'
           ) {
-            return <DatoLink link={record} />
+            return <DatoLink data={record} />
           } else return null
         }}
         customNodeRules={[

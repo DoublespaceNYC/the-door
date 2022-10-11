@@ -20,7 +20,7 @@ export interface IExternalArticle extends Record {
   publicationDate: string
 }
 
-const ExternalArticle = () => {
+const ExternalArticle = (): JSX.Element => {
   return <article></article>
 }
 

@@ -9,7 +9,7 @@ import useReadableColor from '../hooks/useReadableColor'
 import { baseGrid, linkStyle, mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 import { Anchor, IAnchorLink } from './AnchorLink'
-import ContentBlockShape, { ShapeType } from './ContentBlockShape'
+import ContentBlockShape, { ShapeType } from './ContentBlock__Shape'
 import ContentCarousel, { ICarousel } from './ContentCarousel'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
 import GatsbyImageFocused, {
@@ -57,7 +57,7 @@ const ContentBlock = ({
   shape,
   color,
   orientation,
-}: Props) => {
+}: Props): JSX.Element => {
   const left = orientation === 'left'
   const right = orientation === 'right'
 
@@ -269,7 +269,7 @@ const ContentBlock = ({
                 renderBlock={({ record }) => {
                   if (isDatoLink(record)) {
                     return (
-                      <DatoLink link={record} css={styles.linkBlock} />
+                      <DatoLink data={record} css={styles.linkBlock} />
                     )
                   } else return null
                 }}

@@ -24,7 +24,7 @@ export interface IInternalArticle extends Record {
   slug: string
 }
 
-const InternalArticle = () => {
+const InternalArticle = (): JSX.Element => {
   return <article></article>
 }
 

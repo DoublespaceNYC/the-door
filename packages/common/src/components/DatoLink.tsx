@@ -1,23 +1,8 @@
-import { CSSInterpolation } from '@emotion/serialize'
 import { Record } from 'datocms-structured-text-utils'
-import { Link } from 'gatsby'
 import { Fragment, HTMLAttributes } from 'react'
 
-import ExternalLinkIcon from './ExternalLinkIcon'
-
-export interface IInternalLink extends Record {
-  __typename: 'DatoCmsInternalLink'
-  linkText: string
-  link: {
-    slug: string
-  }
-}
-
-export interface IExternalLink extends Record {
-  __typename: 'DatoCmsExternalLink'
-  linkText: string
-  url: string
-}
+import ExternalLink, { IExternalLink } from './ExternalLink'
+import InternalLink, { IInternalLink } from './InternalLink'
 
 export interface IDocumentLink extends Record {
   __typename: 'DatoCmsAssetLink'
@@ -51,37 +36,23 @@ export const isDatoLink = (record: Record) => {
 }
 
 interface Props extends HTMLAttributes<HTMLAnchorElement> {
-  link: IDatoLink
+  data: IDatoLink
   icon?: boolean
-  iconCss?: CSSInterpolation
 }
 
-const DatoLink = ({ link, icon = true, iconCss, ...props }: Props) => {
-  if (link.__typename === 'DatoCmsInternalLink') {
-    return (
-      <Link to={`/${link.link.slug}/`.replace('//', '/')} {...props}>
-        <span>{link.linkText}</span>
-      </Link>
-    )
+const DatoLink = ({
+  data,
+  icon = true,
+  ...props
+}: Props): JSX.Element => {
+  switch (data.__typename) {
+    case 'DatoCmsInternalLink':
+      return <InternalLink data={data} {...props} />
+    case 'DatoCmsExternalLink':
+      return <ExternalLink data={data} icon={icon} {...props} />
+    default:
+      return <Fragment />
   }
-  if (link.__typename === 'DatoCmsExternalLink') {
-    return (
-      <a href={link.url} rel="noreferrer" target="_blank" {...props}>
-        <span>
-          {link.linkText}
-          {icon && (
-            <Fragment>
-              {' '}
-              <ExternalLinkIcon css={iconCss} />
-            </Fragment>
-          )}
-        </span>
-      </a>
-    )
-  } else {
-    return <a {...props}>{link.linkText}</a>
-  }
-  return <Fragment />
 }
 
 export default DatoLink

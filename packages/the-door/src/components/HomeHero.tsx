@@ -27,7 +27,12 @@ type Props = {
   }
 }
 
-const HomeHero = ({ heading, ctaText, ctaLink, video }: Props) => {
+const HomeHero = ({
+  heading,
+  ctaText,
+  ctaLink,
+  video,
+}: Props): JSX.Element => {
   const styles = {
     section: css`
       ${baseGrid}
@@ -132,7 +137,7 @@ const HomeHero = ({ heading, ctaText, ctaLink, video }: Props) => {
         </span>{' '}
         <span>
           <span>
-            <DatoLink link={ctaLink} css={styles.link} />
+            <DatoLink data={ctaLink} css={styles.link} />
           </span>
         </span>
       </h2>

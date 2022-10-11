@@ -1,17 +1,19 @@
 import Hls from 'hls.js'
-import { HTMLAttributes } from 'react'
+import { VideoHTMLAttributes } from 'react'
 import { useEffect, useRef } from 'react'
 
-interface VideoProps extends HTMLAttributes<HTMLVideoElement> {
+interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
   src: string
   thumbnail?: string
+  playing?: boolean
 }
 
 const VideoStreamPlayer = ({
   src,
   thumbnail,
+  playing,
   ...props
-}: VideoProps) => {
+}: VideoProps): JSX.Element => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -40,6 +42,15 @@ const VideoStreamPlayer = ({
       }
     }
   }, [videoRef, src])
+
+  useEffect(() => {
+    if (playing === true) {
+      videoRef.current?.play()
+    }
+    if (playing === false) {
+      videoRef.current?.pause()
+    }
+  }, [playing])
 
   return (
     <video ref={videoRef} poster={thumbnail} {...props}>

@@ -5,15 +5,15 @@ import DatoLink, {
 } from '@the-door/common/src/components/DatoLink'
 import HomeCalendar from '@the-door/common/src/components/HomeCalendar'
 import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
-import QueryContext from '@the-door/common/src/context/QueryContext'
+import useQueryContext from '@the-door/common/src/context/QueryContext'
 import {
   absoluteFill,
   linkStyle,
   mq,
 } from '@the-door/common/src/theme/mixins'
-import { useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 
-import ThemeContext from '../context/ThemeContext'
+import useThemeContext from '../context/ThemeContext'
 import { doorColors } from '../theme/variables'
 
 type Props = {
@@ -22,16 +22,22 @@ type Props = {
   pageLink: IDatoLink
 }
 
-const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
-  const { allNews, allEvents } = useContext(QueryContext)
+const HomeLatest = ({
+  heading,
+  featuredArticle,
+  pageLink,
+}: Props): JSX.Element => {
+  const { allNews, allEvents } = useQueryContext()
 
   const allNewsFiltered = useMemo(() => {
-    return allNews
-      .filter(article => article.id !== featuredArticle.id)
-      .slice(0, 3)
+    return (
+      allNews
+        ?.filter(article => article.id !== featuredArticle.id)
+        .slice(0, 3) || []
+    )
   }, [allNews, featuredArticle])
 
-  const { theme } = useContext(ThemeContext)
+  const { theme } = useThemeContext()
 
   const colors = useMemo(() => {
     if (theme === 'The Door') {
@@ -81,7 +87,7 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
       }
     `,
     latestSection: css`
-      padding: 0 var(--gtr-l) var(--row-l) var(--margin);
+      padding: 0 var(--margin) var(--row-l);
       grid-row: 2 / 3;
       display: flex;
       flex-wrap: wrap;
@@ -135,7 +141,7 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
     <section css={styles.section}>
       <section css={styles.latestSection}>
         <h2 css={styles.heading}>{heading}</h2>
-        <DatoLink link={pageLink} css={styles.pageLink} />
+        <DatoLink data={pageLink} css={styles.pageLink} />
         <ArticleThumbnail
           css={styles.featured}
           article={featuredArticle}
@@ -147,7 +153,7 @@ const HomeLatest = ({ heading, featuredArticle, pageLink }: Props) => {
           ))}
         </div>
       </section>
-      <HomeCalendar events={allEvents} />
+      <HomeCalendar events={allEvents || []} />
     </section>
   )
 }

@@ -2,7 +2,9 @@ import { css } from '@emotion/react'
 import { HTMLAttributes } from 'react'
 import { HiOutlineDocumentDownload } from 'react-icons/hi'
 
-const DocumentIcon = ({ ...props }: HTMLAttributes<HTMLElement>) => {
+const DocumentIcon = ({
+  ...props
+}: HTMLAttributes<HTMLElement>): JSX.Element => {
   const style = css`
     display: inline;
     position: relative;

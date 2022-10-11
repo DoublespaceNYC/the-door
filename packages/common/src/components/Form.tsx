@@ -4,14 +4,16 @@ import {
   StructuredText as IStructuredText,
   Record,
 } from 'datocms-structured-text-utils'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useMemo } from 'react'
 import { Fragment, SyntheticEvent, useCallback, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 import { BsCheck2Circle } from 'react-icons/bs'
 
+import useThemeContext from '../context/ThemeContext'
 import { useElementRect } from '../hooks/useElementRect'
 import useReadableColor from '../hooks/useReadableColor'
 import { absoluteFill, animateIn, buttonStyle } from '../theme/mixins'
+import { doorColors } from '../theme/variables'
 import LoadingSpinner from './LoadingSpinner'
 import MultilineTextField, {
   IMultilineTextField,
@@ -41,35 +43,24 @@ export type FieldStyles = {
   required: CSSInterpolation
 }
 
-export type FormColors = {
-  fill: string
-  border?: string
-  text: string
-  label: string
-  highlight: string
-  buttonFill: [string, string]
-  buttonText: [string, string]
-  buttonBorder?: [string, string]
-}
-
 interface Props extends HTMLAttributes<HTMLDivElement> {
   data: IForm
-  colors: FormColors
   formType: 'Netlify' | 'Mailchimp'
   listId?: string
   successCss?: CSSInterpolation
   simpleSuccess?: boolean
+  theme: 'Light' | 'Dark'
 }
 
 const Form = ({
   data: { formName, submitButtonText, successMessage, formFields },
-  colors,
   formType,
   listId,
   successCss,
   simpleSuccess,
+  theme = 'Light',
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const [formRef, setFormRef] = useState<HTMLElement | null>(null)
   const [successRef, setSuccessRef] = useState<HTMLElement | null>(null)
 
@@ -154,6 +145,33 @@ const Form = ({
     },
     [formType, listId]
   )
+
+  const { theme: metaTheme } = useThemeContext()
+  const colors = useMemo(() => {
+    switch (metaTheme) {
+      case 'The Door':
+        return {
+          fill: theme === 'Dark' ? 'transparent' : doorColors.gray95,
+          border: '#ffffff88',
+          text: '#fff',
+          label: '#ffffffaa',
+          highlight: doorColors.blueLight,
+          buttonFill: ['#fff', doorColors.pink],
+          buttonText: [doorColors.navy, '#fff'],
+        }
+      default:
+        return {
+          fill: 'transparent',
+          border: '#33333388',
+          text: '#333',
+          label: '#888',
+          highlight: '#333',
+          buttonBorder: 'transparent',
+          buttonFill: ['#fff', '#333'],
+          buttonText: ['#fff', '#fff'],
+        }
+    }
+  }, [metaTheme, theme])
 
   const textHighlight = useReadableColor(colors.highlight, colors.fill)
   const styles = {
@@ -311,7 +329,7 @@ const Form = ({
       position: absolute;
       pointer-events: none;
       z-index: 2;
-      bottom: 0;
+      top: 1.5835em;
       left: 0.75em;
       color: ${colors.label};
       max-width: 100%;

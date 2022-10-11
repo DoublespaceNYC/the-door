@@ -29,7 +29,7 @@ const ContentBlockShape = ({
   color,
   layout,
   orientation,
-}: Props) => {
+}: Props): JSX.Element => {
   const gutter = 'calc(-1 * var(--gtr-m))'
 
   const styles = {

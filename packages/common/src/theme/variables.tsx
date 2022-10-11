@@ -31,3 +31,7 @@ export const doorColors = {
   gray50: '#697f96',
   gray40: '#576575',
 }
+
+export const bsaColors = {
+  blue: '#2C3384',
+}

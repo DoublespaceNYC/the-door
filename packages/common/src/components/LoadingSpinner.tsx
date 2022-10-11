@@ -12,7 +12,7 @@ const LoadingSpinner = ({
   speed = 1200,
   count = 12,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const spinnerAnimation = keyframes`
     0%, 20%, 80%, 100% {
       transform: translate(-50%, -50%) scale(0.333);

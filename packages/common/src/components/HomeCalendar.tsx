@@ -1,10 +1,10 @@
 import { css } from '@emotion/react'
 import { Link } from 'gatsby'
 import { rgba } from 'polished'
-import { HTMLAttributes, useContext, useRef } from 'react'
+import { HTMLAttributes, useRef } from 'react'
 import { useMemo } from 'react'
 
-import ThemeContext from '../context/ThemeContext'
+import useThemeContext from '../context/ThemeContext'
 import { formateDateTimeRange } from '../helpers'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { mq, widthInCols } from '../theme/mixins'
@@ -16,7 +16,7 @@ interface Props extends HTMLAttributes<HTMLElement> {
   events: IEvent[]
 }
 
-const HomeCalendar = ({ events, ...props }: Props) => {
+const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
   const filteredEvents = useMemo(() => {
     const today = new Date()
     return events.filter(event => {
@@ -32,7 +32,7 @@ const HomeCalendar = ({ events, ...props }: Props) => {
 
   const windowWidth = useWindowWidth()
 
-  const { theme } = useContext(ThemeContext)
+  const { theme } = useThemeContext()
 
   const sliderNavRef = useRef<HTMLDivElement | null>(null)
 

@@ -1,11 +1,12 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { Fragment } from 'react'
+import { Fragment, useMemo } from 'react'
 
+import useThemeContext from '../context/ThemeContext'
+import { doorColors } from '../theme/variables'
 import Accordion from './Accordion'
-import { IAccordionColors } from './AccordionItem'
 import { Anchor, IAnchorLink } from './AnchorLink'
-import ProgramBlock, { IProgram, IProgramColors } from './ProgramBlock'
+import ProgramBlock, { IProgram } from './ProgramBlock'
 
 export interface IProgramCatalogSection extends Record {
   __typename: 'DatoCmsCatalogSection'
@@ -19,19 +20,30 @@ export interface IProgramCatalogSection extends Record {
 
 type Props = {
   data: IProgramCatalogSection
-  colors: {
-    bg: string
-    heading: string
-    accordionHeading: string
-    accordion: IAccordionColors
-    program: IProgramColors
-  }
 }
 
 const ProgramCatalogSection = ({
   data: { heading, catalogGroups, anchorLink },
-  colors,
-}: Props) => {
+}: Props): JSX.Element => {
+  const { theme } = useThemeContext()
+  const colors = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: `linear-gradient(to top right, ${doorColors.purpleDark}, ${doorColors.purple})`,
+          heading: '#fff',
+          accordionHeading: '#fff',
+          divider: '#ffffff88',
+        }
+      default:
+        return {
+          bg: 'transparent',
+          heading: 'transparent',
+          accordionHeading: 'transparent',
+          divider: 'transparent',
+        }
+    }
+  }, [theme])
   const styles = {
     section: css`
       background: ${colors.bg};
@@ -46,7 +58,7 @@ const ProgramCatalogSection = ({
     `,
     programBlock: css`
       margin-left: var(--gtr-m);
-      border-bottom: 1px solid ${colors.accordion.subdivider};
+      border-bottom: 1px solid ${colors.divider};
     `,
     lastBlock: css`
       border-bottom: none;
@@ -76,14 +88,12 @@ const ProgramCatalogSection = ({
                   ]}
                   program={program}
                   key={i}
-                  colors={colors.program}
                   headingLevel={4}
                 />
               ))}
             </Fragment>
           ),
         }))}
-        colors={colors.accordion}
         headingLevel={3}
       />
     </section>

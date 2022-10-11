@@ -1,8 +1,10 @@
 import { css } from '@emotion/react'
 import parse from 'html-react-parser'
-import { FC, HTMLAttributes } from 'react'
+import { FC, HTMLAttributes, useMemo } from 'react'
 
+import useThemeContext from '../context/ThemeContext'
 import { baseGrid, mq } from '../theme/mixins'
+import { doorColors } from '../theme/variables'
 import { LogoProps } from '../types'
 import DatoLink, { IDatoLink } from './DatoLink'
 import SocialLink, { ISocialLink } from './SocialLink'
@@ -17,12 +19,6 @@ export interface FooterProps extends HTMLAttributes<HTMLElement> {
     address: string
     socials: ISocialLink[]
   }
-  colors: {
-    bg: string
-    logo: string
-    text: string
-    buttons: string[]
-  }
 }
 
 const Footer = ({
@@ -30,10 +26,29 @@ const Footer = ({
   navItems,
   buttons,
   meta,
-  colors,
   ...props
-}: FooterProps) => {
+}: FooterProps): JSX.Element => {
   const Logo = logo
+
+  const { theme } = useThemeContext()
+  const colors = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: doorColors.navy,
+          logo: '#fff',
+          text: '#fff',
+          buttons: [doorColors.pink, doorColors.green],
+        }
+      default:
+        return {
+          bg: '#000',
+          logo: '#fff',
+          text: '#fff',
+          buttons: ['#fff, #fff'],
+        }
+    }
+  }, [theme])
 
   const styles = {
     footer: css`
@@ -187,12 +202,12 @@ const Footer = ({
       <nav css={styles.nav}>
         {navItems.map((navItem, i) => (
           <div key={i}>
-            <DatoLink css={styles.link} link={navItem} />
+            <DatoLink css={styles.link} data={navItem} />
           </div>
         ))}
         {buttons.map((button, i) => (
           <DatoLink
-            link={button}
+            data={button}
             key={i}
             css={[styles.link, styles.button]}
           />

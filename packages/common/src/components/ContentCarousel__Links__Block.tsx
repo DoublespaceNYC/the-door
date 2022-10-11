@@ -1,9 +1,9 @@
 import { css } from '@emotion/react'
 import { Block } from 'datocms-structured-text-utils'
 import { rgba } from 'polished'
-import { Fragment, HTMLAttributes, useContext, useMemo } from 'react'
+import { Fragment, HTMLAttributes, useMemo } from 'react'
 
-import ThemeContext from '../context/ThemeContext'
+import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import DocumentIcon from './DocumentIcon'
@@ -30,9 +30,9 @@ const ContentCarouselLinkThumbnail = ({
   link,
   highlightColor,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const date = link.date && new Date(link.date)
-  const { theme } = useContext(ThemeContext)
+  const { theme } = useThemeContext()
   const colors = useMemo(() => {
     if (theme === 'The Door') {
       return {
@@ -56,11 +56,13 @@ const ContentCarouselLinkThumbnail = ({
       padding: 1em 1em 2em;
       box-sizing: border-box;
       cursor: pointer;
-      box-shadow: -1rem 1rem 0 ${colors?.shadow};
+      box-shadow: calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
+        ${colors?.shadow};
       transition: box-shadow 300ms ease;
       @media (hover: hover) {
         &:hover {
-          box-shadow: -1rem 1rem 0 ${colors?.shadowHover};
+          box-shadow: calc(-1 * var(--shadow-offset-hover))
+            var(--shadow-offset-hover) 0 ${colors?.shadowHover};
         }
       }
       ${mq().s} {

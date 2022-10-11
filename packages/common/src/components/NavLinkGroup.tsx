@@ -10,10 +10,11 @@ import useFocusTrap from '../hooks/useFocusTrap'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { absoluteFill, mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
-import DatoLink, { IInternalLink } from './DatoLink'
+import DatoLink from './DatoLink'
 import GatsbyImageFocused, {
   IGatsbyImageFocused,
 } from './GatsbyImageFocused'
+import { IInternalLink } from './InternalLink'
 
 export interface IServicesGroupLink {
   __typename: 'DatoCmsServicesGroupLink'
@@ -58,7 +59,7 @@ const NavLinkGroup = ({
   breakpoint,
   colors,
   buttonCss,
-}: Props) => {
+}: Props): JSX.Element => {
   const linkCount = useMemo(() => {
     let sGCount = 0
     links.forEach(link => {
@@ -343,7 +344,7 @@ const NavLinkGroup = ({
                       return (
                         <li key={i}>
                           <DatoLink
-                            link={link}
+                            data={link}
                             tabIndex={open ? 0 : -1}
                             onClick={() => {
                               if (

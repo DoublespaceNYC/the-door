@@ -1,9 +1,9 @@
 import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
-import { HTMLAttributes, useContext, useEffect, useState } from 'react'
+import { HTMLAttributes, useEffect, useState } from 'react'
 
-import NavButtonModalContext from '../context/NavButtonModalContext'
-import NavMenuContext from '../context/NavMenuContext'
+import useNavButtonModalContext from '../context/NavButtonModalContext'
+import useNavMenuContext from '../context/NavMenuContext'
 import { useElementWidth } from '../hooks/useElementRect'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import useReadableColor from '../hooks/useReadableColor'
@@ -30,14 +30,14 @@ const NavButton = ({
   showModal,
   buttonCss,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const [wrapRef, setWrapRef] = useState<HTMLDivElement | null>(null)
   const wrapWidth = useElementWidth(
     button.modalTooltip ? wrapRef : null
   )
 
-  const { open, setOpen } = useContext(NavButtonModalContext)
-  const { open: navOpen } = useContext(NavMenuContext)
+  const { open, setOpen } = useNavButtonModalContext()
+  const { open: navOpen } = useNavMenuContext()
 
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
@@ -146,7 +146,7 @@ const NavButton = ({
   return (
     <div css={styles.wrap} ref={node => setWrapRef(node)} {...props}>
       <DatoLink
-        link={button.link[0]}
+        data={button.link[0]}
         css={[styles.button, buttonCss]}
       />
       {button.modalTooltip && (

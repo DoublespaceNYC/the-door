@@ -4,7 +4,7 @@ import { HiOutlineExternalLink } from 'react-icons/hi'
 
 const ExternalLinkIcon = ({
   ...props
-}: HTMLAttributes<HTMLElement>) => {
+}: HTMLAttributes<HTMLElement>): JSX.Element => {
   const style = css`
     display: inline;
     position: relative;

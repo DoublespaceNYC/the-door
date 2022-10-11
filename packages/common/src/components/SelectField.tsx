@@ -27,7 +27,7 @@ const SelectField = ({
   data: { label, options, required },
   onChange,
   fieldStyles,
-}: Props) => {
+}: Props): JSX.Element => {
   const name = toSlug(label)
 
   const [shrink, setShrink] = useState(false)

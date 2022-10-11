@@ -1,6 +1,6 @@
 import { Global, css } from '@emotion/react'
 
-const ScrollToggle = () => {
+const ScrollToggle = (): JSX.Element => {
   const styles = css`
     html {
       overflow: hidden;

@@ -1,9 +1,11 @@
 import { Global, css } from '@emotion/react'
-import { useContext, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 
-import NavMenuContext from '../context/NavMenuContext'
+import useNavMenuContext from '../context/NavMenuContext'
+import useThemeContext from '../context/ThemeContext'
 import { useElementHeight } from '../hooks/useElementRect'
+import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
 
@@ -14,20 +16,32 @@ export interface IAlert extends IStructuredText {
 export type AlertBarProps = {
   alert: IAlert
   showAlert: boolean
-  colors: {
-    bg: string
-    text: string
-    cta: [string, string]
-    // urgentBg: string
-    // urgentText: string
-    // urgentCta: [string, string]
-  }
 }
 
-const AlertBar = ({ alert, colors }: AlertBarProps) => {
+const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
   const [ref, setRef] = useState<HTMLDivElement | null>(null)
   const alertHeight = useElementHeight(ref)
-  const { open: navOpen } = useContext(NavMenuContext)
+  const { open: navOpen } = useNavMenuContext()
+
+  const { theme } = useThemeContext()
+
+  const colors = useMemo(() => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: doorColors.navyDark,
+          text: '#fff',
+          cta: ['#fff', doorColors.yellow],
+        }
+      default:
+        return {
+          bg: '#444',
+          text: '#fff',
+          cta: ['#fff', '#fff'],
+        }
+    }
+  }, [theme])
+
   const styles = {
     wrap: css`
       transition: height 300ms ease;
@@ -83,7 +97,7 @@ const AlertBar = ({ alert, colors }: AlertBarProps) => {
           data={alert}
           renderBlock={({ record }) => {
             if (isDatoLink(record)) {
-              return <DatoLink link={record} css={styles.link} />
+              return <DatoLink data={record} css={styles.link} />
             } else return null
           }}
         />

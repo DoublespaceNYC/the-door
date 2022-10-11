@@ -1,8 +1,8 @@
 import { css } from '@emotion/react'
 import { rgba } from 'polished'
-import { Fragment, HTMLAttributes, useContext, useMemo } from 'react'
+import { Fragment, HTMLAttributes, useMemo } from 'react'
 
-import ThemeContext from '../context/ThemeContext'
+import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import { IExternalArticle } from './ExternalArticle'
@@ -21,7 +21,7 @@ const ArticleThumbnail = ({
   layout,
   highlightColor,
   ...props
-}: Props) => {
+}: Props): JSX.Element => {
   const date = new Date(article.publicationDate)
 
   const slug =
@@ -32,18 +32,20 @@ const ArticleThumbnail = ({
   const featured = layout === 'Featured'
   const grid = layout === 'Grid'
   const carousel = layout === 'Carousel'
-  const { theme } = useContext(ThemeContext)
+  const { theme } = useThemeContext()
+
   const colors = useMemo(() => {
-    if (theme === 'The Door') {
-      return {
-        title: '#444',
-        category: highlightColor || doorColors.yellowDark,
-        date: '#888',
-        excerpt: '#666',
-        bg: carousel ? doorColors.gray95 : '#fff',
-        shadow: rgba(doorColors.navy, 0.15),
-        shadowHover: highlightColor || doorColors.yellow,
-      }
+    switch (theme) {
+      case 'The Door':
+        return {
+          title: '#444',
+          category: highlightColor || doorColors.yellowDark,
+          date: '#888',
+          excerpt: '#666',
+          bg: carousel ? doorColors.gray95 : '#fff',
+          shadow: rgba(doorColors.navy, 0.15),
+          shadowHover: highlightColor || doorColors.yellow,
+        }
     }
   }, [theme, highlightColor, carousel])
   const styles = {
@@ -57,11 +59,13 @@ const ArticleThumbnail = ({
       justify-items: flex-start;
       text-decoration: none;
       cursor: pointer;
-      box-shadow: -1rem 1rem 0 ${colors?.shadow};
+      box-shadow: calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
+        ${colors?.shadow};
       transition: box-shadow 300ms ease;
       @media (hover: hover) {
         &:hover {
-          box-shadow: -1rem 1rem 0 ${colors?.shadowHover};
+          box-shadow: calc(-1 * var(--shadow-offset-hover))
+            var(--shadow-offset-hover) 0 ${colors?.shadowHover};
         }
       }
 
