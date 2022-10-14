@@ -3,12 +3,11 @@ import { rgba } from 'polished'
 import { HTMLAttributes, useMemo } from 'react'
 
 import useQueryContext from '../context/QueryContext'
-import { mq } from '../theme/mixins'
-import ArticleThumbnail from './ArticleThumbnail'
-import { IEvent } from './Event'
-import EventThumbnail from './EventThumbnail'
-import { IExternalArticle } from './ExternalArticle'
-import { IInternalArticle } from './InternalArticle'
+import { mq, widthInCols } from '../theme/mixins'
+import { IEvent } from './Event__Article'
+import EventThumbnail from './Event__Thumbnail'
+import ExternalArticleThumbnail from './ExternalArticle__Thumbnail'
+import InternalArticleThumbnail from './InternalArticle__Thumbnail'
 import ScrollSlider from './ScrollSlider'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -20,14 +19,14 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   orientation: 'left' | 'right'
 }
 
-const ContentCarouselNewsEvents = ({
+const NewsEventsCarousel = ({
   contentType,
   tags,
   color,
   orientation,
   ...props
 }: Props): JSX.Element => {
-  const tagNames = useMemo(() => tags?.map(tag => tag.name), [tags])
+  const tagNames = tags?.map(tag => tag.name)
   const { allNews, allEvents } = useQueryContext()
   const taggedItems = useMemo(() => {
     if (contentType === 'News') {
@@ -67,15 +66,19 @@ const ContentCarouselNewsEvents = ({
       display: grid;
       grid-gap: var(--gtr-m);
       grid-template-columns: repeat(${taggedItems.length}, auto);
-      padding: 0 var(--margin) var(--shadow-offset-hover);
+      padding: 0 var(--margin);
+      ${contentType === 'News' &&
+      css`
+        margin-bottom: var(--shadow-offset-hover);
+      `}
     `,
     thumbnail: css`
-      width: calc(4 * var(--col-w) + 3 * var(--gtr-m));
+      width: ${widthInCols(4)};
       ${mq().m} {
-        width: calc(6 * var(--col-w) + 5 * var(--gtr-m));
+        width: ${widthInCols(6)};
       }
       ${mq().s} {
-        width: calc(9 * var(--col-w) + 8 * var(--gtr-m));
+        width: ${widthInCols(9)};
       }
     `,
   }
@@ -94,15 +97,28 @@ const ContentCarouselNewsEvents = ({
     >
       {taggedItems.map((item, i) => {
         if (contentType === 'News') {
-          return (
-            <ArticleThumbnail
-              key={i}
-              css={styles.thumbnail}
-              article={item as IInternalArticle | IExternalArticle}
-              layout="Carousel"
-              highlightColor={color}
-            />
-          )
+          if (item.__typename === 'DatoCmsInternalArticle') {
+            return (
+              <InternalArticleThumbnail
+                key={i}
+                css={styles.thumbnail}
+                layout="Carousel"
+                highlightColor={color}
+                article={item}
+              />
+            )
+          }
+          if (item.__typename === 'DatoCmsExternalArticle') {
+            return (
+              <ExternalArticleThumbnail
+                key={i}
+                css={styles.thumbnail}
+                layout="Carousel"
+                highlightColor={color}
+                article={item}
+              />
+            )
+          }
         }
         if (contentType === 'Events') {
           return (
@@ -111,6 +127,7 @@ const ContentCarouselNewsEvents = ({
               css={styles.thumbnail}
               event={item as IEvent}
               highlightColor={color}
+              layout="Carousel"
             />
           )
         }
@@ -119,4 +136,4 @@ const ContentCarouselNewsEvents = ({
   )
 }
 
-export default ContentCarouselNewsEvents
+export default NewsEventsCarousel

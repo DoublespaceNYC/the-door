@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import parse from 'html-react-parser'
-import { FC, HTMLAttributes, useMemo } from 'react'
+import { FC, HTMLAttributes } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import { baseGrid, mq } from '../theme/mixins'
@@ -31,7 +31,7 @@ const Footer = ({
   const Logo = logo
 
   const { theme } = useThemeContext()
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -48,8 +48,8 @@ const Footer = ({
           buttons: ['#fff, #fff'],
         }
     }
-  }, [theme])
-
+  }
+  const colors = setColors()
   const styles = {
     footer: css`
       ${baseGrid}

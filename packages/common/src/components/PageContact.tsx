@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { lighten } from 'polished'
-import { Fragment, useMemo } from 'react'
+import { Fragment } from 'react'
 import { StructuredText } from 'react-datocms'
 
 import useThemeContext from '../context/ThemeContext'
@@ -32,7 +32,7 @@ const PageContact = ({
   data: { heading, anchorLink, contactBlocks },
 }: Props): JSX.Element => {
   const { theme } = useThemeContext()
-  const colors = useMemo(() => {
+  const setColors = () => {
     const common = {
       text: '#fff',
     }
@@ -50,7 +50,8 @@ const PageContact = ({
           bg: '',
         }
     }
-  }, [theme])
+  }
+  const colors = setColors()
   const styles = {
     section: css`
       position: relative;

@@ -5,7 +5,7 @@ import {
   Record,
 } from 'datocms-structured-text-utils'
 import { rgba } from 'polished'
-import { HTMLAttributes, useMemo } from 'react'
+import { HTMLAttributes } from 'react'
 import { StructuredText } from 'react-datocms'
 import { useInView } from 'react-intersection-observer'
 
@@ -24,46 +24,54 @@ interface IVideoMedia {
     thumbnailUrl?: string
   }
 }
-export interface ICarouselMediaBlock extends Record {
-  __typename: 'DatoCmsCarouselMediaBlock'
+export interface IMediaBlock extends Record {
+  __typename: 'DatoCmsMediaBlock'
   caption: IStructuredText
-  media: IVideoMedia | IGatsbyImageFocused
+  asset: IVideoMedia | IGatsbyImageFocused
 }
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  data: ICarouselMediaBlock
+interface Props extends HTMLAttributes<HTMLElement> {
+  data: IMediaBlock
   highlightColor: string
+  layout: 'Page Carousel' | 'Lightbox Carousel' | 'Single'
 }
-const ContentCarouselMediaBlock = ({
-  data,
+
+const MediaBlock = ({
+  data: { asset, caption },
   highlightColor,
+  layout,
   ...props
 }: Props): JSX.Element => {
   const { inView, ref } = useInView({
     rootMargin: '50% -20%',
   })
+  // const isCarousel =
+  //   layout === 'Lightbox Carousel' || layout === 'Page Carousel'
   const { theme } = useThemeContext()
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
-          gray: doorColors.gray95,
+          textbox:
+            layout === 'Page Carousel' ? doorColors.gray95 : '#fff',
           shadow: rgba(doorColors.navy, 0.15),
           text: '#444',
         }
       default:
         return {
-          gray: '#f2f2f2',
+          textbox: '#f2f2f2',
           shadow: '#44444426',
           text: '#444',
         }
     }
-  }, [theme])
+  }
+  const colors = setColors()
   const styles = {
     block: css`
       display: grid;
       align-self: center;
       grid-template-columns: 1fr;
-
+      margin: 0 0 var(--shadow-offset);
+      padding: 0;
       filter: drop-shadow(
         calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
           ${colors.shadow}
@@ -101,7 +109,7 @@ const ContentCarouselMediaBlock = ({
       justify-self: flex-end;
       z-index: 2;
       width: calc(25% + var(--gtr-m));
-      background: ${colors.gray};
+      background: ${colors.textbox};
       padding: 1em 1.5em;
       overflow: hidden;
       box-sizing: border-box;
@@ -111,7 +119,7 @@ const ContentCarouselMediaBlock = ({
         padding: 0.5em 1.25em;
         width: calc(100% - var(--gtr-m));
         align-self: flex-start;
-        ${!data.media.isImage &&
+        ${!asset.isImage &&
         css`
           grid-row: 3 / 5;
         `}
@@ -152,32 +160,34 @@ const ContentCarouselMediaBlock = ({
     `,
   }
   return (
-    <div css={styles.block} ref={ref} {...props}>
-      {data.media.isImage ? (
+    <figure css={styles.block} ref={ref} {...props}>
+      {asset.isImage ? (
         <GatsbyImageFocused
           css={[styles.media]}
-          image={data.media.gatsbyImageData}
-          alt={data.media.alt || render(data.caption.value) || ''}
-          focalPoint={data.media.focalPoint}
+          image={asset.gatsbyImageData}
+          alt={asset.alt || render(caption.value) || ''}
+          focalPoint={asset.focalPoint}
           aspectRatio={3 / 2}
-          originalAspectRatio={data.media.sizes.aspectRatio}
+          originalAspectRatio={asset.sizes.aspectRatio}
         />
       ) : (
         <VideoStreamPlayer
           css={[styles.media]}
-          src={data.media.video.streamingUrl}
-          thumbnail={data.media.video.thumbnailUrl}
+          src={asset.video.streamingUrl}
+          thumbnail={asset.video.thumbnailUrl}
           playing={!inView ? false : undefined}
           controls
         />
       )}
-      <div css={styles.caption}>
+      <figcaption css={styles.caption}>
         <div>
-          <StructuredText data={data.caption} />
+          <div>
+            <StructuredText data={caption} />
+          </div>
         </div>
-      </div>
-    </div>
+      </figcaption>
+    </figure>
   )
 }
 
-export default ContentCarouselMediaBlock
+export default MediaBlock

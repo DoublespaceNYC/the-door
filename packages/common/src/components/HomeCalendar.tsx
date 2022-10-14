@@ -2,14 +2,13 @@ import { css } from '@emotion/react'
 import { Link } from 'gatsby'
 import { rgba } from 'polished'
 import { HTMLAttributes, useRef } from 'react'
-import { useMemo } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
-import { formateDateTimeRange } from '../helpers'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { mq, widthInCols } from '../theme/mixins'
 import { breakpoints, doorColors } from '../theme/variables'
-import { IEvent } from './Event'
+import { IEvent } from './Event__Article'
+import EventThumbnail from './Event__Thumbnail'
 import ScrollSlider from './ScrollSlider'
 
 interface Props extends HTMLAttributes<HTMLElement> {
@@ -17,41 +16,28 @@ interface Props extends HTMLAttributes<HTMLElement> {
 }
 
 const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
-  const filteredEvents = useMemo(() => {
-    const today = new Date()
-    return events.filter(event => {
-      !event.endDateTime && today.setHours(0, 0, 0, 0)
-      const startDate = new Date(
-        event.endDateTime || event.startDateTime
-      )
-      if (startDate > today) {
-        return true
-      }
-    })
-  }, [events])
-
   const windowWidth = useWindowWidth()
-
-  const { theme } = useThemeContext()
 
   const sliderNavRef = useRef<HTMLDivElement | null>(null)
 
-  const colors = useMemo(() => {
-    if (theme === 'The Door') {
-      return {
-        bg: '#fff',
-        heading: doorColors.yellow,
-        eventTitle: ['#444', doorColors.yellow],
-        eventText: ['#888'],
-        ctaBg: [doorColors.gray50, doorColors.yellow],
-        ctaText: ['#fff'],
-        ctaSlider: [doorColors.navy, doorColors.yellow],
-        dividerTop: '#80808080',
-        divider: '#ddd',
-      }
+  const { theme } = useThemeContext()
+  const setColors = () => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: '#fff',
+          heading: doorColors.yellow,
+          eventTitle: ['#444', doorColors.yellow],
+          eventText: ['#888'],
+          ctaBg: [doorColors.gray50, doorColors.yellow],
+          ctaText: ['#fff'],
+          ctaSlider: [doorColors.navy, doorColors.yellow],
+          dividerTop: '#80808080',
+          divider: '#ddd',
+        }
     }
-  }, [theme])
-
+  }
+  const colors = setColors()
   const styles = {
     section: css`
       grid-column: 2 / 3;
@@ -73,10 +59,11 @@ const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
       max-height: 100%;
       display: flex;
       flex-direction: column;
-      position: sticky;
-      top: calc(var(--nav-height) + 1rem);
+      /* position: sticky;
+      top: calc(var(--nav-height) + 1rem); */
       ${mq().ml} {
         width: 100%;
+        max-height: none;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -176,72 +163,22 @@ const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
       }
       ${mq().ml} {
         display: grid;
-        grid-template-columns: repeat(${filteredEvents.length}, auto);
+        grid-template-columns: repeat(${events.length}, auto);
         grid-gap: var(--gtr-m);
         padding: 0 var(--margin);
         align-items: flex-start;
       }
     `,
     event: css`
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      box-sizing: border-box;
-      ${mq('min').ml} {
-        padding: 1.5rem 0;
-        border-bottom: 1px solid ${colors?.divider};
-        &:last-of-type {
-          border: none;
-          margin-bottom: 2rem;
-        }
-      }
       ${mq().ml} {
-        width: ${widthInCols(filteredEvents.length > 3 ? 3 : 4)};
-        padding-top: 1rem;
-        border-top: 1px solid ${colors?.divider};
+        width: ${widthInCols(4)};
+        align-self: stretch;
       }
-      ${mq().ms} {
-        width: ${widthInCols(filteredEvents.length > 2 ? 4 : 6)};
+      ${mq().m} {
+        width: ${widthInCols(6)};
       }
       ${mq().s} {
-        width: ${widthInCols(8)};
-      }
-      h4 {
-        font-family: var(--display-font);
-        font-size: var(--fs-24);
-        order: 2;
-        margin: 0 0 0.125em;
-        color: ${colors?.eventTitle[0]};
-        transition: color 300ms ease;
-        width: max-content;
-        max-width: 100%;
-      }
-      h5 {
-        font-size: var(--fs-14);
-        color: ${colors?.eventText[0]};
-        font-weight: 500;
-      }
-      @media (hover: hover) {
-        &:hover {
-          h4 {
-            color: ${colors?.eventTitle[1]};
-          }
-          h5 {
-            color: ${colors?.eventText[1]};
-          }
-        }
-      }
-      > div {
-        order: 1;
-        h5 {
-          margin: 0;
-          text-transform: uppercase;
-        }
-      }
-      > h5 {
-        order: 3;
-        margin: 0 0 0.25em;
-        font-style: italic;
+        width: ${widthInCols(9)};
       }
     `,
     noEvents: css`
@@ -283,24 +220,21 @@ const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
             },
           }}
         >
-          {filteredEvents.length > 0 ? (
-            filteredEvents.map((event, i) => (
-              <div key={i} css={styles.event}>
-                <h4>{event.title}</h4>
-                <div>
-                  <h5>
-                    {formateDateTimeRange(
-                      event.startDateTime,
-                      event.endDateTime
-                    )}
-                  </h5>
-                </div>
-                <h5>
-                  {event.location === 'Off Campus'
-                    ? event.offCampusLocation
-                    : event.location}
-                </h5>
-              </div>
+          {events.length > 0 ? (
+            events.map((event, i) => (
+              <EventThumbnail
+                css={styles.event}
+                event={event}
+                key={i}
+                headingLevel={4}
+                layout={
+                  windowWidth
+                    ? windowWidth >= breakpoints.ml
+                      ? 'Home Calendar'
+                      : 'Carousel'
+                    : 'Home Calendar'
+                }
+              />
             ))
           ) : (
             <h4 css={styles.noEvents}>
@@ -308,7 +242,7 @@ const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
             </h4>
           )}
         </ScrollSlider>
-        {filteredEvents.length > 0 && (
+        {events.length > 0 && (
           <Link to="/calendar/" css={styles.viewAll}>
             View Full Calendar
           </Link>

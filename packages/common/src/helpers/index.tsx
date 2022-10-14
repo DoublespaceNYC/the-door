@@ -31,16 +31,42 @@ export const toAmPmRange = (startTime: string, endTime: string) => {
   )}${ampmMinutes(minute(endTime))}${ampm(hour(endTime))}`
 }
 
-export const formateDateTimeRange = (
+export const formatTimeRange = (
   startDateTimeString: string,
   endDateTimeString?: string
 ) => {
   const startDateTime = new Date(startDateTimeString)
   const endDateTime = endDateTimeString && new Date(endDateTimeString)
 
+  const toTimeString = (dateTime: Date) =>
+    dateTime.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false,
+      timeZone: 'America/New_York',
+    })
+
+  const startTime = toTimeString(startDateTime)
+  const endTime = endDateTime && toTimeString(endDateTime)
+  const timeRange = endTime
+    ? toAmPmRange(startTime, endTime)
+    : toAmPm(startTime)
+
+  return timeRange
+}
+
+export const formateDateTimeRange = (
+  startDateTimeString: string,
+  endDateTimeString?: string,
+  length: 'short' | 'long' = 'short'
+) => {
+  const startDateTime = new Date(startDateTimeString)
+  const endDateTime = endDateTimeString && new Date(endDateTimeString)
+
   const toDateString = (dateTime: Date) =>
     dateTime.toLocaleDateString('en-US', {
-      month: 'short',
+      weekday: length,
+      month: length,
       day: 'numeric',
       year: 'numeric',
       timeZone: 'America/New_York',

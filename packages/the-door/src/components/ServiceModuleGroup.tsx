@@ -29,7 +29,7 @@ const ServiceModuleGroup = ({
   bgColor,
 }: Props): JSX.Element => {
   const [listRef, setListRef] = useState<HTMLDivElement | null>(null)
-  const listHeight = useElementHeight(listRef)
+  const listHeight = useElementHeight(listRef) || 0
 
   const styles = {
     serviceGroup: css`

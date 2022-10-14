@@ -1,36 +1,20 @@
-import {
-  Block,
-  StructuredText as IStructuredText,
-} from 'datocms-structured-text-utils'
+import { Record } from 'datocms-structured-text-utils'
 import { Fragment, HTMLAttributes } from 'react'
 
-import ContentCarouselLinks from './ContentCarousel__Links'
+import LinksCarousel from './ContentCarousel__Links'
 import { ICarouselLink } from './ContentCarousel__Links__Block'
-import ContentCarouselMedia from './ContentCarousel__Media'
-import { ICarouselMediaBlock } from './ContentCarousel__Media__Block'
-import ContentCarouselNewsEvents from './ContentCarousel__NewsEvents'
-import { IGatsbyImageFocused } from './GatsbyImageFocused'
+import MediaCarousel from './ContentCarousel__Media'
+import NewsEventsCarousel from './ContentCarousel__NewsEvents'
+import { IMediaBlock } from './MediaBlock'
 
-export interface ICarouselMedia extends Block {
-  __typename: 'DatoCmsCarouselMediaBlock'
-  caption: IStructuredText
-  media:
-    | IGatsbyImageFocused
-    | {
-        video: {
-          streamingUrl: string
-        }
-      }
-}
-
-export interface ICarousel extends Block {
+export interface ICarousel extends Record {
   __typename: 'DatoCmsCarousel'
   contentType: 'News' | 'Events' | 'Links' | 'Media'
   tags: {
     name: string
   }[]
   links: ICarouselLink[]
-  media: ICarouselMediaBlock[]
+  media: IMediaBlock[]
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -49,7 +33,7 @@ const ContentCarousel = ({
     case 'News':
     case 'Events':
       return (
-        <ContentCarouselNewsEvents
+        <NewsEventsCarousel
           contentType={contentType}
           tags={tags}
           color={color}
@@ -59,14 +43,14 @@ const ContentCarousel = ({
       )
     case 'Links':
       return (
-        <ContentCarouselLinks
+        <LinksCarousel
           links={links}
           color={color}
           orientation={orientation}
         />
       )
     case 'Media':
-      return <ContentCarouselMedia data={media} color={color} />
+      return <MediaCarousel data={media} color={color} layout="Page" />
     default:
       return <Fragment />
   }

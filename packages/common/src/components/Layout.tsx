@@ -40,6 +40,7 @@ const Layout = ({
         meta={footer.meta}
       />
       <div id="popup-container" />
+      <div id="lightbox-container" />
     </Fragment>
   )
 }

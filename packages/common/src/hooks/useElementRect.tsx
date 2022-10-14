@@ -2,9 +2,12 @@ import { debounce } from 'lodash'
 import { useLayoutEffect, useState } from 'react'
 
 export const useElementRect = (element: HTMLElement | null) => {
-  const [rect, setRect] = useState({
-    width: 0,
-    height: 0,
+  const [rect, setRect] = useState<{
+    width: number | undefined
+    height: number | undefined
+  }>({
+    width: undefined,
+    height: undefined,
   })
 
   useLayoutEffect(() => {

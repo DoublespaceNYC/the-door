@@ -2,7 +2,7 @@ import { Record } from 'datocms-structured-text-utils'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 import { toSlug } from '../helpers'
-import { FieldStyles } from './Form'
+import { IFieldStyles } from './Form'
 
 export interface ITextField extends Record {
   __typename: 'DatoCmsTextField'
@@ -14,7 +14,7 @@ export interface ITextField extends Record {
 type FieldProps = {
   data: ITextField
   onChange: (name: string, value: string) => void
-  fieldStyles: FieldStyles
+  fieldStyles: IFieldStyles
 }
 
 const TextField = ({

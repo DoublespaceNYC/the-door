@@ -2,13 +2,7 @@ import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import throttle from 'lodash/throttle'
 import { HTMLAttributes, useRef } from 'react'
-import {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import smoothscroll from 'smoothscroll-polyfill'
 
@@ -64,9 +58,9 @@ const ScrollSlider = ({
     setScrollWidthRef(node)
   }
 
-  const containerWidth = useElementWidth(sliderRef)
-  const contentWidth = useElementWidth(contentRef)
-  const scrollWidth = useElementWidth(scrollWidthRef)
+  const containerWidth = useElementWidth(sliderRef) || 0
+  const contentWidth = useElementWidth(contentRef) || 0
+  const scrollWidth = useElementWidth(scrollWidthRef) || 0
 
   useEffect(() => {
     sliderRef?.scrollTo(0, 0)
@@ -106,9 +100,7 @@ const ScrollSlider = ({
   }
 
   const navRef = useRef<HTMLDivElement | null>(null)
-  const navVisible = useMemo(() => {
-    return sliderRef && containerWidth < contentWidth - 20
-  }, [sliderRef, containerWidth, contentWidth])
+  const navVisible = sliderRef && containerWidth < contentWidth - 20
 
   const navPortalTarget = navContainer || navRef.current
 

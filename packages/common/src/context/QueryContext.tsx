@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react'
 
-import { IEvent } from '../components/Event'
+import { IEvent } from '../components/Event__Article'
 import { IExternalArticle } from '../components/ExternalArticle'
 import { IInternalArticle } from '../components/InternalArticle'
 

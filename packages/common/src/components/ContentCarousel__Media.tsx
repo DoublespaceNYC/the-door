@@ -1,21 +1,27 @@
 import { css } from '@emotion/react'
+import { Record } from 'datocms-structured-text-utils'
 import { rgba } from 'polished'
 import { HTMLAttributes } from 'react'
 
-import { mq, widthInCols } from '../theme/mixins'
-import ContentCarouselMediaBlock, {
-  ICarouselMediaBlock,
-} from './ContentCarousel__Media__Block'
+import { widthInCols } from '../theme/mixins'
+import MediaBlock, { IMediaBlock } from './MediaBlock'
 import ScrollSlider from './ScrollSlider'
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  data: ICarouselMediaBlock[]
-  color: string
+export interface IMediaCarousel extends Record {
+  __typename: 'DatoCmsMediaCarousel'
+  media: IMediaBlock[]
 }
 
-const ContentCarouselMedia = ({
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  data: IMediaBlock[]
+  color: string
+  layout: 'Page' | 'Lightbox' | 'Calendar'
+}
+
+const MediaCarousel = ({
   data,
   color,
+  layout = 'Page',
   ...props
 }: Props): JSX.Element => {
   const styles = {
@@ -30,7 +36,7 @@ const ContentCarouselMedia = ({
       display: grid;
       grid-template-columns: repeat(${data.length}, auto);
       grid-gap: var(--gap);
-      padding: 0 calc(var(--margin) * 2) var(--shadow-offset);
+      padding: 0 calc(var(--margin) * 2);
     `,
     scrollArea: css`
       scroll-padding-left: calc(var(--margin) * 2);
@@ -58,7 +64,10 @@ const ContentCarouselMedia = ({
       {...props}
     >
       {data.map((block, i) => (
-        <ContentCarouselMediaBlock
+        <MediaBlock
+          layout={
+            layout === 'Page' ? 'Page Carousel' : 'Lightbox Carousel'
+          }
           data={block}
           highlightColor={color}
           css={styles.block}
@@ -69,26 +78,4 @@ const ContentCarouselMedia = ({
   )
 }
 
-// export const CarouselMediaBlockFragment = graphql`
-//   fragment CarouselMediaBlockFragment on DatoCmsCarouselMediaBlock {
-//     id: originalId
-//     __typename
-//     caption {
-//       value
-//     }
-//     media {
-//       gatsbyImageData(
-//         width: 960
-//         imgixParams: {
-//           q: 50
-//           ar: "3:2"
-//           fit: "crop"
-//           crop: "focalpoint"
-//         }
-//       )
-//       ...ImageFocalData
-//     }
-//   }
-// `
-
-export default ContentCarouselMedia
+export default MediaCarousel

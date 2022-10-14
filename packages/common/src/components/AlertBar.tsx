@@ -1,5 +1,5 @@
 import { Global, css } from '@emotion/react'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { StructuredText } from 'react-datocms'
 
 import useNavMenuContext from '../context/NavMenuContext'
@@ -25,7 +25,7 @@ const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
 
   const { theme } = useThemeContext()
 
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -40,7 +40,8 @@ const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
           cta: ['#fff', '#fff'],
         }
     }
-  }, [theme])
+  }
+  const colors = setColors()
 
   const styles = {
     wrap: css`

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { rgba } from 'polished'
-import { Fragment, HTMLAttributes, useMemo } from 'react'
+import { Fragment, HTMLAttributes } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
@@ -10,9 +10,11 @@ import ExternalLinkIcon from './ExternalLinkIcon'
 import GatsbyImageFocused from './GatsbyImageFocused'
 import { IInternalArticle } from './InternalArticle'
 
-interface Props extends HTMLAttributes<HTMLAnchorElement> {
+export type IArticleThumbnailLayout = 'Featured' | 'Grid' | 'Carousel'
+
+interface Props extends HTMLAttributes<HTMLDivElement> {
   article: IInternalArticle | IExternalArticle
-  layout: 'Featured' | 'Grid' | 'Carousel'
+  layout: IArticleThumbnailLayout
   highlightColor?: string
 }
 
@@ -24,17 +26,12 @@ const ArticleThumbnail = ({
 }: Props): JSX.Element => {
   const date = new Date(article.publicationDate)
 
-  const slug =
-    article.__typename === 'DatoCmsInternalArticle'
-      ? `/${article.slug}/`
-      : article.url
-
   const featured = layout === 'Featured'
   const grid = layout === 'Grid'
   const carousel = layout === 'Carousel'
   const { theme } = useThemeContext()
 
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -47,7 +44,8 @@ const ArticleThumbnail = ({
           shadowHover: highlightColor || doorColors.yellow,
         }
     }
-  }, [theme, highlightColor, carousel])
+  }
+  const colors = setColors()
   const styles = {
     container: css`
       position: relative;
@@ -55,6 +53,7 @@ const ArticleThumbnail = ({
       grid-template-columns: ${featured ? '1fr 1fr' : '1fr'};
       grid-template-rows: auto 1fr;
       grid-column-gap: var(--gtr-m);
+      min-height: 100%;
       background: ${colors?.bg};
       justify-items: flex-start;
       text-decoration: none;
@@ -68,7 +67,6 @@ const ArticleThumbnail = ({
             var(--shadow-offset-hover) 0 ${colors?.shadowHover};
         }
       }
-
       ${mq().s} {
         grid-template-columns: ${grid ? '1fr 1fr' : '1fr'};
       }
@@ -97,6 +95,9 @@ const ArticleThumbnail = ({
           font-size: var(--fs-${featured ? '48' : '30'});
         }
       }
+    `,
+    details: css`
+      order: 1;
       h4 {
         font-size: var(--fs-${grid ? '14' : '15'});
         text-transform: uppercase;
@@ -109,9 +110,6 @@ const ArticleThumbnail = ({
           color: ${colors?.category};
         }
       }
-    `,
-    details: css`
-      order: 1;
     `,
     excerpt: css`
       order: 4;
@@ -144,21 +142,7 @@ const ArticleThumbnail = ({
     `,
   }
   return (
-    <a
-      css={styles.container}
-      href={slug}
-      target={
-        article.__typename === 'DatoCmsExternalArticle'
-          ? '__blank'
-          : undefined
-      }
-      rel={
-        article.__typename === 'DatoCmsExternalArticle'
-          ? 'noreferrer'
-          : undefined
-      }
-      {...props}
-    >
+    <div css={styles.container} {...props}>
       <GatsbyImageFocused
         css={styles.imageWrap}
         gatsbyImageCss={styles.image}
@@ -174,10 +158,9 @@ const ArticleThumbnail = ({
           <h4>
             {article.__typename === 'DatoCmsInternalArticle' &&
               article.category.name}
-            {article.__typename === 'DatoCmsExternalArticle' &&
-              article.publication}
             {article.__typename === 'DatoCmsExternalArticle' && (
               <Fragment>
+                {article.publication}
                 &#8196;
                 <ExternalLinkIcon css={styles.icon} />
               </Fragment>
@@ -194,7 +177,7 @@ const ArticleThumbnail = ({
         </div>
         {featured && <p css={styles.excerpt}>{article.excerpt}</p>}
       </div>
-    </a>
+    </div>
   )
 }
 

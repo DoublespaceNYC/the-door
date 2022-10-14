@@ -1,5 +1,4 @@
 import { css } from '@emotion/react'
-import ArticleThumbnail from '@the-door/common/src/components/ArticleThumbnail'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
@@ -15,10 +14,13 @@ import { useMemo } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import { doorColors } from '../theme/variables'
+import { IExternalArticle } from './ExternalArticle'
+import ExternalArticleThumbnail from './ExternalArticle__Thumbnail'
+import InternalArticleThumbnail from './InternalArticle__Thumbnail'
 
 type Props = {
   heading: string
-  featuredArticle: IInternalArticle
+  featuredArticle: IInternalArticle | IExternalArticle
   pageLink: IDatoLink
 }
 
@@ -32,23 +34,24 @@ const HomeLatest = ({
   const allNewsFiltered = useMemo(() => {
     return (
       allNews
-        ?.filter(article => article.id !== featuredArticle.id)
+        ?.slice(0, 4)
+        .filter(article => article.id !== featuredArticle.id)
         .slice(0, 3) || []
     )
   }, [allNews, featuredArticle])
 
   const { theme } = useThemeContext()
-
-  const colors = useMemo(() => {
-    if (theme === 'The Door') {
-      return {
-        bg: doorColors.purpleDark,
-        heading: doorColors.yellow,
-        pageLink: [doorColors.navy],
-      }
+  const setColors = () => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: doorColors.purpleDark,
+          heading: doorColors.yellow,
+          pageLink: [doorColors.navy, doorColors.yellowDark],
+        }
     }
-  }, [theme])
-
+  }
+  const colors = setColors()
   const styles = {
     section: css`
       display: grid;
@@ -142,15 +145,42 @@ const HomeLatest = ({
       <section css={styles.latestSection}>
         <h2 css={styles.heading}>{heading}</h2>
         <DatoLink data={pageLink} css={styles.pageLink} />
-        <ArticleThumbnail
-          css={styles.featured}
-          article={featuredArticle}
-          layout="Featured"
-        />
+        {featuredArticle.__typename === 'DatoCmsInternalArticle' ? (
+          <InternalArticleThumbnail
+            css={styles.featured}
+            layout="Featured"
+            article={featuredArticle}
+          />
+        ) : (
+          featuredArticle.__typename === 'DatoCmsExternalArticle' && (
+            <ExternalArticleThumbnail
+              css={styles.featured}
+              layout="Featured"
+              article={featuredArticle}
+            />
+          )
+        )}
         <div css={styles.articles}>
-          {allNewsFiltered.map((article, i) => (
-            <ArticleThumbnail key={i} article={article} layout="Grid" />
-          ))}
+          {allNewsFiltered.map((article, i) => {
+            if (article.__typename === 'DatoCmsInternalArticle') {
+              return (
+                <InternalArticleThumbnail
+                  key={i}
+                  layout="Grid"
+                  article={article}
+                />
+              )
+            }
+            if (article.__typename === 'DatoCmsExternalArticle') {
+              return (
+                <ExternalArticleThumbnail
+                  key={i}
+                  layout="Grid"
+                  article={article}
+                />
+              )
+            }
+          })}
         </div>
       </section>
       <HomeCalendar events={allEvents || []} />

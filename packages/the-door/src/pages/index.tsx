@@ -123,8 +123,8 @@ export const data = graphql`
         ... on DatoCmsExternalLink {
           ...ExternalLinkFragment
         }
-        ... on DatoCmsLightboxLink {
-          ...LightboxLinkFragment
+        ... on DatoCmsFormLightboxLink {
+          ...FormLightboxLinkFragment
         }
       }
       heroVideo {

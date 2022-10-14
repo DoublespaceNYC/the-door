@@ -3,19 +3,24 @@ import {
   StructuredText as IStructuredText,
   isParagraph,
 } from 'datocms-structured-text-utils'
-import { useMemo } from 'react'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 
 import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
-import DatoLink, { ILightboxLink } from './DatoLink'
+import DatoLink, { isDatoLink } from './DatoLink'
 import { IExternalLink } from './ExternalLink'
-import Form, { IFormBlock } from './Form'
+import Form, { IFormEmbed } from './Form'
+import { IFormLightboxLink } from './Form__Lightbox'
 import { IInternalLink } from './InternalLink'
 
 export interface ICTABar extends IStructuredText {
-  blocks: (IInternalLink | IExternalLink | ILightboxLink | IFormBlock)[]
+  blocks: (
+    | IInternalLink
+    | IExternalLink
+    | IFormLightboxLink
+    | IFormEmbed
+  )[]
 }
 
 export type CTABarProps = {
@@ -24,8 +29,7 @@ export type CTABarProps = {
 
 const CTABar = ({ data }: CTABarProps): JSX.Element => {
   const { theme } = useThemeContext()
-
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -34,7 +38,8 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
           boldText: doorColors.blueLight,
         }
     }
-  }, [theme])
+  }
+  const colors = setColors()
   const styles = {
     section: css`
       background: ${colors?.bg};
@@ -86,7 +91,7 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
       <StructuredText
         data={data}
         renderBlock={({ record }) => {
-          if (record.__typename === 'DatoCmsFormBlock') {
+          if (record.__typename === 'DatoCmsFormEmbed') {
             return (
               <Form
                 data={record.form}
@@ -98,11 +103,7 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
               />
             )
           }
-          if (
-            record.__typename === 'DatoCmsExternalLink' ||
-            record.__typename === 'DatoCmsInternalLink' ||
-            record.__typename === 'DatoCmsLightboxLink'
-          ) {
+          if (isDatoLink(record)) {
             return <DatoLink data={record} />
           } else return null
         }}

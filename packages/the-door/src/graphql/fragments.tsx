@@ -1,6 +1,17 @@
 import { graphql } from 'gatsby'
 
 export const Fragments = graphql`
+  fragment ImageFocalData on DatoCmsFileField {
+    isImage
+    alt
+    sizes {
+      aspectRatio
+    }
+    focalPoint {
+      x
+      y
+    }
+  }
   fragment InternalLinkFragment on DatoCmsInternalLink {
     id: originalId
     __typename
@@ -19,11 +30,6 @@ export const Fragments = graphql`
     __typename
     linkText
     url
-  }
-  fragment LightboxLinkFragment on DatoCmsLightboxLink {
-    id: originalId
-    __typename
-    linkText
   }
   fragment DocumentLinkFragment on DatoCmsDocumentLink {
     id: originalId
@@ -67,10 +73,19 @@ export const Fragments = graphql`
     excerpt
     heroImage {
       thumbnailImageData: gatsbyImageData(
-        width: 960
+        width: 600
         imgixParams: {
           q: 50
           ar: "16:9"
+          fit: "crop"
+          crop: "focalpoint"
+        }
+      )
+      heroImageData: gatsbyImageData(
+        layout: FULL_WIDTH
+        imgixParams: {
+          q: 65
+          ar: "8:3"
           fit: "crop"
           crop: "focalpoint"
         }
@@ -83,14 +98,33 @@ export const Fragments = graphql`
     tags {
       name
     }
+    lede {
+      value
+    }
     body {
       value
+      blocks {
+        ... on DatoCmsMediaBlock {
+          ...MediaBlockFragment
+        }
+        ... on DatoCmsMediaCarousel {
+          ...MediaCarouselFragment
+        }
+      }
     }
     inLatest
     publicationDate
     slug
     seo {
-      ...SeoFragment
+      ...SEOFragment
+    }
+  }
+  fragment InternalArticleLinkFragment on DatoCmsInternalArticleLink {
+    __typename
+    id: originalId
+    linkText
+    link {
+      ...InternalArticleFragment
     }
   }
   fragment ExternalArticleFragment on DatoCmsExternalArticle {
@@ -125,10 +159,33 @@ export const Fragments = graphql`
     endDateTime
     location
     offCampusLocation
+    excerpt
+    body {
+      value
+      blocks {
+        ... on DatoCmsMediaBlock {
+          ...MediaBlockFragment
+        }
+        ... on DatoCmsMediaCarousel {
+          ...MediaCarouselFragment
+        }
+      }
+    }
     tags {
       name
     }
     slug
+    seo {
+      ...SEOFragment
+    }
+  }
+  fragment EventLinkFragment on DatoCmsEventLink {
+    __typename
+    id: originalId
+    linkText
+    link {
+      ...EventFragment
+    }
   }
   fragment CornerPopupFragment on DatoCmsCornerPopup {
     id: originalId
@@ -143,8 +200,8 @@ export const Fragments = graphql`
         ... on DatoCmsExternalLink {
           ...ExternalLinkFragment
         }
-        ... on DatoCmsLightboxLink {
-          ...LightboxLinkFragment
+        ... on DatoCmsFormLightboxLink {
+          ...FormLightboxLinkFragment
         }
         ... on DatoCmsDocumentLink {
           ...DocumentLinkFragment
@@ -164,8 +221,8 @@ export const Fragments = graphql`
         ... on DatoCmsExternalLink {
           ...ExternalLinkFragment
         }
-        ... on DatoCmsLightboxLink {
-          ...LightboxLinkFragment
+        ... on DatoCmsFormLightboxLink {
+          ...FormLightboxLinkFragment
         }
         ... on DatoCmsDocumentLink {
           ...DocumentLinkFragment
@@ -185,13 +242,31 @@ export const Fragments = graphql`
     }
     url
   }
-  fragment CarouselMediaBlockFragment on DatoCmsCarouselMediaBlock {
+  fragment MediaBlockFragment on DatoCmsMediaBlock {
     id: originalId
     __typename
     caption {
       value
     }
-    media {
+    asset {
+      gatsbyImageData(
+        width: 1280
+        imgixParams: { q: 60, fit: "crop", crop: "focalpoint" }
+      )
+      ...ImageFocalData
+      video {
+        streamingUrl
+        thumbnailUrl
+      }
+    }
+  }
+  fragment CarouselMediaBlockFragment on DatoCmsMediaBlock {
+    id: originalId
+    __typename
+    caption {
+      value
+    }
+    asset {
       gatsbyImageData(
         width: 960
         imgixParams: {
@@ -206,6 +281,13 @@ export const Fragments = graphql`
         streamingUrl
         thumbnailUrl
       }
+    }
+  }
+  fragment MediaCarouselFragment on DatoCmsMediaCarousel {
+    id: originalId
+    __typename
+    media {
+      ...CarouselMediaBlockFragment
     }
   }
   fragment CarouselFragment on DatoCmsCarousel {
@@ -245,20 +327,6 @@ export const Fragments = graphql`
         ...ImageFocalData
       }
       layout
-    }
-  }
-  fragment SeoFragment on DatoCmsSeoField {
-    title
-    description
-    image {
-      url(
-        imgixParams: {
-          q: 40
-          ar: "1:1"
-          fit: "crop"
-          crop: "focalpoint"
-        }
-      )
     }
   }
   fragment LayoutOptionsFragment on DatoCmsLayoutOptionsBlock {
@@ -361,22 +429,34 @@ export const Fragments = graphql`
       }
     }
   }
-  fragment FormBlockFragment on DatoCmsFormBlock {
-    id: originalId
+  fragment FormLightboxFragment on DatoCmsFormLightbox {
     __typename
+    id: originalId
+    title
+    text {
+      value
+    }
+    form {
+      ...FormFragment
+    }
+    slug
+    seo {
+      ...SEOFragment
+    }
+  }
+  fragment FormEmbedFragment on DatoCmsFormEmbed {
+    __typename
+    id: originalId
     form {
       ...FormFragment
     }
   }
-  fragment ImageFocalData on DatoCmsFileField {
-    isImage
-    alt
-    sizes {
-      aspectRatio
-    }
-    focalPoint {
-      x
-      y
+  fragment FormLightboxLinkFragment on DatoCmsFormLightboxLink {
+    __typename
+    id: originalId
+    linkText
+    link {
+      ...FormLightboxFragment
     }
   }
 `

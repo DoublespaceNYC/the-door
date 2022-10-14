@@ -1,13 +1,6 @@
 import { Global, css } from '@emotion/react'
 import { Link } from 'gatsby'
-import {
-  FC,
-  Fragment,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
 
@@ -85,8 +78,7 @@ const MainNav = ({
   })
 
   const { theme } = useThemeContext()
-
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -105,8 +97,8 @@ const MainNav = ({
           buttons: ['transparent', 'transparent'],
         }
     }
-  }, [theme])
-
+  }
+  const colors = setColors()
   const styles = {
     scrollObserver: css`
       position: absolute;

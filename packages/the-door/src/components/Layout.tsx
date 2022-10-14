@@ -117,11 +117,11 @@ const Layout = ({ children }: Props) => {
               ... on DatoCmsExternalLink {
                 ...ExternalLinkFragment
               }
-              ... on DatoCmsLightboxLink {
-                ...LightboxLinkFragment
+              ... on DatoCmsFormLightboxLink {
+                ...FormLightboxLinkFragment
               }
-              ... on DatoCmsFormBlock {
-                ...FormBlockFragment
+              ... on DatoCmsFormEmbed {
+                ...FormEmbedFragment
               }
             }
           }
@@ -146,8 +146,8 @@ const Layout = ({ children }: Props) => {
               ... on DatoCmsExternalLink {
                 ...ExternalLinkFragment
               }
-              ... on DatoCmsLightboxLink {
-                ...LightboxLinkFragment
+              ... on DatoCmsFormLightboxLink {
+                ...FormLightboxLinkFragment
               }
               ... on DatoCmsDocumentLink {
                 ...DocumentLinkFragment

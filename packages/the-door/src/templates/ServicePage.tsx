@@ -141,7 +141,7 @@ export const data = graphql`
         ...LayoutOptionsFragment
       }
       seo {
-        ...SeoFragment
+        ...SEOFragment
       }
     }
     section: datoCmsServicesGroup(

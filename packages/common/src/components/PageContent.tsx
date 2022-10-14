@@ -1,5 +1,4 @@
 import { Record } from 'datocms-structured-text-utils'
-import { useMemo } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import { bsaColors, doorColors } from '../theme/variables'
@@ -29,7 +28,7 @@ const PageContent = ({
   },
 }: Props): JSX.Element => {
   const { theme } = useThemeContext()
-  const colors = useMemo(() => {
+  const setColorsArray = () => {
     switch (theme) {
       case 'The Door':
         return [
@@ -41,20 +40,22 @@ const PageContent = ({
       default:
         return ['#888']
     }
-  }, [theme])
+  }
+  const colorsArray = setColorsArray()
 
-  const startColor = useMemo(() => {
+  const setStartColor = () => {
     switch (theme) {
       case 'The Door':
         return doorColors[startColorName as keyof typeof doorColors]
       case 'BSA':
         return bsaColors[startColorName as keyof typeof bsaColors]
       default:
-        return colors[0]
+        return colorsArray[0]
     }
-  }, [theme, colors, startColorName])
+  }
+  const startColor = setStartColor()
 
-  const colorIndex = colors.indexOf(startColor)
+  const colorIndex = colorsArray.indexOf(startColor)
   const shapeIndex = shapeArray.indexOf(startShape)
   const oddOrientation = startOrientation === 'left' ? 'right' : 'left'
   let blockIndex = -1
@@ -63,12 +64,12 @@ const PageContent = ({
       {pageContent.map((record, i) => {
         if (record.__typename === 'DatoCmsContentBlock') {
           blockIndex++
-          const cI = (blockIndex + colorIndex) % colors.length
+          const cI = (blockIndex + colorIndex) % colorsArray.length
           const sI = (blockIndex + shapeIndex) % shapeArray.length
           return (
             <ContentBlock
               block={record}
-              color={colors[cI]}
+              color={colorsArray[cI]}
               shape={shapeArray[sI]}
               orientation={
                 blockIndex % 2 ? oddOrientation : startOrientation

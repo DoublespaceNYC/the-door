@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import { lighten } from 'polished'
-import { Fragment, useEffect, useMemo } from 'react'
+import { Fragment, useEffect } from 'react'
 import { StructuredText } from 'react-datocms'
 import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
@@ -11,10 +11,10 @@ import useThemeContext from '../context/ThemeContext'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
-import DatoLink, { IDatoLink } from './DatoLink'
+import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
 
 interface IPopupBody extends IStructuredText {
-  blocks: IDatoLink[]
+  blocks?: IDatoLink[]
 }
 
 export interface ICornerPopup {
@@ -46,8 +46,7 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
   useEscKeyFunction(() => setClosed(true))
 
   const { theme } = useThemeContext()
-
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -66,8 +65,8 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
           ctaText: '#fff',
         }
     }
-  }, [theme])
-
+  }
+  const colors = setColors()
   const styles = {
     container: css`
       position: fixed;
@@ -156,11 +155,7 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
               <StructuredText
                 data={content.body}
                 renderBlock={({ record }) => {
-                  if (
-                    record.__typename === 'DatoCmsInternalLink' ||
-                    record.__typename === 'DatoCmsExternalLink' ||
-                    record.__typename === 'DatoCmsAssetLink'
-                  ) {
+                  if (isDatoLink(record)) {
                     return <DatoLink data={record} css={styles.cta} />
                   } else return null
                 }}

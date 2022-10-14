@@ -1,27 +1,24 @@
-import { graphql } from 'gatsby'
 import {
   Fragment,
   HTMLAttributes,
+  ReactNode,
   SyntheticEvent,
   useState,
 } from 'react'
 
 import Lightbox from './Lightbox'
-import { ILightboxContent } from './LightboxContent'
+import { ILightboxContent } from './Lightbox__Content'
 
-export interface ILightboxLink {
-  __typename: 'DatoCmsLightboxLink'
-  id: string
-  linkText: string
-  link: ILightboxContent
-}
-
-interface Props extends HTMLAttributes<HTMLElement> {
-  data: ILightboxLink
+interface Props extends HTMLAttributes<HTMLAnchorElement> {
+  link: ReactNode | string
+  content: ILightboxContent
+  slugPrefix?: string
 }
 
 const LightboxLink = ({
-  data: { linkText, link },
+  content,
+  link,
+  slugPrefix,
   ...props
 }: Props): JSX.Element => {
   const [open, setOpen] = useState(false)
@@ -40,31 +37,29 @@ const LightboxLink = ({
       setOpen(true)
     }, 10)
   }
-
+  const slug = `/${slugPrefix || ''}/${content.slug}/`.replace(
+    /\/{2,}/g,
+    '/'
+  )
   return (
     <Fragment>
-      <a href={`/${link.slug}/`} onClick={handleOpen} {...props}>
-        {linkText}
+      <a href={slug} onClick={handleOpen} {...props}>
+        {link}
       </a>
       <Lightbox
-        data={link}
+        data={content}
         open={open}
         onClose={() => setOpen(false)}
         entry={entry}
+        slug={slug}
+        layout={
+          content.__typename === 'DatoCmsFormLightbox'
+            ? 'Centered'
+            : 'Full'
+        }
       />
     </Fragment>
   )
 }
-
-export const LightboxLinkFragment = graphql`
-  fragment LightboxLinkFragment on DatoCmsLightboxLink {
-    __typename
-    id: originalId
-    linkText
-    link {
-      ...LightboxContentFragment
-    }
-  }
-`
 
 export default LightboxLink

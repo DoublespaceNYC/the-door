@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { Block } from 'datocms-structured-text-utils'
 import { rgba } from 'polished'
-import { Fragment, HTMLAttributes, useMemo } from 'react'
+import { Fragment, HTMLAttributes } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
@@ -33,17 +33,19 @@ const ContentCarouselLinkThumbnail = ({
 }: Props): JSX.Element => {
   const date = link.date && new Date(link.date)
   const { theme } = useThemeContext()
-  const colors = useMemo(() => {
-    if (theme === 'The Door') {
-      return {
-        bg: doorColors.gray95,
-        title: '#444',
-        date: '#888',
-        shadow: rgba(doorColors.navy, 0.15),
-        shadowHover: highlightColor,
-      }
+  const setColors = () => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: doorColors.gray95,
+          title: '#444',
+          date: '#888',
+          shadow: rgba(doorColors.navy, 0.15),
+          shadowHover: highlightColor,
+        }
     }
-  }, [highlightColor, theme])
+  }
+  const colors = setColors()
   const styles = {
     container: css`
       position: relative;
@@ -56,6 +58,7 @@ const ContentCarouselLinkThumbnail = ({
       padding: 1em 1em 2em;
       box-sizing: border-box;
       cursor: pointer;
+      margin-bottom: var(--shadow-offset-hover);
       box-shadow: calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
         ${colors?.shadow};
       transition: box-shadow 300ms ease;

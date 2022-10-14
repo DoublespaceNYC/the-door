@@ -14,7 +14,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   orientation: 'left' | 'right'
 }
 
-const ContentCarouselLinks = ({
+const LinksCarousel = ({
   links,
   color,
   orientation,
@@ -45,7 +45,7 @@ const ContentCarouselLinks = ({
       display: grid;
       grid-gap: var(--gtr-m);
       grid-template-columns: repeat(${links.length}, auto);
-      padding: 0 var(--margin) var(--shadow-offset-hover);
+      padding: 0 var(--margin);
     `,
     thumbnail: css`
       width: calc(4 * var(--col-w) + 3 * var(--gtr-m));
@@ -82,4 +82,4 @@ const ContentCarouselLinks = ({
   )
 }
 
-export default ContentCarouselLinks
+export default LinksCarousel

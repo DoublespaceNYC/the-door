@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import { HTMLAttributes, useEffect, useState } from 'react'
 
+import useLightboxContext from '../context/LightboxContext'
 import useNavButtonModalContext from '../context/NavButtonModalContext'
 import useNavMenuContext from '../context/NavMenuContext'
 import { useElementWidth } from '../hooks/useElementRect'
@@ -38,6 +39,7 @@ const NavButton = ({
 
   const { open, setOpen } = useNavButtonModalContext()
   const { open: navOpen } = useNavMenuContext()
+  const { open: lightboxOpen } = useLightboxContext()
 
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
@@ -71,7 +73,7 @@ const NavButton = ({
       display: ${showModal ? 'block' : 'none'};
       position: absolute;
       right: 0;
-      bottom: 0.75rem;
+      bottom: calc(0.75rem + 1px);
       color: ${textColor};
       font-size: var(--fs-15);
       padding: 1.5rem 1rem 0.75rem;
@@ -94,15 +96,18 @@ const NavButton = ({
         ${absoluteFill};
         background: ${color};
         z-index: 0;
-        clip-path: polygon(
-          0% 0.75rem,
-          calc(100% - ${wrapWidth / 2}px - 0.75rem) 0.75rem,
-          calc(100% - ${wrapWidth / 2}px) 0%,
-          calc(100% - ${wrapWidth / 2}px + 0.75rem) 0.75rem,
-          100% 0.75rem,
-          100% 100%,
-          0% 100%
-        );
+        ${wrapWidth &&
+        css`
+          clip-path: polygon(
+            0% 0.75rem,
+            calc(100% - ${wrapWidth / 2}px - 0.75rem) 0.75rem,
+            calc(100% - ${wrapWidth / 2}px) 0%,
+            calc(100% - ${wrapWidth / 2}px + 0.75rem) 0.75rem,
+            100% 0.75rem,
+            100% 100%,
+            0% 100%
+          );
+        `}
       }
       ${loaded &&
       css`
@@ -110,7 +115,7 @@ const NavButton = ({
         transform: translate3d(0, 100%, 0);
         transition: all 500ms ease;
       `}
-      ${(!open || !loaded || navOpen) &&
+      ${(!open || !loaded || navOpen || lightboxOpen) &&
       css`
         pointer-events: none;
         opacity: 0;

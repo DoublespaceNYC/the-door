@@ -55,8 +55,10 @@ export const GlobalStyles = () => {
       ${mq().s} {
         --margin: calc(var(--gtr-m) + var(--gtr-s));
       }
+
+      --grid-w: 100vw;
       --col-w: calc(
-        (100vw - 2 * var(--margin) - 11 * var(--gtr-m)) / 12
+        (var(--grid-w) - 2 * var(--margin) - 11 * var(--gtr-m)) / 12
       );
 
       --shadow-offset: min(calc(0.5 * var(--gtr-m)), 1rem);

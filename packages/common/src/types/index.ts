@@ -8,3 +8,13 @@ export type {
 export interface LogoProps extends HTMLAttributes<SVGElement> {
   fill?: string
 }
+
+export interface ISEO {
+  __typename: 'DatoCmsSeoField'
+  title?: string
+  description?: string
+  twitterCard?: string
+  image: {
+    url: string
+  }
+}

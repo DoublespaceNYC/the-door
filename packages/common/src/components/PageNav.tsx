@@ -3,7 +3,6 @@ import {
   Fragment,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -27,8 +26,8 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
   )
   const [navRef, setNavRef] = useState<HTMLElement | null>(null)
 
-  const navWrapWidth = useElementWidth(navWrapRef)
-  const navWidth = useElementWidth(navRef)
+  const navWrapWidth = useElementWidth(navWrapRef) || 0
+  const navWidth = useElementWidth(navRef) || 0
 
   const condensed = navWidth > navWrapWidth
 
@@ -50,7 +49,7 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
   }, [handleOutsideClick])
 
   const { theme } = useThemeContext()
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -69,8 +68,8 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
           langText: ['', ''],
         }
     }
-  }, [theme])
-
+  }
+  const colors = setColors()
   const styles = {
     navWrap: css`
       margin: 0 var(--margin);

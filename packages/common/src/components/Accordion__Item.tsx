@@ -1,11 +1,5 @@
 import { css } from '@emotion/react'
-import {
-  ElementType,
-  HTMLAttributes,
-  ReactNode,
-  useMemo,
-  useState,
-} from 'react'
+import { ElementType, HTMLAttributes, ReactNode, useState } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import { useElementHeight } from '../hooks/useElementRect'
@@ -38,7 +32,7 @@ const AccordionItem = ({
 
   const { theme } = useThemeContext()
 
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -57,7 +51,8 @@ const AccordionItem = ({
           subdivider: '#ffffff88',
         }
     }
-  }, [theme])
+  }
+  const colors = setColors()
 
   const styles = {
     accordion: css``,
@@ -134,8 +129,8 @@ const AccordionItem = ({
     `,
     contentsWrap: css`
       overflow: hidden;
-      transition: height ${200 + Math.round(0.25 * contentsHeight)}ms
-        ease-out;
+      transition: height
+        ${200 + Math.round(0.25 * (contentsHeight || 0))}ms ease-out;
     `,
     contents: css`
       display: grid;

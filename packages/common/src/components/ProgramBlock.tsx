@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { HTMLAttributes, useMemo } from 'react'
+import { HTMLAttributes } from 'react'
 import { ElementType } from 'react'
 import { StructuredText } from 'react-datocms'
 
@@ -31,7 +31,7 @@ const ProgramBlock = ({
   const Heading = `h${headingLevel}` as ElementType
   const Subheading = `h${headingLevel + 1}` as ElementType
   const { theme } = useThemeContext()
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -50,7 +50,8 @@ const ProgramBlock = ({
           button: 'transparent',
         }
     }
-  }, [theme])
+  }
+  const colors = setColors()
   const styles = {
     block: css`
       display: grid;

@@ -1,0 +1,264 @@
+import { css } from '@emotion/react'
+import {
+  Document,
+  StructuredText as IStructuredText,
+} from 'datocms-structured-text-utils'
+import { IGatsbyImageData } from 'gatsby-plugin-image'
+import { Fragment, HTMLAttributes, ReactNode } from 'react'
+import { StructuredText } from 'react-datocms'
+
+import GatsbyImageFocused, {
+  IGatsbyImageFocused,
+} from '../components/GatsbyImageFocused'
+import useThemeContext from '../context/ThemeContext'
+import { baseGrid } from '../theme/mixins'
+import { doorColors } from '../theme/variables'
+import MediaCarousel, { IMediaCarousel } from './ContentCarousel__Media'
+import Form, { IForm } from './Form'
+import MediaBlock, { IMediaBlock } from './MediaBlock'
+
+interface IHeroImage
+  extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
+  heroImageData: IGatsbyImageData
+}
+
+interface Props extends HTMLAttributes<HTMLElement> {
+  layout: 'Page' | 'Lightbox' | 'Calendar'
+  title: string
+  eyebrow?: ReactNode
+  subheading?: ReactNode
+  heroImage?: IHeroImage
+  lede?: IStructuredText
+  body?: {
+    value: Document
+    blocks?: (IMediaBlock | IMediaCarousel)[]
+  }
+  form?: IForm
+}
+
+const Article = ({
+  layout,
+  title,
+  eyebrow,
+  subheading,
+  heroImage,
+  lede,
+  body,
+  form,
+  ...props
+}: Props): JSX.Element => {
+  const { theme } = useThemeContext()
+  const setColors = () => {
+    const defaultColors = {
+      highlight: '',
+      highlightHover: '',
+      text: '',
+      textLight: '',
+    }
+    switch (theme) {
+      case 'The Door':
+        return {
+          highlight: doorColors.blue,
+          highlightHover: doorColors.pink,
+          text: '#444',
+          textLight: '#888',
+        }
+      default:
+        return defaultColors
+    }
+  }
+  const colors = setColors()
+  const styles = {
+    article: css`
+      ${baseGrid}
+      padding-bottom: var(--row-l);
+      padding-top: ${!heroImage && 'var(--row-m)'};
+      ${layout === 'Lightbox' &&
+      form &&
+      css`
+        padding: calc(var(--row-s)) 0;
+      `}
+    `,
+    hero: css`
+      grid-column: 1 / -1;
+      margin-bottom: var(--row-s);
+    `,
+    title: css`
+      grid-column: 2 / -2;
+      font-size: var(--fs-72);
+      justify-self: flex-start;
+      color: ${colors.highlight};
+      line-height: 1.125;
+      margin: 0 0 0.125em;
+      ${layout === 'Lightbox' &&
+      form &&
+      css`
+        font-size: var(--fs-48);
+      `}
+    `,
+    eyebrow: css`
+      grid-column: 2 / -2;
+      margin: 0 0 0.5em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: ${colors.textLight};
+    `,
+    subheading: css`
+      grid-column: 2 / -2;
+      font-size: var(--fs-16);
+      font-family: var(--body-font);
+      font-weight: 500;
+      color: ${colors.textLight};
+      line-height: 1.25;
+      margin-bottom: 1em;
+    `,
+    lede: css`
+      grid-column: 2 / -2;
+      max-width: 90ch;
+      color: #444;
+      p {
+        font-size: var(--fs-21);
+        line-height: 1.75;
+      }
+    `,
+    body: css`
+      display: contents;
+      color: #444;
+      max-width: 90ch;
+      > h2,
+      h3,
+      h4,
+      p,
+      ul,
+      ol {
+        grid-column: 2 / -2;
+        max-width: inherit;
+      }
+      h2 {
+        font-size: var(--fs-36);
+        line-height: 1.125;
+        text-transform: uppercase;
+        margin: 0.5em 0 0.25em;
+      }
+      p + h2,
+      ul + h2,
+      ol + h2 {
+        margin-top: 1em;
+      }
+      h3 {
+        font-size: var(--fs-24);
+        font-family: var(--body-font);
+        font-weight: 500;
+        line-height: 1.25;
+        margin: 1em 0 0.5em;
+      }
+      h2 + h3 {
+        margin-top: 0.5em;
+      }
+      h4 {
+        font-size: var(--fs-16);
+        font-family: var(--body-font);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 700;
+        line-height: 1.25;
+        margin: 1.5em 0 0.5em;
+      }
+      h3 + h4 {
+        margin-top: 1em;
+      }
+      p {
+        line-height: 1.75;
+        margin: 0.5em 0;
+      }
+      a {
+        color: ${colors.highlight};
+        @media (hover: hover) {
+          &:hover {
+            color: ${colors.highlightHover};
+          }
+        }
+      }
+    `,
+    mediaBlock: css`
+      grid-column: 2 / -2;
+      margin: 2em 0 3em;
+    `,
+    mediaCarousel: css`
+      grid-column: 1 / -1;
+      margin: 2em 0 3em;
+    `,
+    form: css`
+      grid-column: 2 / -2;
+      width: 100%;
+      margin: 1.5em 0 1em;
+    `,
+  }
+  return (
+    <article css={styles.article} {...props}>
+      {heroImage && (
+        <GatsbyImageFocused
+          css={styles.hero}
+          image={heroImage.heroImageData}
+          alt={heroImage.alt}
+          focalPoint={heroImage.focalPoint}
+          originalAspectRatio={heroImage.sizes.aspectRatio}
+          aspectRatio={8 / 3}
+        />
+      )}
+      {eyebrow && <div css={styles.eyebrow}>{eyebrow}</div>}
+      <h1 css={styles.title}>{title}</h1>
+      {subheading && <div css={styles.subheading}>{subheading}</div>}
+      {lede && (
+        <div css={styles.lede}>
+          <StructuredText data={lede} />
+        </div>
+      )}
+      {body && (
+        <div css={styles.body}>
+          <StructuredText
+            data={body}
+            renderBlock={({ record }) => {
+              switch (record.__typename) {
+                case 'DatoCmsMediaBlock':
+                  return (
+                    <MediaBlock
+                      css={styles.mediaBlock}
+                      data={record}
+                      highlightColor={colors.highlight}
+                      layout="Single"
+                    />
+                  )
+                case 'DatoCmsMediaCarousel':
+                  return (
+                    <MediaCarousel
+                      css={styles.mediaCarousel}
+                      data={record.media}
+                      layout={layout}
+                      color={colors.highlight}
+                    />
+                  )
+                default:
+                  return <Fragment />
+              }
+            }}
+          />
+        </div>
+      )}
+      {form && (
+        <Form
+          data={form}
+          css={styles.form}
+          theme="Light"
+          layout={
+            layout === 'Page' || layout === 'Lightbox'
+              ? layout
+              : undefined
+          }
+        />
+      )}
+    </article>
+  )
+}
+
+export default Article

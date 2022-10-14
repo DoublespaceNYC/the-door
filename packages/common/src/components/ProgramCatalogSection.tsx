@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { Fragment, useMemo } from 'react'
+import { Fragment } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import { doorColors } from '../theme/variables'
@@ -26,7 +26,7 @@ const ProgramCatalogSection = ({
   data: { heading, catalogGroups, anchorLink },
 }: Props): JSX.Element => {
   const { theme } = useThemeContext()
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -43,7 +43,8 @@ const ProgramCatalogSection = ({
           divider: 'transparent',
         }
     }
-  }, [theme])
+  }
+  const colors = setColors()
   const styles = {
     section: css`
       background: ${colors.bg};

@@ -4,7 +4,8 @@ import {
   StructuredText as IStructuredText,
   Record,
 } from 'datocms-structured-text-utils'
-import { HTMLAttributes, useMemo } from 'react'
+import { graphql } from 'gatsby'
+import { HTMLAttributes } from 'react'
 import { Fragment, SyntheticEvent, useCallback, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 import { BsCheck2Circle } from 'react-icons/bs'
@@ -29,36 +30,33 @@ export interface IForm extends Record {
   formFields: (ITextField | ISelectField | IMultilineTextField)[]
 }
 
-export interface IFormBlock extends Record {
-  __typename: 'DatoCmsFormBlock'
+export interface IFormEmbed extends Record {
+  __typename: 'DatoCmsFormEmbed'
+  id: string
   form: IForm
-}
-
-export type FieldStyles = {
-  container: CSSInterpolation
-  inputBase: CSSInterpolation
-  input: CSSInterpolation
-  label: CSSInterpolation
-  shrink: CSSInterpolation
-  required: CSSInterpolation
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   data: IForm
-  formType: 'Netlify' | 'Mailchimp'
+  formType?: 'Netlify' | 'Mailchimp'
   listId?: string
+  formCss?: CSSInterpolation
   successCss?: CSSInterpolation
   simpleSuccess?: boolean
-  theme: 'Light' | 'Dark'
+  theme?: 'Light' | 'Dark'
+  layout?: 'Page' | 'Lightbox'
+  highlightColor?: string
 }
 
 const Form = ({
   data: { formName, submitButtonText, successMessage, formFields },
-  formType,
+  formType = 'Netlify',
   listId,
   successCss,
   simpleSuccess,
   theme = 'Light',
+  highlightColor,
+  layout,
   ...props
 }: Props): JSX.Element => {
   const [formRef, setFormRef] = useState<HTMLElement | null>(null)
@@ -147,33 +145,48 @@ const Form = ({
   )
 
   const { theme: metaTheme } = useThemeContext()
-  const colors = useMemo(() => {
+  const setColors = () => {
+    const defaultColors = {
+      fill: 'transparent',
+      border: '#33333388',
+      text: '#333',
+      label: '#888',
+      highlight: '#333',
+      buttonBorder: undefined,
+      buttonFill: ['#fff', '#333'],
+      buttonText: ['#fff', '#fff'],
+    }
     switch (metaTheme) {
       case 'The Door':
         return {
-          fill: theme === 'Dark' ? 'transparent' : doorColors.gray95,
-          border: '#ffffff88',
-          text: '#fff',
-          label: '#ffffffaa',
-          highlight: doorColors.blueLight,
-          buttonFill: ['#fff', doorColors.pink],
-          buttonText: [doorColors.navy, '#fff'],
+          ...defaultColors,
+          fill:
+            theme === 'Dark'
+              ? 'transparent'
+              : layout === 'Page'
+              ? doorColors.gray95
+              : doorColors.gray92,
+          border: theme === 'Dark' ? '#ffffff88' : 'transparent',
+          text: theme === 'Dark' ? '#fff' : '#444',
+          label: theme === 'Dark' ? '#ffffffaa' : '#444444aa',
+          highlight:
+            theme === 'Dark' ? doorColors.blueLight : doorColors.blue,
+          buttonFill:
+            theme === 'Dark'
+              ? ['#fff', doorColors.pink]
+              : [doorColors.blue, doorColors.pink],
+          buttonText:
+            theme === 'Dark' ? [doorColors.blue, '#fff'] : ['#fff'],
         }
       default:
-        return {
-          fill: 'transparent',
-          border: '#33333388',
-          text: '#333',
-          label: '#888',
-          highlight: '#333',
-          buttonBorder: 'transparent',
-          buttonFill: ['#fff', '#333'],
-          buttonText: ['#fff', '#fff'],
-        }
+        return { ...defaultColors }
     }
-  }, [metaTheme, theme])
-
-  const textHighlight = useReadableColor(colors.highlight, colors.fill)
+  }
+  const colors = setColors()
+  const textHighlight = useReadableColor(
+    highlightColor || colors.highlight,
+    colors.fill
+  )
   const styles = {
     wrapper: css`
       position: relative;
@@ -185,11 +198,12 @@ const Form = ({
     `,
     form: css`
       grid-area: 1 / 1 / 2 / 2;
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-gap: 1em;
+      align-self: flex-start;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
       align-items: flex-start;
-      justify-content: center;
+      justify-content: flex-start;
       opacity: 1;
       transition: opacity 200ms ease-out, transform 300ms ease-out;
       > input[type='hidden'] {
@@ -208,33 +222,30 @@ const Form = ({
         grid-gap: 0;
       `}
     `,
+    buttonWrap: css`
+      display: flex;
+      flex-basis: 100%;
+      margin-top: 0.5em;
+    `,
     button: css`
       ${buttonStyle}
+      align-self: stretch;
+      font-size: 125%;
+      padding: 0.67em 0.875em;
       display: flex;
       align-items: center;
       position: relative;
       grid-column: 1 / -1;
       justify-self: flex-start;
-      margin-top: 0.5em;
       box-sizing: border-box;
       background: ${colors.buttonFill[0]};
       color: ${colors.buttonText[0]};
       border: ${colors.buttonBorder &&
       `1px solid ${colors.buttonBorder?.[0]}`};
-      border-radius: 0.25em;
       transition: all 300ms ease;
-      font-size: 112.5%;
-      ${formFields.length === 1 &&
-      css`
-        margin-top: 0;
-        align-self: stretch;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      `}
       span {
         color: currentColor;
         position: relative;
-        padding-top: 0.1em;
       }
       input {
         ${absoluteFill}
@@ -287,6 +298,7 @@ const Form = ({
     container: css`
       position: relative;
       flex: 1;
+      min-width: 34%;
       ${!colors.border &&
       css`
         &:after {
@@ -298,7 +310,7 @@ const Form = ({
           height: 2px;
         }
         &:focus-within:after {
-          background-color: ${colors.highlight};
+          background-color: ${highlightColor || colors.highlight};
         }
       `}
     `,
@@ -307,7 +319,7 @@ const Form = ({
       border-radius: 0.25em;
       border: ${colors.border && `1px solid ${colors.border}`};
       div:focus-within > & {
-        border-color: ${colors.highlight};
+        border-color: ${highlightColor || colors.highlight};
       }
       ${formFields.length === 1 &&
       css`
@@ -319,7 +331,7 @@ const Form = ({
     input: css`
       box-sizing: border-box;
       border: none;
-      padding: 1.25em 0.75em 0.333em;
+      padding: 1.5em 1em 0.5em;
       line-height: 1.333;
       width: 100%;
       color: ${colors.text};
@@ -330,7 +342,7 @@ const Form = ({
       pointer-events: none;
       z-index: 2;
       top: 1.5835em;
-      left: 0.75em;
+      left: 1em;
       color: ${colors.label};
       max-width: 100%;
       line-height: 1.333;
@@ -338,14 +350,14 @@ const Form = ({
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      transform: translate3d(0, -0.667em, 0);
+      transform: translate3d(0, -0.5em, 0);
       transition: transform 200ms ease;
       transform-origin: 0 0;
-      font-style: italic;
-      font-weight: 300;
+      /* font-style: italic; */
+      font-weight: 400;
     `,
     shrink: css`
-      transform: translate3d(0, -1.333em, 0) scale3d(0.75, 0.75, 1);
+      transform: translate3d(0, -1.25em, 0) scale3d(0.75, 0.75, 1);
       font-weight: 500;
       div:focus-within > & {
         color: ${textHighlight};
@@ -363,7 +375,10 @@ const Form = ({
   }
   return (
     <div css={styles.wrapper} {...props}>
-      <LoadingSpinner css={styles.spinner} color={colors.highlight} />
+      <LoadingSpinner
+        css={styles.spinner}
+        color={highlightColor || colors.highlight}
+      />
       {submitted ? (
         <div
           ref={node => setSuccessRef(node)}
@@ -427,19 +442,62 @@ const Form = ({
               )}
             </Fragment>
           ))}
-          <div css={styles.button}>
-            <span>{submitButtonText}</span>
-            <input
-              name="submit"
-              type="submit"
-              aria-label={submitButtonText}
-              value=""
-            />
+          <div css={styles.buttonWrap}>
+            <div css={styles.button}>
+              <span>{submitButtonText}</span>
+              <input
+                name="submit"
+                type="submit"
+                aria-label={submitButtonText}
+                value=""
+              />
+            </div>
           </div>
         </form>
       )}
     </div>
   )
+}
+
+export const FormFragments = graphql`
+  fragment FormFragment on DatoCmsForm {
+    __typename
+    id: originalId
+    formName
+    formFields {
+      ... on DatoCmsTextField {
+        ...TextFieldFragment
+      }
+      ... on DatoCmsSelectField {
+        ...SelectFieldFragment
+      }
+      ... on DatoCmsMultilineTextField {
+        ...MultilineTextFieldFragment
+      }
+    }
+    submitButton
+    successMessage {
+      value
+    }
+    recipients {
+      email
+    }
+  }
+  fragment FormEmbedFragment on DatoCmsFormEmbed {
+    __typename
+    id: originalId
+    form {
+      ...FormFragment
+    }
+  }
+`
+export interface IFieldStyles {
+  container: CSSInterpolation
+  inputBase: CSSInterpolation
+  input: CSSInterpolation
+  label: CSSInterpolation
+  shrink: CSSInterpolation
+  required: CSSInterpolation
 }
 
 export default Form

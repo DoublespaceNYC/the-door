@@ -53,8 +53,15 @@ export const linkStyle = css`
   max-width: fit-content;
 `
 
-export const widthInCols = (count: number) =>
-  `calc(${count} * var(--col-w) + ${count - 1} * var(--gtr-m))`
+export const widthInCols = (
+  count: number,
+  gridWidth = 'var(--grid-w)',
+  gutter = 'var(--gtr-m)',
+  margin = 'var(--margin)'
+) =>
+  `calc(${count} * calc(
+    (${gridWidth} - 2 * ${margin} - 11 * ${gutter}) / 12
+  ) + ${count - 1} * ${gutter})`
 
 export const buttonStyle = css`
   font-family: var(--display-font);
@@ -70,3 +77,7 @@ export const animateIn = keyframes`
     transform: translate3d(0,0,0);
   }
 `
+export const bezier = {
+  bounce: `cubic-bezier(0.33, 3, 0.25, 0.5)`,
+  easeOut: `cubic-bezier(0.25, 0.5, 0.33, 1)`,
+}

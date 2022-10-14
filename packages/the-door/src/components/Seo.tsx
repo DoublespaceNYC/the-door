@@ -28,8 +28,6 @@ const Seo = ({
   const {
     site: {
       globalSeo: {
-        // siteName,
-        titleSuffix,
         fallbackSeo: { defaultTitle, defaultDescription },
       },
     },
@@ -37,8 +35,6 @@ const Seo = ({
     query {
       site: datoCmsSite {
         globalSeo {
-          siteName
-          titleSuffix
           fallbackSeo {
             defaultTitle: title
             defaultDescription: description
@@ -47,6 +43,8 @@ const Seo = ({
       }
     }
   `)
+
+  const titleSuffix = ' | The Door'
 
   const metaDescription = description || defaultDescription
   const metaTitle = title || defaultTitle

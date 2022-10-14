@@ -1,4 +1,5 @@
 import { CornerPopupContextProvider } from '@the-door/common/src/context/CornerPopupContext'
+import { LightboxContextProvider } from '@the-door/common/src/context/LightboxContext'
 import { NavButtonModalContextProvider } from '@the-door/common/src/context/NavButtonModalContext'
 import { NavMenuContextProvider } from '@the-door/common/src/context/NavMenuContext'
 import { QueryContextProvider } from '@the-door/common/src/context/QueryContext'
@@ -14,7 +15,7 @@ export const wrapPageElement: GatsbySSR['wrapPageElement'] = ({
       <NavMenuContextProvider>
         <NavButtonModalContextProvider>
           <CornerPopupContextProvider>
-            {element}
+            <LightboxContextProvider>{element}</LightboxContextProvider>
           </CornerPopupContextProvider>
         </NavButtonModalContextProvider>
       </NavMenuContextProvider>

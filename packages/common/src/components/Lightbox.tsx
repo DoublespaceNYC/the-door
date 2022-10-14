@@ -4,11 +4,12 @@ import { Fragment, useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import useLightboxContext from '../context/LightboxContext'
+import useThemeContext from '../context/ThemeContext'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import useFocusTrap from '../hooks/useFocusTrap'
-import { bezier } from '../theme/mixins'
-import { colors } from '../theme/variables'
-import LightboxContent, { ILightboxContent } from './LightboxContent'
+import { baseGrid, bezier, widthInCols } from '../theme/mixins'
+import { doorColors } from '../theme/variables'
+import LightboxContent, { ILightboxContent } from './Lightbox__Content'
 import ScrollToggle from './ScrollToggle'
 
 type Props = {
@@ -19,6 +20,8 @@ type Props = {
     title: string
     path: string
   } | null
+  slug: string
+  layout?: 'Full' | 'Centered'
 }
 
 const Lightbox = ({
@@ -26,19 +29,36 @@ const Lightbox = ({
   open,
   onClose = () => null,
   entry,
+  slug,
+  layout = 'Full',
 }: Props): JSX.Element => {
-  const slug = '/' + data.slug + '/'
+  const { theme } = useThemeContext()
 
-  const { portalTarget } = useLightboxContext()
+  const portalTarget =
+    typeof window !== `undefined` &&
+    document.getElementById('lightbox-container')
 
   const [closing, setClosing] = useState(false)
+  const { setOpen: setOpenContext } = useLightboxContext()
 
+  const title =
+    data.seo?.title || (data.title as string) || (data.name as string)
+  const titleSuffix =
+    theme === 'The Door' ? ' | The Door' : ' | Broome Street Academy'
   useEffect(() => {
     if (open && !closing) {
       window.history.replaceState(null, '', slug)
-      data.seo.title && (document.title = data.seo.title)
+      title && (document.title = title + titleSuffix)
     }
-  }, [open, closing, slug, data.seo.title])
+  }, [open, closing, slug, title, titleSuffix])
+  useEffect(() => {
+    if (open) {
+      setOpenContext(true)
+    }
+    if (closing) {
+      setOpenContext(false)
+    }
+  }, [setOpenContext, open, closing])
 
   const [lightboxRef, setLightboxRef] = useState<HTMLDivElement | null>(
     null
@@ -76,6 +96,18 @@ const Lightbox = ({
 
   useEscKeyFunction(handleClose)
 
+  const setColors = () => {
+    switch (theme) {
+      case 'The Door':
+        return {
+          bg: rgba(doorColors.navyDark, 0.9),
+          contentBg: doorColors.gray95,
+        }
+    }
+  }
+
+  const colors = setColors()
+
   const styles = {
     background: css`
       position: fixed;
@@ -83,12 +115,11 @@ const Lightbox = ({
       height: calc(100 * var(--vh, 1vh));
       top: 0;
       left: 0;
-      z-index: 1;
-      transition: background-color ${transitionDuration}ms ease,
-        backdrop-filter 0ms linear ${transitionDuration}ms;
+      z-index: 9;
+      transition: background-color ${transitionDuration}ms ease;
       ${loaded &&
       css`
-        background-color: ${rgba(colors.navy, 0.9)};
+        background-color: ${colors?.bg};
         backdrop-filter: blur(0.333rem) saturate(0);
       `}
       ${(closing || !loaded) &&
@@ -96,23 +127,17 @@ const Lightbox = ({
         background-color: transparent;
         backdrop-filter: blur(0);
       `}
-      ${closing &&
-      css`
-        transition-delay: 0ms;
-      `}
     `,
     lightbox: css`
-      display: grid;
-      grid-template-columns: var(--margin) 1fr var(--margin);
-      grid-template-rows: var(--row-s) auto var(--row-s);
+      ${baseGrid}
       box-sizing: border-box;
       position: fixed;
-      top: 0;
+      top: var(--nav-height);
       left: 0;
       overflow-y: scroll;
       width: 100vw;
-      height: calc(var(--vh, 1vh) * 100);
-      z-index: 11;
+      height: calc(var(--vh, 1vh) * 100 - var(--nav-height));
+      z-index: 9;
       transition: opacity ${transitionDuration}ms ease,
         transform ${transitionDuration}ms ease;
       ${loaded &&
@@ -123,59 +148,73 @@ const Lightbox = ({
       ${(closing || !loaded) &&
       css`
         opacity: 0;
-        transform: translate3d(0, 6rem, 0);
+        transform: translate3d(-6rem, 0, 0);
       `}
     `,
     content: css`
-      grid-column: 2 / 3;
-      grid-row: 2 / 3;
-      justify-self: center;
+      grid-row: 1 / 2;
+      justify-self: stretch;
       align-self: center;
       display: flex;
       position: relative;
-      background: linear-gradient(
-        to bottom right,
-        ${colors.teal},
-        ${colors.tealDark}
-      );
-      padding-left: var(--margin);
-      color: #fff;
+      background: ${colors?.contentBg};
+      ${layout === 'Full' &&
+      css`
+        grid-column: 1 / span 12;
+        --grid-w: calc(var(--margin) + ${widthInCols(11, '100vw')});
+      `}
+      ${layout === 'Centered' &&
+      css`
+        grid-column: 3 / span 10;
+        --grid-w: calc(${widthInCols(10, '100vw')});
+        justify-self: center;
+        margin: var(--row-s) 0;
+        max-width: 90ch;
+      `}
     `,
     closeButton: css`
-      position: sticky;
+      position: fixed;
+      z-index: 9;
       flex: 0;
-      align-self: flex-start;
-      top: 0;
+      top: calc(var(--nav-height) + 2rem);
+      right: calc(var(--margin) - 0.5rem);
       display: flex;
-      padding: 0.5em;
-      margin-top: 0.5em;
-      margin-right: 0.5em;
-      margin-left: max(calc(var(--margin) - 2.75em), 0px);
-      color: ${colors.greenLight};
-      transition: color 200ms ease;
+      padding: 0.5rem;
+      color: #fff;
+      transition: color 200ms ease, transform 300ms ease-out,
+        opacity 450ms ease;
+      ${loaded &&
+      css`
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      `}
+      ${(closing || !loaded) &&
+      css`
+        transform: translate3d(6rem, 0, 0);
+        opacity: 0;
+      `}
       svg {
-        width: 1.25em;
+        width: 3.75rem;
         height: auto;
-        transition: transform 300ms ${bezier.bounce};
         overflow: visible;
-        line {
+        transition: transform 300ms ${bezier.bounce};
+        path {
           fill: none;
           stroke: currentColor;
-          stroke-width: 3;
+          stroke-width: 2;
         }
       }
       @media (hover: hover) {
         &:hover {
-          color: #fff;
           svg {
-            transform: scale3d(1.15, 1.15, 1);
+            transform: translate3d(-0.5em, 0, 0);
           }
         }
       }
     `,
     backgroundClose: css`
       position: relative;
-      grid-row: 1 / 4;
+      grid-row: 1 / 2;
       grid-column: 1 / -1;
       z-index: 0;
       ${closing &&
@@ -203,31 +242,19 @@ const Lightbox = ({
               style={{ width: 0, height: 0 }}
             />
             <LightboxContent data={data} />
-            <button
-              css={styles.closeButton}
-              aria-label="Close Lightbox"
-              onClick={handleClose}
-              onKeyPress={handleClose}
-            >
-              <svg viewBox="0 0 12 12">
-                <line
-                  x1="0.5"
-                  y1="0.5"
-                  x2="11.5"
-                  y2="11.5"
-                  vectorEffect="non-scaling-stroke"
-                />
-                <line
-                  x1="11.5"
-                  y1="0.5"
-                  x2="0.5"
-                  y2="11.5"
-                  vectorEffect="non-scaling-stroke"
-                />
-              </svg>
-            </button>
           </div>
         </div>
+        <button
+          css={styles.closeButton}
+          aria-label="Close Lightbox"
+          onClick={handleClose}
+          onKeyPress={handleClose}
+        >
+          <svg viewBox="0 0 45 45">
+            <path d="M43.9706 22H3" />
+            <path d="M18.9706 39L2 22.0295L18.9706 5.0589" />
+          </svg>
+        </button>
       </Fragment>,
       portalTarget
     )

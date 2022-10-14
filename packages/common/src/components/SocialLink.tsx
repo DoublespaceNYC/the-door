@@ -1,4 +1,4 @@
-import { Fragment, useMemo } from 'react'
+import { Fragment } from 'react'
 import {
   FaFacebook,
   FaInstagram,
@@ -24,7 +24,7 @@ type Props = {
 }
 
 const SocialLink = ({ social }: Props): JSX.Element => {
-  const renderIcon = useMemo(() => {
+  const renderIcon = () => {
     switch (social.socialType) {
       case 'Facebook':
         return <FaFacebook />
@@ -41,10 +41,10 @@ const SocialLink = ({ social }: Props): JSX.Element => {
       default:
         return <Fragment />
     }
-  }, [social.socialType])
+  }
   return (
     <a href={social.url} target="_blank" rel="noreferrer">
-      {renderIcon}
+      {renderIcon()}
     </a>
   )
 }

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { ReactNode, useState } from 'react'
 
-import AccordionItem from './AccordionItem'
+import AccordionItem from './Accordion__Item'
 
 type Props = {
   items: {
