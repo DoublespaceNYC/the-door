@@ -122,6 +122,9 @@ const MainNav = ({
       css`
         height: calc(1.5em + var(--alert-height));
       `}
+      ${mq().s} {
+        height: 1.25em;
+      }
     `,
     nav: css`
       display: grid;

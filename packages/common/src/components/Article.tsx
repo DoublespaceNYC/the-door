@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { render } from 'datocms-structured-text-to-plain-text'
 import {
   Document,
   StructuredText as IStructuredText,
@@ -29,7 +30,7 @@ interface Props extends HTMLAttributes<HTMLElement> {
   subheading?: ReactNode
   heroImage?: IHeroImage
   lede?: IStructuredText
-  body?: {
+  body: {
     value: Document
     blocks?: (IMediaBlock | IMediaCarousel)[]
   }
@@ -82,6 +83,10 @@ const Article = ({
     hero: css`
       grid-column: 1 / -1;
       margin-bottom: var(--row-s);
+      min-height: 18em;
+      > [data-gatsby-image-wrapper] {
+        min-height: 100%;
+      }
     `,
     title: css`
       grid-column: 2 / -2;
@@ -94,6 +99,7 @@ const Article = ({
       form &&
       css`
         font-size: var(--fs-48);
+        margin-bottom: 0;
       `}
     `,
     eyebrow: css`
@@ -110,7 +116,7 @@ const Article = ({
       font-weight: 500;
       color: ${colors.textLight};
       line-height: 1.25;
-      margin-bottom: 1em;
+      margin-bottom: 0.25em;
     `,
     lede: css`
       grid-column: 2 / -2;
@@ -119,6 +125,9 @@ const Article = ({
       p {
         font-size: var(--fs-21);
         line-height: 1.75;
+        &:last-child {
+          margin-bottom: 0.5em;
+        }
       }
     `,
     body: css`
@@ -126,13 +135,28 @@ const Article = ({
       color: #444;
       max-width: 90ch;
       > h2,
-      h3,
-      h4,
-      p,
-      ul,
-      ol {
+      > h3,
+      > h4,
+      > p,
+      > ul,
+      > ol {
         grid-column: 2 / -2;
         max-width: inherit;
+      }
+      > h2 {
+        &:first-child {
+          margin-top: 1em;
+        }
+      }
+      > p,
+      > ul,
+      > ol {
+        &:first-child {
+          margin-top: 1.5em;
+        }
+      }
+      > *:last-child {
+        margin-bottom: 0;
       }
       h2 {
         font-size: var(--fs-36);
@@ -140,9 +164,9 @@ const Article = ({
         text-transform: uppercase;
         margin: 0.5em 0 0.25em;
       }
-      p + h2,
-      ul + h2,
-      ol + h2 {
+      > p + h2,
+      > ul + h2,
+      > ol + h2 {
         margin-top: 1em;
       }
       h3 {
@@ -150,10 +174,10 @@ const Article = ({
         font-family: var(--body-font);
         font-weight: 500;
         line-height: 1.25;
-        margin: 1em 0 0.5em;
+        margin: 1.25em 0 0.5em;
       }
-      h2 + h3 {
-        margin-top: 0.5em;
+      > h2 + h3 {
+        margin-top: 0.75em;
       }
       h4 {
         font-size: var(--fs-16);
@@ -164,7 +188,7 @@ const Article = ({
         line-height: 1.25;
         margin: 1.5em 0 0.5em;
       }
-      h3 + h4 {
+      > h3 + h4 {
         margin-top: 1em;
       }
       p {
@@ -179,19 +203,30 @@ const Article = ({
           }
         }
       }
+      ${layout === 'Lightbox' &&
+      form &&
+      css`
+        > p,
+        > ul,
+        > ol {
+          &:first-child {
+            margin-top: 1em;
+          }
+        }
+      `}
     `,
     mediaBlock: css`
       grid-column: 2 / -2;
-      margin: 2em 0 3em;
+      margin: 2em 0 2.5em;
     `,
     mediaCarousel: css`
       grid-column: 1 / -1;
-      margin: 2em 0 3em;
+      margin: 2em 0 2.5em;
     `,
     form: css`
       grid-column: 2 / -2;
       width: 100%;
-      margin: 1.5em 0 1em;
+      margin: 2em 0 1em;
     `,
   }
   return (
@@ -209,12 +244,12 @@ const Article = ({
       {eyebrow && <div css={styles.eyebrow}>{eyebrow}</div>}
       <h1 css={styles.title}>{title}</h1>
       {subheading && <div css={styles.subheading}>{subheading}</div>}
-      {lede && (
+      {lede?.value && (render(lede.value)?.length || 0) > 0 && (
         <div css={styles.lede}>
           <StructuredText data={lede} />
         </div>
       )}
-      {body && (
+      {body.value && (
         <div css={styles.body}>
           <StructuredText
             data={body}

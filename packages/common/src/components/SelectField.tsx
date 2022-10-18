@@ -4,7 +4,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
 import { toSlug } from '../helpers'
-import { FieldStyles } from './Form'
+import { IFieldStyles } from './Form'
 
 export interface ISelectField extends Record {
   __typename: 'DatoCmsSelectField'
@@ -20,7 +20,7 @@ export interface ISelectField extends Record {
 type Props = {
   data: ISelectField
   onChange: (name: string, value: string) => void
-  fieldStyles: FieldStyles
+  fieldStyles: IFieldStyles
 }
 
 const SelectField = ({

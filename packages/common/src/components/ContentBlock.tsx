@@ -2,7 +2,6 @@ import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
 import { rgba } from 'polished'
-import { useMemo } from 'react'
 import { StructuredText, renderMarkRule } from 'react-datocms'
 
 import useReadableColor from '../hooks/useReadableColor'
@@ -63,7 +62,7 @@ const ContentBlock = ({
 
   const layout = image[0] ? image[0].layout : 'noImg'
 
-  const textSpan = useMemo(() => {
+  const setTextSpan = () => {
     switch (layout) {
       case 'noImg':
         return {
@@ -90,7 +89,8 @@ const ContentBlock = ({
           ms: 12,
         }
     }
-  }, [layout])
+  }
+  const textSpan = setTextSpan()
 
   const contentRows = content.length
 

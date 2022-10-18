@@ -77,6 +77,7 @@ const ProgramCatalogSection = ({
       )}
       <h2 css={styles.heading}>{heading}</h2>
       <Accordion
+        theme="Dark"
         items={catalogGroups.map(item => ({
           heading: item.heading,
           contents: (

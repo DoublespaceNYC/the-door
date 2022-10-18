@@ -79,7 +79,7 @@ const PageHero = ({ title, section, image }: Props): JSX.Element => {
         aspectRatio={8 / 3}
         originalAspectRatio={image.sizes.aspectRatio}
       />
-      <div css={styles.eyebrow}>{section}</div>
+      {section && <div css={styles.eyebrow}>{section}</div>}
       <h1 css={styles.title}>{title}</h1>
     </header>
   )

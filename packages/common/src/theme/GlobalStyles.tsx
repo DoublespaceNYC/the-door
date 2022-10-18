@@ -83,8 +83,9 @@ export const GlobalStyles = () => {
     p {
       line-height: inherit;
     }
-    a {
-      transition: color 300ms ease;
+    a,
+    button {
+      transition: color 300ms ease, background-color 300ms ease;
     }
     button {
       appearance: none;

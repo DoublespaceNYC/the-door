@@ -17,6 +17,9 @@ export const createPages: GatsbyNode['createPages'] = async ({
           locale
         }
       }
+      datoCmsLeadershipPage {
+        slug
+      }
     }
   `)
 
@@ -46,8 +49,8 @@ export const createPages: GatsbyNode['createPages'] = async ({
       allDatoCmsService: {
         nodes: PageNode[]
       }
-      allDatoCmsEvent: {
-        nodes: EventNode[]
+      datoCmsLeadershipPage: {
+        slug: string
       }
     }
   }
@@ -63,6 +66,10 @@ export const createPages: GatsbyNode['createPages'] = async ({
         id: node.id,
       },
     })
+  })
+  createPage({
+    path: `${data?.datoCmsLeadershipPage.slug}`,
+    component: resolve(`./src/templates/LeadershipPage.tsx`)
   })
 }
 

@@ -32,17 +32,26 @@ const ArticleThumbnail = ({
   const { theme } = useThemeContext()
 
   const setColors = () => {
+    const defaultColors = {
+      title: '#444',
+      category: highlightColor || '#444',
+      date: '#888',
+      excerpt: '#666',
+      bg: '#fff',
+      shadow: rgba('#444', 0.15),
+      shadowHover: highlightColor || '#444',
+    }
     switch (theme) {
       case 'The Door':
         return {
-          title: '#444',
+          ...defaultColors,
           category: highlightColor || doorColors.yellowDark,
-          date: '#888',
-          excerpt: '#666',
           bg: carousel ? doorColors.gray95 : '#fff',
           shadow: rgba(doorColors.navy, 0.15),
           shadowHover: highlightColor || doorColors.yellow,
         }
+      default:
+        return defaultColors
     }
   }
   const colors = setColors()
@@ -55,6 +64,7 @@ const ArticleThumbnail = ({
       grid-column-gap: var(--gtr-m);
       min-height: 100%;
       background: ${colors?.bg};
+      color: ${colors?.title || '#444'};
       justify-items: flex-start;
       text-decoration: none;
       cursor: pointer;

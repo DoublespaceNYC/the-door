@@ -4,7 +4,7 @@ import { ChangeEvent, Fragment, useEffect, useState } from 'react'
 
 import { toSlug } from '../helpers'
 import { absoluteFill } from '../theme/mixins'
-import { FieldStyles } from './Form'
+import { IFieldStyles } from './Form'
 
 export interface IMultilineTextField extends Record {
   __typename: 'DatoCmsMultilineTextField'
@@ -15,7 +15,7 @@ export interface IMultilineTextField extends Record {
 type FieldProps = {
   data: IMultilineTextField
   onChange: (name: string, value: string) => void
-  fieldStyles: FieldStyles
+  fieldStyles: IFieldStyles
 }
 
 const MultilineTextField = ({

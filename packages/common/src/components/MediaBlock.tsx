@@ -4,7 +4,7 @@ import {
   StructuredText as IStructuredText,
   Record,
 } from 'datocms-structured-text-utils'
-import { rgba } from 'polished'
+import { darken, rgba } from 'polished'
 import { HTMLAttributes } from 'react'
 import { StructuredText } from 'react-datocms'
 import { useInView } from 'react-intersection-observer'
@@ -76,9 +76,6 @@ const MediaBlock = ({
         calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
           ${colors.shadow}
       );
-      ${mq().m} {
-        grid-template-rows: auto var(--gtr-m) auto;
-      }
     `,
     media: css`
       grid-column: 1 / 2;
@@ -98,8 +95,7 @@ const MediaBlock = ({
         transition-duration: 750ms;
       `}
       ${mq().m} {
-        grid-row: 1 / 3;
-        max-width: calc(100% - var(--gtr-m));
+        max-width: 100%;
       }
     `,
     caption: css`
@@ -115,14 +111,11 @@ const MediaBlock = ({
       box-sizing: border-box;
       color: ${colors.text};
       ${mq().m} {
-        grid-row: 2 / 4;
+        grid-row: 2 / 3;
         padding: 0.5em 1.25em;
-        width: calc(100% - var(--gtr-m));
+        width: 100%;
         align-self: flex-start;
-        ${!asset.isImage &&
-        css`
-          grid-row: 3 / 5;
-        `}
+        justify-self: flex-start;
       }
       h3 {
         font-size: var(--fs-21);
@@ -144,6 +137,9 @@ const MediaBlock = ({
       }
       a {
         color: ${highlightColor};
+        &:hover {
+          color: ${darken(0.1, highlightColor)};
+        }
       }
       > div {
         transition: opacity 500ms ease, transform 750ms ease;

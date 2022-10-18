@@ -50,7 +50,7 @@ const ServicePage = ({
     },
     section,
   },
-}: PageProps<DataProps>) => {
+}: PageProps<DataProps>): JSX.Element => {
   const anchorLinks = useMemo(() => {
     return pageContent
       .map(block => block.anchorLink[0])
@@ -114,14 +114,7 @@ export const data = graphql`
             crop: "focalpoint"
           }
         )
-        sizes {
-          aspectRatio
-        }
-        alt
-        focalPoint {
-          x
-          y
-        }
+        ...ImageFocalData
       }
       intro {
         value

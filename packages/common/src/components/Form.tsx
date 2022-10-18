@@ -226,6 +226,11 @@ const Form = ({
       display: flex;
       flex-basis: 100%;
       margin-top: 0.5em;
+      ${formFields.length === 1 &&
+      css`
+        flex-basis: auto;
+        margin-top: 0;
+      `}
     `,
     button: css`
       ${buttonStyle}
@@ -243,6 +248,11 @@ const Form = ({
       border: ${colors.buttonBorder &&
       `1px solid ${colors.buttonBorder?.[0]}`};
       transition: all 300ms ease;
+      ${formFields.length === 1 &&
+      css`
+        border-top-right-radius: 0.2em;
+        border-bottom-right-radius: 0.2em;
+      `}
       span {
         color: currentColor;
         position: relative;

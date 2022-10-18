@@ -9,6 +9,7 @@ import { useInView } from 'react-intersection-observer'
 import useCornerPopupContext from '../context/CornerPopupContext'
 import useThemeContext from '../context/ThemeContext'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
+import { buttonStyle } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
@@ -47,6 +48,14 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
 
   const { theme } = useThemeContext()
   const setColors = () => {
+    const defaultColors = {
+      bg: '#fff',
+      heading: '#333',
+      text: '#333',
+      ctaBg: '#888',
+      ctaBgHover: '#666',
+      ctaText: '#fff',
+    }
     switch (theme) {
       case 'The Door':
         return {
@@ -54,16 +63,11 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
           heading: doorColors.navy,
           text: '#333',
           ctaBg: doorColors.pink,
+          ctaBgHover: doorColors.pinkDark,
           ctaText: '#fff',
         }
       default:
-        return {
-          bg: '#fff',
-          heading: '#333',
-          text: '#333',
-          ctaBg: '#888',
-          ctaText: '#fff',
-        }
+        return defaultColors
     }
   }
   const colors = setColors()
@@ -119,8 +123,13 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
       text-decoration: none;
       background: ${colors.ctaBg};
       color: ${colors.ctaText};
-      border-radius: 0.5rem;
+      ${buttonStyle};
       padding: 1rem;
+      @media (hover: hover) {
+        &:hover {
+          background: ${colors.ctaBgHover};
+        }
+      }
     `,
     close: css`
       position: absolute;

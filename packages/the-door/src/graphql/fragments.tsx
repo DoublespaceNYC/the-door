@@ -20,6 +20,9 @@ export const Fragments = graphql`
       ... on DatoCmsDoorHome {
         slug
       }
+      ... on DatoCmsLeadershipPage {
+        slug
+      }
       ... on DatoCmsService {
         slug
       }

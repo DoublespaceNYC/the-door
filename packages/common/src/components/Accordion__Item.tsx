@@ -1,8 +1,10 @@
 import { css } from '@emotion/react'
+import { rgba } from 'polished'
 import { ElementType, HTMLAttributes, ReactNode, useState } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import { useElementHeight } from '../hooks/useElementRect'
+import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -11,6 +13,8 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode
   headingLevel?: number
   open: boolean
+  theme: 'Light' | 'Dark'
+  layout?: 'Nested'
   onClick: () => void
 }
 
@@ -20,6 +24,8 @@ const AccordionItem = ({
   children,
   headingLevel = 3,
   open = false,
+  layout,
+  theme,
   onClick,
   ...props
 }: Props): JSX.Element => {
@@ -30,17 +36,29 @@ const AccordionItem = ({
   )
   const contentsHeight = useElementHeight(contentsRef)
 
-  const { theme } = useThemeContext()
+  const transitionDuration =
+    200 + Math.round(0.25 * (contentsHeight || 0))
 
+  const { theme: metaTheme } = useThemeContext()
   const setColors = () => {
-    switch (theme) {
+    switch (metaTheme) {
       case 'The Door':
         return {
-          heading: ['#fff', doorColors.pinkLight],
-          subheading: ['#fff', doorColors.pinkLight],
-          button: ['#fff', doorColors.pinkLight],
-          divider: '#fff',
-          subdivider: '#ffffff88',
+          heading:
+            theme === 'Dark'
+              ? ['#fff', doorColors.pinkLight]
+              : [doorColors.purple, doorColors.pink],
+          subheading:
+            theme === 'Dark'
+              ? ['#fff', doorColors.pinkLight]
+              : ['#666', doorColors.pink],
+          button:
+            theme === 'Dark'
+              ? ['#fff', doorColors.pinkLight]
+              : ['#666', doorColors.pink],
+          divider: theme === 'Dark' ? '#fff' : rgba('#888', 0.5),
+          subdivider:
+            theme === 'Dark' ? rgba('#fff', 0.5) : rgba('#888', 0.5),
         }
       default:
         return {
@@ -62,8 +80,16 @@ const AccordionItem = ({
       justify-content: space-between;
       align-items: center;
       border-top: 2px solid ${colors.divider};
-      border-bottom: 1px solid ${colors.subdivider};
+      border-bottom: 1px solid
+        ${open ? colors.subdivider : 'transparent'};
+      transition: ${open
+        ? 'none'
+        : `border 0ms ease ${transitionDuration}ms`};
       margin-bottom: -1px;
+      div:first-of-type > & {
+        border-top: none;
+        padding-top: 2px;
+      }
     `,
     buttonIcon: css`
       flex: none;
@@ -111,26 +137,58 @@ const AccordionItem = ({
       letter-spacing: 0.01em;
       line-height: 1.125;
       margin: 0.75em 0;
+      text-align: left;
       transition: color 300ms ease;
+      ${subheading &&
+      css`
+        margin-bottom: 0.125em;
+      `}
+      ${layout === 'Nested' &&
+      css`
+        font-size: var(--fs-24);
+        font-family: var(--body-font);
+        letter-spacing: 0;
+        text-transform: none;
+        margin: 1.25em 0;
+        ${subheading &&
+        css`
+          margin: 1em 0 0.25em;
+        `}
+        ${mq().s} {
+          font-size: var(--fs-21);
+        }
+      `}
       @media (hover: hover) {
-        button:hover > & {
+        button:hover > div > & {
           color: ${colors.heading[1]};
         }
       }
     `,
     subheading: css`
       color: ${colors.subheading?.[0]};
+      font-style: italic;
+      font-size: var(--fs-16);
+      font-family: var(--body-font);
+      font-weight: 400;
+      text-align: left;
+      margin: 0 0 1.75em;
       transition: color 300ms ease;
+      ${layout === 'Nested' &&
+      css`
+        margin-bottom: 1.67em;
+      `}
       @media (hover: hover) {
-        button:hover > & {
+        button:hover > div > & {
           color: ${colors.subheading?.[1]};
         }
+      }
+      ${mq().s} {
+        font-size: var(--fs-14);
       }
     `,
     contentsWrap: css`
       overflow: hidden;
-      transition: height
-        ${200 + Math.round(0.25 * (contentsHeight || 0))}ms ease-out;
+      transition: height ${transitionDuration}ms ease-out;
     `,
     contents: css`
       display: grid;
@@ -139,10 +197,14 @@ const AccordionItem = ({
   return (
     <div css={styles.accordion} {...props}>
       <button onClick={onClick} css={styles.button}>
-        <Heading css={styles.heading}>{heading}</Heading>
-        {subheading && (
-          <Subheading css={styles.subheading}>{subheading}</Subheading>
-        )}
+        <div>
+          <Heading css={styles.heading}>{heading}</Heading>
+          {subheading && (
+            <Subheading css={styles.subheading}>
+              {subheading}
+            </Subheading>
+          )}
+        </div>
         <div css={styles.buttonIcon} />
       </button>
       <div

@@ -13,12 +13,14 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
   link: ReactNode | string
   content: ILightboxContent
   slugPrefix?: string
+  pageTitle?: string
 }
 
 const LightboxLink = ({
   content,
   link,
   slugPrefix,
+  pageTitle,
   ...props
 }: Props): JSX.Element => {
   const [open, setOpen] = useState(false)
@@ -43,7 +45,12 @@ const LightboxLink = ({
   )
   return (
     <Fragment>
-      <a href={slug} onClick={handleOpen} {...props}>
+      <a
+        href={slug}
+        onClick={handleOpen}
+        css={{ textDecoration: 'none' }}
+        {...props}
+      >
         {link}
       </a>
       <Lightbox
@@ -52,6 +59,7 @@ const LightboxLink = ({
         onClose={() => setOpen(false)}
         entry={entry}
         slug={slug}
+        pageTitle={pageTitle}
         layout={
           content.__typename === 'DatoCmsFormLightbox'
             ? 'Centered'

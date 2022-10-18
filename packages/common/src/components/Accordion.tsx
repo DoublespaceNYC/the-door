@@ -1,9 +1,10 @@
 import { css } from '@emotion/react'
-import { ReactNode, useState } from 'react'
+import { rgba } from 'polished'
+import { HTMLAttributes, ReactNode, useState } from 'react'
 
 import AccordionItem from './Accordion__Item'
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   items: {
     heading: string
     subheading?: string
@@ -11,12 +12,17 @@ type Props = {
   }[]
   headingLevel?: number
   singleOpen?: boolean
+  theme: 'Light' | 'Dark'
+  layout?: 'Nested'
 }
 
 const Accordion = ({
   items,
   headingLevel = 3,
   singleOpen = false,
+  theme,
+  layout,
+  ...props
 }: Props): JSX.Element => {
   const [openItems, setOpenItems] = useState<number[]>([])
   const handleClick = (i: number) => {
@@ -31,13 +37,22 @@ const Accordion = ({
 
   const styles = {
     accordion: css`
-      border-bottom: 2px solid #ffffff88;
+      border-top: 2px solid
+        ${theme === 'Dark' ? '#fff' : rgba('#888', 0.5)};
+      border-bottom: 2px solid
+        ${theme === 'Dark' ? '#fff' : rgba('#888', 0.5)};
+      ${layout === 'Nested' &&
+      css`
+        padding-left: var(--gtr-m);
+      `}
     `,
   }
   return (
-    <div css={styles.accordion}>
+    <div css={styles.accordion} {...props}>
       {items.map((item, i) => (
         <AccordionItem
+          layout={layout}
+          theme={theme}
           heading={item.heading}
           subheading={item.subheading}
           headingLevel={headingLevel}

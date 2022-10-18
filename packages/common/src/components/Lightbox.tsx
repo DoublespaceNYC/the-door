@@ -7,7 +7,7 @@ import useLightboxContext from '../context/LightboxContext'
 import useThemeContext from '../context/ThemeContext'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import useFocusTrap from '../hooks/useFocusTrap'
-import { baseGrid, bezier, widthInCols } from '../theme/mixins'
+import { baseGrid, bezier, mq, widthInCols } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import LightboxContent, { ILightboxContent } from './Lightbox__Content'
 import ScrollToggle from './ScrollToggle'
@@ -21,6 +21,7 @@ type Props = {
     path: string
   } | null
   slug: string
+  pageTitle?: string
   layout?: 'Full' | 'Centered'
 }
 
@@ -30,6 +31,7 @@ const Lightbox = ({
   onClose = () => null,
   entry,
   slug,
+  pageTitle,
   layout = 'Full',
 }: Props): JSX.Element => {
   const { theme } = useThemeContext()
@@ -42,7 +44,11 @@ const Lightbox = ({
   const { setOpen: setOpenContext } = useLightboxContext()
 
   const title =
-    data.seo?.title || (data.title as string) || (data.name as string)
+    pageTitle ||
+    data.seo?.title ||
+    (data.title as string) ||
+    (data.name as string)
+    
   const titleSuffix =
     theme === 'The Door' ? ' | The Door' : ' | Broome Street Academy'
   useEffect(() => {
@@ -102,6 +108,7 @@ const Lightbox = ({
         return {
           bg: rgba(doorColors.navyDark, 0.9),
           contentBg: doorColors.gray95,
+          buttonBg: doorColors.navy,
         }
     }
   }
@@ -162,14 +169,22 @@ const Lightbox = ({
       css`
         grid-column: 1 / span 12;
         --grid-w: calc(var(--margin) + ${widthInCols(11, '100vw')});
+        ${mq().ms} {
+          grid-column: 1 / span 13;
+          --grid-w: calc(var(--margin) + ${widthInCols(12, '100vw')});
+        }
       `}
       ${layout === 'Centered' &&
       css`
-        grid-column: 3 / span 10;
-        --grid-w: calc(${widthInCols(10, '100vw')});
+        grid-column: 3 / -3;
+        --grid-w: min(calc(${widthInCols(10, '100vw')}), 90ch);
         justify-self: center;
         margin: var(--row-s) 0;
         max-width: 90ch;
+        ${mq().ms} {
+          grid-column: 2 / -2;
+          --grid-w: min(calc(${widthInCols(12, '100vw')}), 90ch);
+        }
       `}
     `,
     closeButton: css`
@@ -193,6 +208,13 @@ const Lightbox = ({
         transform: translate3d(6rem, 0, 0);
         opacity: 0;
       `}
+      ${mq().ms} {
+        background: ${colors?.buttonBg};
+        border-radius: 50%;
+        padding: 1rem;
+        top: calc(var(--nav-height) + 1rem);
+        right: calc(var(--margin) - 1rem);
+      }
       svg {
         width: 3.75rem;
         height: auto;
@@ -203,11 +225,20 @@ const Lightbox = ({
           stroke: currentColor;
           stroke-width: 2;
         }
+        ${mq().ms} {
+          width: 2rem;
+          path {
+            stroke-width: 3.5;
+          }
+        }
       }
       @media (hover: hover) {
         &:hover {
           svg {
-            transform: translate3d(-0.5em, 0, 0);
+            transform: translate3d(-0.75rem, 0, 0);
+            ${mq().ms} {
+              transform: translate3d(-0.333rem, 0, 0);
+            }
           }
         }
       }

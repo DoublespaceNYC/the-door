@@ -148,12 +148,15 @@ const EventThumbnail = ({
       line-height: 0.8;
       margin: 0;
       padding: 1rem;
+      max-width: 3ch;
+      overflow: hidden;
       > span {
         &:nth-of-type(1) {
           font-size: 90%;
         }
         &:nth-of-type(2) {
           font-size: 167%;
+          margin: 0 0 0.02em;
         }
       }
       ${layout === 'Home Calendar' &&
