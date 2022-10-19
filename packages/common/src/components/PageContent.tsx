@@ -69,7 +69,7 @@ const PageContent = ({
           return (
             <ContentBlock
               block={record}
-              color={colorsArray[cI]}
+              highlightColor={colorsArray[cI]}
               shape={shapeArray[sI]}
               orientation={
                 blockIndex % 2 ? oddOrientation : startOrientation

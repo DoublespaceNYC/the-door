@@ -28,7 +28,7 @@ const InternalArticleThumbnail = ({
           highlightColor={highlightColor}
         />
       }
-      css={{ textDecoration: 'none' }}
+      highlightColor={highlightColor}
       {...props}
     />
   )

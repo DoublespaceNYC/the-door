@@ -197,6 +197,7 @@ const EventThumbnail = ({
       css={styles.container}
       slugPrefix="/events/"
       content={event}
+      highlightColor={highlightColor}
       link={
         <Fragment>
           <div css={styles.date}>

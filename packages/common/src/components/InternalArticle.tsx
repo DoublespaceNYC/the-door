@@ -42,11 +42,13 @@ export interface IInternalArticle extends Record {
 interface Props {
   data: IInternalArticle
   layout: 'Page' | 'Lightbox'
+  highlightColor?: string
 }
 
 const InternalArticle = ({
   data: { title, heroImage, category, lede, body, publicationDate },
   layout,
+  highlightColor,
 }: Props): JSX.Element => {
   const date = new Date(publicationDate)
   const { theme } = useThemeContext()
@@ -57,7 +59,7 @@ const InternalArticle = ({
     switch (theme) {
       case 'The Door':
         return {
-          highlight: doorColors.blue,
+          highlight: highlightColor || doorColors.blue,
         }
       default:
         return defaultColors
@@ -97,6 +99,7 @@ const InternalArticle = ({
       heroImage={heroImage}
       lede={lede}
       body={body}
+      highlightColor={highlightColor}
     />
   )
 }

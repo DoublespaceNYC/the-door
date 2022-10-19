@@ -20,14 +20,22 @@ export interface IFormLightbox extends Record {
 type Props = {
   data: IFormLightbox
   layout: 'Page' | 'Lightbox'
+  highlightColor?: string
 }
 
 const FormLightbox = ({
   data: { title, text, form },
   layout,
+  highlightColor,
 }: Props): JSX.Element => {
   return (
-    <Article layout={layout} title={title} body={text} form={form} />
+    <Article
+      layout={layout}
+      title={title}
+      body={text}
+      form={form}
+      highlightColor={highlightColor}
+    />
   )
 }
 

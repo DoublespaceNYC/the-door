@@ -47,14 +47,14 @@ export interface IContentBlock extends Record {
 type Props = {
   block: IContentBlock
   shape: ShapeType
-  color: string
+  highlightColor: string
   orientation: 'left' | 'right'
 }
 
 const ContentBlock = ({
   block: { anchorLink, heading, image, content },
   shape,
-  color,
+  highlightColor,
   orientation,
 }: Props): JSX.Element => {
   const left = orientation === 'left'
@@ -94,7 +94,7 @@ const ContentBlock = ({
 
   const contentRows = content.length
 
-  const readableColor = useReadableColor(color, '#fff', 3)
+  const readableColor = useReadableColor(highlightColor, '#fff', 3)
 
   const textGridCss = css`
     ${left &&
@@ -143,7 +143,7 @@ const ContentBlock = ({
       }
     `,
     heading: css`
-      color: ${color};
+      color: ${highlightColor};
       font-size: var(--fs-72);
       z-index: 2;
       position: relative;
@@ -159,7 +159,7 @@ const ContentBlock = ({
             ${layout !== 'noImg' ? '* 2' : ''}
         );
         height: 3px;
-        background: ${color};
+        background: ${highlightColor};
         top: 0;
         left: ${left ? 0 : 'auto'};
         right: ${right ? 0 : 'auto'};
@@ -269,7 +269,11 @@ const ContentBlock = ({
                 renderBlock={({ record }) => {
                   if (isDatoLink(record)) {
                     return (
-                      <DatoLink data={record} css={styles.linkBlock} />
+                      <DatoLink
+                        data={record}
+                        css={styles.linkBlock}
+                        highlightColor={highlightColor}
+                      />
                     )
                   } else return null
                 }}
@@ -290,7 +294,7 @@ const ContentBlock = ({
             <ContentCarousel
               data={block}
               key={i}
-              color={color}
+              color={highlightColor}
               orientation={orientation}
             />
           )
@@ -307,7 +311,7 @@ const ContentBlock = ({
         )}
         <ContentBlockShape
           shape={shape}
-          color={color}
+          color={highlightColor}
           layout={layout}
           orientation={orientation}
         />

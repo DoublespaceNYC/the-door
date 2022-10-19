@@ -31,11 +31,13 @@ export interface IFacesStory {
 interface Props {
   data: IFacesStory
   layout: 'Page' | 'Lightbox'
+  highlightColor?: string
 }
 
 const Faces_Story = ({
   data: { title, image, body },
   layout,
+  highlightColor,
 }: Props) => {
   return (
     <Article
@@ -43,6 +45,7 @@ const Faces_Story = ({
       title={title}
       heroImage={image}
       body={body}
+      highlightColor={highlightColor}
     />
   )
 }

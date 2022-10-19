@@ -33,11 +33,13 @@ export const isDatoLink = (record: Record) => {
 interface Props extends HTMLAttributes<HTMLAnchorElement> {
   data: IDatoLink
   icon?: boolean
+  highlightColor?: string
 }
 
 const DatoLink = ({
   data,
   icon = true,
+  highlightColor,
   ...props
 }: Props): JSX.Element => {
   switch (data.__typename) {
@@ -54,6 +56,7 @@ const DatoLink = ({
         <LightboxLink
           link={data.linkText}
           content={data.link}
+          highlightColor={highlightColor}
           {...props}
         />
       )

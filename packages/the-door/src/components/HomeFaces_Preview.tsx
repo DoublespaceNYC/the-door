@@ -12,7 +12,7 @@ type Props = {
   story: IFacesStory
 }
 
-const HomeFacesStory = ({ story }: Props): JSX.Element => {
+const FacesPreview = ({ story }: Props): JSX.Element => {
   const { ref, inView } = useInView({
     rootMargin: '50% -20%',
   })
@@ -70,6 +70,7 @@ const HomeFacesStory = ({ story }: Props): JSX.Element => {
       color: #fff;
       margin: 1.25em 0 2em;
       max-width: fit-content;
+      transition: color 300ms ease;
       &:hover {
         color: ${colors.yellow};
       }
@@ -113,11 +114,16 @@ const HomeFacesStory = ({ story }: Props): JSX.Element => {
         <div>
           <h3>{story.title}</h3>
           <p>{story.excerpt}</p>
-          <LightboxLink link={story.ctaText} content={story} />
+          <LightboxLink
+            link={story.ctaText}
+            content={story}
+            highlightColor={colors.purple}
+            css={styles.cta}
+          />
         </div>
       </div>
     </div>
   )
 }
 
-export default HomeFacesStory
+export default FacesPreview

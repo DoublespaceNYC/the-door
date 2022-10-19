@@ -5,6 +5,7 @@ import {
   StructuredText as IStructuredText,
 } from 'datocms-structured-text-utils'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
+import { darken } from 'polished'
 import { Fragment, HTMLAttributes, ReactNode } from 'react'
 import { StructuredText } from 'react-datocms'
 
@@ -35,6 +36,7 @@ interface Props extends HTMLAttributes<HTMLElement> {
     blocks?: (IMediaBlock | IMediaCarousel)[]
   }
   form?: IForm
+  highlightColor?: string
 }
 
 const Article = ({
@@ -46,6 +48,7 @@ const Article = ({
   lede,
   body,
   form,
+  highlightColor,
   ...props
 }: Props): JSX.Element => {
   const { theme } = useThemeContext()
@@ -59,8 +62,10 @@ const Article = ({
     switch (theme) {
       case 'The Door':
         return {
-          highlight: doorColors.blue,
-          highlightHover: doorColors.pink,
+          highlight: highlightColor || doorColors.blue,
+          highlightHover: highlightColor
+            ? darken(0.1, highlightColor)
+            : doorColors.pink,
           text: '#444',
           textLight: '#888',
         }
@@ -290,6 +295,7 @@ const Article = ({
               ? layout
               : undefined
           }
+          highlightColor={highlightColor}
         />
       )}
     </article>

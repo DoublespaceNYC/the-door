@@ -27,6 +27,7 @@ export interface IEvent extends Record {
 interface Props {
   data: IEvent
   layout: 'Page' | 'Lightbox' | 'Calendar'
+  highlightColor?: string
 }
 
 const EventArticle = ({
@@ -39,6 +40,7 @@ const EventArticle = ({
     body,
   },
   layout,
+  highlightColor,
 }: Props): JSX.Element => {
   const styles = {
     details: css`
@@ -69,6 +71,7 @@ const EventArticle = ({
         </div>
       }
       body={body}
+      highlightColor={highlightColor}
     />
   )
 }

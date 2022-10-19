@@ -23,6 +23,7 @@ type Props = {
   slug: string
   pageTitle?: string
   layout?: 'Full' | 'Centered'
+  highlightColor?: string
 }
 
 const Lightbox = ({
@@ -33,6 +34,7 @@ const Lightbox = ({
   slug,
   pageTitle,
   layout = 'Full',
+  highlightColor,
 }: Props): JSX.Element => {
   const { theme } = useThemeContext()
 
@@ -108,9 +110,7 @@ const Lightbox = ({
         }
     }
   }
-
   const colors = setColors()
-
   const styles = {
     background: css`
       position: fixed;
@@ -268,7 +268,10 @@ const Lightbox = ({
               tabIndex={-1}
               style={{ width: 0, height: 0 }}
             />
-            <LightboxContent data={data} />
+            <LightboxContent
+              data={data}
+              highlightColor={highlightColor}
+            />
           </div>
         </div>
         <button

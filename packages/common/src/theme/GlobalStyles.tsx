@@ -5,7 +5,7 @@ import emotionNormalize from 'emotion-normalize'
 
 import { mq } from './mixins'
 
-export const GlobalStyles = () => {
+const GlobalStyles = () => {
   const globalStyles = css`
     ${emotionNormalize}
 
@@ -122,3 +122,5 @@ export const GlobalStyles = () => {
   `
   return <Global styles={globalStyles} />
 }
+
+export default GlobalStyles

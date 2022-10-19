@@ -14,6 +14,7 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
   content: ILightboxContent
   slugPrefix?: string
   pageTitle?: string
+  highlightColor?: string
 }
 
 const LightboxLink = ({
@@ -21,6 +22,7 @@ const LightboxLink = ({
   link,
   slugPrefix,
   pageTitle,
+  highlightColor,
   ...props
 }: Props): JSX.Element => {
   const [open, setOpen] = useState(false)
@@ -65,6 +67,7 @@ const LightboxLink = ({
             ? 'Centered'
             : 'Full'
         }
+        highlightColor={highlightColor}
       />
     </Fragment>
   )

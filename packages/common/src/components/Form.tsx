@@ -5,6 +5,7 @@ import {
   Record,
 } from 'datocms-structured-text-utils'
 import { graphql } from 'gatsby'
+import { darken } from 'polished'
 import { HTMLAttributes } from 'react'
 import { Fragment, SyntheticEvent, useCallback, useState } from 'react'
 import { StructuredText } from 'react-datocms'
@@ -147,13 +148,13 @@ const Form = ({
   const { theme: metaTheme } = useThemeContext()
   const setColors = () => {
     const defaultColors = {
-      fill: 'transparent',
-      border: '#33333388',
-      text: '#333',
-      label: '#888',
-      highlight: '#333',
+      fill: '',
+      border: '',
+      text: '',
+      label: '',
+      highlight: '',
       buttonBorder: undefined,
-      buttonFill: ['#fff', '#333'],
+      buttonFill: ['', ''],
       buttonText: ['#fff', '#fff'],
     }
     switch (metaTheme) {
@@ -173,19 +174,27 @@ const Form = ({
             theme === 'Dark' ? doorColors.blueLight : doorColors.blue,
           buttonFill:
             theme === 'Dark'
-              ? ['#fff', doorColors.pink]
-              : [doorColors.blue, doorColors.pink],
+              ? ['#fff', highlightColor || doorColors.pink]
+              : [
+                  highlightColor || doorColors.blue,
+                  highlightColor
+                    ? darken(0.1, highlightColor)
+                    : doorColors.pink,
+                ],
           buttonText:
-            theme === 'Dark' ? [doorColors.blue, '#fff'] : ['#fff'],
+            theme === 'Dark'
+              ? [highlightColor || doorColors.blue, '#fff']
+              : ['#fff'],
         }
       default:
         return { ...defaultColors }
     }
   }
   const colors = setColors()
+  // const textHighlight = '#333'
   const textHighlight = useReadableColor(
     highlightColor || colors.highlight,
-    colors.fill
+    theme === 'Dark' ? '#444' : colors.fill
   )
   const styles = {
     wrapper: css`

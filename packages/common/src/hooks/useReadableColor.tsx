@@ -7,6 +7,9 @@ const useReadableColor = (
   contrastRatio = 4.5
 ) => {
   const textColor = useMemo(() => {
+    if (bgColor === '' || color === '') {
+      return color
+    }
     const darkText = () => {
       for (let i = 1; i < 100; i++) {
         if (

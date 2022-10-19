@@ -37,7 +37,7 @@ const ContentCarousel = ({
           contentType={contentType}
           tags={tags}
           color={color}
-          orientation={orientation}
+          orientation={orientation}          
           {...props}
         />
       )
