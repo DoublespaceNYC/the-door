@@ -93,11 +93,11 @@ const NavLinkGroup = ({
       `}
     `,
     nav: css`
-      position: absolute;
+      position: fixed;
       left: 0;
       width: 100%;
       top: calc(var(--nav-height) - 1px);
-      height: calc(100vh - var(--nav-height) + 1px);
+      height: calc(100% - var(--nav-height) + 1px);
       opacity: 0;
       z-index: 2;
       pointer-events: none;

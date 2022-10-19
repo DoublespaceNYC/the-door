@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import { rgba } from 'polished'
 import { HTMLAttributes } from 'react'
 
-import { mq } from '../theme/mixins'
+import { mq, widthInCols } from '../theme/mixins'
 import ContentCarouselLinkThumbnail, {
   ICarouselLink,
 } from './ContentCarousel__Links__Block'
@@ -48,12 +48,12 @@ const LinksCarousel = ({
       padding: 0 var(--margin);
     `,
     thumbnail: css`
-      width: calc(4 * var(--col-w) + 3 * var(--gtr-m));
+      width: ${widthInCols(4)};
       ${mq().m} {
-        width: calc(6 * var(--col-w) + 5 * var(--gtr-m));
+        width: ${widthInCols(6)};
       }
       ${mq().s} {
-        width: calc(9 * var(--col-w) + 8 * var(--gtr-m));
+        width: ${widthInCols(10)};
       }
     `,
   }

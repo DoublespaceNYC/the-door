@@ -120,7 +120,9 @@ const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
         background: ${colors?.dividerTop};
       }
     `,
-    sliderNav: css``,
+    sliderNav: css`
+      flex: 1;
+    `,
     eventsSlider: css`
       ${mq('min').ml} {
         flex: 1;
@@ -178,7 +180,7 @@ const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
         width: ${widthInCols(6)};
       }
       ${mq().s} {
-        width: ${widthInCols(9)};
+        width: ${widthInCols(10)};
       }
     `,
     noEvents: css`
@@ -211,14 +213,7 @@ const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
               colors?.ctaSlider[0] && rgba(colors?.ctaSlider[0], 0.125),
             link: [colors?.ctaSlider[0], colors?.ctaSlider[1]],
           }}
-          link={{
-            id: '',
-            __typename: 'DatoCmsInternalLink',
-            linkText: 'View All',
-            link: {
-              slug: '/calendar/',
-            },
-          }}
+          link={<Link to="/calendar/">View All</Link>}
         >
           {events.length > 0 ? (
             events.map((event, i) => (

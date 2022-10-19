@@ -26,19 +26,21 @@ const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
   const { theme } = useThemeContext()
 
   const setColors = () => {
+    const defaultColors = {
+      bg: '',
+      text: '#fff',
+      cta: '#fff',
+      ctaHover: '',
+    }
     switch (theme) {
       case 'The Door':
         return {
+          ...defaultColors,
           bg: doorColors.navyDark,
-          text: '#fff',
-          cta: ['#fff', doorColors.yellow],
+          ctaHover: doorColors.yellow,
         }
       default:
-        return {
-          bg: '#444',
-          text: '#fff',
-          cta: ['#fff', '#fff'],
-        }
+        return defaultColors
     }
   }
   const colors = setColors()
@@ -76,7 +78,7 @@ const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
       display: inline-block;
       text-decoration: none;
       margin: 0 0.167em;
-      color: ${colors.cta[0]};
+      color: ${colors.cta};
       &:after {
         display: inline-block;
         content: ' ▶';
@@ -86,7 +88,7 @@ const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
       }
       @media (hover: hover) {
         &:hover {
-          color: ${colors.cta[1]};
+          color: ${colors.ctaHover};
         }
       }
     `,

@@ -1,16 +1,15 @@
 import { css } from '@emotion/react'
+import { IFacesStory } from '@the-door/common/src/components/Faces_Story'
 import GatsbyImageFocused from '@the-door/common/src/components/GatsbyImageFocused'
-import { toSlug } from '@the-door/common/src/helpers'
+import LightboxLink from '@the-door/common/src/components/Lightbox__Link'
 import { linkStyle, mq } from '@the-door/common/src/theme/mixins'
-import { Link } from 'gatsby'
 import { rgba } from 'polished'
 import { useInView } from 'react-intersection-observer'
 
 import { colors } from '../theme/variables'
-import { IStory } from '../types'
 
 type Props = {
-  story: IStory
+  story: IFacesStory
 }
 
 const HomeFacesStory = ({ story }: Props): JSX.Element => {
@@ -114,12 +113,7 @@ const HomeFacesStory = ({ story }: Props): JSX.Element => {
         <div>
           <h3>{story.title}</h3>
           <p>{story.excerpt}</p>
-          <Link
-            css={styles.cta}
-            to={`/faces-of-the-door/${toSlug(story.title)}/`}
-          >
-            {story.ctaText}
-          </Link>
+          <LightboxLink link={story.ctaText} content={story} />
         </div>
       </div>
     </div>

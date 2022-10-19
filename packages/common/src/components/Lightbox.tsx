@@ -43,12 +43,8 @@ const Lightbox = ({
   const [closing, setClosing] = useState(false)
   const { setOpen: setOpenContext } = useLightboxContext()
 
-  const title =
-    pageTitle ||
-    data.seo?.title ||
-    (data.title as string) ||
-    (data.name as string)
-    
+  const title = pageTitle || data.seo?.title || (data.title as string)
+
   const titleSuffix =
     theme === 'The Door' ? ' | The Door' : ' | Broome Street Academy'
   useEffect(() => {
@@ -119,7 +115,7 @@ const Lightbox = ({
     background: css`
       position: fixed;
       width: 100vw;
-      height: calc(100 * var(--vh, 1vh));
+      height: 100%;
       top: 0;
       left: 0;
       z-index: 9;
@@ -143,7 +139,7 @@ const Lightbox = ({
       left: 0;
       overflow-y: scroll;
       width: 100vw;
-      height: calc(var(--vh, 1vh) * 100 - var(--nav-height));
+      height: calc(100% - var(--nav-height));
       z-index: 9;
       transition: opacity ${transitionDuration}ms ease,
         transform ${transitionDuration}ms ease;

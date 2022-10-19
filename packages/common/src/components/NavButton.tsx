@@ -48,7 +48,7 @@ const NavButton = ({
 
   useEscKeyFunction(() => setOpen(false))
 
-  const textColor = useReadableColor(color, color)
+  const textColor = useReadableColor(color || '#fff', color || '#000')
 
   const styles = {
     wrap: css`

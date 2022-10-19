@@ -47,7 +47,7 @@ export const Fragments = graphql`
     __typename
     linkText
   }
-  fragment StoryFragment on DatoCmsStory {
+  fragment FacesStoryFragment on DatoCmsFacesStory {
     id: originalId
     __typename
     title
@@ -61,6 +61,15 @@ export const Fragments = graphql`
           crop: "focalpoint"
         }
       )
+      heroImageData: gatsbyImageData(
+        layout: FULL_WIDTH
+        imgixParams: {
+          q: 65
+          ar: "8:3"
+          fit: "crop"
+          crop: "focalpoint"
+        }
+      )
       ...ImageFocalData
     }
     excerpt
@@ -68,6 +77,10 @@ export const Fragments = graphql`
     body {
       value
     }
+    seo {
+      ...SEOFragment
+    }
+    slug
   }
   fragment InternalArticleFragment on DatoCmsInternalArticle {
     id: originalId

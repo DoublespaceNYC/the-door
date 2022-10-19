@@ -92,8 +92,10 @@ const ContentCarouselLinkThumbnail = ({
         color: ${colors?.date};
         margin: 0;
         &:nth-of-type(1) {
-          margin-right: 0.75em;
           color: ${highlightColor};
+        }
+        ${mq().s} {
+          font-size: var(--fs-13);
         }
       }
     `,
@@ -147,6 +149,7 @@ const ContentCarouselLinkThumbnail = ({
             '/'
           )}
         </h4>
+        &#8194;
         {date && (
           <h4>
             {date.toLocaleDateString('en-US', {

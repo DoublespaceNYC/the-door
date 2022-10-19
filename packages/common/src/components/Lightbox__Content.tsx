@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 
 import EventArticle, { IEvent } from './Event__Article'
+import { IFacesStory } from './Faces_Story'
 import FormLightbox, { IFormLightbox } from './Form__Lightbox'
 import InternalArticle, { IInternalArticle } from './InternalArticle'
 import LeaderProfile, { ILeader } from './Leader__Profile'
@@ -10,6 +11,7 @@ export type ILightboxContent =
   | IEvent
   | IFormLightbox
   | ILeader
+  | IFacesStory
 
 interface Props {
   data: ILightboxContent

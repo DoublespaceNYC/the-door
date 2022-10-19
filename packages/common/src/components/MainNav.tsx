@@ -79,23 +79,23 @@ const MainNav = ({
 
   const { theme } = useThemeContext()
   const setColors = () => {
+    const defaultColors = {
+      bg: '',
+      bgSecondary: '',
+      logo: '#fff',
+      text: '#fff',
+      buttons: [],
+    }
     switch (theme) {
       case 'The Door':
         return {
+          ...defaultColors,
           bg: doorColors.navy,
           bgSecondary: doorColors.navyDark,
-          logo: '#fff',
-          text: '#fff',
           buttons: [doorColors.pink, doorColors.green],
         }
       default:
-        return {
-          bg: 'transparent',
-          bgSecondary: 'transparent',
-          logo: 'transparent',
-          text: 'transparent',
-          buttons: ['transparent', 'transparent'],
-        }
+        return defaultColors
     }
   }
   const colors = setColors()
@@ -170,23 +170,32 @@ const MainNav = ({
       display: flex;
       z-index: 5;
       font-size: var(--fs-18);
+      > div {
+        display: flex;
+      }
       @media (max-width: ${breakpoint}px) {
+        display: block;
         overflow: auto;
-        flex-direction: column;
         pointer-events: none;
-        ${absoluteFill}
-        height: 100vh;
+        position: fixed;
+        left: 0;
+        width: 100%;
+        top: calc(var(--nav-height) - 1px);
+        height: calc(100% - var(--nav-height) + 1px);
         background: ${colors.bgSecondary};
         z-index: 0;
         font-size: var(--fs-36);
-        padding: calc(var(--nav-height) + 1em) var(--gtr-s) 1.5em;
-        box-sizing: border-box;
-        align-items: center;
-        justify-content: center;
         opacity: 0;
         transform: translate3d(0, -100%, 0);
         transition: transform 300ms ease-in, opacity 0ms linear 300ms,
           filter 300ms ease;
+        > div {
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          box-sizing: border-box;
+          padding: 1em var(--margin) 1.5em;
+        }
         ${burgerOpen &&
         css`
           pointer-events: all;
@@ -262,9 +271,9 @@ const MainNav = ({
       }
     `,
     dropdownContainer: css`
-      position: absolute;
+      position: fixed;
       width: 100vw;
-      height: 100vh;
+      height: 100%;
       left: 0;
       top: 0;
       pointer-events: none;
@@ -289,45 +298,47 @@ const MainNav = ({
               navItemsGroupRef.current &&
               createPortal(
                 <nav css={styles.navItemsGroupConditional}>
-                  {navItems.map((navItem, i) => {
-                    if (navItem.__typename === 'DatoCmsLinkGroup') {
-                      return (
-                        <NavLinkGroup
-                          data={navItem}
-                          onOpen={() => setActiveNavGroup(i)}
-                          onClose={() => setActiveNavGroup(null)}
-                          open={activeNavGroup === i}
-                          buttonCss={[styles.navItem, styles.navLink]}
-                          portalTarget={dropdownContainerRef.current}
-                          breakpoint={breakpoint}
-                          colors={{
-                            bg: colors.bgSecondary,
-                            text: colors.text,
-                          }}
+                  <div>
+                    {navItems.map((navItem, i) => {
+                      if (navItem.__typename === 'DatoCmsLinkGroup') {
+                        return (
+                          <NavLinkGroup
+                            data={navItem}
+                            onOpen={() => setActiveNavGroup(i)}
+                            onClose={() => setActiveNavGroup(null)}
+                            open={activeNavGroup === i}
+                            buttonCss={[styles.navItem, styles.navLink]}
+                            portalTarget={dropdownContainerRef.current}
+                            breakpoint={breakpoint}
+                            colors={{
+                              bg: colors.bgSecondary,
+                              text: colors.text,
+                            }}
+                            key={i}
+                          />
+                        )
+                      } else
+                        return (
+                          <DatoLink
+                            css={[styles.navItem, styles.navLink]}
+                            data={navItem}
+                            key={i}
+                          />
+                        )
+                    })}
+                    {windowWidth &&
+                      windowWidth <= breakpoint &&
+                      buttons.map((button, i) => (
+                        <NavButton
+                          buttonCss={styles.navItem}
+                          button={button}
+                          color={
+                            colors.buttons[i % colors.buttons.length]
+                          }
                           key={i}
                         />
-                      )
-                    } else
-                      return (
-                        <DatoLink
-                          css={[styles.navItem, styles.navLink]}
-                          data={navItem}
-                          key={i}
-                        />
-                      )
-                  })}
-                  {windowWidth &&
-                    windowWidth <= breakpoint &&
-                    buttons.map((button, i) => (
-                      <NavButton
-                        buttonCss={styles.navItem}
-                        button={button}
-                        color={
-                          colors.buttons[i % colors.buttons.length]
-                        }
-                        key={i}
-                      />
-                    ))}
+                      ))}
+                  </div>
                 </nav>,
                 windowWidth <= breakpoint
                   ? dropdownContainerRef.current

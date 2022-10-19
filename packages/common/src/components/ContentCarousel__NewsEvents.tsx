@@ -78,7 +78,7 @@ const NewsEventsCarousel = ({
         width: ${widthInCols(6)};
       }
       ${mq().s} {
-        width: ${widthInCols(9)};
+        width: ${widthInCols(10)};
       }
     `,
   }

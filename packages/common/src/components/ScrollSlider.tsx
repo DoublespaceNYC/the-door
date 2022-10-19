@@ -7,7 +7,7 @@ import { createPortal } from 'react-dom'
 import smoothscroll from 'smoothscroll-polyfill'
 
 import { useElementWidth } from '../hooks/useElementRect'
-import { linkStyle } from '../theme/mixins'
+import { linkStyle, mq } from '../theme/mixins'
 import DatoLink, { IDatoLink } from './DatoLink'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -23,7 +23,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
     arrowDisabled?: string
     link: [string?, string?]
   }
-  link?: IDatoLink
+  link?: ReactNode
 }
 
 const ScrollSlider = ({
@@ -245,13 +245,21 @@ const ScrollSlider = ({
       pointer-events: none;
     `,
     link: css`
-      ${linkStyle}
-      margin: 0 0.5em;
-      color: ${colors?.link[0] || null};
       flex: none;
-      &:hover {
-        @media (hover: hover) {
-          color: ${colors?.link[1] || null};
+      > a,
+      > button {
+        ${linkStyle}
+        font-size: var(--fs-15);
+        margin: 0 0.67em;
+        color: ${colors?.link[0] || null};
+        ${mq().s} {
+          font-size: var(--fs-13);
+          margin-right: 0.75em;
+        }
+        &:hover {
+          @media (hover: hover) {
+            color: ${colors?.link[1] || null};
+          }
         }
       }
     `,
@@ -264,7 +272,7 @@ const ScrollSlider = ({
         navPortalTarget &&
         createPortal(
           <nav css={styles.nav}>
-            {link && <DatoLink data={link} css={styles.link} />}
+            {link && <div css={styles.link}>{link}</div>}
             <button
               css={[
                 styles.scrollButton,

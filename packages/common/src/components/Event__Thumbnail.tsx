@@ -90,6 +90,9 @@ const EventThumbnail = ({
       line-height: 1.125;
       color: ${colors?.title};
       margin: 0 0 0.25em;
+      ${mq().s} {
+        font-size: var(--fs-24);
+      }
       ${layout === 'Home Calendar' &&
       css`
         font-size: var(--fs-24);
@@ -109,7 +112,7 @@ const EventThumbnail = ({
       font-weight: 500;
       margin: 0.25em 0;
       ${mq().s} {
-        font-size: var(--fs-14);
+        font-size: var(--fs-13);
       }
       ${layout === 'Home Calendar' &&
       css`
@@ -129,10 +132,10 @@ const EventThumbnail = ({
       font-style: italic;
     `,
     text: css`
-      padding: 1rem 1.5rem;
+      padding: 0.75em 1em;
       ${layout === 'Home Calendar' &&
       css`
-        padding: 0.75rem 0 0.75rem 1.25rem;
+        padding: 0.5em 0 0.5em 0.75em;
       `}
     `,
     date: css`
@@ -147,7 +150,7 @@ const EventThumbnail = ({
       text-transform: uppercase;
       line-height: 0.8;
       margin: 0;
-      padding: 1rem;
+      padding: 0.333em;
       max-width: 3ch;
       overflow: hidden;
       > span {
@@ -159,10 +162,23 @@ const EventThumbnail = ({
           margin: 0 0 0.02em;
         }
       }
+      ${mq().ml} {
+        font-size: var(--fs-36);
+        padding: 0.5em 0.333em;
+      }
+      ${mq().ms} {
+        font-size: var(--fs-30);
+        padding: 0.67em 0.333em;
+      }
+      ${mq().s} {
+        font-size: var(--fs-24);
+      }
       ${layout === 'Home Calendar' &&
       css`
         font-size: var(--fs-21);
-        max-width: 1.5ch;
+        padding: 0.5em 0.333em;
+        max-width: 3.25ch;
+        box-sizing: border-box;
         overflow: visible;
         align-self: flex-start;
         background-color: transparent;

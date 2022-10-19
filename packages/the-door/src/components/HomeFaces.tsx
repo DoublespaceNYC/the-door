@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { IFacesStory } from '@the-door/common/src/components/Faces_Story'
 import ScrollSlider from '@the-door/common/src/components/ScrollSlider'
 import {
   absoluteFill,
@@ -11,7 +12,6 @@ import { rgba } from 'polished'
 import { StructuredText } from 'react-datocms'
 
 import { colors } from '../theme/variables'
-import { IStory } from '../types'
 import HomeFacesStory from './HomeFacesStory'
 
 type Props = {
@@ -22,14 +22,14 @@ type Props = {
 const HomeFaces = ({ heading, body }: Props): JSX.Element => {
   type QueryProps = {
     stories: {
-      nodes: IStory[]
+      nodes: IFacesStory[]
     }
   }
   const { stories } = useStaticQuery<QueryProps>(graphql`
     query {
-      stories: allDatoCmsStory {
+      stories: allDatoCmsFacesStory {
         nodes {
-          ...StoryFragment
+          ...FacesStoryFragment
         }
       }
     }

@@ -78,7 +78,7 @@ const ArticleThumbnail = ({
         }
       }
       ${mq().s} {
-        grid-template-columns: ${grid ? '1fr 1fr' : '1fr'};
+        grid-template-columns: ${grid ? '2fr 3fr' : '1fr'};
       }
     `,
     text: css`
@@ -89,7 +89,7 @@ const ArticleThumbnail = ({
         : '1rem 1em 1.5em'};
       ${mq().s} {
         padding: ${grid
-          ? '1.5em var(--gtr-m) 2.5em 0'
+          ? '1em var(--gtr-m) 2.5em 0'
           : '1rem 1em 1.5em'};
       }
       z-index: 1;
@@ -102,7 +102,7 @@ const ArticleThumbnail = ({
         margin: 0.125em 0 0;
         line-height: 1;
         ${mq().s} {
-          font-size: var(--fs-${featured ? '48' : '30'});
+          font-size: var(--fs-${featured ? '48' : '24'});
         }
       }
     `,
@@ -116,8 +116,10 @@ const ArticleThumbnail = ({
         color: ${colors?.date};
         margin: 0;
         &:nth-of-type(1) {
-          margin-right: 0.75em;
           color: ${colors?.category};
+        }
+        ${mq().s} {
+          font-size: var(--fs-13);
         }
       }
     `,
@@ -176,6 +178,7 @@ const ArticleThumbnail = ({
               </Fragment>
             )}
           </h4>
+          &#8194;
           <h4>
             {date.toLocaleDateString('en-US', {
               month: 'short',
