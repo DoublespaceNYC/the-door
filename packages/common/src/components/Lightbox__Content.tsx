@@ -1,10 +1,13 @@
 import { Fragment } from 'react'
 
 import EventArticle, { IEvent } from './Event__Article'
-import Faces_Story, { IFacesStory } from './Faces_Story'
+import FacesStory, { IFacesStory } from './Faces__Story'
 import FormLightbox, { IFormLightbox } from './Form__Lightbox'
 import InternalArticle, { IInternalArticle } from './InternalArticle'
 import LeaderProfile, { ILeader } from './Leader__Profile'
+import TertiaryPageContent, {
+  ITertiaryPage,
+} from './TertiaryPageContent'
 
 export type ILightboxContent =
   | IInternalArticle
@@ -12,6 +15,7 @@ export type ILightboxContent =
   | IFormLightbox
   | ILeader
   | IFacesStory
+  | ITertiaryPage
 
 interface Props {
   data: ILightboxContent
@@ -51,7 +55,15 @@ const LightboxContent = ({
       return <LeaderProfile data={data} layout="Lightbox" />
     case 'DatoCmsFacesStory':
       return (
-        <Faces_Story
+        <FacesStory
+          data={data}
+          layout="Lightbox"
+          highlightColor={highlightColor}
+        />
+      )
+    case 'DatoCmsTertiaryPage':
+      return (
+        <TertiaryPageContent
           data={data}
           layout="Lightbox"
           highlightColor={highlightColor}

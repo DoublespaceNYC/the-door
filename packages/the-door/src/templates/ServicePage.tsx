@@ -37,6 +37,10 @@ type DataProps = {
   }
 }
 
+interface ContextProps {
+  slug: string
+}
+
 const ServicePage = ({
   data: {
     service: {
@@ -50,7 +54,7 @@ const ServicePage = ({
     },
     section,
   },
-}: PageProps<DataProps>): JSX.Element => {
+}: PageProps<DataProps, ContextProps>): JSX.Element => {
   const anchorLinks = useMemo(() => {
     return pageContent
       .map(block => block.anchorLink[0])
@@ -101,8 +105,8 @@ export const Head = ({
 )
 
 export const data = graphql`
-  query ($id: String!) {
-    service: datoCmsService(id: { eq: $id }) {
+  query ($slug: String!) {
+    service: datoCmsService(slug: { eq: $slug }) {
       title
       heroImage {
         gatsbyImageData(
@@ -138,7 +142,7 @@ export const data = graphql`
       }
     }
     section: datoCmsServicesGroup(
-      services: { elemMatch: { id: { eq: $id } } }
+      services: { elemMatch: { slug: { eq: $slug } } }
     ) {
       title
     }

@@ -99,6 +99,7 @@ const LeaderThumbnail = ({
     <LightboxLink
       slugPrefix="/leadership/"
       pageTitle={`${data.name}, ${data.title}`}
+      highlightColor={highlightColor}
       link={
         <div css={styles.link}>
           <div css={styles.imageWrap}>

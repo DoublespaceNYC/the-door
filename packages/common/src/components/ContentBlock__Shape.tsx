@@ -20,7 +20,7 @@ export const shapeArray = [
 type Props = {
   shape: ShapeType
   color: string
-  layout: 'noImg' | 'narrow' | 'medium' | 'wide'
+  layout: 'No Image' | 'Narrow Image' | 'Medium Image' | 'Wide Image'
   orientation: 'left' | 'right'
 }
 
@@ -53,7 +53,7 @@ const ContentBlockShape = ({
     `,
   }
 
-  if (layout === 'noImg') {
+  if (layout === 'No Image') {
     if (shape === 'brackets') {
       return (
         <svg
@@ -303,7 +303,15 @@ const ContentBlockShape = ({
                 width: calc(10 * var(--gtr-m));
                 max-width: 100%;
                 top: ${gutter};
-                right: ${gutter};
+                ${orientation === 'left' &&
+                css`
+                  right: ${gutter};
+                `}
+                ${orientation === 'right' &&
+                css`
+                  left: ${gutter};
+                  transform: scaleX(-1);
+                `}
               `,
             ]}
           >
@@ -318,7 +326,15 @@ const ContentBlockShape = ({
                 width: calc(10 * var(--gtr-m));
                 max-width: 100%;
                 bottom: ${gutter};
-                left: ${gutter};
+                ${orientation === 'left' &&
+                css`
+                  left: ${gutter};
+                `}
+                ${orientation === 'right' &&
+                css`
+                  right: ${gutter};
+                  transform: scaleX(-1);
+                `}
               `,
             ]}
           >

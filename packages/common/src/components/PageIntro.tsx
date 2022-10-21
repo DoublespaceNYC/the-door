@@ -18,12 +18,11 @@ const PageIntro = ({
     intro: css`
       font-size: var(--fs-21);
       line-height: 1.75;
-      margin: var(--row-m) var(--margin) var(--row-ll);
+      margin: calc(var(--row-s) + 1em) var(--margin) var(--row-l);
       color: ${textColor};
       max-width: 80ch;
       ${mq().ms} {
         font-size: var(--fs-18);
-        margin-bottom: var(--row-l);
       }
     `,
   }

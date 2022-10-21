@@ -8,6 +8,7 @@ import { IFormLightboxLink } from './Form__Lightbox'
 import { IInternalArticleLink } from './InternalArticle'
 import InternalLink, { IInternalLink } from './InternalLink'
 import LightboxLink from './Lightbox__Link'
+import { ITertiaryLink } from './TertiaryPageContent'
 
 export type IDatoLink = Record &
   (
@@ -17,6 +18,7 @@ export type IDatoLink = Record &
     | IFormLightboxLink
     | IInternalArticleLink
     | IEventLink
+    | ITertiaryLink
   )
 
 export const isDatoLink = (record: Record) => {
@@ -27,6 +29,7 @@ export const isDatoLink = (record: Record) => {
     'DatoCmsFormLightboxLink',
     'DatoCmsInternalArticleLink',
     'DatoCmsEventLink',
+    'DatoCmsTertiaryLink',
   ].some(x => x === record.__typename)
 }
 
@@ -50,10 +53,39 @@ const DatoLink = ({
     case 'DatoCmsDocumentLink':
       return <DocumentLink data={data} icon={icon} {...props} />
     case 'DatoCmsFormLightboxLink':
+      return (
+        <LightboxLink
+          slugPrefix="/forms/"
+          link={data.linkText}
+          content={data.link}
+          highlightColor={highlightColor}
+          {...props}
+        />
+      )
     case 'DatoCmsInternalArticleLink':
+      return (
+        <LightboxLink
+          slugPrefix="/articles/"
+          link={data.linkText}
+          content={data.link}
+          highlightColor={highlightColor}
+          {...props}
+        />
+      )
     case 'DatoCmsEventLink':
       return (
         <LightboxLink
+          slugPrefix="/events/"
+          link={data.linkText}
+          content={data.link}
+          highlightColor={highlightColor}
+          {...props}
+        />
+      )
+    case 'DatoCmsTertiaryLink':
+      return (
+        <LightboxLink
+          slugPrefix={`/${data.link.parentPage.slug}/`}
           link={data.linkText}
           content={data.link}
           highlightColor={highlightColor}

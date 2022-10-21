@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { IFacesStory } from '@the-door/common/src/components/Faces_Story'
+import { IFacesStory } from '@the-door/common/src/components/Faces__Story'
 import GatsbyImageFocused from '@the-door/common/src/components/GatsbyImageFocused'
 import LightboxLink from '@the-door/common/src/components/Lightbox__Link'
 import { linkStyle, mq } from '@the-door/common/src/theme/mixins'
@@ -115,6 +115,7 @@ const FacesPreview = ({ story }: Props): JSX.Element => {
           <h3>{story.title}</h3>
           <p>{story.excerpt}</p>
           <LightboxLink
+            slugPrefix="/stories/"
             link={story.ctaText}
             content={story}
             highlightColor={colors.purple}

@@ -23,6 +23,9 @@ export const Fragments = graphql`
       ... on DatoCmsLeadershipPage {
         slug
       }
+      ... on DatoCmsInteriorPage {
+        slug
+      }
       ... on DatoCmsService {
         slug
       }
@@ -243,7 +246,18 @@ export const Fragments = graphql`
         ... on DatoCmsDocumentLink {
           ...DocumentLinkFragment
         }
+        ... on DatoCmsTertiaryLink {
+          ...TertiaryLinkFragment
+        }
       }
+    }
+  }
+  fragment VectorGraphicFragment on DatoCmsVectorGraphic {
+    id: originalId
+    __typename
+    graphic {
+      url
+      alt
     }
   }
   fragment CarouselLinkFragment on DatoCmsCarouselLink {
@@ -334,15 +348,16 @@ export const Fragments = graphql`
       ... on DatoCmsCarousel {
         ...CarouselFragment
       }
-    }
-    image {
-      image {
-        narrow: gatsbyImageData(width: 720, imgixParams: { q: 65 })
-        medium: gatsbyImageData(width: 840, imgixParams: { q: 65 })
-        wide: gatsbyImageData(width: 960, imgixParams: { q: 65 })
-        ...ImageFocalData
+      ... on DatoCmsVectorGraphic {
+        ...VectorGraphicFragment
       }
-      layout
+    }
+    layout
+    image {
+      narrow: gatsbyImageData(width: 720, imgixParams: { q: 65 })
+      medium: gatsbyImageData(width: 840, imgixParams: { q: 65 })
+      wide: gatsbyImageData(width: 960, imgixParams: { q: 65 })
+      ...ImageFocalData
     }
   }
   fragment LayoutOptionsFragment on DatoCmsLayoutOptionsBlock {
@@ -473,6 +488,118 @@ export const Fragments = graphql`
     linkText
     link {
       ...FormLightboxFragment
+    }
+  }
+  fragment LeaderFragment on DatoCmsLeader {
+    id: originalId
+    __typename
+    name
+    title
+    headshot {
+      gatsbyImageData(
+        width: 480
+        imgixParams: {
+          q: 65
+          ar: "1:1"
+          fit: "crop"
+          crop: "focalpoint"
+        }
+      )
+      ...ImageFocalData
+    }
+    bio {
+      value
+    }
+    slug
+    seo {
+      ...SEOFragment
+    }
+  }
+  fragment BoardMemberFragment on DatoCmsBoardMember {
+    id: originalId
+    __typename
+    name
+    title
+    category
+    bio {
+      value
+    }
+  }
+  fragment AdvisoryMemberFragment on DatoCmsAdvisoryMember {
+    id: originalId
+    __typename
+    name
+    title {
+      value
+    }
+    headshot {
+      gatsbyImageData(
+        width: 240
+        imgixParams: {
+          q: 65
+          ar: "1:1"
+          fit: "crop"
+          crop: "focalpoint"
+        }
+      )
+      ...ImageFocalData
+    }
+  }
+  fragment TertiaryPageFragment on DatoCmsTertiaryPage {
+    id: originalId
+    __typename
+    title
+    subheading {
+      value
+    }
+    heroImage {
+      heroImageData: gatsbyImageData(
+        layout: FULL_WIDTH
+        imgixParams: {
+          q: 65
+          ar: "8:3"
+          fit: "crop"
+          crop: "focalpoint"
+        }
+      )
+      ...ImageFocalData
+    }
+    lede {
+      value
+    }
+    body {
+      value
+      blocks {
+        ... on DatoCmsMediaBlock {
+          ...MediaBlockFragment
+        }
+        ... on DatoCmsMediaCarousel {
+          ...MediaCarouselFragment
+        }
+      }
+    }
+    parentPage {
+      ... on DatoCmsService {
+        slug
+      }
+      ... on DatoCmsLeadershipPage {
+        slug
+      }
+      ... on DatoCmsInteriorPage {
+        slug
+      }
+    }
+    slug
+    seo {
+      ...SEOFragment
+    }
+  }
+  fragment TertiaryLinkFragment on DatoCmsTertiaryLink {
+    id: originalId
+    __typename
+    linkText
+    link {
+      ...TertiaryPageFragment
     }
   }
 `

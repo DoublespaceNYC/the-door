@@ -31,37 +31,40 @@ export interface IMediaBlock extends Record {
 }
 interface Props extends HTMLAttributes<HTMLElement> {
   data: IMediaBlock
-  highlightColor: string
-  layout: 'Page Carousel' | 'Lightbox Carousel' | 'Single'
+  highlightColor?: string
+  layout: 'Page' | 'Lightbox' | 'Calendar'
+  carousel?: boolean
 }
 
 const MediaBlock = ({
   data: { asset, caption },
   highlightColor,
   layout,
+  carousel,
   ...props
 }: Props): JSX.Element => {
   const { inView, ref } = useInView({
     rootMargin: '50% -20%',
   })
-  // const isCarousel =
-  //   layout === 'Lightbox Carousel' || layout === 'Page Carousel'
+
   const { theme } = useThemeContext()
   const setColors = () => {
+    const defaultColors = {
+      textbox: '#f2f2f2',
+      shadow: '#44444426',
+      text: '#444',
+      highlight: highlightColor || '#444',
+    }
     switch (theme) {
       case 'The Door':
         return {
-          textbox:
-            layout === 'Page Carousel' ? doorColors.gray95 : '#fff',
+          ...defaultColors,
+          textbox: layout === 'Lightbox' ? '#fff' : doorColors.gray95,
           shadow: rgba(doorColors.navy, 0.15),
-          text: '#444',
+          highlight: highlightColor || doorColors.blue,
         }
       default:
-        return {
-          textbox: '#f2f2f2',
-          shadow: '#44444426',
-          text: '#444',
-        }
+        return defaultColors
     }
   }
   const colors = setColors()
@@ -118,6 +121,8 @@ const MediaBlock = ({
         justify-self: flex-start;
       }
       h3 {
+        font-family: var(--display-font);
+        font-weight: 700;
         font-size: var(--fs-21);
         letter-spacing: 0.05em;
         text-transform: uppercase;
@@ -136,9 +141,9 @@ const MediaBlock = ({
         }
       }
       a {
-        color: ${highlightColor};
+        color: ${colors.highlight};
         &:hover {
-          color: ${darken(0.1, highlightColor)};
+          color: ${darken(0.1, colors.highlight)};
         }
       }
       > div {

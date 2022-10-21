@@ -34,7 +34,7 @@ interface Props {
   highlightColor?: string
 }
 
-const Faces_Story = ({
+const FacesStory = ({
   data: { title, image, body },
   layout,
   highlightColor,
@@ -50,4 +50,4 @@ const Faces_Story = ({
   )
 }
 
-export default Faces_Story
+export default FacesStory

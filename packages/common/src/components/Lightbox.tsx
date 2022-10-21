@@ -142,7 +142,8 @@ const Lightbox = ({
       height: calc(100% - var(--nav-height));
       z-index: 9;
       transition: opacity ${transitionDuration}ms ease,
-        transform ${transitionDuration}ms ease;
+        transform ${transitionDuration}ms ease, height 500ms ease,
+        top 500ms ease;
       ${loaded &&
       css`
         opacity: 1;
@@ -193,7 +194,7 @@ const Lightbox = ({
       padding: 0.5rem;
       color: #fff;
       transition: color 200ms ease, transform 300ms ease-out,
-        opacity 450ms ease;
+        opacity 450ms ease, top 500ms ease;
       ${loaded &&
       css`
         transform: translate3d(0, 0, 0);

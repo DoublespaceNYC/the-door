@@ -20,6 +20,7 @@ const InternalArticleThumbnail = ({
 }: Props): JSX.Element => {
   return (
     <LightboxLink
+      slugPrefix="/articles/"
       content={article}
       link={
         <ArticleThumbnail

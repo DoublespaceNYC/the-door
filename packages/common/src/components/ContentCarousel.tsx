@@ -19,13 +19,13 @@ export interface ICarousel extends Record {
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   data: ICarousel
-  color: string
+  highlightColor: string
   orientation: 'left' | 'right'
 }
 
 const ContentCarousel = ({
   data: { contentType, tags, links, media },
-  color,
+  highlightColor,
   orientation,
   ...props
 }: Props): JSX.Element => {
@@ -36,8 +36,8 @@ const ContentCarousel = ({
         <NewsEventsCarousel
           contentType={contentType}
           tags={tags}
-          color={color}
-          orientation={orientation}          
+          color={highlightColor}
+          orientation={orientation}
           {...props}
         />
       )
@@ -45,12 +45,20 @@ const ContentCarousel = ({
       return (
         <LinksCarousel
           links={links}
-          color={color}
+          color={highlightColor}
           orientation={orientation}
+          {...props}
         />
       )
     case 'Media':
-      return <MediaCarousel data={media} color={color} layout="Page" />
+      return (
+        <MediaCarousel
+          data={media}
+          highlightColor={highlightColor}
+          layout="Page"
+          {...props}
+        />
+      )
     default:
       return <Fragment />
   }

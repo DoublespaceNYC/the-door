@@ -127,7 +127,7 @@ const NavLinkGroup = ({
       ${absoluteFill}
       display: grid;
       grid-template-columns: ${linkCount > 12 ? '1fr 1fr' : '2fr 1fr'};
-      grid-template-rows: auto 1fr var(--alert-height);
+      grid-template-rows: auto 1fr;
       overflow: hidden;
       ${mq().ml} {
         grid-template-columns: 1fr 1fr;

@@ -21,7 +21,6 @@ const config: GatsbyConfig = {
     siteUrl: `https://www.door.org/`,
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,

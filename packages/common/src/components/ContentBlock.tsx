@@ -1,7 +1,8 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
-import { rgba } from 'polished'
+import { darken, rgba } from 'polished'
+import { Fragment } from 'react'
 import { StructuredText, renderMarkRule } from 'react-datocms'
 
 import useReadableColor from '../hooks/useReadableColor'
@@ -24,6 +25,14 @@ interface ITextBlock extends Record {
   body: IBody
 }
 
+interface IVectorGraphic extends Record {
+  __typename: 'DatoCmsVectorGraphic'
+  graphic: {
+    url: string
+    alt?: string
+  }
+}
+
 interface IContentBlockImage
   extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   narrow: IGatsbyImageData
@@ -35,13 +44,9 @@ export interface IContentBlock extends Record {
   __typename: 'DatoCmsContentBlock'
   anchorLink: [IAnchorLink?]
   heading: string
-  image: [
-    {
-      image: IContentBlockImage
-      layout: 'narrow' | 'medium' | 'wide'
-    }?
-  ]
-  content: (ITextBlock | ICarousel)[]
+  layout: 'No Image' | 'Narrow Image' | 'Medium Image' | 'Wide Image'
+  image: IContentBlockImage
+  content: (ITextBlock | ICarousel | IVectorGraphic)[]
 }
 
 type Props = {
@@ -52,7 +57,7 @@ type Props = {
 }
 
 const ContentBlock = ({
-  block: { anchorLink, heading, image, content },
+  block: { anchorLink, heading, image, content, layout },
   shape,
   highlightColor,
   orientation,
@@ -60,29 +65,27 @@ const ContentBlock = ({
   const left = orientation === 'left'
   const right = orientation === 'right'
 
-  const layout = image[0] ? image[0].layout : 'noImg'
-
   const setTextSpan = () => {
     switch (layout) {
-      case 'noImg':
+      case 'No Image':
         return {
           l: 8,
           m: 9,
           ms: 12,
         }
-      case 'narrow':
+      case 'Narrow Image':
         return {
           l: 7,
           m: 8,
           ms: 12,
         }
-      case 'medium':
+      case 'Medium Image':
         return {
           l: 6,
           m: 7,
           ms: 12,
         }
-      case 'wide':
+      case 'Wide Image':
         return {
           l: 5,
           m: 7,
@@ -100,7 +103,7 @@ const ContentBlock = ({
     ${left &&
     css`
       grid-column: 2 / span var(--text-span);
-      ${layout !== 'noImg' &&
+      ${layout !== 'No Image' &&
       css`
         margin-right: var(--gtr-m);
         ${mq().ms} {
@@ -111,7 +114,7 @@ const ContentBlock = ({
     ${right &&
     css`
       grid-column: span var(--text-span) / -2;
-      ${layout !== 'noImg' &&
+      ${layout !== 'No Image' &&
       css`
         margin-left: var(--gtr-m);
         ${mq().ms} {
@@ -124,9 +127,12 @@ const ContentBlock = ({
   const styles = {
     section: css`
       ${baseGrid}
-      grid-template-rows: 1fr var(--gtr-m) auto repeat(${contentRows}, auto) 1fr;
+      grid-template-rows:
+      1fr calc(2 * var(--gtr-m)) auto repeat(${contentRows}, auto)
+      1fr;
       color: #333;
-      margin-bottom: var(--row-l);
+      margin-top: calc(-1 * var(--gtr-m));
+      margin-bottom: var(--row-m);
       --text-span: ${textSpan.l};
       ${mq().m} {
         --text-span: ${textSpan.m};
@@ -146,6 +152,7 @@ const ContentBlock = ({
       color: ${highlightColor};
       font-size: var(--fs-72);
       z-index: 2;
+      line-height: 1.125;
       position: relative;
       margin: 0 0 0.167em;
       padding-top: calc(0.333em + 3px);
@@ -156,7 +163,7 @@ const ContentBlock = ({
         display: block;
         width: calc(
           100% + var(--col-w) + var(--gtr-m)
-            ${layout !== 'noImg' ? '* 2' : ''}
+            ${layout !== 'No Image' ? '* 2' : ''}
         );
         height: 3px;
         background: ${highlightColor};
@@ -176,8 +183,42 @@ const ContentBlock = ({
     `,
     textBlock: css`
       ${textGridCss}
-      &:nth-child(${contentRows + 1}) {
-        margin-bottom: 0;
+      h3 {
+        font-size: var(--fs-36);
+        line-height: 1.125;
+        text-transform: uppercase;
+        margin: 0.5em 0 0.25em;
+      }
+      > p + h3,
+      > ul + h3,
+      > ol + h3 {
+        margin-top: 1em;
+      }
+      h4 {
+        font-size: var(--fs-24);
+        font-family: var(--body-font);
+        font-weight: 500;
+        line-height: 1.25;
+        margin: 1.25em 0 0.5em;
+      }
+      > h3 + h4 {
+        margin-top: 0.75em;
+      }
+      h5 {
+        font-size: var(--fs-16);
+        font-family: var(--body-font);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 700;
+        line-height: 1.25;
+        margin: 1.5em 0 0.5em;
+      }
+      > h4 + h5 {
+        margin-top: 1em;
+      }
+      p {
+        line-height: 1.75;
+        margin: 0.5em 0;
       }
       p {
         margin: 0.5em 0;
@@ -190,13 +231,14 @@ const ContentBlock = ({
         display: inline-block;
         @media (hover: hover) {
           &:hover {
-            color: ${rgba(readableColor, 0.75)};
+            color: ${darken(0.1, readableColor)};
           }
         }
       }
-      ul {
-        padding-inline-start: 1.75em;
-        margin-block: 0.5em 0;
+      ul,
+      ol {
+        padding-inline-start: 1.5em;
+        margin-block: 0.5em 1.25em;
         max-width: 90ch;
         box-sizing: border-box;
         li {
@@ -215,6 +257,7 @@ const ContentBlock = ({
       grid-row: 1 / span ${contentRows + 4};
       position: relative;
       align-self: flex-start;
+      margin: var(--gtr-m) 0;
       ${left &&
       css`
         grid-column: span calc(12 - var(--text-span)) / -2;
@@ -238,7 +281,7 @@ const ContentBlock = ({
           grid-column: 2 / -2;
         `}
       }
-      ${layout === 'noImg' &&
+      ${layout === 'No Image' &&
       css`
         position: absolute;
         top: 0;
@@ -254,59 +297,93 @@ const ContentBlock = ({
     linkBlock: css`
       ${linkStyle}
     `,
+    carousel: css`
+      margin-top: 1.5em;
+      margin-bottom: 2em;
+    `,
+    graphic: css`
+      ${textGridCss}
+      width: 100%;
+      max-width: 90ch;
+      margin-top: 1.5em;
+      margin-bottom: 1.5em;
+    `,
   }
   return (
-    <section css={styles.section}>
+    <section css={styles.section} data-layout={layout}>
       {anchorLink[0] && <Anchor id={anchorLink[0].linkText} />}
       <h2 css={styles.heading}>{heading}</h2>
       {content.map((block, i) => {
-        if (block.__typename === 'DatoCmsTextBlock') {
-          return (
-            <div css={styles.textBlock} key={i}>
-              <StructuredText
+        switch (block.__typename) {
+          case 'DatoCmsTextBlock':
+            return (
+              <div css={styles.textBlock} key={i}>
+                <StructuredText
+                  key={i}
+                  data={block.body}
+                  renderBlock={({ record }) => {
+                    if (isDatoLink(record)) {
+                      return (
+                        <DatoLink
+                          data={record}
+                          css={styles.linkBlock}
+                          highlightColor={highlightColor}
+                        />
+                      )
+                    } else return null
+                  }}
+                  customMarkRules={[
+                    renderMarkRule(
+                      'h1' || 'h2',
+                      ({ children, key }) => {
+                        return <h3 key={key}>{children}</h3>
+                      }
+                    ),
+                    renderMarkRule(
+                      'h5' || 'h6',
+                      ({ children, key }) => {
+                        return <h4 key={key}>{children}</h4>
+                      }
+                    ),
+                  ]}
+                />
+              </div>
+            )
+          case 'DatoCmsCarousel':
+            return (
+              <ContentCarousel
+                css={styles.carousel}
+                data={block}
                 key={i}
-                data={block.body}
-                renderBlock={({ record }) => {
-                  if (isDatoLink(record)) {
-                    return (
-                      <DatoLink
-                        data={record}
-                        css={styles.linkBlock}
-                        highlightColor={highlightColor}
-                      />
-                    )
-                  } else return null
-                }}
-                customMarkRules={[
-                  renderMarkRule('h1' || 'h2', ({ children, key }) => {
-                    return <h3 key={key}>{children}</h3>
-                  }),
-                  renderMarkRule('h5' || 'h6', ({ children, key }) => {
-                    return <h4 key={key}>{children}</h4>
-                  }),
-                ]}
+                highlightColor={highlightColor}
+                orientation={orientation}
               />
-            </div>
-          )
-        }
-        if (block.__typename === 'DatoCmsCarousel') {
-          return (
-            <ContentCarousel
-              data={block}
-              key={i}
-              color={highlightColor}
-              orientation={orientation}
-            />
-          )
+            )
+          case 'DatoCmsVectorGraphic':
+            return (
+              <img
+                css={styles.graphic}
+                src={block.graphic.url}
+                alt={block.graphic.alt || ''}
+              />
+            )
+          default:
+            return <Fragment />
         }
       })}
       <div css={styles.image}>
-        {image[0] && (
+        {layout !== 'No Image' && image && (
           <GatsbyImageFocused
-            image={image[0].image[image[0].layout]}
-            focalPoint={image[0].image.focalPoint}
-            aspectRatio={image[0].image.sizes.aspectRatio}
-            alt={image[0].image.alt || ''}
+            image={
+              layout === 'Narrow Image'
+                ? image.narrow
+                : layout === 'Medium Image'
+                ? image.medium
+                : image.wide
+            }
+            focalPoint={image.focalPoint}
+            aspectRatio={image.sizes.aspectRatio}
+            alt={image.alt || ''}
           />
         )}
         <ContentBlockShape

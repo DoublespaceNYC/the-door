@@ -15,7 +15,9 @@ export interface ILeader {
   __typename: 'DatoCmsLeader'
   name: string
   title: string
-  headshot: IGatsbyImageFocused
+  headshot: IGatsbyImageFocused & {
+    url: string
+  }
   bio: {
     value: Document
   }
@@ -26,10 +28,13 @@ export interface ILeader {
 interface Props extends HTMLAttributes<HTMLElement> {
   data: ILeader
   layout: 'Lightbox' | 'Page'
+  highlightColor?: string
 }
 
 const LeaderProfile = ({
   data: { name, title, headshot, bio },
+  layout,
+  highlightColor,
   ...props
 }: Props): JSX.Element => {
   const { theme } = useThemeContext()
@@ -37,7 +42,7 @@ const LeaderProfile = ({
     switch (theme) {
       case 'The Door':
         return {
-          highlight: doorColors.pink,
+          highlight: highlightColor || doorColors.pink,
           text: '#444',
           textLight: '#666',
         }
@@ -53,6 +58,10 @@ const LeaderProfile = ({
       ${mq().ms} {
         grid-template-columns: minmax(9rem, 1fr) 2fr;
       }
+      ${layout === 'Page' &&
+      css`
+        padding: var(--row-l) var(--margin) var(--row-ll);
+      `}
     `,
     text: css`
       color: ${colors?.text};
@@ -95,6 +104,7 @@ const LeaderProfile = ({
       }
     `,
     imageWrap: css`
+      align-self: flex-start;
       ${mq().ms} {
         margin-bottom: 1em;
       }

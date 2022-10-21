@@ -4,7 +4,6 @@ import {
   StructuredText as IStructuredText,
   Record,
 } from 'datocms-structured-text-utils'
-import { graphql } from 'gatsby'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
 
 import { IGatsbyImageFocused } from '../components/GatsbyImageFocused'
@@ -112,56 +111,3 @@ export interface IInternalArticleLink extends Record {
   linkText: string
   link: IInternalArticle
 }
-
-export const InternalArticleFragments = () => graphql`
-  fragment InternalArticleFragment on DatoCmsInternalArticle {
-    id: originalId
-    __typename
-    title
-    excerpt
-    heroImage {
-      thumbnailImageData: gatsbyImageData(
-        width: 600
-        imgixParams: {
-          q: 50
-          ar: "16:9"
-          fit: "crop"
-          crop: "focalpoint"
-        }
-      )
-      heroImageData: gatsbyImageData(
-        layout: FULL_WIDTH
-        imgixParams: {
-          q: 65
-          ar: "8:3"
-          fit: "crop"
-          crop: "focalpoint"
-        }
-      )
-      ...ImageFocalData
-    }
-    category {
-      name
-    }
-    tags {
-      name
-    }
-    body {
-      value
-    }
-    inLatest
-    publicationDate
-    slug
-    seo {
-      ...SEOFragment
-    }
-  }
-  fragment InternalArticleLinkFragment on DatoCmsInternalArticleLink {
-    __typename
-    id: originalId
-    linkText
-    link {
-      ...InternalArticleFragment
-    }
-  }
-`

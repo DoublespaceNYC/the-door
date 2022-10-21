@@ -4,6 +4,7 @@ import { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
 
+import useLightboxContext from '../context/LightboxContext'
 import useNavMenuContext from '../context/NavMenuContext'
 import useThemeContext from '../context/ThemeContext'
 import { useElementHeight } from '../hooks/useElementRect'
@@ -40,7 +41,8 @@ const MainNav = ({
   const { ref: scrollRef, inView } = useInView({
     initialInView: true,
   })
-  const scrolled = !inView
+  const { open: lightboxOpen } = useLightboxContext()
+  const scrolled = !inView || lightboxOpen
 
   const windowWidth = useWindowWidth()
 
@@ -118,10 +120,6 @@ const MainNav = ({
       font-size: var(--fs-48);
       height: 1.5em;
       transition: height 300ms ease;
-      ${navOpen &&
-      css`
-        height: calc(1.5em + var(--alert-height));
-      `}
       ${mq().s} {
         height: 1.25em;
       }

@@ -54,20 +54,19 @@ const Article = ({
   const { theme } = useThemeContext()
   const setColors = () => {
     const defaultColors = {
-      highlight: '',
-      highlightHover: '',
-      text: '',
-      textLight: '',
+      highlight: '#444',
+      highlightHover: '#888',
+      text: '#444',
+      textLight: '#888',
     }
     switch (theme) {
       case 'The Door':
         return {
+          ...defaultColors,
           highlight: highlightColor || doorColors.blue,
           highlightHover: highlightColor
             ? darken(0.1, highlightColor)
             : doorColors.pink,
-          text: '#444',
-          textLight: '#888',
         }
       default:
         return defaultColors
@@ -232,6 +231,7 @@ const Article = ({
       grid-column: 2 / -2;
       width: 100%;
       margin: 2em 0 1em;
+      max-width: 90ch;
     `,
   }
   return (
@@ -265,8 +265,8 @@ const Article = ({
                     <MediaBlock
                       css={styles.mediaBlock}
                       data={record}
-                      highlightColor={colors.highlight}
-                      layout="Single"
+                      highlightColor={highlightColor}
+                      layout={layout}
                     />
                   )
                 case 'DatoCmsMediaCarousel':
@@ -275,7 +275,7 @@ const Article = ({
                       css={styles.mediaCarousel}
                       data={record.media}
                       layout={layout}
-                      color={colors.highlight}
+                      highlightColor={highlightColor}
                     />
                   )
                 default:

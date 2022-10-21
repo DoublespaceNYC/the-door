@@ -13,62 +13,153 @@ export const createPages: GatsbyNode['createPages'] = async ({
       allDatoCmsService {
         nodes {
           slug
-          id
+          locale
+        }
+      }
+      allDatoCmsLeader {
+        nodes {
+          slug
+          locale
+        }
+      }
+      allDatoCmsInternalArticle {
+        nodes {
+          slug
+          locale
+        }
+      }
+      allDatoCmsFormLightbox {
+        nodes {
+          slug
+          locale
+        }
+      }
+      allDatoCmsFacesStory {
+        nodes {
+          slug
+          locale
+        }
+      }
+      allDatoCmsEvent {
+        nodes {
+          slug
+          locale
+        }
+      }
+      allDatoCmsInteriorPage {
+        nodes {
+          slug
           locale
         }
       }
       datoCmsLeadershipPage {
         slug
+        locale
       }
     }
   `)
 
   type PageNode = {
     slug: string
-    id: string
     locale: 'en' | 'es' | 'fr'
   }
-
-  type EventNode = {
-    originalId: string
-    __typename: string
-    title: string
-    startDateTime: string
-    endDateTime: string
-    location: string
-    offCampusLocation: string
-    tags: {
-      name: string
-    }[]
-    slug: string
-  }
-
   type QueryProps = {
     errors?: any
     data?: {
       allDatoCmsService: {
         nodes: PageNode[]
       }
-      datoCmsLeadershipPage: {
-        slug: string
+      allDatoCmsLeader: {
+        nodes: PageNode[]
       }
+      allDatoCmsInternalArticle: {
+        nodes: PageNode[]
+      }
+      allDatoCmsFormLightbox: {
+        nodes: PageNode[]
+      }
+      allDatoCmsFacesStory: {
+        nodes: PageNode[]
+      }
+      allDatoCmsEvent: {
+        nodes: PageNode[]
+      }
+      allDatoCmsInteriorPage: {
+        nodes: PageNode[]
+      }
+      datoCmsLeadershipPage: PageNode
     }
   }
 
   const { data } = datoQuery
 
+  const localePrefix = (locale: string) => locale === 'en' ? '' : '/' + locale
+
   data?.allDatoCmsService.nodes.forEach(node => {
     createPage({
-      path: `${node.locale === 'en' ? '' : '/' + node.locale}/${node.slug
-        }/`,
+      path: `${localePrefix(node.locale)}/${node.slug}/`,
       component: resolve(`./src/templates/ServicePage.tsx`),
       context: {
-        id: node.id,
+        slug: node.slug,
       },
     })
   })
+  data?.allDatoCmsLeader.nodes.forEach(node => {
+    createPage({
+      path: `/leadership/${node.slug}/`,
+      component: resolve(`./src/templates/LeaderProfilePage.tsx`),
+      context: {
+        slug: node.slug
+      }
+    })
+  })
+  data?.allDatoCmsInternalArticle.nodes.forEach(node => {
+    createPage({
+      path: `/articles/${node.slug}/`,
+      component: resolve(`./src/templates/InternalArticlePage.tsx`),
+      context: {
+        slug: node.slug
+      }
+    })
+  })
+  data?.allDatoCmsFormLightbox.nodes.forEach(node => {
+    createPage({
+      path: `/forms/${node.slug}/`,
+      component: resolve(`./src/templates/FormPage.tsx`),
+      context: {
+        slug: node.slug
+      }
+    })
+  })
+  data?.allDatoCmsFacesStory.nodes.forEach(node => {
+    createPage({
+      path: `/stories/${node.slug}/`,
+      component: resolve(`./src/templates/FacesStoryPage.tsx`),
+      context: {
+        slug: node.slug
+      }
+    })
+  })
+  data?.allDatoCmsEvent.nodes.forEach(node => {
+    createPage({
+      path: `/events/${node.slug}/`,
+      component: resolve(`./src/templates/EventArticlePage.tsx`),
+      context: {
+        slug: node.slug
+      }
+    })
+  })
+  data?.allDatoCmsInteriorPage.nodes.forEach(node => {
+    createPage({
+      path: `/${node.slug}/`,
+      component: resolve(`./src/templates/InteriorPage.tsx`),
+      context: {
+        slug: node.slug
+      }
+    })
+  })
   createPage({
-    path: `${data?.datoCmsLeadershipPage.slug}`,
+    path: `/${data?.datoCmsLeadershipPage.slug}/`,
     component: resolve(`./src/templates/LeadershipPage.tsx`)
   })
 }
@@ -89,26 +180,6 @@ export const createResolvers: GatsbyNode['createResolvers'] = ({ createResolvers
           const { start_date_time, end_date_time } = source.entityPayload.attributes
           const cutoff = new Date(end_date_time || start_date_time)
           return cutoff > today
-        }
-      },
-      buildTime: {
-        type: `String!`,
-        resolve: async () => {
-          return newDate.toString()
-        }
-      },
-      midnightToday: {
-        type: `String!`,
-        resolve: async () => {
-          return today.toString()
-        }
-      },
-      cutoffTime: {
-        type: `String!`,
-        resolve: async (source, args, context, info) => {
-          const { start_date_time, end_date_time } = source.entityPayload.attributes
-          const cutoff = new Date(end_date_time || start_date_time)
-          return cutoff.toString()
         }
       },
     },

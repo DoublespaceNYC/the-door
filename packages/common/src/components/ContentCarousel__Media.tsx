@@ -1,9 +1,11 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { rgba } from 'polished'
+import { darken, rgba } from 'polished'
 import { HTMLAttributes } from 'react'
 
+import useThemeContext from '../context/ThemeContext'
 import { widthInCols } from '../theme/mixins'
+import { doorColors } from '../theme/variables'
 import MediaBlock, { IMediaBlock } from './MediaBlock'
 import ScrollSlider from './ScrollSlider'
 
@@ -14,16 +16,31 @@ export interface IMediaCarousel extends Record {
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   data: IMediaBlock[]
-  color: string
+  highlightColor?: string
   layout: 'Page' | 'Lightbox' | 'Calendar'
 }
 
 const MediaCarousel = ({
   data,
-  color,
+  highlightColor,
   layout = 'Page',
   ...props
 }: Props): JSX.Element => {
+  const { theme } = useThemeContext()
+  const setColors = () => {
+    const defaultColors = {
+      highlight: '#444',
+    }
+    switch (theme) {
+      case 'The Door':
+        return {
+          highlight: highlightColor || doorColors.blue,
+        }
+      default:
+        return defaultColors
+    }
+  }
+  const colors = setColors()
   const styles = {
     slider: css`
       margin-top: 1rem;
@@ -57,19 +74,18 @@ const MediaCarousel = ({
       navStyle="overlay"
       snap
       colors={{
-        arrow: [color],
+        arrow: [colors.highlight],
         arrowDisabled: '#00000015',
-        link: [color, rgba(color, 0.75)],
+        link: [colors.highlight, darken(0.1, colors.highlight)],
       }}
       {...props}
     >
       {data.map((block, i) => (
         <MediaBlock
-          layout={
-            layout === 'Page' ? 'Page Carousel' : 'Lightbox Carousel'
-          }
+          layout={layout}
+          carousel
           data={block}
-          highlightColor={color}
+          highlightColor={highlightColor}
           css={styles.block}
           key={i}
         />

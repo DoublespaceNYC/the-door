@@ -109,10 +109,13 @@ const ScrollSlider = ({
       position: relative;
       overflow: hidden;
       ${navStyle === 'above' &&
-      !navVisible &&
-      css`
-        margin-top: 1.5rem;
-      `}
+      (!navVisible
+        ? css`
+            margin-top: 1.5rem;
+          `
+        : css`
+            margin-top: 0 !important;
+          `)}
     `,
     slider: css`
       position: relative;

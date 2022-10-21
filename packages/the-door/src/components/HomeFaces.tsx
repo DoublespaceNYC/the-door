@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { IFacesStory } from '@the-door/common/src/components/Faces_Story'
+import { IFacesStory } from '@the-door/common/src/components/Faces__Story'
 import ScrollSlider from '@the-door/common/src/components/ScrollSlider'
 import {
   absoluteFill,
@@ -12,7 +12,7 @@ import { rgba } from 'polished'
 import { StructuredText } from 'react-datocms'
 
 import { colors } from '../theme/variables'
-import FacesPreview from './HomeFaces_Preview'
+import FacesPreview from './HomeFaces__Preview'
 
 type Props = {
   heading: string
