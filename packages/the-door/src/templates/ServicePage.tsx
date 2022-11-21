@@ -38,6 +38,7 @@ type DataProps = {
 }
 
 interface ContextProps {
+  locale: string
   slug: string
 }
 
@@ -105,9 +106,9 @@ export const Head = ({
 )
 
 export const data = graphql`
-  query ($slug: String!) {
-    service: datoCmsService(slug: { eq: $slug }) {
-      title
+  query ($slug: String!, $locale: String!) {
+    service: datoCmsService(slug: { eq: $slug }, locale: $locale) {
+      title(locale: $locale)
       heroImage {
         gatsbyImageData(
           layout: FULL_WIDTH
@@ -120,24 +121,24 @@ export const data = graphql`
         )
         ...ImageFocalData
       }
-      intro {
+      intro(locale: $locale) {
         value
       }
-      pageContent {
+      pageContent(locale: $locale) {
         ... on DatoCmsContentBlock {
           ...ContentBlockFragment
         }
       }
-      programCatalog {
+      programCatalog(locale: $locale) {
         ...CatalogSectionFragment
       }
-      contactSection {
+      contactSection(locale: $locale) {
         ...ContactSectionFragment
       }
       layoutOptions {
         ...LayoutOptionsFragment
       }
-      seo {
+      seo(locale: $locale) {
         ...SEOFragment
       }
     }

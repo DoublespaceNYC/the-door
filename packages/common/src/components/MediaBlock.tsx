@@ -33,14 +33,13 @@ interface Props extends HTMLAttributes<HTMLElement> {
   data: IMediaBlock
   highlightColor?: string
   layout: 'Page' | 'Lightbox' | 'Calendar'
-  carousel?: boolean
 }
 
 const MediaBlock = ({
   data: { asset, caption },
   highlightColor,
   layout,
-  carousel,
+
   ...props
 }: Props): JSX.Element => {
   const { inView, ref } = useInView({

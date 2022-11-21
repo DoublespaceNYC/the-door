@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { darken, rgba } from 'polished'
+import { darken } from 'polished'
 import { HTMLAttributes } from 'react'
 
 import useThemeContext from '../context/ThemeContext'

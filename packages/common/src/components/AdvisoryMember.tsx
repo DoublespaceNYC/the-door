@@ -1,11 +1,7 @@
 import { css } from '@emotion/react'
 import { Document, isParagraph } from 'datocms-structured-text-utils'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import {
-  StructuredText,
-  renderMarkRule,
-  renderNodeRule,
-} from 'react-datocms'
+import { StructuredText, renderNodeRule } from 'react-datocms'
 
 import { mq } from '../theme/mixins'
 import { IGatsbyImageFocused } from './GatsbyImageFocused'

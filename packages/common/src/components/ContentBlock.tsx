@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
-import { darken, rgba } from 'polished'
+import { darken } from 'polished'
 import { Fragment } from 'react'
 import { StructuredText, renderMarkRule } from 'react-datocms'
 
@@ -365,10 +365,11 @@ const ContentBlock = ({
                 css={styles.graphic}
                 src={block.graphic.url}
                 alt={block.graphic.alt || ''}
+                key={i}
               />
             )
           default:
-            return <Fragment />
+            return <Fragment key={i} />
         }
       })}
       <div css={styles.image}>

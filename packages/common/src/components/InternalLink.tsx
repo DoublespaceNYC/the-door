@@ -16,7 +16,7 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
 
 const InternalLink = ({ data, ...props }: Props): JSX.Element => {
   return (
-    <Link to={`/${data.link.slug}/`.replace('//', '/')} {...props}>
+    <Link to={`/${data.link.slug}/`.replace(/\/{2,}/g, '/')} {...props}>
       <span>{data.linkText}</span>
     </Link>
   )

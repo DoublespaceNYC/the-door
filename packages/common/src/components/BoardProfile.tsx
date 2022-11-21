@@ -11,12 +11,12 @@ export interface IBoardMember {
   }
 }
 
-interface Props {
-  data: IBoardMember
-}
+// interface Props {
+//   data: IBoardMember
+// }
 
-const BoardProfile = ({ data }: Props): JSX.Element => {
-  return <div></div>
-}
+// const BoardProfile = ({ data }: Props): JSX.Element => {
+//   return <div></div>
+// }
 
-export default BoardProfile
+// export default BoardProfile

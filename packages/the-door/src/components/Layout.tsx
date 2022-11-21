@@ -58,6 +58,9 @@ const Layout = ({ children }: Props) => {
                 ... on DatoCmsInternalLink {
                   ...InternalLinkFragment
                 }
+                ... on DatoCmsInternalLinkFiltered {
+                  ...InternalLinkFilteredFragment
+                }
               }
               backgroundImage {
                 gatsbyImageData(

@@ -25,7 +25,11 @@ export interface IInternalArticle extends Record {
   title: string
   excerpt: string
   heroImage: IArticleImage
-  category: { name: string }
+  category: {
+    name: string
+    pluralName: string
+    position: number
+  }
   tags: { name: string }[]
   lede: IStructuredText
   body: {

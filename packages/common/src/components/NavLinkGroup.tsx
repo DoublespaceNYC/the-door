@@ -15,6 +15,7 @@ import GatsbyImageFocused, {
   IGatsbyImageFocused,
 } from './GatsbyImageFocused'
 import { IInternalLink } from './InternalLink'
+import { IInternalLinkFiltered } from './InternalLinkFiltered'
 
 export interface IServicesGroupLink {
   __typename: 'DatoCmsServicesGroupLink'
@@ -32,7 +33,7 @@ export interface ILinkGroup {
   linkText: string
   title: string
   description: IStructuredText
-  links: (IInternalLink | IServicesGroupLink)[]
+  links: (IInternalLink | IInternalLinkFiltered | IServicesGroupLink)[]
   backgroundImage: IGatsbyImageFocused
 }
 
@@ -41,6 +42,7 @@ type Props = {
   open: boolean
   onOpen: () => void
   onClose: () => void
+  onCloseAll: () => void
   portalTarget: HTMLDivElement | null
   breakpoint: number
   buttonCss?: CSSInterpolation
@@ -55,6 +57,7 @@ const NavLinkGroup = ({
   open,
   onOpen = () => null,
   onClose = () => null,
+  onCloseAll = () => null,
   portalTarget,
   breakpoint,
   colors,
@@ -75,12 +78,6 @@ const NavLinkGroup = ({
 
   useFocusTrap(navRef.current, open, transitionDuration)
 
-  const handleOpen = () => {
-    onOpen()
-  }
-  const handleClose = () => {
-    onClose()
-  }
   const windowWidth = useWindowWidth()
 
   const styles = {
@@ -280,7 +277,7 @@ const NavLinkGroup = ({
   }
   return (
     <Fragment>
-      <button css={[buttonCss, styles.button]} onClick={handleOpen}>
+      <button css={[buttonCss, styles.button]} onClick={onOpen}>
         <span>{linkText}</span>
       </button>
       {portalTarget &&
@@ -327,7 +324,7 @@ const NavLinkGroup = ({
                                           window.location.pathname ===
                                           slug
                                         ) {
-                                          handleClose()
+                                          onCloseAll()
                                         }
                                       }}
                                     >
@@ -351,7 +348,7 @@ const NavLinkGroup = ({
                                 window.location.pathname ===
                                 `/${link.link.slug}/`.replace('//', '/')
                               ) {
-                                handleClose()
+                                onCloseAll()
                               }
                             }}
                           />
@@ -363,7 +360,7 @@ const NavLinkGroup = ({
               </div>
             </div>
             <button
-              onClick={handleClose}
+              onClick={onClose}
               css={styles.closeButton}
               tabIndex={open ? 0 : -1}
             >

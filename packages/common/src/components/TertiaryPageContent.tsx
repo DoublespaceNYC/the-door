@@ -9,6 +9,7 @@ import { IGatsbyImageData } from 'gatsby-plugin-image'
 import { darken } from 'polished'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 
+import useReadableColor from '../hooks/useReadableColor'
 import { ISEO } from '../types'
 import Article from './Article'
 import { IMediaCarousel } from './ContentCarousel__Media'
@@ -48,6 +49,10 @@ const TertiaryPageContent = ({
   layout,
   highlightColor,
 }: Props): JSX.Element => {
+  const readableHighlight = useReadableColor(
+    highlightColor || '#000',
+    layout === 'Lightbox' ? '#f2f2f2' : '#fff'
+  )
   const styles = {
     subheading: css`
       margin: 0 0 0.5em;
@@ -60,10 +65,10 @@ const TertiaryPageContent = ({
         }
       }
       a {
-        color: ${highlightColor};
+        color: ${readableHighlight};
         @media (hover: hover) {
           &:hover {
-            color: ${darken(0.1, highlightColor || '#444')};
+            color: ${darken(0.1, readableHighlight || '#000')};
           }
         }
       }

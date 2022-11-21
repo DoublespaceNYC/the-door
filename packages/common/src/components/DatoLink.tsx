@@ -7,12 +7,16 @@ import ExternalLink, { IExternalLink } from './ExternalLink'
 import { IFormLightboxLink } from './Form__Lightbox'
 import { IInternalArticleLink } from './InternalArticle'
 import InternalLink, { IInternalLink } from './InternalLink'
+import InternalLinkFiltered, {
+  IInternalLinkFiltered,
+} from './InternalLinkFiltered'
 import LightboxLink from './Lightbox__Link'
 import { ITertiaryLink } from './TertiaryPageContent'
 
 export type IDatoLink = Record &
   (
     | IInternalLink
+    | IInternalLinkFiltered
     | IExternalLink
     | IDocumentLink
     | IFormLightboxLink
@@ -24,6 +28,7 @@ export type IDatoLink = Record &
 export const isDatoLink = (record: Record) => {
   return [
     'DatoCmsInternalLink',
+    'DatoCmsInternalLinkFiltered',
     'DatoCmsExternalLink',
     'DatoCmsDocumentLink',
     'DatoCmsFormLightboxLink',
@@ -48,6 +53,8 @@ const DatoLink = ({
   switch (data.__typename) {
     case 'DatoCmsInternalLink':
       return <InternalLink data={data} {...props} />
+    case 'DatoCmsInternalLinkFiltered':
+      return <InternalLinkFiltered data={data} {...props} />
     case 'DatoCmsExternalLink':
       return <ExternalLink data={data} icon={icon} {...props} />
     case 'DatoCmsDocumentLink':

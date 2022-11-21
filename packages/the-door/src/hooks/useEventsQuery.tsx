@@ -6,7 +6,7 @@ const useEventsQuery = () => {
     query {
       allEvents: allDatoCmsEvent(
         filter: { isUpcoming: { eq: true } }
-        sort: { fields: startDateTime, order: ASC }
+        sort: { startDateTime: ASC }
       ) {
         nodes {
           ...EventFragment

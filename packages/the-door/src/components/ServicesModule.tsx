@@ -20,9 +20,7 @@ const ServicesModule = ({ bgColor, ...props }: Props): JSX.Element => {
   }
   const { servicesGroups } = useStaticQuery<QueryProps>(graphql`
     query {
-      servicesGroups: allDatoCmsServicesGroup(
-        sort: { fields: position }
-      ) {
+      servicesGroups: allDatoCmsServicesGroup(sort: { position: ASC }) {
         nodes {
           id: originalId
           __typename

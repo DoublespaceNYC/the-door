@@ -13,6 +13,7 @@ import GatsbyImageFocused, {
   IGatsbyImageFocused,
 } from '../components/GatsbyImageFocused'
 import useThemeContext from '../context/ThemeContext'
+import useReadableColor from '../hooks/useReadableColor'
 import { baseGrid } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import MediaCarousel, { IMediaCarousel } from './ContentCarousel__Media'
@@ -73,6 +74,10 @@ const Article = ({
     }
   }
   const colors = setColors()
+  const readableHighlight = useReadableColor(
+    colors.highlight,
+    layout === 'Lightbox' ? '#f2f2f2' : '#fff'
+  )
   const styles = {
     article: css`
       ${baseGrid}
@@ -200,10 +205,10 @@ const Article = ({
         margin: 0.5em 0;
       }
       a {
-        color: ${colors.highlight};
+        color: ${readableHighlight};
         @media (hover: hover) {
           &:hover {
-            color: ${colors.highlightHover};
+            color: ${darken(0.1, readableHighlight)};
           }
         }
       }

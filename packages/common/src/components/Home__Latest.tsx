@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
-import HomeCalendar from '@the-door/common/src/components/HomeCalendar'
+import HomeCalendar from '@the-door/common/src/components/Home__Calendar'
 import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
 import useQueryContext from '@the-door/common/src/context/QueryContext'
 import {
@@ -34,7 +34,8 @@ const HomeLatest = ({
   const allNewsFiltered = useMemo(() => {
     return (
       allNews
-        ?.slice(0, 4)
+        .filter(article => article.inLatest)
+        .slice(0, 4)
         .filter(article => article.id !== featuredArticle.id)
         .slice(0, 3) || []
     )

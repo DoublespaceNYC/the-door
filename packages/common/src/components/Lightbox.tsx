@@ -216,7 +216,7 @@ const Lightbox = ({
         width: 3.75rem;
         height: auto;
         overflow: visible;
-        transition: transform 300ms ${bezier.bounce};
+        transition: transform 500ms ${bezier.bounce};
         path {
           fill: none;
           stroke: currentColor;
@@ -232,7 +232,7 @@ const Lightbox = ({
       @media (hover: hover) {
         &:hover {
           svg {
-            transform: translate3d(-0.75rem, 0, 0);
+            transform: translate3d(-0.5rem, 0, 0);
             ${mq().ms} {
               transform: translate3d(-0.333rem, 0, 0);
             }

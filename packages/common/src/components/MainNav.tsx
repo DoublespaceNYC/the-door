@@ -303,7 +303,13 @@ const MainNav = ({
                           <NavLinkGroup
                             data={navItem}
                             onOpen={() => setActiveNavGroup(i)}
-                            onClose={() => setActiveNavGroup(null)}
+                            onClose={() => {
+                              setActiveNavGroup(null)
+                            }}
+                            onCloseAll={() => {
+                              setActiveNavGroup(null)
+                              setBurgerOpen(false)
+                            }}
                             open={activeNavGroup === i}
                             buttonCss={[styles.navItem, styles.navLink]}
                             portalTarget={dropdownContainerRef.current}

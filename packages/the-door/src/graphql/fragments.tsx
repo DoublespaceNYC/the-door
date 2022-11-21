@@ -29,7 +29,21 @@ export const Fragments = graphql`
       ... on DatoCmsService {
         slug
       }
+      ... on DatoCmsTheLatestPage {
+        slug
+      }
     }
+  }
+  fragment InternalLinkFilteredFragment on DatoCmsInternalLinkFiltered {
+    id: originalId
+    __typename
+    linkText
+    link {
+      ... on DatoCmsTheLatestPage {
+        slug
+      }
+    }
+    filter
   }
   fragment ExternalLinkFragment on DatoCmsExternalLink {
     id: originalId
@@ -113,6 +127,8 @@ export const Fragments = graphql`
     }
     category {
       name
+      pluralName
+      position
     }
     tags {
       name
@@ -580,9 +596,6 @@ export const Fragments = graphql`
     }
     parentPage {
       ... on DatoCmsService {
-        slug
-      }
-      ... on DatoCmsLeadershipPage {
         slug
       }
       ... on DatoCmsInteriorPage {

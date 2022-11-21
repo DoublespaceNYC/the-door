@@ -8,7 +8,6 @@ import smoothscroll from 'smoothscroll-polyfill'
 
 import { useElementWidth } from '../hooks/useElementRect'
 import { linkStyle, mq } from '../theme/mixins'
-import DatoLink, { IDatoLink } from './DatoLink'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode

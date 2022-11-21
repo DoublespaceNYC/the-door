@@ -3,7 +3,7 @@ import CornerPopup, {
 } from '@the-door/common/src/components/CornerPopup'
 import { IDatoLink } from '@the-door/common/src/components/DatoLink'
 import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
-import HomeLatest from '@the-door/common/src/components/HomeLatest'
+import HomeLatest from '@the-door/common/src/components/Home__Latest'
 import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
 import { IInternalLink } from '@the-door/common/src/components/InternalLink'
 import { IStructuredText } from '@the-door/common/src/types'

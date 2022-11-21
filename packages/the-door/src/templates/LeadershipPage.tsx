@@ -355,13 +355,13 @@ export const query = graphql`
         ...SEOFragment
       }
     }
-    leaders: allDatoCmsLeader(sort: { fields: position }) {
+    leaders: allDatoCmsLeader(sort: { position: ASC }) {
       nodes {
         ...LeaderFragment
       }
     }
     boardOfficers: allDatoCmsBoardMember(
-      sort: { fields: position }
+      sort: { position: ASC }
       filter: { category: { eq: "Officer" } }
     ) {
       nodes {
@@ -369,7 +369,7 @@ export const query = graphql`
       }
     }
     boardDirectors: allDatoCmsBoardMember(
-      sort: { fields: position }
+      sort: { position: ASC }
       filter: { category: { eq: "Director" } }
     ) {
       nodes {
@@ -377,14 +377,14 @@ export const query = graphql`
       }
     }
     boardHonorary: allDatoCmsBoardMember(
-      sort: { fields: position }
+      sort: { position: ASC }
       filter: { category: { eq: "Honorary Board" } }
     ) {
       nodes {
         ...BoardMemberFragment
       }
     }
-    advisory: allDatoCmsAdvisoryMember(sort: { fields: position }) {
+    advisory: allDatoCmsAdvisoryMember(sort: { position: ASC }) {
       nodes {
         ...AdvisoryMemberFragment
       }
