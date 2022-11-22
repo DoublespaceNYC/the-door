@@ -11,7 +11,7 @@ interface QueryProps {
 }
 
 interface ContextProps {
-  slug: string
+  id: string
 }
 
 const EventArticlePage = ({
@@ -37,8 +37,8 @@ export const Head = ({
 )
 
 export const query = graphql`
-  query ($slug: String!) {
-    event: datoCmsEvent(slug: { eq: $slug }) {
+  query ($id: String!) {
+    event: datoCmsEvent(id: { eq: $id }) {
       ...EventFragment
     }
   }

@@ -12,7 +12,7 @@ interface QueryProps {
 }
 
 interface ContextProps {
-  slug: string
+  id: string
 }
 
 const FacesStoryPage = ({
@@ -42,8 +42,8 @@ export const Head = ({
 )
 
 export const query = graphql`
-  query ($slug: String!) {
-    story: datoCmsFacesStory(slug: { eq: $slug }) {
+  query ($id: String!) {
+    story: datoCmsFacesStory(id: { eq: $id }) {
       ...FacesStoryFragment
     }
   }

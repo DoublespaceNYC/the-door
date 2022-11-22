@@ -11,7 +11,7 @@ interface QueryProps {
 }
 
 interface ContextProps {
-  slug: string
+  id: string
 }
 
 const InternalArticlePage = ({
@@ -37,8 +37,8 @@ export const Head = ({
 )
 
 export const query = graphql`
-  query ($slug: String!) {
-    article: datoCmsInternalArticle(slug: { eq: $slug }) {
+  query ($id: String!) {
+    article: datoCmsInternalArticle(id: { eq: $id }) {
       ...InternalArticleFragment
     }
   }

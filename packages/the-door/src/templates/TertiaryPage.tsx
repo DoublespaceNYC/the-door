@@ -11,7 +11,7 @@ interface DataProps {
   tertiaryPage: ITertiaryPage
 }
 interface ContextProps {
-  slug: string
+  id: string
 }
 
 const TertiaryPage = ({
@@ -39,8 +39,8 @@ export const Head = ({
   />
 )
 export const data = graphql`
-  query ($slug: String!) {
-    tertiaryPage: datoCmsTertiaryPage(slug: { eq: $slug }) {
+  query ($id: String!) {
+    tertiaryPage: datoCmsTertiaryPage(id: { eq: $id }) {
       ...TertiaryPageFragment
     }
   }

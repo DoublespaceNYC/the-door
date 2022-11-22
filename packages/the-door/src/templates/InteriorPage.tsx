@@ -26,7 +26,7 @@ type DataProps = {
 }
 
 interface ContextProps {
-  slug: string
+  id: string
 }
 
 const InteriorPage = ({
@@ -94,8 +94,8 @@ export const data = graphql`
       ...SEOFragment
     }
   }
-  query ($slug: String!) {
-    page: datoCmsInteriorPage(slug: { eq: $slug }) {
+  query ($id: String!) {
+    page: datoCmsInteriorPage(id: { eq: $id }) {
       ...InteriorPageFragment
     }
   }

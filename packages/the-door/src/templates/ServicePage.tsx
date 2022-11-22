@@ -39,7 +39,7 @@ type DataProps = {
 
 interface ContextProps {
   locale: string
-  slug: string
+  id: string
 }
 
 const ServicePage = ({
@@ -106,8 +106,8 @@ export const Head = ({
 )
 
 export const data = graphql`
-  query ($slug: String!, $locale: String!) {
-    service: datoCmsService(slug: { eq: $slug }, locale: $locale) {
+  query ($id: String!, $locale: String!) {
+    service: datoCmsService(id: { eq: $id }) {
       title(locale: $locale)
       heroImage {
         gatsbyImageData(
@@ -143,7 +143,7 @@ export const data = graphql`
       }
     }
     section: datoCmsServicesGroup(
-      services: { elemMatch: { slug: { eq: $slug } } }
+      services: { elemMatch: { id: { eq: $id } } }
     ) {
       title
     }

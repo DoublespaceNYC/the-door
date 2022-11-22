@@ -11,7 +11,7 @@ interface QueryProps {
 }
 
 interface ContextProps {
-  slug: string
+  id: string
 }
 
 const LeaderProfilePage = ({
@@ -37,8 +37,8 @@ export const Head = ({
 )
 
 export const query = graphql`
-  query ($slug: String!) {
-    leader: datoCmsLeader(slug: { eq: $slug }) {
+  query ($id: String!) {
+    leader: datoCmsLeader(id: { eq: $id }) {
       ...LeaderFragment
     }
   }

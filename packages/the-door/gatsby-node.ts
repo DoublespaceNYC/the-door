@@ -12,6 +12,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
     query {
       allDatoCmsService {
         nodes {
+          id
           _allSlugLocales {
             locale
             value
@@ -20,36 +21,43 @@ export const createPages: GatsbyNode['createPages'] = async ({
       }
       allDatoCmsLeader {
         nodes {
+          id
           slug
         }
       }
       allDatoCmsInternalArticle {
         nodes {
+          id
           slug
         }
       }
       allDatoCmsFormLightbox {
         nodes {
+          id
           slug
         }
       }
       allDatoCmsFacesStory {
         nodes {
+          id
           slug
         }
       }
       allDatoCmsEvent {
         nodes {
+          id
           slug
         }
       }
       allDatoCmsInteriorPage {
         nodes {
+          id
           slug
         }
       }
       allDatoCmsTertiaryPage {
         nodes {
+          id
           slug
           parentPage {            
             ...on DatoCmsService {
@@ -62,19 +70,23 @@ export const createPages: GatsbyNode['createPages'] = async ({
         }
       }
       datoCmsLeadershipPage {
+        id
         slug
       }
       datoCmsTheLatestPage {
+        id
         slug
       }
     }
   `)
 
-  type Locale = ('en' | 'es' | 'fr')
   type PageNode = {
+    id: string
     slug: string
   }
+  type Locale = ('en' | 'es' | 'fr')
   type LocalesPageNode = {
+    id: string
     _allSlugLocales: {
       locale: Locale
       value: string
@@ -106,6 +118,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       }
       allDatoCmsTertiaryPage: {
         nodes: {
+          id: string
           slug: string,
           parentPage: {
             slug: string
@@ -128,7 +141,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
         component: resolve(`./src/templates/ServicePage.tsx`),
         context: {
           locale: slugLocale.locale,
-          slug: slugLocale.value,
+          id: node.id,
         },
       })
     })
@@ -138,7 +151,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/leadership/${node.slug}/`,
       component: resolve(`./src/templates/LeaderProfilePage.tsx`),
       context: {
-        slug: node.slug
+        id: node.id
       }
     })
   })
@@ -147,7 +160,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/articles/${node.slug}/`,
       component: resolve(`./src/templates/InternalArticlePage.tsx`),
       context: {
-        slug: node.slug
+        id: node.id
       }
     })
   })
@@ -156,7 +169,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/forms/${node.slug}/`,
       component: resolve(`./src/templates/FormPage.tsx`),
       context: {
-        slug: node.slug
+        id: node.id
       }
     })
   })
@@ -165,7 +178,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/stories/${node.slug}/`,
       component: resolve(`./src/templates/FacesStoryPage.tsx`),
       context: {
-        slug: node.slug
+        id: node.id
       }
     })
   })
@@ -174,7 +187,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/events/${node.slug}/`,
       component: resolve(`./src/templates/EventArticlePage.tsx`),
       context: {
-        slug: node.slug
+        id: node.id
       }
     })
   })
@@ -183,7 +196,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/${node.slug}/`,
       component: resolve(`./src/templates/InteriorPage.tsx`),
       context: {
-        slug: node.slug
+        id: node.id
       }
     })
   })
@@ -192,7 +205,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/${node.parentPage.slug}/${node.slug}/`,
       component: resolve(`./src/templates/TertiaryPage.tsx`),
       context: {
-        slug: node.slug
+        id: node.id
       }
     })
   })
