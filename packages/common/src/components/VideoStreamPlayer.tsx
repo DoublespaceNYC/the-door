@@ -44,11 +44,13 @@ const VideoStreamPlayer = ({
   }, [videoRef, src])
 
   useEffect(() => {
-    if (playing === true) {
-      videoRef.current?.play()
-    }
-    if (playing === false) {
-      videoRef.current?.pause()
+    switch (playing) {
+      case true:
+        videoRef.current?.play()
+        break
+      case false:
+        videoRef.current?.pause()
+        break
     }
   }, [playing])
 

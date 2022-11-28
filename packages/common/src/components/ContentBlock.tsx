@@ -15,6 +15,7 @@ import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
 import GatsbyImageFocused, {
   IGatsbyImageFocused,
 } from './GatsbyImageFocused'
+import VectorGraphic, { IVectorGraphic } from './VectorGraphic'
 
 interface IBody extends IStructuredText {
   blocks?: IDatoLink[]
@@ -23,14 +24,6 @@ interface IBody extends IStructuredText {
 interface ITextBlock extends Record {
   __typename: 'DatoCmsTextBlock'
   body: IBody
-}
-
-interface IVectorGraphic extends Record {
-  __typename: 'DatoCmsVectorGraphic'
-  graphic: {
-    url: string
-    alt?: string
-  }
 }
 
 interface IContentBlockImage
@@ -361,10 +354,9 @@ const ContentBlock = ({
             )
           case 'DatoCmsVectorGraphic':
             return (
-              <img
+              <VectorGraphic
+                data={block}
                 css={styles.graphic}
-                src={block.graphic.url}
-                alt={block.graphic.alt || ''}
                 key={i}
               />
             )

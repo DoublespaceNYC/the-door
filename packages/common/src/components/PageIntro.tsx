@@ -1,11 +1,11 @@
 import { css } from '@emotion/react'
-import { Fragment } from 'react'
+import { Fragment, HTMLAttributes } from 'react'
 import { StructuredText } from 'react-datocms'
 
 import { mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   intro: IStructuredText
   textColor?: string
 }
@@ -13,6 +13,7 @@ type Props = {
 const PageIntro = ({
   intro,
   textColor = '#333',
+  ...props
 }: Props): JSX.Element => {
   const styles = {
     intro: css`
@@ -28,7 +29,7 @@ const PageIntro = ({
   }
   if (intro.value) {
     return (
-      <div css={styles.intro}>
+      <div css={styles.intro} {...props}>
         <StructuredText data={intro} />
       </div>
     )

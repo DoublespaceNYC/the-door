@@ -9,6 +9,7 @@ import {
   mq,
 } from '@the-door/common/src/theme/mixins'
 import { Fragment } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 import { colors } from '../theme/variables'
 
@@ -33,6 +34,10 @@ const HomeHero = ({
   ctaLink,
   video,
 }: Props): JSX.Element => {
+  const { ref: videoRef, inView: videoInView } = useInView({
+    initialInView: true,
+  })
+
   const styles = {
     section: css`
       ${baseGrid}
@@ -110,7 +115,7 @@ const HomeHero = ({
     `,
   }
   return (
-    <section css={styles.section}>
+    <section css={styles.section} ref={videoRef}>
       <VideoStreamPlayer
         css={styles.video}
         src={video.video.streamingUrl}
@@ -121,6 +126,7 @@ const HomeHero = ({
         playsInline
         muted
         loop
+        playing={videoInView}
       />
       <h1>
         {heading.split(/[\s]/).map((word, i) => (

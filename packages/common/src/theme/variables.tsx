@@ -17,6 +17,7 @@ export const doorColors = {
   pinkLight: '#ff5386',
   pink: '#FD2F6E',
   pinkDark: '#C20B43',
+  pinkDarker: '#900730',
   teal: '#00A4BC',
   tealDark: '#00424b',
   green: '#b3c90c',
