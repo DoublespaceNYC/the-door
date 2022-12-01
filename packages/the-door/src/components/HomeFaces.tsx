@@ -12,7 +12,7 @@ import { rgba } from 'polished'
 import { StructuredText } from 'react-datocms'
 
 import { colors } from '../theme/variables'
-import FacesPreview from './HomeFaces__Preview'
+import FacesThumbnail from './HomeFaces__Thumbnail'
 
 type Props = {
   heading: string
@@ -31,6 +31,9 @@ const HomeFaces = ({ heading, body }: Props): JSX.Element => {
         nodes {
           ...FacesStoryFragment
         }
+      }
+      datoCmsFacesPage {
+        slug
       }
     }
   `)
@@ -122,7 +125,7 @@ const HomeFaces = ({ heading, body }: Props): JSX.Element => {
         scrollWidthCss={styles.sliderScrollWidth}
       >
         {stories.nodes.map((story, i) => (
-          <FacesPreview key={i} story={story} />
+          <FacesThumbnail key={i} story={story} />
         ))}
       </ScrollSlider>
     </section>

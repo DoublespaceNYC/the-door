@@ -185,7 +185,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
   })
   data?.allDatoCmsFacesStory.nodes.forEach(node => {
     createPage({
-      path: `/stories/${node.slug}/`,
+      path: `/${data.datoCmsFacesPage.slug}/${node.slug}/`,
       component: resolve(`./src/templates/FacesStoryPage.tsx`),
       context: {
         id: node.id

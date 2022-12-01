@@ -3,6 +3,7 @@ import { IFacesStory } from '@the-door/common/src/components/Faces__Story'
 import GatsbyImageFocused from '@the-door/common/src/components/GatsbyImageFocused'
 import LightboxLink from '@the-door/common/src/components/Lightbox__Link'
 import { linkStyle, mq } from '@the-door/common/src/theme/mixins'
+import { graphql, useStaticQuery } from 'gatsby'
 import { rgba } from 'polished'
 import { useInView } from 'react-intersection-observer'
 
@@ -12,7 +13,16 @@ type Props = {
   story: IFacesStory
 }
 
-const FacesPreview = ({ story }: Props): JSX.Element => {
+const FacesThumbnail = ({ story }: Props): JSX.Element => {
+  const {
+    datoCmsFacesPage: { slug },
+  } = useStaticQuery(graphql`
+    query {
+      datoCmsFacesPage {
+        slug
+      }
+    }
+  `)
   const { ref, inView } = useInView({
     rootMargin: '50% -20%',
   })
@@ -115,7 +125,7 @@ const FacesPreview = ({ story }: Props): JSX.Element => {
           <h3>{story.title}</h3>
           <p>{story.excerpt}</p>
           <LightboxLink
-            slugPrefix="/stories/"
+            slugPrefix={slug}
             link={story.ctaText}
             content={story}
             highlightColor={colors.purple}
@@ -127,4 +137,4 @@ const FacesPreview = ({ story }: Props): JSX.Element => {
   )
 }
 
-export default FacesPreview
+export default FacesThumbnail

@@ -10,6 +10,8 @@ import {
   absoluteFill,
   baseGrid,
   linkStyle,
+  mq,
+  widthInCols,
 } from '@the-door/common/src/theme/mixins'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
@@ -27,6 +29,7 @@ interface DataProps {
       value: Document
     }
     seo?: ISEO
+    slug: string
   }
   stories: {
     nodes: IFacesStory[]
@@ -61,7 +64,7 @@ const FacesPage = ({
     `,
     story: (i: number) => css`
       ${baseGrid}
-      padding-bottom: var(--gtr-m);
+      padding-bottom: var(--row-s);
       &:before {
         display: block;
         content: '';
@@ -71,10 +74,10 @@ const FacesPage = ({
           ${getStoryColors(i)[0]},
           ${getStoryColors(i)[1]}
         );
-        transform: translateY(var(--gtr-m));
+        transform: translateY(var(--row-s));
       }
       &:last-of-type {
-        margin-bottom: calc(var(--gtr-m) - 1px);
+        margin-bottom: calc(var(--row-s) - 1px);
       }
     `,
     image: (i: number) => css`
@@ -88,6 +91,9 @@ const FacesPage = ({
         : css`
             grid-column: span 9 / -2;
           `}
+      ${mq().s} {
+        grid-column: 2 / span 11;
+      }
       div[data-gatsby-image-wrapper] {
         height: 100%;
       }
@@ -96,22 +102,41 @@ const FacesPage = ({
       position: relative;
       background: ${rgba(getStoryColors(i)[1], 0.9)};
       color: #fff;
-      grid-row: 1 / 2;
       align-self: center;
       font-size: var(--fs-18);
       padding: 2em 3em;
-      margin: calc(var(--gtr-m) * 2) 0 var(--gtr-m);
+      margin: calc(var(--row-s) * 2) 0 var(--row-s);
+      width: ${widthInCols(5)};
+      min-width: min(36ch, 100%);
+      box-sizing: border-box;
+      grid-column: 2 / -2;
+      grid-row: 1 / 2;
       ${i % 2 === 0
         ? css`
-            grid-column: span 5 / -2;
+            justify-self: flex-end;
           `
         : css`
-            grid-column: 2 / span 5;
+            justify-self: flex-start;
           `}
+
+      ${mq().ms} {
+        padding: 1.5em 2em;
+      }
+      ${mq().s} {
+        grid-row: 2 / 3;
+        margin-top: calc(-1 * var(--row-s));
+        width: ${widthInCols(11)};
+        justify-self: flex-end;
+        min-width: 0;
+        font-size: var(--fs-16);
+      }
       h2 {
         font-size: var(--fs-72);
         line-height: 1;
         margin: 0 0 0.333em;
+        ${mq().s} {
+          font-size: var(--fs-48);
+        }
       }
       p {
         line-height: 1.5;
@@ -150,7 +175,7 @@ const FacesPage = ({
               <h2>{story.title}</h2>
               <p>{story.excerpt}</p>
               <LightboxLink
-                slugPrefix="/stories/"
+                slugPrefix={page.slug}
                 link={story.ctaText}
                 content={story}
                 highlightColor={getStoryColors(i)[0]}
@@ -197,6 +222,7 @@ export const data = graphql`
       seo {
         ...SEOFragment
       }
+      slug
     }
     stories: allDatoCmsFacesStory {
       nodes {
