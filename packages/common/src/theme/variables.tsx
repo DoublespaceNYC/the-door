@@ -8,8 +8,8 @@ export const breakpoints = {
 }
 
 export const doorColors = {
-  navy: '#0d3b84',
-  navyDark: '#001a53',
+  navy: '#0d3980',
+  navyDark: '#031b4e',
   // navy: '#0e3e74',
   // navyDark: '#0B2142',
   blueLight: '#75BDFF',
