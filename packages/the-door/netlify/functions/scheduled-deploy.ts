@@ -4,7 +4,7 @@ import { schedule } from '@netlify/functions'
 const buildHookUrl =
   `https://api.netlify.com/build_hooks/${process.env.BUILD_HOOK_NIGHTLY}`
 
-export const handler = schedule('0 5 * * *', async () => {
+export const handler = schedule('0 8 * * *', async () => {
   try {
     const response = await fetch(buildHookUrl, { method: 'POST' })
     if (response.ok) {
