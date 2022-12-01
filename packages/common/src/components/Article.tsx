@@ -99,10 +99,10 @@ const Article = ({
     `,
     title: css`
       grid-column: 2 / -2;
-      font-size: var(--fs-72);
+      font-size: var(--fs-108);
       justify-self: flex-start;
       color: ${colors.highlight};
-      line-height: 1.125;
+      line-height: 1;
       margin: 0 0 0.125em;
       ${layout === 'Lightbox' &&
       form &&

@@ -7,6 +7,7 @@ import useLightboxContext from '../context/LightboxContext'
 import useNavMenuContext from '../context/NavMenuContext'
 import useThemeContext from '../context/ThemeContext'
 import { useElementHeight } from '../hooks/useElementRect'
+import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
@@ -82,6 +83,9 @@ const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
       p {
         margin: 0 0.167em;
         display: inline;
+      }
+      ${mq().ms} {
+        font-size: var(--fs-14);
       }
     `,
     link: css`

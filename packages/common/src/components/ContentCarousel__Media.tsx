@@ -83,7 +83,6 @@ const MediaCarousel = ({
       {data.map((block, i) => (
         <MediaBlock
           layout={layout}
-          carousel
           data={block}
           highlightColor={highlightColor}
           css={styles.block}

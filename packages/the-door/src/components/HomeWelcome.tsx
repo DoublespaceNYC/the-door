@@ -166,7 +166,12 @@ const HomeWelcome = ({
         <StructuredText data={body.value} />
         <div css={styles.links}>
           {links.map((link, i) => (
-            <DatoLink data={link} key={i} css={styles.link} />
+            <DatoLink
+              data={link}
+              key={i}
+              css={styles.link}
+              highlightColor={colors.blue}
+            />
           ))}
         </div>
       </div>

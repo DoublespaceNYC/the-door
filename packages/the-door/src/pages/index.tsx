@@ -145,6 +145,9 @@ export const data = graphql`
         ... on DatoCmsInternalLink {
           ...InternalLinkFragment
         }
+        ... on DatoCmsTertiaryLink {
+          ...TertiaryLinkFragment
+        }
       }
       welcomeImage {
         gatsbyImageData(

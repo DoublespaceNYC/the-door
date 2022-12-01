@@ -44,12 +44,23 @@ const VideoStreamPlayer = ({
   }, [videoRef, src])
 
   useEffect(() => {
+    // Check to see if video is ready and playing before trying to pause
+    const isPlaying =
+      videoRef.current &&
+      videoRef.current.currentTime > 0 &&
+      !videoRef.current.paused &&
+      !videoRef.current.ended &&
+      videoRef.current.readyState > videoRef.current.HAVE_CURRENT_DATA
     switch (playing) {
       case true:
-        videoRef.current?.play()
+        if (videoRef.current?.paused && !isPlaying) {
+          videoRef.current?.play()
+        }
         break
       case false:
-        videoRef.current?.pause()
+        if (isPlaying) {
+          videoRef.current?.pause()
+        }
         break
     }
   }, [playing])

@@ -53,7 +53,7 @@ const getStatColorGradient = (i: number) => {
     case 1:
       return `${colors.greenDark}, ${colors.green}`
     case 2:
-      return `${colors.pinkDarker}, ${colors.pinkDark}`
+      return `${colors.pinkDark}, ${colors.pink}`
     case 3:
       return `${colors.blueDark}, ${colors.blue}`
     case 4:
@@ -122,18 +122,28 @@ const ImpactPage = ({
         text-transform: uppercase;
         margin: 3em 0 0.5em;
         text-align: center;
+        ${mq().s} {
+          font-size: var(--fs-21);
+          margin-top: 2em;
+        }
       }
       h4 {
         position: relative;
         text-align: center;
         margin: 0.25em 0;
         font-size: var(--fs-30);
+        ${mq().s} {
+          font-size: var(--fs-21);
+        }
         span {
           display: block;
           &:first-of-type {
             font-family: var(--display-font);
             font-size: var(--fs-108);
             line-height: 1;
+            ${mq().s} {
+              font-size: var(--fs-72);
+            }
           }
           &:last-of-type {
             font-weight: 400;
@@ -142,9 +152,20 @@ const ImpactPage = ({
           }
         }
       }
+      div[data-stats] {
+        font-size: var(--fs-24);
+        margin-bottom: 4em;
+        ${mq().s} {
+          font-size: var(--fs-21);
+          margin-bottom: 3em;
+        }
+        ${i + 1 === page.statGroups.length &&
+        css`
+          margin-bottom: 6em;
+        `}
+      }
       h5 {
         position: relative;
-        font-size: var(--fs-24);
         display: flex;
         align-items: center;
         margin: 0;
@@ -161,6 +182,10 @@ const ImpactPage = ({
             line-height: 1;
             margin-right: 0.25em;
             align-self: flex-start;
+            ${mq().s} {
+              font-size: var(--fs-48);
+              margin-right: 0.5em;
+            }
           }
           &:last-of-type {
             font-weight: 400;
@@ -168,15 +193,21 @@ const ImpactPage = ({
           }
         }
       }
-      div[data-stats] {
-        margin-bottom: 5em;
-      }
       div[data-image-container] {
         position: absolute;
         height: 100%;
         width: 100%;
+        background: ${getStatColorGradient(i)?.split(',')[0]};
+        z-index: 2;
         div[data-gatsby-image-wrapper] {
-          max-height: 100%;
+          height: 100%;
+        }
+        grid-row: 1 / 5;
+        ${mq().s} {
+          grid-row: 1 / 3;
+        }
+        ${mq().s} {
+          height: calc(100% - 2 * var(--gtr-m));
         }
         ${i + 1 === page.statGroups.length &&
         css`
@@ -194,7 +225,21 @@ const ImpactPage = ({
         div[data-stats] {
           grid-column: span 6 / -2;
           grid-row: 1 / 4;
-          margin: 5em 0;
+          margin-top: 4em;
+        }
+        ${mq().s} {
+          h3,
+          h4 {
+            grid-column: 2 / -2;
+          }
+          h4 {
+            margin-bottom: 1.5em;
+          }
+          div[data-stats] {
+            grid-column: 2 / -2;
+            grid-row: auto;
+            margin-top: 0;
+          }
         }
       `}
       ${i % 2 === 0 &&
@@ -203,6 +248,21 @@ const ImpactPage = ({
         margin-top: calc(-1 * var(--gtr-m) - 1px);
         h4 {
           margin-bottom: 1.5em;
+        }
+        ${mq().s} {
+          &:after {
+            display: block;
+            content: '';
+            position: absolute;
+            width: calc(100% + var(--gtr-m));
+            height: 100%;
+            top: 0;
+            grid-row: 2 / 5;
+            background-color: ${getStatColorGradient(
+              i + page.statGroups.length - 1
+            )?.split(',')[0]};
+            z-index: 0;
+          }
         }
       `}
       ${i % 4 === 0 &&
@@ -220,6 +280,20 @@ const ImpactPage = ({
           grid-column: 2 / span 6;
           margin-right: var(--gtr-s);
         }
+        ${mq().s} {
+          &:before {
+            grid-column: 1 / span 13;
+          }
+          &:after {
+            grid-column: -2 / -1;
+            right: 0;
+          }
+          div[data-stats] {
+            margin-top: 1em;
+            margin-right: var(--margin);
+            grid-column: 2 / -2;
+          }
+        }
       `}
       ${i % 4 === 2 &&
       css`
@@ -235,6 +309,20 @@ const ImpactPage = ({
         div[data-stats] {
           grid-column: span 6 / -2;
           margin-left: var(--gtr-s);
+        }
+        ${mq().s} {
+          &:before {
+            grid-column: span 13 / -1;
+          }
+          &:after {
+            grid-column: 1 / 2;
+            left: 0;
+          }
+          div[data-stats] {
+            margin-top: 1em;
+            margin-left: var(--margin);
+            grid-column: 2 / -2;
+          }
         }
       `}
     `,
@@ -347,6 +435,9 @@ export const data = graphql`
           }
         )
         ...ImageFocalData
+      }
+      seo {
+        ...SEOFragment
       }
     }
   }
