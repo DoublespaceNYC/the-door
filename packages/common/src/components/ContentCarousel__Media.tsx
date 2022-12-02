@@ -48,15 +48,28 @@ const MediaCarousel = ({
       z-index: 2;
       --blockWidth: calc(${widthInCols(12)} - 2 * var(--margin));
       --gap: calc(var(--margin) + 0.5 * var(--gtr-m));
+      ${layout === 'Calendar' &&
+      css`
+        --blockWidth: calc(${widthInCols(12)});
+        --gap: var(--gtr-m);
+      `}
     `,
     sliderContent: css`
       display: grid;
       grid-template-columns: repeat(${data.length}, auto);
       grid-gap: var(--gap);
       padding: 0 calc(var(--margin) * 2);
+      ${layout === 'Calendar' &&
+      css`
+        padding: 0 calc(var(--margin));
+      `}
     `,
     scrollArea: css`
       scroll-padding-left: calc(var(--margin) * 2);
+      ${layout === 'Calendar' &&
+      css`
+        scroll-padding-left: calc(var(--margin));
+      `}
     `,
     scrollWidth: css`
       width: calc(var(--blockWidth) + var(--gap));

@@ -33,9 +33,7 @@ const NavButton = ({
   ...props
 }: Props): JSX.Element => {
   const [wrapRef, setWrapRef] = useState<HTMLDivElement | null>(null)
-  const wrapWidth = useElementWidth(
-    button.modalTooltip ? wrapRef : null
-  )
+  const wrapWidth = useElementWidth(button.modalTooltip ? wrapRef : null)
 
   const { open, setOpen } = useNavButtonModalContext()
   const { open: navOpen } = useNavMenuContext()
@@ -150,10 +148,7 @@ const NavButton = ({
   }
   return (
     <div css={styles.wrap} ref={node => setWrapRef(node)} {...props}>
-      <DatoLink
-        data={button.link[0]}
-        css={[styles.button, buttonCss]}
-      />
+      <DatoLink data={button.link[0]} css={[styles.button, buttonCss]} />
       {button.modalTooltip && (
         <div css={styles.modal}>
           <span>{button.modalHeading}</span>

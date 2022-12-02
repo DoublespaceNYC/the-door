@@ -85,6 +85,10 @@ export const createPages: GatsbyNode['createPages'] = async ({
         id
         slug
       }
+      datoCmsCalendarPage {
+        id
+        slug
+      }
     }
   `)
 
@@ -137,6 +141,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       datoCmsTheLatestPage: PageNode
       datoCmsImpactPage: PageNode
       datoCmsFacesPage: PageNode
+      datoCmsCalendarPage: PageNode
     }
   }
 
@@ -234,6 +239,10 @@ export const createPages: GatsbyNode['createPages'] = async ({
   createPage({
     path: `/${data?.datoCmsFacesPage.slug}/`,
     component: resolve(`./src/templates/FacesPage.tsx`)
+  })
+  createPage({
+    path: `/${data?.datoCmsCalendarPage.slug}/`,
+    component: resolve(`./src/templates/CalendarPage.tsx`)
   })
 }
 

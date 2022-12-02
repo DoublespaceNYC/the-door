@@ -31,13 +31,10 @@ const AccordionItem = ({
 }: Props): JSX.Element => {
   const Heading = `h${headingLevel}` as ElementType
   const Subheading = `h${headingLevel + 1}` as ElementType
-  const [contentsRef, setContentsRef] = useState<HTMLDivElement | null>(
-    null
-  )
+  const [contentsRef, setContentsRef] = useState<HTMLDivElement | null>(null)
   const contentsHeight = useElementHeight(contentsRef)
 
-  const transitionDuration =
-    200 + Math.round(0.25 * (contentsHeight || 0))
+  const transitionDuration = 200 + Math.round(0.25 * (contentsHeight || 0))
 
   const { theme: metaTheme } = useThemeContext()
   const setColors = () => {
@@ -57,8 +54,7 @@ const AccordionItem = ({
               ? ['#fff', doorColors.pinkLight]
               : ['#666', doorColors.pink],
           divider: theme === 'Dark' ? '#fff' : rgba('#888', 0.5),
-          subdivider:
-            theme === 'Dark' ? rgba('#fff', 0.5) : rgba('#888', 0.5),
+          subdivider: theme === 'Dark' ? rgba('#fff', 0.5) : rgba('#888', 0.5),
         }
       default:
         return {
@@ -80,11 +76,8 @@ const AccordionItem = ({
       justify-content: space-between;
       align-items: center;
       border-top: 2px solid ${colors.divider};
-      border-bottom: 1px solid
-        ${open ? colors.subdivider : 'transparent'};
-      transition: ${open
-        ? 'none'
-        : `border 0ms ease ${transitionDuration}ms`};
+      border-bottom: 1px solid ${open ? colors.subdivider : 'transparent'};
+      transition: ${open ? 'none' : `border 0ms ease ${transitionDuration}ms`};
       margin-bottom: -1px;
       div:first-of-type > & {
         border-top: none;
@@ -200,9 +193,7 @@ const AccordionItem = ({
         <div>
           <Heading css={styles.heading}>{heading}</Heading>
           {subheading && (
-            <Subheading css={styles.subheading}>
-              {subheading}
-            </Subheading>
+            <Subheading css={styles.subheading}>{subheading}</Subheading>
           )}
         </div>
         <div css={styles.buttonIcon} />

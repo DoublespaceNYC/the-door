@@ -84,20 +84,14 @@ const ArticleThumbnail = ({
     text: css`
       display: flex;
       flex-direction: column;
-      padding: ${featured
-        ? '2.5em var(--gtr-m) 2.5em 0'
-        : '1rem 1em 1.5em'};
+      padding: ${featured ? '2.5em var(--gtr-m) 2.5em 0' : '1rem 1em 1.5em'};
       ${mq().s} {
-        padding: ${grid
-          ? '1em var(--gtr-m) 2.5em 0'
-          : '1rem 1em 1.5em'};
+        padding: ${grid ? '1em var(--gtr-m) 2.5em 0' : '1rem 1em 1.5em'};
       }
       z-index: 1;
       h3 {
         order: 2;
-        font-size: var(
-          --fs-${featured ? '36' : carousel ? '30' : '24'}
-        );
+        font-size: var(--fs-${featured ? '36' : carousel ? '30' : '24'});
         color: ${colors?.title};
         margin: 0.125em 0 0;
         line-height: 1;

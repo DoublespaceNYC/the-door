@@ -45,9 +45,7 @@ export const useFocusTrap = (
         } else {
           if (
             document.activeElement === lastFocusableElement ||
-            !focusableElements.includes(
-              document.activeElement as HTMLElement
-            )
+            !focusableElements.includes(document.activeElement as HTMLElement)
           ) {
             // if focused has reached to last focusable element then focus first focusable element after pressing tab
             e.preventDefault()

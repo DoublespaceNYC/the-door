@@ -15,10 +15,12 @@ import Door50Logo from './Door50Logo'
 import DoorLogo from './DoorLogo'
 
 type Props = {
+  collapsed?: boolean
+  noFooter?: boolean
   children: ReactNode
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, collapsed, noFooter }: Props) => {
   type QueryProps = {
     nav: Pick<MainNavProps, 'navItems' | 'buttons' | 'breakpoint'>
     footer: Pick<FooterProps, 'navItems' | 'buttons'> & {
@@ -197,6 +199,8 @@ const Layout = ({ children }: Props) => {
       ctaBar={{
         data: footer.ctaBar,
       }}
+      collapsed={collapsed}
+      noFooter={noFooter}
     >
       {children}
     </CommonLayout>

@@ -30,9 +30,7 @@ const VideoStreamPlayer = ({
         hls.loadSource(src)
         hls.attachMedia(video)
       } else {
-        console.error(
-          "This is a legacy browser that doesn't support MSE"
-        )
+        console.error("This is a legacy browser that doesn't support MSE")
       }
     }
 

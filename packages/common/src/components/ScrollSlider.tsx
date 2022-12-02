@@ -39,20 +39,17 @@ const ScrollSlider = ({
 }: Props): JSX.Element => {
   const [scrollPos, setScrollPos] = useState(0)
 
-  const [contentRef, setContentRef] = useState<HTMLDivElement | null>(
-    null
-  )
+  const [contentRef, setContentRef] = useState<HTMLDivElement | null>(null)
   const contentRefCallback = (node: HTMLDivElement) => {
     setContentRef(node)
   }
-  const [sliderRef, setSliderRef] = useState<HTMLDivElement | null>(
-    null
-  )
+  const [sliderRef, setSliderRef] = useState<HTMLDivElement | null>(null)
   const sliderRefCallback = (node: HTMLDivElement) => {
     setSliderRef(node)
   }
-  const [scrollWidthRef, setScrollWidthRef] =
-    useState<HTMLDivElement | null>(null)
+  const [scrollWidthRef, setScrollWidthRef] = useState<HTMLDivElement | null>(
+    null
+  )
   const scrollWidthRefCallback = (node: HTMLDivElement) => {
     setScrollWidthRef(node)
   }
@@ -125,9 +122,7 @@ const ScrollSlider = ({
         overflow-y: visible;
         width: 100%;
         -webkit-overflow-scrolling: touch;
-        scroll-snap-type: ${sliderRef && snap
-          ? 'x mandatory'
-          : 'unset'};
+        scroll-snap-type: ${sliderRef && snap ? 'x mandatory' : 'unset'};
         // Hide scrollbar
         scrollbar-width: none;
         -ms-overflow-style: none;
@@ -321,10 +316,7 @@ const ScrollSlider = ({
       <div css={scrollWidthCss} ref={scrollWidthRefCallback} />
       <div css={styles.slider}>
         <div css={scrollAreaCss} ref={sliderRefCallback}>
-          <div
-            css={[styles.content, contentCss]}
-            ref={contentRefCallback}
-          >
+          <div css={[styles.content, contentCss]} ref={contentRefCallback}>
             {children}
           </div>
         </div>

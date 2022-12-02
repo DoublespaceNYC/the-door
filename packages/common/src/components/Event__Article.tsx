@@ -15,7 +15,7 @@ export interface IEvent extends Record {
   endDateTime?: string
   location: 'Off Campus' | string
   offCampusLocation?: string
-  tags: { name: string }[]
+  tags: { name: string; position: number }[]
   slug: string
   seo?: ISEO
   body: {
@@ -65,9 +65,7 @@ const EventArticle = ({
       subheading={
         <div css={styles.details}>
           <h2>{formateDateTimeRange(startDateTime, endDateTime)}</h2>
-          <h2>
-            {location === 'Off Campus' ? offCampusLocation : location}
-          </h2>
+          <h2>{location === 'Off Campus' ? offCampusLocation : location}</h2>
         </div>
       }
       body={body}

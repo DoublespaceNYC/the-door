@@ -24,11 +24,11 @@ export const toAmPmRange = (startTime: string, endTime: string) => {
     minute > 0 ? (minute < 10 ? `:0${minute}` : `:${minute}`) : ``
   const startAmPm = ampm(hour(startTime)) !== ampm(hour(endTime))
 
-  return `${ampmHour(hour(startTime))}${ampmMinutes(
-    minute(startTime)
-  )}${startAmPm ? ampm(hour(startTime)) : ''}–${ampmHour(
+  return `${ampmHour(hour(startTime))}${ampmMinutes(minute(startTime))}${
+    startAmPm ? ampm(hour(startTime)) : ''
+  }–${ampmHour(hour(endTime))}${ampmMinutes(minute(endTime))}${ampm(
     hour(endTime)
-  )}${ampmMinutes(minute(endTime))}${ampm(hour(endTime))}`
+  )}`
 }
 
 export const formatTimeRange = (

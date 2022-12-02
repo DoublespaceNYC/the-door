@@ -1,10 +1,5 @@
 import { Record } from 'datocms-structured-text-utils'
-import {
-  HTMLAttributes,
-  ReactNode,
-  SyntheticEvent,
-  useEffect,
-} from 'react'
+import { HTMLAttributes, ReactNode, SyntheticEvent, useEffect } from 'react'
 import smoothscroll from 'smoothscroll-polyfill'
 
 import { toSlug } from '../helpers'

@@ -7,15 +7,22 @@ import useThemeContext from '../context/ThemeContext'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { mq, widthInCols } from '../theme/mixins'
 import { breakpoints, doorColors } from '../theme/variables'
+import DatoLink from './DatoLink'
 import { IEvent } from './Event__Article'
 import EventThumbnail from './Event__Thumbnail'
+import { IInternalLink } from './InternalLink'
 import ScrollSlider from './ScrollSlider'
 
 interface Props extends HTMLAttributes<HTMLElement> {
   events: IEvent[]
+  calendarLink: IInternalLink
 }
 
-const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
+const HomeCalendar = ({
+  events,
+  calendarLink,
+  ...props
+}: Props): JSX.Element => {
   const windowWidth = useWindowWidth()
 
   const sliderNavRef = useRef<HTMLDivElement | null>(null)
@@ -238,9 +245,7 @@ const HomeCalendar = ({ events, ...props }: Props): JSX.Element => {
           )}
         </ScrollSlider>
         {events.length > 0 && (
-          <Link to="/calendar/" css={styles.viewAll}>
-            View Full Calendar
-          </Link>
+          <DatoLink data={calendarLink} css={styles.viewAll} />
         )}
       </div>
     </section>

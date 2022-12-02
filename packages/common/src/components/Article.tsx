@@ -20,8 +20,7 @@ import MediaCarousel, { IMediaCarousel } from './ContentCarousel__Media'
 import Form, { IForm } from './Form'
 import MediaBlock, { IMediaBlock } from './MediaBlock'
 
-interface IHeroImage
-  extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
+interface IHeroImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   heroImageData: IGatsbyImageData
 }
 
@@ -88,6 +87,10 @@ const Article = ({
       css`
         padding: calc(var(--row-s)) 0;
       `}
+      ${layout === 'Calendar' &&
+      css`
+        --grid-w: 50vw;
+      `}
     `,
     hero: css`
       grid-column: 1 / -1;
@@ -109,6 +112,10 @@ const Article = ({
       css`
         font-size: var(--fs-48);
         margin-bottom: 0;
+      `}
+      ${layout === 'Calendar' &&
+      css`
+        font-size: var(--fs-72);
       `}
     `,
     eyebrow: css`
@@ -296,9 +303,7 @@ const Article = ({
           css={styles.form}
           theme="Light"
           layout={
-            layout === 'Page' || layout === 'Lightbox'
-              ? layout
-              : undefined
+            layout === 'Page' || layout === 'Lightbox' ? layout : undefined
           }
           highlightColor={highlightColor}
         />

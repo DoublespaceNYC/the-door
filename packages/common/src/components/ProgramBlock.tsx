@@ -124,19 +124,12 @@ const ProgramBlock = ({
   return (
     <div css={styles.block} {...props}>
       <Heading css={styles.heading}>{programTitle}</Heading>
-      {location && (
-        <Subheading css={styles.subheading}>{location}</Subheading>
-      )}
+      {location && <Subheading css={styles.subheading}>{location}</Subheading>}
       <div css={styles.body}>
         <StructuredText data={description} />
       </div>
       {registration && (
-        <a
-          css={styles.button}
-          href={url}
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a css={styles.button} href={url} target="_blank" rel="noreferrer">
           Register Now
         </a>
       )}

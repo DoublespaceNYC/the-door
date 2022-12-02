@@ -128,8 +128,8 @@ const Footer = ({
       padding: 0.125em 0;
       margin: 0.75em 0;
       > span {
-        background: linear-gradient(currentColor, currentColor)
-          no-repeat 0 calc(100% + 3px);
+        background: linear-gradient(currentColor, currentColor) no-repeat 0
+          calc(100% + 3px);
         background-size: 100% 2px;
         transition: background-position 100ms ease;
       }
@@ -206,11 +206,7 @@ const Footer = ({
           </div>
         ))}
         {buttons.map((button, i) => (
-          <DatoLink
-            data={button}
-            key={i}
-            css={[styles.link, styles.button]}
-          />
+          <DatoLink data={button} key={i} css={[styles.link, styles.button]} />
         ))}
       </nav>
     </footer>

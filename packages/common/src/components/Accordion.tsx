@@ -37,10 +37,8 @@ const Accordion = ({
 
   const styles = {
     accordion: css`
-      border-top: 2px solid
-        ${theme === 'Dark' ? '#fff' : rgba('#888', 0.5)};
-      border-bottom: 2px solid
-        ${theme === 'Dark' ? '#fff' : rgba('#888', 0.5)};
+      border-top: 2px solid ${theme === 'Dark' ? '#fff' : rgba('#888', 0.5)};
+      border-bottom: 2px solid ${theme === 'Dark' ? '#fff' : rgba('#888', 0.5)};
       ${layout === 'Nested' &&
       css`
         padding-left: var(--gtr-m);

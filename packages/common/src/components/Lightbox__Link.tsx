@@ -41,10 +41,7 @@ const LightboxLink = ({
       setOpen(true)
     }, 10)
   }
-  const slug = `/${slugPrefix || ''}/${content.slug}/`.replace(
-    /\/{2,}/g,
-    '/'
-  )
+  const slug = `/${slugPrefix || ''}/${content.slug}/`.replace(/\/{2,}/g, '/')
   return (
     <Fragment>
       <a
@@ -63,9 +60,7 @@ const LightboxLink = ({
         slug={slug}
         pageTitle={pageTitle}
         layout={
-          content.__typename === 'DatoCmsFormLightbox'
-            ? 'Centered'
-            : 'Full'
+          content.__typename === 'DatoCmsFormLightbox' ? 'Centered' : 'Full'
         }
         highlightColor={highlightColor}
       />

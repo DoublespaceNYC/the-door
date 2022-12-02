@@ -15,12 +15,7 @@ import { IFormLightboxLink } from './Form__Lightbox'
 import { IInternalLink } from './InternalLink'
 
 export interface ICTABar extends IStructuredText {
-  blocks: (
-    | IInternalLink
-    | IExternalLink
-    | IFormLightboxLink
-    | IFormEmbed
-  )[]
+  blocks: (IInternalLink | IExternalLink | IFormLightboxLink | IFormEmbed)[]
 }
 
 export type CTABarProps = {

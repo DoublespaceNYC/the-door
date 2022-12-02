@@ -43,8 +43,7 @@ const SelectField = ({
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       const idToValue =
-        options.find(option => option.id === e.target.value)?.value ||
-        ''
+        options.find(option => option.id === e.target.value)?.value || ''
       setValue(idToValue)
     },
     [options]

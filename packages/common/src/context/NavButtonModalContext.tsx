@@ -12,9 +12,7 @@ interface IContext {
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const NavButtonModalContext = createContext<IContext | undefined>(
-  undefined
-)
+const NavButtonModalContext = createContext<IContext | undefined>(undefined)
 
 const useNavButtonModalContext = () =>
   useContext(NavButtonModalContext) as IContext

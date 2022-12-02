@@ -17,9 +17,7 @@ import useReadableColor from '../hooks/useReadableColor'
 import { absoluteFill, animateIn, buttonStyle } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import LoadingSpinner from './LoadingSpinner'
-import MultilineTextField, {
-  IMultilineTextField,
-} from './MultilineTextField'
+import MultilineTextField, { IMultilineTextField } from './MultilineTextField'
 import SelectField, { ISelectField } from './SelectField'
 import TextField, { ITextField } from './TextField'
 
@@ -63,8 +61,7 @@ const Form = ({
   const [formRef, setFormRef] = useState<HTMLElement | null>(null)
   const [successRef, setSuccessRef] = useState<HTMLElement | null>(null)
 
-  const { width: formWidth, height: formHeight } =
-    useElementRect(formRef)
+  const { width: formWidth, height: formHeight } = useElementRect(formRef)
   const { width: successWidth, height: successHeight } =
     useElementRect(successRef)
 
@@ -106,9 +103,7 @@ const Form = ({
             )
           }
         } catch (error) {
-          alert(
-            `Sorry, there was an error submitting this form: ${error}`
-          )
+          alert(`Sorry, there was an error submitting this form: ${error}`)
         }
       }
       if (formType === 'Netlify') {
@@ -116,9 +111,7 @@ const Form = ({
           return Object.keys(data)
             .map(
               key =>
-                encodeURIComponent(key) +
-                '=' +
-                encodeURIComponent(data[key])
+                encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
             )
             .join('&')
         }
@@ -170,8 +163,7 @@ const Form = ({
           border: theme === 'Dark' ? '#ffffff88' : 'transparent',
           text: theme === 'Dark' ? '#fff' : '#444',
           label: theme === 'Dark' ? '#ffffffaa' : '#444444aa',
-          highlight:
-            theme === 'Dark' ? doorColors.blueLight : doorColors.blue,
+          highlight: theme === 'Dark' ? doorColors.blueLight : doorColors.blue,
           buttonFill:
             theme === 'Dark'
               ? ['#fff', highlightColor || doorColors.pink]
@@ -254,8 +246,7 @@ const Form = ({
       box-sizing: border-box;
       background: ${colors.buttonFill[0]};
       color: ${colors.buttonText[0]};
-      border: ${colors.buttonBorder &&
-      `1px solid ${colors.buttonBorder?.[0]}`};
+      border: ${colors.buttonBorder && `1px solid ${colors.buttonBorder?.[0]}`};
       transition: all 300ms ease;
       ${formFields.length === 1 &&
       css`

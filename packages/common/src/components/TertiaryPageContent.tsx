@@ -16,8 +16,7 @@ import { IMediaCarousel } from './ContentCarousel__Media'
 import { IGatsbyImageFocused } from './GatsbyImageFocused'
 import { IMediaBlock } from './MediaBlock'
 
-interface IArticleImage
-  extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
+interface IArticleImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   heroImageData: IGatsbyImageData
 }
 

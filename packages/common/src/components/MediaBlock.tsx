@@ -12,9 +12,7 @@ import { useInView } from 'react-intersection-observer'
 import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
-import GatsbyImageFocused, {
-  IGatsbyImageFocused,
-} from './GatsbyImageFocused'
+import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
 import VideoStreamPlayer from './VideoStreamPlayer'
 
 interface IVideoMedia {
@@ -75,8 +73,7 @@ const MediaBlock = ({
       margin: 0 0 var(--shadow-offset);
       padding: 0;
       filter: drop-shadow(
-        calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
-          ${colors.shadow}
+        calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0 ${colors.shadow}
       );
     `,
     media: css`
@@ -99,6 +96,10 @@ const MediaBlock = ({
       ${mq().m} {
         max-width: 100%;
       }
+      ${layout === 'Calendar' &&
+      css`
+        max-width: 100%;
+      `}
     `,
     caption: css`
       grid-column: 1 / 2;
@@ -119,6 +120,14 @@ const MediaBlock = ({
         align-self: flex-start;
         justify-self: flex-start;
       }
+      ${layout === 'Calendar' &&
+      css`
+        grid-row: 2 / 3;
+        padding: 0.5em 1.25em;
+        width: 100%;
+        align-self: flex-start;
+        justify-self: flex-start;
+      `}
       h3 {
         font-family: var(--display-font);
         font-weight: 700;

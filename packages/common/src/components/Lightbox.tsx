@@ -64,9 +64,7 @@ const Lightbox = ({
     }
   }, [setOpenContext, open, closing])
 
-  const [lightboxRef, setLightboxRef] = useState<HTMLDivElement | null>(
-    null
-  )
+  const [lightboxRef, setLightboxRef] = useState<HTMLDivElement | null>(null)
   useFocusTrap(lightboxRef, open)
 
   const transitionDuration = 300
@@ -193,8 +191,8 @@ const Lightbox = ({
       display: flex;
       padding: 0.5rem;
       color: #fff;
-      transition: color 200ms ease, transform 300ms ease-out,
-        opacity 450ms ease, top 500ms ease;
+      transition: color 200ms ease, transform 300ms ease-out, opacity 450ms ease,
+        top 500ms ease;
       ${loaded &&
       css`
         transform: translate3d(0, 0, 0);
@@ -258,21 +256,10 @@ const Lightbox = ({
         <ScrollToggle />
         <div css={styles.background} />
         <div css={styles.lightbox} ref={node => setLightboxRef(node)}>
-          <div
-            css={styles.backgroundClose}
-            onClick={handleClose}
-            aria-hidden
-          />
+          <div css={styles.backgroundClose} onClick={handleClose} aria-hidden />
           <div css={styles.content}>
-            <button
-              aria-hidden
-              tabIndex={-1}
-              style={{ width: 0, height: 0 }}
-            />
-            <LightboxContent
-              data={data}
-              highlightColor={highlightColor}
-            />
+            <button aria-hidden tabIndex={-1} style={{ width: 0, height: 0 }} />
+            <LightboxContent data={data} highlightColor={highlightColor} />
           </div>
         </div>
         <button

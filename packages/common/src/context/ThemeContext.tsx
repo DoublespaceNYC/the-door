@@ -25,9 +25,7 @@ export const ThemeContextProvider = ({
 }: {
   children: ReactNode
 }): JSX.Element => {
-  const [theme, setTheme] = useState<ThemeOptions | undefined>(
-    undefined
-  )
+  const [theme, setTheme] = useState<ThemeOptions | undefined>(undefined)
   return (
     <ThemeContext.Provider
       value={{

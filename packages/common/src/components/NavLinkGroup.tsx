@@ -11,9 +11,7 @@ import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { absoluteFill, mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 import DatoLink from './DatoLink'
-import GatsbyImageFocused, {
-  IGatsbyImageFocused,
-} from './GatsbyImageFocused'
+import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
 import { IInternalLink } from './InternalLink'
 import { IInternalLinkFiltered } from './InternalLinkFiltered'
 
@@ -188,8 +186,7 @@ const NavLinkGroup = ({
         text-decoration: none;
         line-height: 1.333;
         span {
-          background: linear-gradient(currentColor, currentColor)
-            no-repeat;
+          background: linear-gradient(currentColor, currentColor) no-repeat;
           background-position: 0 calc(100% + 3px);
           background-size: 100% 2px;
           transition: background-position 100ms ease;
@@ -292,48 +289,37 @@ const NavLinkGroup = ({
                     alt={backgroundImage.alt || ''}
                     focalPoint={backgroundImage.focalPoint}
                     aspectRatio={1}
-                    originalAspectRatio={
-                      backgroundImage.sizes.aspectRatio
-                    }
+                    originalAspectRatio={backgroundImage.sizes.aspectRatio}
                   />
                 )}
                 <h2>{title}</h2>
-                {description.value && (
-                  <StructuredText data={description} />
-                )}
+                {description.value && <StructuredText data={description} />}
               </div>
               <div css={styles.linkListWrap}>
                 <ul css={styles.linkList}>
                   {links.map((link, i) => {
-                    if (
-                      link.__typename === 'DatoCmsServicesGroupLink'
-                    ) {
+                    if (link.__typename === 'DatoCmsServicesGroupLink') {
                       return (
                         <li key={i}>
                           <ul aria-label={link.servicesGroup.title}>
-                            {link.servicesGroup.services.map(
-                              (service, i) => {
-                                const slug = `/${service.slug}/`
-                                return (
-                                  <li key={i}>
-                                    <Link
-                                      to={slug}
-                                      tabIndex={open ? 0 : -1}
-                                      onClick={() => {
-                                        if (
-                                          window.location.pathname ===
-                                          slug
-                                        ) {
-                                          onCloseAll()
-                                        }
-                                      }}
-                                    >
-                                      <span>{service.title}</span>
-                                    </Link>
-                                  </li>
-                                )
-                              }
-                            )}
+                            {link.servicesGroup.services.map((service, i) => {
+                              const slug = `/${service.slug}/`
+                              return (
+                                <li key={i}>
+                                  <Link
+                                    to={slug}
+                                    tabIndex={open ? 0 : -1}
+                                    onClick={() => {
+                                      if (window.location.pathname === slug) {
+                                        onCloseAll()
+                                      }
+                                    }}
+                                  >
+                                    <span>{service.title}</span>
+                                  </Link>
+                                </li>
+                              )
+                            })}
                           </ul>
                         </li>
                       )
@@ -364,10 +350,7 @@ const NavLinkGroup = ({
               css={styles.closeButton}
               tabIndex={open ? 0 : -1}
             >
-              <svg
-                viewBox="0 0 24 24"
-                vectorEffect="non-scaling-stroke"
-              >
+              <svg viewBox="0 0 24 24" vectorEffect="non-scaling-stroke">
                 {windowWidth && windowWidth > breakpoint ? (
                   <Fragment>
                     <path d="M1 1L23 23" />

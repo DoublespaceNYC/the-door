@@ -21,11 +21,7 @@ type Props = {
 
 const PageContent = ({
   pageContent,
-  layoutOptions: {
-    startColor: startColorName,
-    startShape,
-    startOrientation,
-  },
+  layoutOptions: { startColor: startColorName, startShape, startOrientation },
 }: Props): JSX.Element => {
   const { theme } = useThemeContext()
   const setColorsArray = () => {
@@ -71,9 +67,7 @@ const PageContent = ({
               block={record}
               highlightColor={colorsArray[cI]}
               shape={shapeArray[sI]}
-              orientation={
-                blockIndex % 2 ? oddOrientation : startOrientation
-              }
+              orientation={blockIndex % 2 ? oddOrientation : startOrientation}
               key={i}
             />
           )

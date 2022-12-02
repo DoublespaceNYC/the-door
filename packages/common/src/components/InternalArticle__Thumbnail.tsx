@@ -1,8 +1,6 @@
 import { HTMLAttributes } from 'react'
 
-import ArticleThumbnail, {
-  IArticleThumbnailLayout,
-} from './Article__Thumbnail'
+import ArticleThumbnail, { IArticleThumbnailLayout } from './Article__Thumbnail'
 import { IInternalArticle } from './InternalArticle'
 import LightboxLink from './Lightbox__Link'
 

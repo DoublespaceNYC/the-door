@@ -30,13 +30,11 @@ type Props = {
 
 const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
   const isBrowser = typeof window !== `undefined`
-  const portalTarget =
-    isBrowser && document.getElementById('popup-container')
+  const portalTarget = isBrowser && document.getElementById('popup-container')
   const { inView, ref } = useInView({
     triggerOnce: true,
   })
-  const { triggered, setTriggered, closed, setClosed } =
-    useCornerPopupContext()
+  const { triggered, setTriggered, closed, setClosed } = useCornerPopupContext()
   const open = triggered && !closed
 
   useEffect(() => {
@@ -169,10 +167,7 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
                   } else return null
                 }}
               />
-              <button
-                css={styles.close}
-                onClick={() => setClosed(true)}
-              >
+              <button css={styles.close} onClick={() => setClosed(true)}>
                 <svg viewBox="0 0 12 12">
                   <path d="M1 1L11 11" />
                   <path d="M1 11L11 1" />

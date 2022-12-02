@@ -3,8 +3,7 @@ import { IGatsbyImageData } from 'gatsby-plugin-image'
 
 import { IGatsbyImageFocused } from '../components/GatsbyImageFocused'
 
-interface IArticleImage
-  extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
+interface IArticleImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   thumbnailImageData: IGatsbyImageData
 }
 

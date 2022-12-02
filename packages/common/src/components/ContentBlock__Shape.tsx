@@ -2,12 +2,7 @@ import { css } from '@emotion/react'
 import { rgba } from 'polished'
 import { Fragment } from 'react'
 
-export type ShapeType =
-  | 'brackets'
-  | 'circles'
-  | 'pie'
-  | 'triangles'
-  | 'windows'
+export type ShapeType = 'brackets' | 'circles' | 'pie' | 'triangles' | 'windows'
 
 export const shapeArray = [
   'brackets',

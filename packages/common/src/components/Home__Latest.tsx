@@ -1,15 +1,9 @@
 import { css } from '@emotion/react'
-import DatoLink, {
-  IDatoLink,
-} from '@the-door/common/src/components/DatoLink'
+import DatoLink, { IDatoLink } from '@the-door/common/src/components/DatoLink'
 import HomeCalendar from '@the-door/common/src/components/Home__Calendar'
 import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
 import useQueryContext from '@the-door/common/src/context/QueryContext'
-import {
-  absoluteFill,
-  linkStyle,
-  mq,
-} from '@the-door/common/src/theme/mixins'
+import { absoluteFill, linkStyle, mq } from '@the-door/common/src/theme/mixins'
 import { useMemo } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
@@ -17,17 +11,20 @@ import { doorColors } from '../theme/variables'
 import { IExternalArticle } from './ExternalArticle'
 import ExternalArticleThumbnail from './ExternalArticle__Thumbnail'
 import InternalArticleThumbnail from './InternalArticle__Thumbnail'
+import { IInternalLink } from './InternalLink'
 
 type Props = {
   heading: string
   featuredArticle: IInternalArticle | IExternalArticle
-  pageLink: IDatoLink
+  pageLink: IInternalLink
+  calendarLink: IInternalLink
 }
 
 const HomeLatest = ({
   heading,
   featuredArticle,
   pageLink,
+  calendarLink,
 }: Props): JSX.Element => {
   const { allNews, allEvents } = useQueryContext()
 
@@ -184,7 +181,7 @@ const HomeLatest = ({
           })}
         </div>
       </section>
-      <HomeCalendar events={allEvents || []} />
+      <HomeCalendar events={allEvents || []} calendarLink={calendarLink} />
     </section>
   )
 }

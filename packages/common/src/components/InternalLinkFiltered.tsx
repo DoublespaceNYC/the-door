@@ -15,10 +15,7 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
   data: IInternalLinkFiltered
 }
 
-const InternalLinkFiltered = ({
-  data,
-  ...props
-}: Props): JSX.Element => {
+const InternalLinkFiltered = ({ data, ...props }: Props): JSX.Element => {
   const searchParams = new URLSearchParams()
   searchParams.set('filter', data.filter)
   const url =

@@ -3,9 +3,7 @@ import { css } from '@emotion/react'
 import useThemeContext from '../context/ThemeContext'
 import { baseGrid, mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
-import GatsbyImageFocused, {
-  IGatsbyImageFocused,
-} from './GatsbyImageFocused'
+import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
 
 type Props = {
   title: string

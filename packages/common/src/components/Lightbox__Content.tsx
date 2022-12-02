@@ -5,9 +5,7 @@ import FacesStory, { IFacesStory } from './Faces__Story'
 import FormLightbox, { IFormLightbox } from './Form__Lightbox'
 import InternalArticle, { IInternalArticle } from './InternalArticle'
 import LeaderProfile, { ILeader } from './Leader__Profile'
-import TertiaryPageContent, {
-  ITertiaryPage,
-} from './TertiaryPageContent'
+import TertiaryPageContent, { ITertiaryPage } from './TertiaryPageContent'
 
 export type ILightboxContent =
   | IInternalArticle
@@ -22,10 +20,7 @@ interface Props {
   highlightColor?: string
 }
 
-const LightboxContent = ({
-  data,
-  highlightColor,
-}: Props): JSX.Element => {
+const LightboxContent = ({ data, highlightColor }: Props): JSX.Element => {
   switch (data.__typename) {
     case 'DatoCmsInternalArticle':
       return (

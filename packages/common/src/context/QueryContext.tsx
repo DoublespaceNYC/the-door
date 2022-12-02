@@ -26,11 +26,7 @@ const QueryContext = createContext<IQueryContext | undefined>(undefined)
 
 const useQueryContext = () => useContext(QueryContext) as IQueryContext
 
-export const QueryContextProvider = ({
-  children,
-}: {
-  children: ReactNode
-}) => {
+export const QueryContextProvider = ({ children }: { children: ReactNode }) => {
   const [allInternalArticles, setAllInternalArticles] = useState<
     IInternalArticle[]
   >([])

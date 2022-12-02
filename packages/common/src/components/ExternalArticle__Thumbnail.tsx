@@ -1,8 +1,6 @@
 import { HTMLAttributes } from 'react'
 
-import ArticleThumbnail, {
-  IArticleThumbnailLayout,
-} from './Article__Thumbnail'
+import ArticleThumbnail, { IArticleThumbnailLayout } from './Article__Thumbnail'
 import { IExternalArticle } from './ExternalArticle'
 
 interface Props extends HTMLAttributes<HTMLAnchorElement> {

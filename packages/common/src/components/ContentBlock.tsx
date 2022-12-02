@@ -12,9 +12,7 @@ import { Anchor, IAnchorLink } from './AnchorLink'
 import ContentBlockShape, { ShapeType } from './ContentBlock__Shape'
 import ContentCarousel, { ICarousel } from './ContentCarousel'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
-import GatsbyImageFocused, {
-  IGatsbyImageFocused,
-} from './GatsbyImageFocused'
+import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
 import VectorGraphic, { IVectorGraphic } from './VectorGraphic'
 
 interface IBody extends IStructuredText {
@@ -145,10 +143,10 @@ const ContentBlock = ({
       color: ${highlightColor};
       font-size: var(--fs-72);
       z-index: 2;
-      line-height: 1.125;
+      line-height: 1;
       position: relative;
-      margin: 0 0 0.167em;
-      padding-top: calc(0.333em + 3px);
+      margin: 0 0 0.25em;
+      padding-top: calc(0.375em + 3px);
       ${textGridCss}
       &:before {
         content: '';
@@ -326,18 +324,12 @@ const ContentBlock = ({
                     } else return null
                   }}
                   customMarkRules={[
-                    renderMarkRule(
-                      'h1' || 'h2',
-                      ({ children, key }) => {
-                        return <h3 key={key}>{children}</h3>
-                      }
-                    ),
-                    renderMarkRule(
-                      'h5' || 'h6',
-                      ({ children, key }) => {
-                        return <h4 key={key}>{children}</h4>
-                      }
-                    ),
+                    renderMarkRule('h1' || 'h2', ({ children, key }) => {
+                      return <h3 key={key}>{children}</h3>
+                    }),
+                    renderMarkRule('h5' || 'h6', ({ children, key }) => {
+                      return <h4 key={key}>{children}</h4>
+                    }),
                   ]}
                 />
               </div>
@@ -353,13 +345,7 @@ const ContentBlock = ({
               />
             )
           case 'DatoCmsVectorGraphic':
-            return (
-              <VectorGraphic
-                data={block}
-                css={styles.graphic}
-                key={i}
-              />
-            )
+            return <VectorGraphic data={block} css={styles.graphic} key={i} />
           default:
             return <Fragment key={i} />
         }

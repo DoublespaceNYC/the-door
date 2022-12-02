@@ -10,14 +10,13 @@ const GlobalStyles = () => {
     ${emotionNormalize}
 
     :root {
-      --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto,
-        Helvetica, Arial, sans-serif, 'Apple Color Emoji',
-        'Segoe UI Emoji';
-      --slab-serif: Menlo, Consolas, Monaco, Liberation Mono,
-        Lucida Console, monospace;
-      --serif: Constantia, 'Lucida Bright', Lucidabright, 'Lucida Serif',
-        Lucida, 'DejaVu Serif', 'Bitstream Vera Serif',
-        'Liberation Serif', Georgia, serif;
+      --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica,
+        Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+      --slab-serif: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console,
+        monospace;
+      --serif: Constantia, 'Lucida Bright', Lucidabright, 'Lucida Serif', Lucida,
+        'DejaVu Serif', 'Bitstream Vera Serif', 'Liberation Serif', Georgia,
+        serif;
 
       --display-font: 'Almaq Refined', var(--sans-serif);
       --body-font: 'Brother 1816', var(--sans-serif);

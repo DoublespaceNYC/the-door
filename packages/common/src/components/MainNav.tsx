@@ -28,6 +28,7 @@ export type MainNavProps = {
   navItems: INavItem[]
   buttons: INavButton[]
   breakpoint: number
+  collapsed?: boolean
 }
 
 const MainNav = ({
@@ -35,6 +36,7 @@ const MainNav = ({
   navItems,
   buttons,
   breakpoint,
+  collapsed,
 }: MainNavProps): JSX.Element => {
   const Logo = logo
 
@@ -60,9 +62,7 @@ const MainNav = ({
     }
   }, [windowWidth, breakpoint])
 
-  const [activeNavGroup, setActiveNavGroup] = useState<number | null>(
-    null
-  )
+  const [activeNavGroup, setActiveNavGroup] = useState<number | null>(null)
 
   const { open: navOpen, setOpen: setNavOpen } = useNavMenuContext()
 
@@ -123,11 +123,15 @@ const MainNav = ({
       ${mq().s} {
         height: 1.25em;
       }
+      ${collapsed &&
+      css`
+        height: 1.125em;
+      `}
     `,
     nav: css`
       display: grid;
       grid-template-columns: auto 1fr auto;
-      padding: 0 var(--margin);
+      padding: 0 var(--margin) 0 var(--gtr-m);
       justify-items: flex-end;
       align-items: stretch;
       position: relative;
@@ -151,7 +155,7 @@ const MainNav = ({
       height: 1em;
       margin: 0.25em 0;
       transition: height 300ms ease, margin 300ms ease;
-      ${scrolled &&
+      ${(scrolled || collapsed) &&
       css`
         height: 0.875em;
         margin: 0.125em 0;
@@ -232,8 +236,8 @@ const MainNav = ({
     navLink: css`
       > span {
         padding: calc(0.125em + 2px) 0;
-        background: linear-gradient(currentColor, currentColor)
-          no-repeat 0 calc(100% + 3px);
+        background: linear-gradient(currentColor, currentColor) no-repeat 0
+          calc(100% + 3px);
         background-size: 100% 2px;
         transition: background-position 100ms ease;
 
@@ -336,9 +340,7 @@ const MainNav = ({
                         <NavButton
                           buttonCss={styles.navItem}
                           button={button}
-                          color={
-                            colors.buttons[i % colors.buttons.length]
-                          }
+                          color={colors.buttons[i % colors.buttons.length]}
                           key={i}
                         />
                       ))}
@@ -373,10 +375,7 @@ const MainNav = ({
               }
             }}
           />
-          <div
-            css={styles.dropdownContainer}
-            ref={dropdownContainerRef}
-          />
+          <div css={styles.dropdownContainer} ref={dropdownContainerRef} />
         </nav>
       </div>
       {navOpen && <ScrollToggle />}

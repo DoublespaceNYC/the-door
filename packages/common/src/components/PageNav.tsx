@@ -1,11 +1,5 @@
 import { css } from '@emotion/react'
-import {
-  Fragment,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
 import useThemeContext from '../context/ThemeContext'
@@ -21,9 +15,7 @@ type Props = {
 }
 
 const PageNav = ({ links, button }: Props): JSX.Element => {
-  const [navWrapRef, setNavWrapRef] = useState<HTMLDivElement | null>(
-    null
-  )
+  const [navWrapRef, setNavWrapRef] = useState<HTMLDivElement | null>(null)
   const [navRef, setNavRef] = useState<HTMLElement | null>(null)
 
   const navWrapWidth = useElementWidth(navWrapRef) || 0

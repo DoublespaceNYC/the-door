@@ -14,9 +14,9 @@ interface ICornerPopupContext {
   setClosed: Dispatch<SetStateAction<boolean>>
 }
 
-const CornerPopupContext = createContext<
-  ICornerPopupContext | undefined
->(undefined)
+const CornerPopupContext = createContext<ICornerPopupContext | undefined>(
+  undefined
+)
 
 const useCornerPopupContext = () => {
   return useContext(CornerPopupContext) as ICornerPopupContext

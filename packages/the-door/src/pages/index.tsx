@@ -56,6 +56,7 @@ type DataProps = {
     latestHeading: string
     featuredArticle: IInternalArticle
     latestLink: [IInternalLink]
+    calendarLink: [IInternalLink]
     showPopup: boolean
     popup: [ICornerPopup]
   }
@@ -102,6 +103,7 @@ const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
         heading={home.latestHeading}
         featuredArticle={home.featuredArticle}
         pageLink={home.latestLink[0]}
+        calendarLink={home.calendarLink[0]}
       />
     </Layout>
   )
@@ -227,6 +229,9 @@ export const data = graphql`
         ...InternalArticleFragment
       }
       latestLink {
+        ...InternalLinkFragment
+      }
+      calendarLink {
         ...InternalLinkFragment
       }
       showPopup
