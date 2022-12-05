@@ -14,7 +14,7 @@ import { IInternalLink } from './InternalLink'
 import ScrollSlider from './ScrollSlider'
 
 interface Props extends HTMLAttributes<HTMLElement> {
-  events: IEvent[]
+  events: IEvent[] | null
   calendarLink: IInternalLink
 }
 
@@ -172,7 +172,7 @@ const HomeCalendar = ({
       }
       ${mq().ml} {
         display: grid;
-        grid-template-columns: repeat(${events.length}, auto);
+        grid-template-columns: repeat(${events?.length}, auto);
         grid-gap: var(--gtr-m);
         padding: 0 var(--margin);
         align-items: flex-start;
@@ -222,7 +222,7 @@ const HomeCalendar = ({
           }}
           link={<Link to="/calendar/">View All</Link>}
         >
-          {events.length > 0 ? (
+          {events && events.length > 0 ? (
             events.map((event, i) => (
               <EventThumbnail
                 css={styles.event}
@@ -244,7 +244,7 @@ const HomeCalendar = ({
             </h4>
           )}
         </ScrollSlider>
-        {events.length > 0 && (
+        {events && events.length > 0 && (
           <DatoLink data={calendarLink} css={styles.viewAll} />
         )}
       </div>

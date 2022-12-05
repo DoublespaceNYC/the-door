@@ -1,6 +1,13 @@
 import { css } from '@emotion/react'
 import { rgba } from 'polished'
-import { Fragment, useEffect, useMemo, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import useReadableColor from '../hooks/useReadableColor'
@@ -10,7 +17,7 @@ import EventThumbnailInnards from './Event__Thumbnail_Innards'
 
 interface Props {
   title: string
-  events: IEvent[]
+  events: IEvent[] | null
 }
 
 const Calendar = ({ title, events }: Props): JSX.Element => {
@@ -24,6 +31,8 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
           'Bronx Youth Center',
           'Off Campus',
         ]
+      default:
+        return []
     }
   }, [theme])
   const colors = useMemo(() => {
@@ -49,51 +58,97 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
   }, [theme])
   const readableHighlight = useReadableColor(colors.highlight, colors.bg)
   const tags = useMemo(() => {
-    let tagArray = events
-      .map(event => event.tags)
+    const tagArray = events
+      ?.map(event => event.tags)
       .flat(1)
       .sort((a, b) => a.position - b.position)
       .map(tag => tag.name)
-    console.log(tagArray)
     return ['All Events', ...new Set(tagArray)]
   }, [events])
   const [locationFilter, setLocationFilter] = useState<string | null>(null)
   const [tagFilter, setTagFilter] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!locationFilter && locations) {
-      setLocationFilter(locations[0])
-    }
-    if (!tagFilter && tags) {
-      setTagFilter(tags[0])
-    }
-  }, [locations, locationFilter, tags, tagFilter])
-
-  const filteredEvents = useMemo(() => {
-    const byLocation = () => {
-      if (locations && locationFilter && locationFilter !== locations[0]) {
-        return events.filter(event => event.location === locationFilter)
-      } else return events
-    }
-    const byTag = () => {
-      if (tagFilter && tagFilter !== tags[0]) {
-        return events.filter(
-          event =>
-            tagFilter && event.tags.map(tag => tag.name).includes(tagFilter)
-        )
-      } else return events
-    }
-    return byLocation().filter(value => byTag().includes(value))
-  }, [locationFilter, tagFilter, events])
-
   const [activeEvent, setActiveEvent] = useState<IEvent | null>(null)
+
+  const optionsSet = useRef(false)
+
+  const [filteredEvents, setFilteredEvents] = useState<IEvent[] | null>(null)
+  useEffect(() => {
+    if (events && optionsSet.current) {
+      const byLocation = () => {
+        if (locations && locationFilter && locationFilter !== locations[0]) {
+          return events?.filter(event => event.location === locationFilter)
+        } else return events
+      }
+      const byTag = () => {
+        if (tagFilter && tagFilter !== tags[0]) {
+          return events.filter(
+            event =>
+              tagFilter && event.tags.map(tag => tag.name).includes(tagFilter)
+          )
+        } else return events
+      }
+      setFilteredEvents(byLocation().filter(value => byTag().includes(value)))
+    }
+  }, [locationFilter, tagFilter, events, locations, tags])
+
+  const setOptionsFromParams = useCallback(() => {
+    if (events && !optionsSet.current) {
+      const searchParams = new URLSearchParams(window.location.search)
+      setLocationFilter(searchParams.get('location') || locations[0])
+      setTagFilter(searchParams.get('tag') || tags[0])
+      setActiveEvent(() => {
+        return (
+          events.find(event => event.id === searchParams.get('event')) || null
+        )
+      })
+      optionsSet.current = true
+    }
+  }, [events, locations, tags])
+  useLayoutEffect(setOptionsFromParams, [setOptionsFromParams])
+
   useEffect(() => {
     if (filteredEvents) {
-      if (!activeEvent || !filteredEvents.includes(activeEvent)) {
-        setActiveEvent(filteredEvents[0])
-      }
+      const searchParams = new URLSearchParams(window.location.href)
+      setActiveEvent(prev => {
+        if (
+          (filteredEvents.length > 0 &&
+            prev &&
+            !filteredEvents.includes(prev)) ||
+          !searchParams.get('event')
+        ) {
+          return filteredEvents[0]
+        } else if (filteredEvents.length === 0) {
+          return null
+        } else return prev
+      })
     }
   }, [filteredEvents])
+
+  const historyStateObj = useRef(null)
+  const setParamsFromOptionChange = useCallback(() => {
+    if (optionsSet.current) {
+      historyStateObj.current = window.history.state
+      const url = new URL(window.location.href)
+      const searchParams = new URLSearchParams(url.search)
+      locationFilter &&
+        locationFilter !== searchParams.get('location')?.toString() &&
+        searchParams.set('location', locationFilter)
+      tagFilter &&
+        tagFilter !== searchParams.get('tag')?.toString() &&
+        searchParams.set('tag', tagFilter)
+      activeEvent
+        ? activeEvent.id !== searchParams.get('event')?.toString() &&
+          searchParams.set('event', activeEvent.id)
+        : searchParams.delete('event')
+
+      window.history.replaceState(
+        historyStateObj.current,
+        '',
+        url.origin + url.pathname + '?' + searchParams.toString()
+      )
+    }
+  }, [locationFilter, tagFilter, activeEvent])
+  useEffect(setParamsFromOptionChange, [setParamsFromOptionChange])
 
   const styles = {
     container: css`
@@ -203,6 +258,19 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       overflow: auto;
       grid-column: 3 / 4;
       grid-row: 1 / 3;
+      background: #fff;
+    `,
+    noMatch: css`
+      height: 100%;
+      overflow: auto;
+      grid-column: 2 / 4;
+      grid-row: 1 / 3;
+      background: ${colors.bg};
+      padding: var(--row-m) var(--margin);
+      h2 {
+        font-size: var(--fs-48);
+        color: ${colors.textLight};
+      }
     `,
   }
   return (
@@ -237,7 +305,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
         )}
       </section>
       <section css={styles.eventsColumn}>
-        {filteredEvents.map((event, i) => (
+        {filteredEvents?.map((event, i) => (
           <button
             key={i}
             onClick={() => setActiveEvent(event)}
@@ -260,6 +328,11 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
           />
         )}
       </section>
+      {filteredEvents?.length === 0 && (
+        <section css={styles.noMatch}>
+          <h2>Sorry, there are no events that match your selection.</h2>
+        </section>
+      )}
     </div>
   )
 }

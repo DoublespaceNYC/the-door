@@ -18,8 +18,8 @@ interface IQueryContext {
   allExternalArticles: IExternalArticle[]
   setAllExternalArticles: Dispatch<SetStateAction<IExternalArticle[]>>
   allNews: (IInternalArticle | IExternalArticle)[]
-  allEvents: IEvent[]
-  setAllEvents: Dispatch<SetStateAction<IEvent[]>>
+  allEvents: IEvent[] | null
+  setAllEvents: Dispatch<SetStateAction<IEvent[] | null>>
 }
 
 const QueryContext = createContext<IQueryContext | undefined>(undefined)
@@ -45,7 +45,7 @@ export const QueryContextProvider = ({ children }: { children: ReactNode }) => {
       )
     }
   }, [allInternalArticles, allExternalArticles])
-  const [allEvents, setAllEvents] = useState<IEvent[]>([])
+  const [allEvents, setAllEvents] = useState<IEvent[] | null>(null)
   return (
     <QueryContext.Provider
       value={{

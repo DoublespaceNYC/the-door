@@ -49,11 +49,13 @@ const NewsEventsCarousel = ({
     scrollArea: css`
       ${orientation === 'right' &&
       css`
-        ${taggedItems.length === 2 &&
+        ${taggedItems &&
+        taggedItems.length === 2 &&
         css`
           justify-content: flex-end;
         `}
-        ${taggedItems.length === 1 &&
+        ${taggedItems &&
+        taggedItems.length === 1 &&
         css`
           justify-content: center;
         `}
@@ -65,7 +67,7 @@ const NewsEventsCarousel = ({
     sliderContent: css`
       display: grid;
       grid-gap: var(--gtr-m);
-      grid-template-columns: repeat(${taggedItems.length}, auto);
+      grid-template-columns: repeat(${taggedItems && taggedItems.length}, auto);
       padding: 0 var(--margin);
       ${contentType === 'News' &&
       css`
@@ -95,43 +97,44 @@ const NewsEventsCarousel = ({
       }}
       {...props}
     >
-      {taggedItems.map((item, i) => {
-        if (contentType === 'News') {
-          if (item.__typename === 'DatoCmsInternalArticle') {
+      {taggedItems &&
+        taggedItems.map((item, i) => {
+          if (contentType === 'News') {
+            if (item.__typename === 'DatoCmsInternalArticle') {
+              return (
+                <InternalArticleThumbnail
+                  key={i}
+                  css={styles.thumbnail}
+                  layout="Carousel"
+                  highlightColor={color}
+                  article={item}
+                />
+              )
+            }
+            if (item.__typename === 'DatoCmsExternalArticle') {
+              return (
+                <ExternalArticleThumbnail
+                  key={i}
+                  css={styles.thumbnail}
+                  layout="Carousel"
+                  highlightColor={color}
+                  article={item}
+                />
+              )
+            }
+          }
+          if (contentType === 'Events') {
             return (
-              <InternalArticleThumbnail
+              <EventThumbnail
                 key={i}
                 css={styles.thumbnail}
-                layout="Carousel"
+                event={item as IEvent}
                 highlightColor={color}
-                article={item}
+                layout="Carousel"
               />
             )
           }
-          if (item.__typename === 'DatoCmsExternalArticle') {
-            return (
-              <ExternalArticleThumbnail
-                key={i}
-                css={styles.thumbnail}
-                layout="Carousel"
-                highlightColor={color}
-                article={item}
-              />
-            )
-          }
-        }
-        if (contentType === 'Events') {
-          return (
-            <EventThumbnail
-              key={i}
-              css={styles.thumbnail}
-              event={item as IEvent}
-              highlightColor={color}
-              layout="Carousel"
-            />
-          )
-        }
-      })}
+        })}
     </ScrollSlider>
   )
 }

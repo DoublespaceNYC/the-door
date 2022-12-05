@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import DatoLink, { IDatoLink } from '@the-door/common/src/components/DatoLink'
+import DatoLink from '@the-door/common/src/components/DatoLink'
 import HomeCalendar from '@the-door/common/src/components/Home__Calendar'
 import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
 import useQueryContext from '@the-door/common/src/context/QueryContext'
