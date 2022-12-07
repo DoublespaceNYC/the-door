@@ -21,7 +21,7 @@ export type AlertBarProps = {
   showAlert: boolean
 }
 
-const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
+const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
   const [ref, setRef] = useState<HTMLDivElement | null>(null)
   const { inView, ref: inViewRef } = useInView()
   const alertHeight = useElementHeight(ref)
@@ -50,6 +50,8 @@ const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
   }
   const colors = setColors()
 
+  console.log(showAlert)
+
   const styles = {
     wrap: css`
       position: relative;
@@ -62,6 +64,10 @@ const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
       `}
       ${inView &&
       (navOpen || lightboxOpen) &&
+      css`
+        height: 0;
+      `}
+      ${!showAlert &&
       css`
         height: 0;
       `}
@@ -131,7 +137,7 @@ const AlertBar = ({ alert }: AlertBarProps): JSX.Element => {
         <Global
           styles={css`
             :root {
-              --alert-height: ${alertHeight}px;
+              --alert-height: ${showAlert ? alertHeight : 0}px;
             }
           `}
         />

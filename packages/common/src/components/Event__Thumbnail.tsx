@@ -13,7 +13,7 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
   event: IEvent
   highlightColor?: string
   headingLevel?: number
-  layout?: 'Carousel' | 'Home Calendar'
+  layout?: 'Carousel' | 'Home Calendar' | 'Calendar'
 }
 
 const EventThumbnail = ({

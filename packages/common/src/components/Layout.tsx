@@ -14,6 +14,7 @@ type Props = {
   alert: AlertBarProps
   collapsed?: boolean
   noFooter?: boolean
+  noAlert?: boolean
 }
 
 const Layout = ({
@@ -24,11 +25,15 @@ const Layout = ({
   children,
   collapsed,
   noFooter,
+  noAlert,
 }: Props): JSX.Element => {
   return (
     <Fragment>
       <GlobalStyles />
-      <AlertBar alert={alert.alert} showAlert={alert.showAlert} />
+      <AlertBar
+        alert={alert.alert}
+        showAlert={noAlert ? false : alert.showAlert}
+      />
       <MainNav
         logo={nav.logo}
         navItems={nav.navItems}

@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 import { rgba } from 'polished'
 import {
+  Fragment,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -8,11 +9,16 @@ import {
   useRef,
   useState,
 } from 'react'
+import { IoOptionsSharp } from 'react-icons/io5'
 
 import useThemeContext from '../context/ThemeContext'
+import { useElementWidth } from '../hooks/useElementRect'
 import useReadableColor from '../hooks/useReadableColor'
-import { doorColors } from '../theme/variables'
+import { useWindowWidth } from '../hooks/useWindowDimensions'
+import { mq } from '../theme/mixins'
+import { breakpoints, doorColors } from '../theme/variables'
 import EventArticle, { IEvent } from './Event__Article'
+import EventThumbnail from './Event__Thumbnail'
 import EventThumbnailInnards from './Event__Thumbnail_Innards'
 
 interface Props {
@@ -150,6 +156,19 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
   }, [locationFilter, tagFilter, activeEvent])
   useEffect(setParamsFromOptionChange, [setParamsFromOptionChange])
 
+  const windowWidth = useWindowWidth()
+
+  useEffect(() => {
+    if (windowWidth && windowWidth <= breakpoints.m) {
+      setActiveEvent(null)
+    }
+  })
+
+  const [filtersOpen, setFiltersOpen] = useState(false)
+
+  const [filtersRef, setFiltersRef] = useState<HTMLDivElement | null>(null)
+  const filtersWidth = useElementWidth(filtersRef)
+
   const styles = {
     container: css`
       height: calc(100vh - var(--nav-height, 0) - var(--alert-height, 0));
@@ -157,6 +176,12 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       display: grid;
       grid-template-columns: 2fr 3fr 5fr;
       grid-template-rows: auto 1fr;
+      ${mq().m} {
+        grid-template-columns: 1fr 2fr;
+      }
+      ${mq().s} {
+        grid-template-columns: 3rem 1fr;
+      }
     `,
     title: css`
       grid-column: 1 / 2;
@@ -167,38 +192,136 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       line-height: 1;
       margin: 0;
       padding: 0.5em var(--gtr-m) 0.25em var(--gtr-m);
+      ${mq().s} {
+        background: transparent;
+        color: ${colors.highlight};
+        padding: 0.25em 0 0.5em;
+        border-bottom: 1px solid ${rgba(colors.text, 0.67)};
+      }
     `,
     filtersColumn: css`
-      display: flex;
-      flex-direction: column;
       height: 100%;
+      position: relative;
       overflow: auto;
       grid-column: 1 / 2;
       grid-row: 2 / 3;
       background: ${colors.bgShade};
-      padding: 0.5em var(--gtr-m) 0.5em var(--gtr-m);
-      box-sizing: border-box;
+      > div {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5em var(--gtr-m);
+        box-sizing: border-box;
+      }
+      ${mq().s} {
+        grid-column: 1 / 3;
+        z-index: 2;
+        width: auto;
+        overflow: hidden;
+        width: 3rem;
+        transition: width 300ms ease, box-shadow 300ms ease;
+        ${filtersOpen &&
+        css`
+          width: ${filtersWidth}px;
+          box-shadow: 0 0 6rem #00000033;
+          overflow: scroll;
+        `}
+        > div {
+          position: absolute;
+          width: max-content;
+          justify-self: stretch;
+          opacity: 0;
+          top: 3rem;
+          height: calc(100% - 3rem);
+          right: 0;
+          padding: 0.5em var(--margin) 1em;
+          transition: opacity 300ms ease;
+          ${filtersOpen &&
+          css`
+            opacity: 1;
+          `}
+        }
+      }
     `,
     filterGroup: css`
       font-size: var(--fs-18);
       padding: 1em 0;
       &:not(:last-of-type) {
-        border-bottom: 1px solid ${colors.textLight};
+        border-bottom: 1px solid ${rgba(colors.textLight, 0.5)};
       }
     `,
     filter: (active: boolean) => css`
       display: block;
       color: ${colors.text};
+      text-align: left;
       padding: 0.5em 0;
       transition: color 300ms ease;
+      ${mq().s} {
+        color: ${colors.textLight};
+        font-weight: 500;
+      }
       ${active &&
       css`
         font-weight: 700;
         color: ${readableHighlight};
+        ${mq().s} {
+          font-weight: 500;
+          color: ${readableHighlight};
+        }
       `};
       @media (hover: hover) {
         &:hover {
           color: ${readableHighlight};
+        }
+      }
+    `,
+    filterIcon: css`
+      position: sticky;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      font-size: 2rem;
+      padding: 0.5rem;
+      width: 3rem;
+      height: 3rem;
+      color: #fff;
+      background: ${readableHighlight};
+      svg {
+        line {
+          stroke-width: 2;
+          stroke: currentColor;
+          transition: transform 200ms ease;
+          &:nth-of-type(1) {
+            transform-origin: 15% 36%;
+          }
+          &:nth-of-type(2) {
+            transform-origin: 50% 50%;
+          }
+          &:nth-of-type(3) {
+            transform-origin: 14% 62%;
+          }
+          ${filtersOpen &&
+          css`
+            &:nth-of-type(1) {
+              transform: rotate(45deg);
+            }
+            &:nth-of-type(2) {
+              transform: scale(0);
+            }
+            &:nth-of-type(3) {
+              transform: rotate(-45deg);
+            }
+          `}
+        }
+        circle {
+          fill: currentColor;
+          transition: opacity 150ms ease;
+          ${filtersOpen &&
+          css`
+            opacity: 0;
+          `}
         }
       }
     `,
@@ -212,8 +335,11 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       background: ${colors.bg};
       padding: 2em var(--gtr-m) var(--row-s);
       box-sizing: border-box;
+      ${mq().s} {
+        padding-top: 1em;
+      }
     `,
-    eventThumb: (active: boolean) => css`
+    eventThumb: (active?: boolean) => css`
       display: flex;
       text-align: left;
       position: relative;
@@ -221,6 +347,11 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       width: 100%;
       box-sizing: border-box;
       border-top: 1px solid ${rgba(colors.text, 0.25)};
+      ${mq().s} {
+        &:first-of-type {
+          border: none;
+        }
+      }
       &:last-of-type {
         border-bottom: 1px solid ${rgba(colors.text, 0.25)};
       }
@@ -275,59 +406,96 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
   }
   return (
     <div css={styles.container}>
-      <h1 css={styles.title}>{title}</h1>
+      {windowWidth && windowWidth > breakpoints.s && (
+        <h1 css={styles.title}>{title}</h1>
+      )}
       <section css={styles.filtersColumn}>
-        {locations && (
-          <div css={styles.filterGroup}>
-            {locations.map((location, i) => (
-              <button
-                key={i}
-                onClick={() => setLocationFilter(location)}
-                css={styles.filter(location === locationFilter)}
-              >
-                {location}
-              </button>
-            ))}
-          </div>
+        {windowWidth && windowWidth <= breakpoints.s && (
+          <button
+            onClick={() => setFiltersOpen(prev => !prev)}
+            css={styles.filterIcon}
+          >
+            <svg viewBox="0 0 24 24">
+              <line y1="5" x2="24" y2="5" />
+              <line y1="12" x2="24" y2="12" />
+              <line y1="19" x2="24" y2="19" />
+              <circle cx="18.5" cy="5" r="2.5" />
+              <circle cx="15.5" cy="19" r="2.5" />
+              <circle cx="5.5" cy="12" r="2.5" />
+            </svg>
+          </button>
         )}
-        {tags && (
-          <div css={styles.filterGroup}>
-            {tags.map((tag, i) => (
-              <button
-                key={i}
-                onClick={() => setTagFilter(tag)}
-                css={styles.filter(tag === tagFilter)}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-        )}
+        <div ref={node => setFiltersRef(node)}>
+          {locations && (
+            <div css={styles.filterGroup}>
+              {locations.map((location, i) => (
+                <button
+                  key={i}
+                  onClick={() => setLocationFilter(location)}
+                  css={styles.filter(location === locationFilter)}
+                >
+                  {location}
+                </button>
+              ))}
+            </div>
+          )}
+          {tags && (
+            <div css={styles.filterGroup}>
+              {tags.map((tag, i) => (
+                <button
+                  key={i}
+                  onClick={() => setTagFilter(tag)}
+                  css={styles.filter(tag === tagFilter)}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
       <section css={styles.eventsColumn}>
-        {filteredEvents?.map((event, i) => (
-          <button
-            key={i}
-            onClick={() => setActiveEvent(event)}
-            css={styles.eventThumb(event === activeEvent)}
-          >
-            <EventThumbnailInnards
-              headingLevel={2}
-              event={event}
-              layout="Calendar"
-            />
-          </button>
-        ))}
-      </section>
-      <section css={styles.activeEventColumn}>
-        {activeEvent && (
-          <EventArticle
-            data={activeEvent}
-            layout="Calendar"
-            highlightColor={colors.highlight}
-          />
+        {windowWidth && windowWidth <= breakpoints.s && (
+          <h1 css={styles.title}>{title}</h1>
         )}
+        {windowWidth &&
+          filteredEvents?.map((event, i) => (
+            <Fragment>
+              {windowWidth > breakpoints.m ? (
+                <button
+                  key={i}
+                  onClick={() => setActiveEvent(event)}
+                  css={styles.eventThumb(event === activeEvent)}
+                >
+                  <EventThumbnailInnards
+                    headingLevel={2}
+                    event={event}
+                    layout="Calendar"
+                  />
+                </button>
+              ) : (
+                <EventThumbnail
+                  headingLevel={2}
+                  event={event}
+                  layout="Calendar"
+                  css={styles.eventThumb()}
+                />
+              )}
+            </Fragment>
+          ))}
       </section>
+      {windowWidth && windowWidth > breakpoints.m && (
+        <section css={styles.activeEventColumn}>
+          {activeEvent && (
+            <EventArticle
+              data={activeEvent}
+              layout="Calendar"
+              highlightColor={colors.highlight}
+            />
+          )}
+        </section>
+      )}
+
       {filteredEvents?.length === 0 && (
         <section css={styles.noMatch}>
           <h2>Sorry, there are no events that match your selection.</h2>

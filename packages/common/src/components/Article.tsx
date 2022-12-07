@@ -14,7 +14,7 @@ import GatsbyImageFocused, {
 } from '../components/GatsbyImageFocused'
 import useThemeContext from '../context/ThemeContext'
 import useReadableColor from '../hooks/useReadableColor'
-import { baseGrid } from '../theme/mixins'
+import { baseGrid, mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import MediaCarousel, { IMediaCarousel } from './ContentCarousel__Media'
 import Form, { IForm } from './Form'
@@ -107,6 +107,9 @@ const Article = ({
       color: ${colors.highlight};
       line-height: 1;
       margin: 0 0 0.125em;
+      ${mq().s} {
+        font-size: var(--fs-72);
+      }
       ${layout === 'Lightbox' &&
       form &&
       css`

@@ -17,10 +17,11 @@ import DoorLogo from './DoorLogo'
 type Props = {
   collapsed?: boolean
   noFooter?: boolean
+  noAlert?: boolean
   children: ReactNode
 }
 
-const Layout = ({ children, collapsed, noFooter }: Props) => {
+const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
   type QueryProps = {
     nav: Pick<MainNavProps, 'navItems' | 'buttons' | 'breakpoint'>
     footer: Pick<FooterProps, 'navItems' | 'buttons'> & {
@@ -201,6 +202,7 @@ const Layout = ({ children, collapsed, noFooter }: Props) => {
       }}
       collapsed={collapsed}
       noFooter={noFooter}
+      noAlert={noAlert}
     >
       {children}
     </CommonLayout>

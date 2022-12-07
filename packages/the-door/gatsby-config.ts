@@ -21,6 +21,7 @@ const config: GatsbyConfig = {
     siteUrl: `https://www.door.org/`,
   },
   plugins: [
+    `gatsby-plugin-netlify`,
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -80,7 +81,6 @@ const config: GatsbyConfig = {
     'gatsby-transformer-remark',
     `gatsby-plugin-sharp`,
     'gatsby-plugin-emotion',
-    `gatsby-plugin-netlify`,
   ],
 }
 
