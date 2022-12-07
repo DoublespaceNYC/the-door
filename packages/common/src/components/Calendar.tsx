@@ -9,7 +9,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import { IoOptionsSharp } from 'react-icons/io5'
 
 import useThemeContext from '../context/ThemeContext'
 import { useElementWidth } from '../hooks/useElementRect'
@@ -162,7 +161,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
     if (windowWidth && windowWidth <= breakpoints.m) {
       setActiveEvent(null)
     }
-  })
+  }, [windowWidth])
 
   const [filtersOpen, setFiltersOpen] = useState(false)
 
@@ -460,7 +459,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
         )}
         {windowWidth &&
           filteredEvents?.map((event, i) => (
-            <Fragment>
+            <Fragment key={i}>
               {windowWidth > breakpoints.m ? (
                 <button
                   key={i}
