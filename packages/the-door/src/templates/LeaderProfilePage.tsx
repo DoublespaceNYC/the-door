@@ -1,6 +1,7 @@
 import LeaderProfile, {
   ILeader,
 } from '@the-door/common/src/components/Leader__Profile'
+import { render } from 'datocms-structured-text-to-plain-text'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 
 import Layout from '../components/Layout'
@@ -26,12 +27,12 @@ const LeaderProfilePage = ({
 
 export const Head = ({
   data: {
-    leader: { name, title, seo, headshot },
+    leader: { name, title, seo, bio, headshot },
   },
 }: HeadProps<QueryProps>): JSX.Element => (
   <Seo
     title={seo?.title || `${name}, ${title}`}
-    description={seo?.description}
+    description={seo?.description || bio.value ? render(bio) : null}
     imageUrl={seo?.image?.url || headshot.url}
   />
 )

@@ -19,7 +19,11 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
 
 const DocumentLink = ({ data, icon, ...props }: Props): JSX.Element => {
   return (
-    <a href={data.document.url} download {...props}>
+    <a
+      href={data.document.url}
+      download
+      {...props}
+    >
       <span>
         {data.linkText}
         {icon && (

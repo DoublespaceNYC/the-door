@@ -36,7 +36,10 @@ const LoadingSpinner = ({
   `
 
   return (
-    <div css={spinnerStyle} {...props}>
+    <div
+      css={spinnerStyle}
+      {...props}
+    >
       {[...new Array(count)].map((_, i) => {
         const radians = ((360 / count) * i * Math.PI) / 180
         return (

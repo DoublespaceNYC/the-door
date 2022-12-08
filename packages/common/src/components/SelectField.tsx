@@ -101,11 +101,18 @@ const SelectField = ({
           onBlur={handleShrink}
           defaultValue=""
         >
-          <option value="" disabled aria-hidden>
+          <option
+            value=""
+            disabled
+            aria-hidden
+          >
             {label}
           </option>
           {options.map((option, i) => (
-            <option key={i} value={option.id}>
+            <option
+              key={i}
+              value={option.id}
+            >
               {option.label}
             </option>
           ))}

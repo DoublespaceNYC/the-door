@@ -62,7 +62,11 @@ const AnchorLink = ({
   }
 
   return (
-    <a href={`#${slugId}`} onClick={handleClick} {...props}>
+    <a
+      href={`#${slugId}`}
+      onClick={handleClick}
+      {...props}
+    >
       {children}
     </a>
   )

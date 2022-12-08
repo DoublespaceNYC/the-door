@@ -164,8 +164,14 @@ const Footer = ({
     `,
   }
   return (
-    <footer css={styles.footer} {...props}>
-      <Logo css={styles.logo} fill={colors.logo} />
+    <footer
+      css={styles.footer}
+      {...props}
+    >
+      <Logo
+        css={styles.logo}
+        fill={colors.logo}
+      />
       <div css={styles.meta}>
         <a
           css={styles.link}
@@ -195,18 +201,28 @@ const Footer = ({
         </a>
         <div css={styles.socials}>
           {meta.socials.map((social, i) => (
-            <SocialLink social={social} key={i} />
+            <SocialLink
+              social={social}
+              key={i}
+            />
           ))}
         </div>
       </div>
       <nav css={styles.nav}>
         {navItems.map((navItem, i) => (
           <div key={i}>
-            <DatoLink css={styles.link} data={navItem} />
+            <DatoLink
+              css={styles.link}
+              data={navItem}
+            />
           </div>
         ))}
         {buttons.map((button, i) => (
-          <DatoLink data={button} key={i} css={[styles.link, styles.button]} />
+          <DatoLink
+            data={button}
+            key={i}
+            css={[styles.link, styles.button]}
+          />
         ))}
       </nav>
     </footer>

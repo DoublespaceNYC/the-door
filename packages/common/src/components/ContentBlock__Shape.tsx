@@ -226,10 +226,26 @@ const ContentBlockShape = ({
             `,
           ]}
         >
-          <circle cx="72" cy="72" r="72" />
-          <circle cx="224" cy="72" r="72" />
-          <circle cx="376" cy="72" r="72" />
-          <circle cx="528" cy="72" r="72" />
+          <circle
+            cx="72"
+            cy="72"
+            r="72"
+          />
+          <circle
+            cx="224"
+            cy="72"
+            r="72"
+          />
+          <circle
+            cx="376"
+            cy="72"
+            r="72"
+          />
+          <circle
+            cx="528"
+            cy="72"
+            r="72"
+          />
         </svg>
       )
     }

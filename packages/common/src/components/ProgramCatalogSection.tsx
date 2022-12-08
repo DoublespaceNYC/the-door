@@ -73,7 +73,10 @@ const ProgramCatalogSection = ({
   return (
     <section css={styles.section}>
       {anchorLink[0] && (
-        <Anchor id={anchorLink[0]?.linkText} css={styles.anchor} />
+        <Anchor
+          id={anchorLink[0]?.linkText}
+          css={styles.anchor}
+        />
       )}
       <h2 css={styles.heading}>{heading}</h2>
       <Accordion

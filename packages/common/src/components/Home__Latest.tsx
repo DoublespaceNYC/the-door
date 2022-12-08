@@ -142,7 +142,10 @@ const HomeLatest = ({
     <section css={styles.section}>
       <section css={styles.latestSection}>
         <h2 css={styles.heading}>{heading}</h2>
-        <DatoLink data={pageLink} css={styles.pageLink} />
+        <DatoLink
+          data={pageLink}
+          css={styles.pageLink}
+        />
         {featuredArticle.__typename === 'DatoCmsInternalArticle' ? (
           <InternalArticleThumbnail
             css={styles.featured}
@@ -181,7 +184,10 @@ const HomeLatest = ({
           })}
         </div>
       </section>
-      <HomeCalendar events={allEvents || []} calendarLink={calendarLink} />
+      <HomeCalendar
+        events={allEvents || []}
+        calendarLink={calendarLink}
+      />
     </section>
   )
 }

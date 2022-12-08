@@ -16,7 +16,10 @@ const DocumentIcon = ({
     }
   `
   return (
-    <span css={style} {...props}>
+    <span
+      css={style}
+      {...props}
+    >
       &ensp;&ensp;
       <HiOutlineDocumentDownload />
     </span>

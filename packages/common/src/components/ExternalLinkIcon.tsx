@@ -16,7 +16,10 @@ const ExternalLinkIcon = ({
     }
   `
   return (
-    <span css={style} {...props}>
+    <span
+      css={style}
+      {...props}
+    >
       &ensp;&ensp;&#8202;
       <HiOutlineExternalLink />
     </span>

@@ -260,20 +260,59 @@ export const Fragments = graphql`
     body {
       value
       blocks {
-        ... on DatoCmsInternalLink {
-          ...InternalLinkFragment
+        ... on DatoCmsTextBlockLink {
+          id: originalId
+          __typename
+          link {
+            ... on DatoCmsInternalLink {
+              ...InternalLinkFragment
+            }
+            ... on DatoCmsExternalLink {
+              ...ExternalLinkFragment
+            }
+            ... on DatoCmsFormLightboxLink {
+              ...FormLightboxLinkFragment
+            }
+            ... on DatoCmsDocumentLink {
+              ...DocumentLinkFragment
+            }
+            ... on DatoCmsTertiaryLink {
+              ...TertiaryLinkFragment
+            }
+            ... on DatoCmsInternalArticleLink {
+              ...InternalArticleLinkFragment
+            }
+            ... on DatoCmsEventLink {
+              ...EventLinkFragment
+            }
+          }
         }
-        ... on DatoCmsExternalLink {
-          ...ExternalLinkFragment
-        }
-        ... on DatoCmsFormLightboxLink {
-          ...FormLightboxLinkFragment
-        }
-        ... on DatoCmsDocumentLink {
-          ...DocumentLinkFragment
-        }
-        ... on DatoCmsTertiaryLink {
-          ...TertiaryLinkFragment
+        ... on DatoCmsTextBlockButton {
+          id: originalId
+          __typename
+          link {
+            ... on DatoCmsInternalLink {
+              ...InternalLinkFragment
+            }
+            ... on DatoCmsExternalLink {
+              ...ExternalLinkFragment
+            }
+            ... on DatoCmsFormLightboxLink {
+              ...FormLightboxLinkFragment
+            }
+            ... on DatoCmsDocumentLink {
+              ...DocumentLinkFragment
+            }
+            ... on DatoCmsTertiaryLink {
+              ...TertiaryLinkFragment
+            }
+            ... on DatoCmsInternalArticleLink {
+              ...InternalArticleLinkFragment
+            }
+            ... on DatoCmsEventLink {
+              ...EventLinkFragment
+            }
+          }
         }
       }
     }
@@ -623,6 +662,24 @@ export const Fragments = graphql`
     linkText
     link {
       ...TertiaryPageFragment
+    }
+  }
+  fragment PartnerFragment on DatoCmsPartner {
+    id: originalId
+    __typename
+    name
+    description {
+      value
+    }
+    logo {
+      format
+      url
+      gatsbyImageData(width: 480, imgixParams: { q: 80 })
+      alt
+    }
+    slug
+    seo {
+      ...SEOFragment
     }
   }
 `

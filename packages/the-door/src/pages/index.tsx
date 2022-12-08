@@ -174,14 +174,6 @@ export const data = graphql`
       servicesBody {
         value
       }
-      servicesLink {
-        ... on DatoCmsExternalLink {
-          ...ExternalLinkFragment
-        }
-        ... on DatoCmsInternalLink {
-          ...InternalLinkFragment
-        }
-      }
       bsaHeading
       bsaBody {
         value

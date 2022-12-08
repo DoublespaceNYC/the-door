@@ -255,11 +255,25 @@ const Lightbox = ({
       <Fragment>
         <ScrollToggle />
         <div css={styles.background} />
-        <div css={styles.lightbox} ref={node => setLightboxRef(node)}>
-          <div css={styles.backgroundClose} onClick={handleClose} aria-hidden />
+        <div
+          css={styles.lightbox}
+          ref={node => setLightboxRef(node)}
+        >
+          <div
+            css={styles.backgroundClose}
+            onClick={handleClose}
+            aria-hidden
+          />
           <div css={styles.content}>
-            <button aria-hidden tabIndex={-1} style={{ width: 0, height: 0 }} />
-            <LightboxContent data={data} highlightColor={highlightColor} />
+            <button
+              aria-hidden
+              tabIndex={-1}
+              style={{ width: 0, height: 0 }}
+            />
+            <LightboxContent
+              data={data}
+              highlightColor={highlightColor}
+            />
           </div>
         </div>
         <button

@@ -263,7 +263,10 @@ const ScrollSlider = ({
   }
 
   return (
-    <div css={styles.outer} {...props}>
+    <div
+      css={styles.outer}
+      {...props}
+    >
       <div ref={navRef} />
       {navVisible &&
         navPortalTarget &&
@@ -303,7 +306,11 @@ const ScrollSlider = ({
               onKeyPress={handleScrollForward}
               aria-label="scroll forward"
             >
-              <svg width="24px" height="48px" viewBox="0 0 24 48">
+              <svg
+                width="24px"
+                height="48px"
+                viewBox="0 0 24 48"
+              >
                 <polyline
                   points="1 45.5 22.5 24 1 2.5"
                   vectorEffect="non-scaling-stroke"
@@ -313,10 +320,19 @@ const ScrollSlider = ({
           </nav>,
           navPortalTarget
         )}
-      <div css={scrollWidthCss} ref={scrollWidthRefCallback} />
+      <div
+        css={scrollWidthCss}
+        ref={scrollWidthRefCallback}
+      />
       <div css={styles.slider}>
-        <div css={scrollAreaCss} ref={sliderRefCallback}>
-          <div css={[styles.content, contentCss]} ref={contentRefCallback}>
+        <div
+          css={scrollAreaCss}
+          ref={sliderRefCallback}
+        >
+          <div
+            css={[styles.content, contentCss]}
+            ref={contentRefCallback}
+          >
             {children}
           </div>
         </div>

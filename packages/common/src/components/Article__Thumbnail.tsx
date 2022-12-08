@@ -148,7 +148,10 @@ const ArticleThumbnail = ({
     `,
   }
   return (
-    <div css={styles.container} {...props}>
+    <div
+      css={styles.container}
+      {...props}
+    >
       <GatsbyImageFocused
         css={styles.imageWrap}
         gatsbyImageCss={styles.image}

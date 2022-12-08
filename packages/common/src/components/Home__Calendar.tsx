@@ -202,10 +202,16 @@ const HomeCalendar = ({
     `,
   }
   return (
-    <section css={styles.section} {...props}>
+    <section
+      css={styles.section}
+      {...props}
+    >
       <div css={styles.wrap}>
         <h3 css={styles.heading}>Calendar</h3>
-        <div ref={sliderNavRef} css={styles.sliderNav} />
+        <div
+          ref={sliderNavRef}
+          css={styles.sliderNav}
+        />
         <ScrollSlider
           css={styles.eventsSlider}
           scrollWidthCss={styles.sliderScrollWidth}
@@ -245,7 +251,10 @@ const HomeCalendar = ({
           )}
         </ScrollSlider>
         {events && events.length > 0 && (
-          <DatoLink data={calendarLink} css={styles.viewAll} />
+          <DatoLink
+            data={calendarLink}
+            css={styles.viewAll}
+          />
         )}
       </div>
     </section>

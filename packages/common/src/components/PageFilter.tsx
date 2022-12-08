@@ -190,13 +190,19 @@ const PageFilter = ({
   }
 
   return (
-    <div css={[styles.filter]} ref={ref}>
+    <div
+      css={[styles.filter]}
+      ref={ref}
+    >
       <button onClick={() => setDropdownOpen(prev => !prev)}>
         {activeOption} <BiChevronDown css={styles.arrow} />
       </button>
       <nav>
         {options.map((option, i) => (
-          <button key={i} onClick={() => handleOptionClick(option)}>
+          <button
+            key={i}
+            onClick={() => handleOptionClick(option)}
+          >
             {option}
           </button>
         ))}

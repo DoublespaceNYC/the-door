@@ -41,30 +41,36 @@ const VideoStreamPlayer = ({
     }
   }, [videoRef, src])
 
+  // Prevents returning an empty promise
+  const hasPaused = useRef(false)
+
   useEffect(() => {
     // Check to see if video is ready and playing before trying to pause
     const isPlaying =
       videoRef.current &&
       videoRef.current.currentTime > 0 &&
-      !videoRef.current.paused &&
-      !videoRef.current.ended &&
-      videoRef.current.readyState > videoRef.current.HAVE_CURRENT_DATA
+      !videoRef.current.paused
     switch (playing) {
       case true:
-        if (videoRef.current?.paused && !isPlaying) {
+        if (hasPaused.current === true && !isPlaying) {
           videoRef.current?.play()
         }
         break
       case false:
         if (isPlaying) {
           videoRef.current?.pause()
+          hasPaused.current = true
         }
         break
     }
   }, [playing])
 
   return (
-    <video ref={videoRef} poster={thumbnail} {...props}>
+    <video
+      ref={videoRef}
+      poster={thumbnail}
+      {...props}
+    >
       {/* In the future, add subtitle support */}
       {/* <track default /> */}
     </video>

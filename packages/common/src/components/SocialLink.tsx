@@ -43,7 +43,11 @@ const SocialLink = ({ social }: Props): JSX.Element => {
     }
   }
   return (
-    <a href={social.url} target="_blank" rel="noreferrer">
+    <a
+      href={social.url}
+      target="_blank"
+      rel="noreferrer"
+    >
       {renderIcon()}
     </a>
   )

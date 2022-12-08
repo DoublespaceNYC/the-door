@@ -11,6 +11,7 @@ import {
 import { IEvent } from '../components/Event__Article'
 import { IExternalArticle } from '../components/ExternalArticle'
 import { IInternalArticle } from '../components/InternalArticle'
+import { IPartner } from '../components/Partner__Article'
 
 interface IQueryContext {
   allInternalArticles: IInternalArticle[]
@@ -20,6 +21,8 @@ interface IQueryContext {
   allNews: (IInternalArticle | IExternalArticle)[]
   allEvents: IEvent[] | null
   setAllEvents: Dispatch<SetStateAction<IEvent[] | null>>
+  allPartners: IPartner[] | null
+  setAllPartners: Dispatch<SetStateAction<IPartner[] | null>>
 }
 
 const QueryContext = createContext<IQueryContext | undefined>(undefined)
@@ -46,6 +49,7 @@ export const QueryContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [allInternalArticles, allExternalArticles])
   const [allEvents, setAllEvents] = useState<IEvent[] | null>(null)
+  const [allPartners, setAllPartners] = useState<IPartner[] | null>(null)
   return (
     <QueryContext.Provider
       value={{
@@ -56,6 +60,8 @@ export const QueryContextProvider = ({ children }: { children: ReactNode }) => {
         allNews,
         allEvents,
         setAllEvents: val => setAllEvents(val),
+        allPartners,
+        setAllPartners: val => setAllPartners(val),
       }}
     >
       {children}

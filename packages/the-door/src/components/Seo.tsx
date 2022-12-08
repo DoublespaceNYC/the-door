@@ -2,18 +2,18 @@ import { graphql, useStaticQuery } from 'gatsby'
 import { Fragment, ReactNode } from 'react'
 
 export interface ISEO {
-  title?: string
-  description?: string
-  twitterCard?: string
+  title: string | null
+  description: string | null
+  twitterCard: string | null
   image: {
-    url: string
-  }
+    url: string | null
+  } | null
 }
 
 type Props = {
-  title?: string
-  description?: string
-  imageUrl?: string
+  title?: string | null
+  description?: string | null
+  imageUrl?: string | null
   hideSuffix?: boolean
   children?: ReactNode
 }

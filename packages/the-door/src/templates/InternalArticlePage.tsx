@@ -1,6 +1,7 @@
 import InternalArticle, {
   IInternalArticle,
 } from '@the-door/common/src/components/InternalArticle'
+import { render } from 'datocms-structured-text-to-plain-text'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 
 import Layout from '../components/Layout'
@@ -26,12 +27,16 @@ const InternalArticlePage = ({
 
 export const Head = ({
   data: {
-    article: { title, seo },
+    article: { title, lede, body, seo },
   },
 }: HeadProps<QueryProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description}
+    description={
+      seo?.description || (lede.value && render(lede)) || body.value
+        ? render(body)
+        : null
+    }
     imageUrl={seo?.image?.url}
   />
 )

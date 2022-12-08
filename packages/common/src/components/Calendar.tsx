@@ -415,12 +415,36 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
             css={styles.filterIcon}
           >
             <svg viewBox="0 0 24 24">
-              <line y1="5" x2="24" y2="5" />
-              <line y1="12" x2="24" y2="12" />
-              <line y1="19" x2="24" y2="19" />
-              <circle cx="18.5" cy="5" r="2.5" />
-              <circle cx="15.5" cy="19" r="2.5" />
-              <circle cx="5.5" cy="12" r="2.5" />
+              <line
+                y1="5"
+                x2="24"
+                y2="5"
+              />
+              <line
+                y1="12"
+                x2="24"
+                y2="12"
+              />
+              <line
+                y1="19"
+                x2="24"
+                y2="19"
+              />
+              <circle
+                cx="18.5"
+                cy="5"
+                r="2.5"
+              />
+              <circle
+                cx="15.5"
+                cy="19"
+                r="2.5"
+              />
+              <circle
+                cx="5.5"
+                cy="12"
+                r="2.5"
+              />
             </svg>
           </button>
         )}

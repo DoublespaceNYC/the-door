@@ -147,8 +147,15 @@ const NavButton = ({
     `,
   }
   return (
-    <div css={styles.wrap} ref={node => setWrapRef(node)} {...props}>
-      <DatoLink data={button.link[0]} css={[styles.button, buttonCss]} />
+    <div
+      css={styles.wrap}
+      ref={node => setWrapRef(node)}
+      {...props}
+    >
+      <DatoLink
+        data={button.link[0]}
+        css={[styles.button, buttonCss]}
+      />
       {button.modalTooltip && (
         <div css={styles.modal}>
           <span>{button.modalHeading}</span>

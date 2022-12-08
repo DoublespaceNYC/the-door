@@ -1,6 +1,7 @@
 import FormLightbox, {
   IFormLightbox,
 } from '@the-door/common/src/components/Form__Lightbox'
+import { render } from 'datocms-structured-text-to-plain-text'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 
 import Layout from '../components/Layout'
@@ -26,12 +27,12 @@ const FormPage = ({
 
 export const Head = ({
   data: {
-    formLightbox: { title, seo },
+    formLightbox: { title, text, seo },
   },
 }: HeadProps<QueryProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description}
+    description={seo?.description || text.value ? render(text) : null}
     imageUrl={seo?.image?.url}
   />
 )

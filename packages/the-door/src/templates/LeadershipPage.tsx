@@ -15,6 +15,7 @@ import PageHero from '@the-door/common/src/components/PageHero'
 import PageIntro from '@the-door/common/src/components/PageIntro'
 import PageNav from '@the-door/common/src/components/PageNav'
 import { baseGrid, mq } from '@the-door/common/src/theme/mixins'
+import { render } from 'datocms-structured-text-to-plain-text'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 import { rgba } from 'polished'
@@ -307,12 +308,12 @@ const LeadershipPage = ({
 
 export const Head = ({
   data: {
-    page: { title, seo },
+    page: { title, intro, seo },
   },
 }: HeadProps<QueryProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description}
+    description={seo?.description || intro.value ? render(intro) : null}
     imageUrl={seo?.image?.url}
   />
 )

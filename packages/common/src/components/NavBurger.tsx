@@ -77,7 +77,11 @@ const NavBurger = ({ open, onClick, ...props }: Props): JSX.Element => {
     }
   `
   return (
-    <button onClick={onClick} css={style} {...props}>
+    <button
+      onClick={onClick}
+      css={style}
+      {...props}
+    >
       <span />
       <span />
       <span />

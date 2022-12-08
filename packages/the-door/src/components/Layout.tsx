@@ -11,6 +11,7 @@ import { ReactNode, useLayoutEffect } from 'react'
 
 import useEventsQuery from '../hooks/useEventsQuery'
 import useNewsQuery from '../hooks/useNewsQuery'
+import usePartnersQuery from '../hooks/usePartnersQuery'
 import Door50Logo from './Door50Logo'
 import DoorLogo from './DoorLogo'
 
@@ -165,15 +166,18 @@ const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
     `)
   const { allInternalArticles, allExternalArticles } = useNewsQuery()
   const { allEvents } = useEventsQuery()
+  const { allPartners } = usePartnersQuery()
   const {
     setAllInternalArticles,
     setAllExternalArticles,
     setAllEvents,
+    setAllPartners,
   } = useQueryContext()
   useLayoutEffect(() => {
     setAllInternalArticles(allInternalArticles)
     setAllExternalArticles(allExternalArticles)
     setAllEvents(allEvents)
+    setAllPartners(allPartners)
   })
   const { setTheme } = useThemeContext()
   useLayoutEffect(() => {

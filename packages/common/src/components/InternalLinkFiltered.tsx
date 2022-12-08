@@ -28,7 +28,11 @@ const InternalLinkFiltered = ({ data, ...props }: Props): JSX.Element => {
     props.onClick && props.onClick(e)
   }
   return (
-    <a href={url} {...props} onClick={handleClick}>
+    <a
+      href={url}
+      {...props}
+      onClick={handleClick}
+    >
       <span>{data.linkText}</span>
     </a>
   )

@@ -188,8 +188,14 @@ const AccordionItem = ({
     `,
   }
   return (
-    <div css={styles.accordion} {...props}>
-      <button onClick={onClick} css={styles.button}>
+    <div
+      css={styles.accordion}
+      {...props}
+    >
+      <button
+        onClick={onClick}
+        css={styles.button}
+      >
         <div>
           <Heading css={styles.heading}>{heading}</Heading>
           {subheading && (
@@ -202,7 +208,10 @@ const AccordionItem = ({
         css={styles.contentsWrap}
         style={{ height: open ? contentsHeight + 'px' : 0 }}
       >
-        <div ref={node => setContentsRef(node)} css={styles.contents}>
+        <div
+          ref={node => setContentsRef(node)}
+          css={styles.contents}
+        >
           {children}
         </div>
       </div>

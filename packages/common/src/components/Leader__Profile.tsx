@@ -111,7 +111,10 @@ const LeaderProfile = ({
     `,
   }
   return (
-    <article css={styles.article} {...props}>
+    <article
+      css={styles.article}
+      {...props}
+    >
       <div css={styles.imageWrap}>
         <GatsbyImage
           image={headshot.gatsbyImageData}

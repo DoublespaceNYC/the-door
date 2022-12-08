@@ -274,12 +274,18 @@ const NavLinkGroup = ({
   }
   return (
     <Fragment>
-      <button css={[buttonCss, styles.button]} onClick={onOpen}>
+      <button
+        css={[buttonCss, styles.button]}
+        onClick={onOpen}
+      >
         <span>{linkText}</span>
       </button>
       {portalTarget &&
         createPortal(
-          <nav css={styles.nav} ref={navRef}>
+          <nav
+            css={styles.nav}
+            ref={navRef}
+          >
             <div css={styles.content}>
               <div css={styles.imageWrap}>
                 {backgroundImage && (
@@ -350,7 +356,10 @@ const NavLinkGroup = ({
               css={styles.closeButton}
               tabIndex={open ? 0 : -1}
             >
-              <svg viewBox="0 0 24 24" vectorEffect="non-scaling-stroke">
+              <svg
+                viewBox="0 0 24 24"
+                vectorEffect="non-scaling-stroke"
+              >
                 {windowWidth && windowWidth > breakpoint ? (
                   <Fragment>
                     <path d="M1 1L23 23" />
@@ -359,7 +368,12 @@ const NavLinkGroup = ({
                 ) : (
                   <Fragment>
                     <path d="M13 1L2 12L13 23" />
-                    <line x1="2" y1="12" x2="24" y2="12" />
+                    <line
+                      x1="2"
+                      y1="12"
+                      x2="24"
+                      y2="12"
+                    />
                   </Fragment>
                 )}
               </svg>

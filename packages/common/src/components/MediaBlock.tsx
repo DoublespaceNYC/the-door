@@ -169,7 +169,11 @@ const MediaBlock = ({
     `,
   }
   return (
-    <figure css={styles.block} ref={ref} {...props}>
+    <figure
+      css={styles.block}
+      ref={ref}
+      {...props}
+    >
       {asset.isImage ? (
         <GatsbyImageFocused
           css={[styles.media]}

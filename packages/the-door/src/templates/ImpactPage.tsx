@@ -8,6 +8,7 @@ import VectorGraphic, {
   IVectorGraphic,
 } from '@the-door/common/src/components/VectorGraphic'
 import { baseGrid, mq } from '@the-door/common/src/theme/mixins'
+import { render } from 'datocms-structured-text-to-plain-text'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 import { StructuredText } from 'react-datocms'
@@ -377,12 +378,12 @@ const ImpactPage = ({
 
 export const Head = ({
   data: {
-    page: { title, seo },
+    page: { title, intro, seo },
   },
 }: HeadProps<DataProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description}
+    description={seo?.description || intro.value ? render(intro) : null}
     imageUrl={seo?.image?.url}
   />
 )

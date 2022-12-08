@@ -29,7 +29,10 @@ const PageIntro = ({
   }
   if (intro.value) {
     return (
-      <div css={styles.intro} {...props}>
+      <div
+        css={styles.intro}
+        {...props}
+      >
         <StructuredText data={intro} />
       </div>
     )

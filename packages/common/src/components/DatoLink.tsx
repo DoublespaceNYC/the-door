@@ -52,13 +52,35 @@ const DatoLink = ({
 }: Props): JSX.Element => {
   switch (data.__typename) {
     case 'DatoCmsInternalLink':
-      return <InternalLink data={data} {...props} />
+      return (
+        <InternalLink
+          data={data}
+          {...props}
+        />
+      )
     case 'DatoCmsInternalLinkFiltered':
-      return <InternalLinkFiltered data={data} {...props} />
+      return (
+        <InternalLinkFiltered
+          data={data}
+          {...props}
+        />
+      )
     case 'DatoCmsExternalLink':
-      return <ExternalLink data={data} icon={icon} {...props} />
+      return (
+        <ExternalLink
+          data={data}
+          icon={icon}
+          {...props}
+        />
+      )
     case 'DatoCmsDocumentLink':
-      return <DocumentLink data={data} icon={icon} {...props} />
+      return (
+        <DocumentLink
+          data={data}
+          icon={icon}
+          {...props}
+        />
+      )
     case 'DatoCmsFormLightboxLink':
       return (
         <LightboxLink

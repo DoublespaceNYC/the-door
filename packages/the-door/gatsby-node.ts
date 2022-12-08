@@ -52,7 +52,10 @@ export const createPages: GatsbyNode['createPages'] = async ({
       allDatoCmsInteriorPage {
         nodes {
           id
-          slug
+          _allSlugLocales {
+            locale
+            value
+          }
         }
       }
       allDatoCmsTertiaryPage {
@@ -67,6 +70,12 @@ export const createPages: GatsbyNode['createPages'] = async ({
               slug
             }          
           }
+        }
+      }
+      allDatoCmsPartner {
+        nodes {
+          id
+          slug
         }
       }
       datoCmsLeadershipPage {
@@ -126,7 +135,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
         nodes: PageNode[]
       }
       allDatoCmsInteriorPage: {
-        nodes: PageNode[]
+        nodes: LocalesPageNode[]
       }
       allDatoCmsTertiaryPage: {
         nodes: {
@@ -136,6 +145,9 @@ export const createPages: GatsbyNode['createPages'] = async ({
             slug: string
           }
         }[]
+      }
+      allDatoCmsPartner: {
+        nodes: PageNode[]
       }
       datoCmsLeadershipPage: PageNode
       datoCmsTheLatestPage: PageNode
@@ -207,18 +219,30 @@ export const createPages: GatsbyNode['createPages'] = async ({
     })
   })
   data?.allDatoCmsInteriorPage.nodes.forEach(node => {
-    createPage({
-      path: `/${node.slug}/`,
-      component: resolve(`./src/templates/InteriorPage.tsx`),
-      context: {
-        id: node.id
-      }
+    node._allSlugLocales.forEach(slugLocale => {
+      createPage({
+        path: `${localePrefix(slugLocale.locale)}/${slugLocale.value}/`,
+        component: resolve(`./src/templates/InteriorPage.tsx`),
+        context: {
+          locale: slugLocale.locale,
+          id: node.id,
+        },
+      })
     })
   })
   data?.allDatoCmsTertiaryPage.nodes.forEach(node => {
     createPage({
       path: `/${node.parentPage.slug}/${node.slug}/`,
       component: resolve(`./src/templates/TertiaryPage.tsx`),
+      context: {
+        id: node.id
+      }
+    })
+  })
+  data?.allDatoCmsPartner.nodes.forEach(node => {
+    createPage({
+      path: `/partners/${node.slug}/`,
+      component: resolve(`./src/templates/PartnerArticlePage.tsx`),
       context: {
         id: node.id
       }

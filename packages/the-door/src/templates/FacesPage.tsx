@@ -13,6 +13,7 @@ import {
   mq,
   widthInCols,
 } from '@the-door/common/src/theme/mixins'
+import { render } from 'datocms-structured-text-to-plain-text'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 import { rgba } from 'polished'
@@ -190,12 +191,12 @@ const FacesPage = ({
 
 export const Head = ({
   data: {
-    page: { title, seo },
+    page: { title, intro, seo },
   },
 }: HeadProps<DataProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description}
+    description={seo?.description || intro.value ? render(intro) : null}
     imageUrl={seo?.image?.url}
   />
 )

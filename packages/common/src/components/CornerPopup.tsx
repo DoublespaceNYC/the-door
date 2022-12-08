@@ -153,7 +153,10 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
   }
   return (
     <Fragment>
-      <div ref={ref} css={triggerCss} />
+      <div
+        ref={ref}
+        css={triggerCss}
+      />
       {portalTarget &&
         createPortal(
           <div css={styles.container}>
@@ -163,11 +166,19 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
                 data={content.body}
                 renderBlock={({ record }) => {
                   if (isDatoLink(record)) {
-                    return <DatoLink data={record} css={styles.cta} />
+                    return (
+                      <DatoLink
+                        data={record}
+                        css={styles.cta}
+                      />
+                    )
                   } else return null
                 }}
               />
-              <button css={styles.close} onClick={() => setClosed(true)}>
+              <button
+                css={styles.close}
+                onClick={() => setClosed(true)}
+              >
                 <svg viewBox="0 0 12 12">
                   <path d="M1 1L11 11" />
                   <path d="M1 11L11 1" />

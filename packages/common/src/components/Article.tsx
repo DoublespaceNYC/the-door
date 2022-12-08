@@ -250,7 +250,10 @@ const Article = ({
     `,
   }
   return (
-    <article css={styles.article} {...props}>
+    <article
+      css={styles.article}
+      {...props}
+    >
       {heroImage && (
         <GatsbyImageFocused
           css={styles.hero}

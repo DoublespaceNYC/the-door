@@ -46,7 +46,10 @@ const Accordion = ({
     `,
   }
   return (
-    <div css={styles.accordion} {...props}>
+    <div
+      css={styles.accordion}
+      {...props}
+    >
       {items.map((item, i) => (
         <AccordionItem
           layout={layout}

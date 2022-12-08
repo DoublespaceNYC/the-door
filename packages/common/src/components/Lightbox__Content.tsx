@@ -5,6 +5,7 @@ import FacesStory, { IFacesStory } from './Faces__Story'
 import FormLightbox, { IFormLightbox } from './Form__Lightbox'
 import InternalArticle, { IInternalArticle } from './InternalArticle'
 import LeaderProfile, { ILeader } from './Leader__Profile'
+import PartnerArticle, { IPartner } from './Partner__Article'
 import TertiaryPageContent, { ITertiaryPage } from './TertiaryPageContent'
 
 export type ILightboxContent =
@@ -14,6 +15,7 @@ export type ILightboxContent =
   | ILeader
   | IFacesStory
   | ITertiaryPage
+  | IPartner
 
 interface Props {
   data: ILightboxContent
@@ -47,7 +49,12 @@ const LightboxContent = ({ data, highlightColor }: Props): JSX.Element => {
         />
       )
     case 'DatoCmsLeader':
-      return <LeaderProfile data={data} layout="Lightbox" />
+      return (
+        <LeaderProfile
+          data={data}
+          layout="Lightbox"
+        />
+      )
     case 'DatoCmsFacesStory':
       return (
         <FacesStory
@@ -61,6 +68,13 @@ const LightboxContent = ({ data, highlightColor }: Props): JSX.Element => {
         <TertiaryPageContent
           data={data}
           layout="Lightbox"
+          highlightColor={highlightColor}
+        />
+      )
+    case 'DatoCmsPartner':
+      return (
+        <PartnerArticle
+          data={data}
           highlightColor={highlightColor}
         />
       )

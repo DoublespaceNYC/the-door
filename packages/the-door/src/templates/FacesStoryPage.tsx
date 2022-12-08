@@ -31,12 +31,12 @@ const FacesStoryPage = ({
 
 export const Head = ({
   data: {
-    story: { title, seo },
+    story: { title, excerpt, seo },
   },
 }: HeadProps<QueryProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description}
+    description={seo?.description || excerpt}
     imageUrl={seo?.image?.url}
   />
 )

@@ -6,7 +6,7 @@ import { Fragment } from 'react'
 import { StructuredText, renderMarkRule } from 'react-datocms'
 
 import useReadableColor from '../hooks/useReadableColor'
-import { baseGrid, linkStyle, mq } from '../theme/mixins'
+import { baseGrid, buttonStyle, linkStyle, mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 import { Anchor, IAnchorLink } from './AnchorLink'
 import ContentBlockShape, { ShapeType } from './ContentBlock__Shape'
@@ -15,8 +15,18 @@ import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
 import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
 import VectorGraphic, { IVectorGraphic } from './VectorGraphic'
 
+interface ITextBlockLink extends Record {
+  __typename: 'DatoCmsTextBlockLink'
+  link: [IDatoLink]
+}
+
+interface ITextBlockButton extends Record {
+  __typename: 'DatoCmsTextBlockButton'
+  link: [IDatoLink]
+}
+
 interface IBody extends IStructuredText {
-  blocks?: IDatoLink[]
+  blocks?: (ITextBlockLink | ITextBlockButton)[]
 }
 
 interface ITextBlock extends Record {
@@ -131,6 +141,7 @@ const ContentBlock = ({
       ${mq().ms} {
         grid-template-rows: auto;
         --text-span: ${textSpan.ms};
+        margin-bottom: var(--row-l);
       }
       &:before {
         content: '';
@@ -175,10 +186,11 @@ const ContentBlock = ({
     textBlock: css`
       ${textGridCss}
       h3 {
-        font-size: var(--fs-36);
+        font-size: var(--fs-30);
         line-height: 1.125;
         text-transform: uppercase;
-        margin: 0.5em 0 0.25em;
+        margin: 0.75em 0 0.333em;
+        color: #444;
       }
       > p + h3,
       > ul + h3,
@@ -191,6 +203,7 @@ const ContentBlock = ({
         font-weight: 500;
         line-height: 1.25;
         margin: 1.25em 0 0.5em;
+        color: #444;
       }
       > h3 + h4 {
         margin-top: 0.75em;
@@ -285,12 +298,23 @@ const ContentBlock = ({
         }
       `}
     `,
-    linkBlock: css`
+    textBlockLink: css`
       ${linkStyle}
     `,
-    carousel: css`
-      margin-top: 1.5em;
-      margin-bottom: 2em;
+    textBlockButton: css`
+      && {
+        ${buttonStyle}
+        font-size: var(--fs-21);
+        margin: 1em 0;
+        background: ${readableColor};
+        color: #fff;
+        @media (hover: hover) {
+          &:hover {
+            background: ${darken(0.1, readableColor)};
+            color: #fff;
+          }
+        }
+      }
     `,
     graphic: css`
       ${textGridCss}
@@ -301,23 +325,33 @@ const ContentBlock = ({
     `,
   }
   return (
-    <section css={styles.section} data-layout={layout}>
+    <section
+      css={styles.section}
+      data-layout={layout}
+    >
       {anchorLink[0] && <Anchor id={anchorLink[0].linkText} />}
       <h2 css={styles.heading}>{heading}</h2>
       {content.map((block, i) => {
         switch (block.__typename) {
           case 'DatoCmsTextBlock':
             return (
-              <div css={styles.textBlock} key={i}>
+              <div
+                css={styles.textBlock}
+                key={i}
+              >
                 <StructuredText
                   key={i}
                   data={block.body}
                   renderBlock={({ record }) => {
-                    if (isDatoLink(record)) {
+                    if (isDatoLink(record.link[0])) {
                       return (
                         <DatoLink
-                          data={record}
-                          css={styles.linkBlock}
+                          data={record.link[0]}
+                          css={
+                            record.__typename === 'DatoCmsTextBlockButton'
+                              ? styles.textBlockButton
+                              : styles.textBlockLink
+                          }
                           highlightColor={highlightColor}
                         />
                       )
@@ -337,7 +371,6 @@ const ContentBlock = ({
           case 'DatoCmsCarousel':
             return (
               <ContentCarousel
-                css={styles.carousel}
                 data={block}
                 key={i}
                 highlightColor={highlightColor}
@@ -345,7 +378,13 @@ const ContentBlock = ({
               />
             )
           case 'DatoCmsVectorGraphic':
-            return <VectorGraphic data={block} css={styles.graphic} key={i} />
+            return (
+              <VectorGraphic
+                data={block}
+                css={styles.graphic}
+                key={i}
+              />
+            )
           default:
             return <Fragment key={i} />
         }

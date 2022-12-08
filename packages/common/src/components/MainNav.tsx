@@ -288,13 +288,29 @@ const MainNav = ({
   }
   return (
     <Fragment>
-      <div aria-hidden css={styles.scrollObserver} ref={scrollRef} />
+      <div
+        aria-hidden
+        css={styles.scrollObserver}
+        ref={scrollRef}
+      />
       <div css={styles.navWrap}>
-        <nav css={styles.nav} ref={node => setNavRef(node)}>
-          <Link to="/" css={styles.logoWrap}>
-            <Logo css={styles.logo} fill={colors.logo} />
+        <nav
+          css={styles.nav}
+          ref={node => setNavRef(node)}
+        >
+          <Link
+            to="/"
+            css={styles.logoWrap}
+          >
+            <Logo
+              css={styles.logo}
+              fill={colors.logo}
+            />
           </Link>
-          <div css={styles.navItemsGroup} ref={navItemsGroupRef}>
+          <div
+            css={styles.navItemsGroup}
+            ref={navItemsGroupRef}
+          >
             {windowWidth &&
               dropdownContainerRef.current &&
               navItemsGroupRef.current &&
@@ -375,7 +391,10 @@ const MainNav = ({
               }
             }}
           />
-          <div css={styles.dropdownContainer} ref={dropdownContainerRef} />
+          <div
+            css={styles.dropdownContainer}
+            ref={dropdownContainerRef}
+          />
         </nav>
       </div>
       {navOpen && <ScrollToggle />}

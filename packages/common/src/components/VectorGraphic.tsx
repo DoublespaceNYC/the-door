@@ -14,7 +14,13 @@ interface Props extends HTMLAttributes<HTMLImageElement> {
 }
 
 const VectorGraphic = ({ data, ...props }: Props): JSX.Element => {
-  return <img src={data.graphic.url} alt={data.graphic.alt || ''} {...props} />
+  return (
+    <img
+      src={data.graphic.url}
+      alt={data.graphic.alt || ''}
+      {...props}
+    />
+  )
 }
 
 export default VectorGraphic

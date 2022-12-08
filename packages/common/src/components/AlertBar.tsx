@@ -1,5 +1,5 @@
 import { Global, css } from '@emotion/react'
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 import { useInView } from 'react-intersection-observer'
 
@@ -30,7 +30,7 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
 
   const { theme } = useThemeContext()
 
-  const setColors = () => {
+  const colors = useMemo(() => {
     const defaultColors = {
       bg: '',
       text: '#fff',
@@ -47,10 +47,7 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
       default:
         return defaultColors
     }
-  }
-  const colors = setColors()
-
-  console.log(showAlert)
+  }, [theme])
 
   const styles = {
     wrap: css`
@@ -58,6 +55,7 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
       transition: height 300ms ease;
       overflow: hidden;
       z-index: 11;
+      height: 0;
       ${alertHeight &&
       css`
         height: ${alertHeight}px;
@@ -124,12 +122,20 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
   return (
     <Fragment>
       <div css={styles.wrap}>
-        <div css={styles.alert} ref={node => setRef(node)}>
+        <div
+          css={styles.alert}
+          ref={node => setRef(node)}
+        >
           <StructuredText
             data={alert}
             renderBlock={({ record }) => {
               if (isDatoLink(record)) {
-                return <DatoLink data={record} css={styles.link} />
+                return (
+                  <DatoLink
+                    data={record}
+                    css={styles.link}
+                  />
+                )
               } else return null
             }}
           />
@@ -142,7 +148,10 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
           `}
         />
       </div>
-      <div ref={inViewRef} css={styles.inView} />
+      <div
+        ref={inViewRef}
+        css={styles.inView}
+      />
     </Fragment>
   )
 }

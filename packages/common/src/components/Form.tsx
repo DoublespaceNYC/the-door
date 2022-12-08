@@ -384,7 +384,10 @@ const Form = ({
     `,
   }
   return (
-    <div css={styles.wrapper} {...props}>
+    <div
+      css={styles.wrapper}
+      {...props}
+    >
       <LoadingSpinner
         css={styles.spinner}
         color={highlightColor || colors.highlight}
@@ -415,7 +418,11 @@ const Form = ({
         >
           {formType === 'Netlify' && (
             <Fragment>
-              <input type="hidden" name="bot-field" aria-hidden />
+              <input
+                type="hidden"
+                name="bot-field"
+                aria-hidden
+              />
               <input
                 type="hidden"
                 name="form-name"

@@ -1,5 +1,12 @@
 import { css } from '@emotion/react'
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
 import useThemeContext from '../context/ThemeContext'
@@ -41,7 +48,7 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
   }, [handleOutsideClick])
 
   const { theme } = useThemeContext()
-  const setColors = () => {
+  const colors = useMemo(() => {
     switch (theme) {
       case 'The Door':
         return {
@@ -60,8 +67,7 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
           langText: ['', ''],
         }
     }
-  }
-  const colors = setColors()
+  }, [theme])
   const styles = {
     navWrap: css`
       margin: 0 var(--margin);
@@ -110,10 +116,13 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
       }
     `,
     button: css`
-      color: ${colors.buttonText[0]};
-      @media (hover: hover) {
-        &:hover {
-          color: ${colors.buttonText[1]};
+      && {
+        flex: 1;
+        color: ${colors.buttonText[0]};
+        @media (hover: hover) {
+          &:hover {
+            color: ${colors.buttonText[1]};
+          }
         }
       }
     `,
@@ -122,6 +131,10 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
       margin: 0 0.5em;
       justify-self: stretch;
       background: ${colors.divider};
+      ${condensed &&
+      css`
+        margin: 0;
+      `}
     `,
     dropdownNav: css`
       position: relative;
@@ -129,6 +142,7 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
       width: fit-content;
       margin: 0 var(--margin);
       padding: 0 !important;
+      z-index: 3;
       nav {
         position: absolute;
         z-index: 1;
@@ -144,6 +158,12 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
         background: ${colors.divider};
         transform: translate3d(0, calc(100% - 3rem), 0);
         transition: opacity 300ms ease, transform 300ms ease;
+        a {
+          width: max-content;
+          min-width: 100%;
+          max-width: calc(100vw - var(--margin) * 2);
+          box-sizing: border-box;
+        }
       }
       button {
         background: ${colors.bg};
@@ -175,7 +195,7 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
     `,
     arrow: css`
       font-size: 125%;
-      margin: 0 -0.125em -0.2em;
+      margin: -1em -0.125em -0.25em;
       transition: transform 300ms ease;
       ${dropdownOpen &&
       css`
@@ -195,8 +215,6 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
           {link.linkText}
         </AnchorLink>
       ))}
-      {links.length > 0 && button && <div css={styles.divider} />}
-      {button && <DatoLink data={button} css={styles.button} />}
     </Fragment>
   )
   return (
@@ -210,18 +228,39 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
           css={[styles.nav, styles.horizontalNav]}
           ref={node => setNavRef(node)}
         >
+          {button && (
+            <DatoLink
+              data={button}
+              css={styles.button}
+            />
+          )}
+          {links.length > 0 && button && <div css={styles.divider} />}
           <NavContent />
         </nav>
       </div>
       {condensed && (
-        <div css={[styles.nav, styles.dropdownNav]} ref={condensedRef}>
-          <button onClick={() => setDropdownOpen(prev => !prev)}>
-            Jump to section <BiChevronDown css={styles.arrow} />
-          </button>
-          <nav>
-            <NavContent />
-          </nav>
-        </div>
+        <Fragment>
+          <div
+            css={[styles.nav, styles.dropdownNav]}
+            ref={condensedRef}
+          >
+            <div css={{ position: 'relative' }}>
+              <button onClick={() => setDropdownOpen(prev => !prev)}>
+                Jump to section <BiChevronDown css={styles.arrow} />
+              </button>
+              <nav>
+                <NavContent />
+              </nav>
+            </div>
+            {links.length > 0 && button && <div css={styles.divider} />}
+            {button && (
+              <DatoLink
+                data={button}
+                css={styles.button}
+              />
+            )}
+          </div>
+        </Fragment>
       )}
     </Fragment>
   )
