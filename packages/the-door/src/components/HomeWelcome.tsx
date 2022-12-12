@@ -159,7 +159,10 @@ const HomeWelcome = ({
   return (
     <section css={styles.section}>
       {[...Array(5).keys()].map(i => (
-        <div key={i} css={styles.decoration(i)} />
+        <div
+          key={i}
+          css={styles.decoration(i)}
+        />
       ))}
       <h2 css={styles.heading}>{heading}</h2>
       <div css={styles.body}>

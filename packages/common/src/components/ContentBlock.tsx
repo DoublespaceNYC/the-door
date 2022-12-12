@@ -305,7 +305,7 @@ const ContentBlock = ({
       && {
         ${buttonStyle}
         font-size: var(--fs-21);
-        margin: 1em 0;
+        margin: 0.75em 0 1em;
         background: ${readableColor};
         color: #fff;
         @media (hover: hover) {

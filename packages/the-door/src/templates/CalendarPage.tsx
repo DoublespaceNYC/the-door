@@ -19,8 +19,15 @@ const CalendarPage = ({
 }: PageProps<DataProps>): JSX.Element => {
   const { allEvents } = useQueryContext()
   return (
-    <Layout collapsed noFooter noAlert>
-      <Calendar title={title} events={allEvents} />
+    <Layout
+      collapsed
+      noFooter
+      noAlert
+    >
+      <Calendar
+        title={title}
+        events={allEvents}
+      />
     </Layout>
   )
 }

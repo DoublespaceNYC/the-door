@@ -20,7 +20,10 @@ const FormPage = ({
 }: PageProps<QueryProps, ContextProps>): JSX.Element => {
   return (
     <Layout>
-      <FormLightbox data={data.formLightbox} layout="Page" />
+      <FormLightbox
+        data={data.formLightbox}
+        layout="Page"
+      />
     </Layout>
   )
 }

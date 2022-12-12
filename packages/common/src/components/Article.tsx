@@ -163,42 +163,33 @@ const Article = ({
         max-width: inherit;
       }
       > h2 {
-        &:first-child {
-          margin-top: 1em;
-        }
-      }
-      > p,
-      > ul,
-      > ol {
-        &:first-child {
-          margin-top: 1.5em;
-        }
-      }
-      > *:last-child {
-        margin-bottom: 0;
-      }
-      h2 {
         font-size: var(--fs-36);
         line-height: 1.125;
         text-transform: uppercase;
-        margin: 0.5em 0 0.25em;
+        margin-bottom: 0.25em;
+        /* :first-child */
+        margin-top: 1em;
+      }
+      > *:not(style) + h2 {
+        margin-top: 0.5em;
       }
       > p + h2,
       > ul + h2,
       > ol + h2 {
         margin-top: 1em;
       }
-      h3 {
+      > h3 {
         font-size: var(--fs-24);
         font-family: var(--body-font);
         font-weight: 500;
         line-height: 1.25;
-        margin: 1.25em 0 0.5em;
+        margin-bottom: 0.5em;
+        margin-top: 1.25em;
       }
       > h2 + h3 {
         margin-top: 0.75em;
       }
-      h4 {
+      > h4 {
         font-size: var(--fs-16);
         font-family: var(--body-font);
         text-transform: uppercase;
@@ -210,9 +201,27 @@ const Article = ({
       > h3 + h4 {
         margin-top: 1em;
       }
-      p {
+      > p {
         line-height: 1.75;
-        margin: 0.5em 0;
+      }
+      > ul,
+      > ol {
+        line-height: 1.5;
+      }
+      > p,
+      > ul,
+      > ol {
+        margin-bottom: 0.5em;
+        /* first-child */
+        margin-top: 1.5em;
+      }
+      > *:not(style) + p,
+      > *:not(style) + ul,
+      > *:not(style) + ol {
+        margin-top: 0.5em;
+      }
+      > *:last-child {
+        margin-bottom: 0;
       }
       a {
         color: ${readableHighlight};
@@ -228,9 +237,13 @@ const Article = ({
         > p,
         > ul,
         > ol {
-          &:first-child {
-            margin-top: 1em;
-          }
+          /* :first-child */
+          margin-top: 1em;
+        }
+        > *:not(style) + p,
+        > *:not(style) + ul,
+        > *:not(style) + ol {
+          margin-top: 0.5em;
         }
       `}
     `,

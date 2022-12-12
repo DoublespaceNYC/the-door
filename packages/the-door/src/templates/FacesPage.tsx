@@ -159,11 +159,20 @@ const FacesPage = ({
   }
   return (
     <Layout>
-      <PageHero title={page.title} image={page.heroImage} />
-      <PageIntro intro={page.intro} css={styles.intro} />
+      <PageHero
+        title={page.title}
+        image={page.heroImage}
+      />
+      <PageIntro
+        intro={page.intro}
+        css={styles.intro}
+      />
       <section>
         {stories.nodes.map((story, i) => (
-          <div key={i} css={styles.story(i)}>
+          <div
+            key={i}
+            css={styles.story(i)}
+          >
             <GatsbyImageFocused
               css={styles.image(i)}
               image={story.image.carouselImageData}

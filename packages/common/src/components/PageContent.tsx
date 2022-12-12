@@ -1,3 +1,4 @@
+import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 
 import useThemeContext from '../context/ThemeContext'
@@ -55,8 +56,13 @@ const PageContent = ({
   const shapeIndex = shapeArray.indexOf(startShape)
   const oddOrientation = startOrientation === 'left' ? 'right' : 'left'
   let blockIndex = -1
+  const style = css`
+    padding-bottom: var(--row-s);
+    /* Fixes chrome bug that prevents backdrop-filter on lightboxes from rendering correctly */
+    backdrop-filter: opacity(1);
+  `
   return (
-    <div css={{ paddingBottom: 'var(--row-s)' }}>
+    <div css={style}>
       {pageContent.map((record, i) => {
         if (record.__typename === 'DatoCmsContentBlock') {
           blockIndex++

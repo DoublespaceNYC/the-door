@@ -20,7 +20,10 @@ const LeaderProfilePage = ({
 }: PageProps<QueryProps, ContextProps>): JSX.Element => {
   return (
     <Layout>
-      <LeaderProfile data={data.leader} layout="Page" />
+      <LeaderProfile
+        data={data.leader}
+        layout="Page"
+      />
     </Layout>
   )
 }

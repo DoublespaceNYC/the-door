@@ -3,13 +3,21 @@ import '../fonts/_font-face.css'
 import { Global, css } from '@emotion/react'
 import emotionNormalize from 'emotion-normalize'
 
+import { useWindowHeight } from '../hooks/useWindowDimensions'
 import { mq } from './mixins'
 
 const GlobalStyles = () => {
+  const windowHeight = useWindowHeight()
+
   const globalStyles = css`
     ${emotionNormalize}
 
     :root {
+      ${windowHeight &&
+      css`
+        --vh: ${windowHeight / 100}px;
+      `}
+
       --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica,
         Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
       --slab-serif: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console,

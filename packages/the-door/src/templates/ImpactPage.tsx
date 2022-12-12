@@ -330,11 +330,20 @@ const ImpactPage = ({
   }
   return (
     <Layout>
-      <PageHero title={page.title} image={page.heroImage} />
-      <PageIntro intro={page.intro} css={styles.intro} />
+      <PageHero
+        title={page.title}
+        image={page.heroImage}
+      />
+      <PageIntro
+        intro={page.intro}
+        css={styles.intro}
+      />
       <section css={styles.graphicsSection}>
         {page.graphics.map((graphic, i) => (
-          <VectorGraphic data={graphic} key={i} />
+          <VectorGraphic
+            data={graphic}
+            key={i}
+          />
         ))}
       </section>
       <section>
@@ -343,7 +352,10 @@ const ImpactPage = ({
           <StructuredText data={page.statsIntro} />
         </div>
         {page.statGroups.map((group, i) => (
-          <div key={i} css={styles.statGroup(i)}>
+          <div
+            key={i}
+            css={styles.statGroup(i)}
+          >
             <h3>{group.heading}</h3>
             <h4>
               <span>{group.featuredStat[0].number}</span>

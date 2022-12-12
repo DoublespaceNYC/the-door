@@ -110,7 +110,10 @@ const FacesThumbnail = ({ story }: Props): JSX.Element => {
     `,
   }
   return (
-    <div css={styles.story} ref={ref}>
+    <div
+      css={styles.story}
+      ref={ref}
+    >
       <GatsbyImageFocused
         css={styles.imageWrap}
         gatsbyImageCss={styles.image}

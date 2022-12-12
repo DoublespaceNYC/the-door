@@ -115,7 +115,10 @@ const HomeHero = ({
     `,
   }
   return (
-    <section css={styles.section} ref={videoRef}>
+    <section
+      css={styles.section}
+      ref={videoRef}
+    >
       <VideoStreamPlayer
         css={styles.video}
         src={video.video.streamingUrl}
@@ -143,7 +146,10 @@ const HomeHero = ({
         </span>{' '}
         <span>
           <span>
-            <DatoLink data={ctaLink} css={styles.link} />
+            <DatoLink
+              data={ctaLink}
+              css={styles.link}
+            />
           </span>
         </span>
       </h2>

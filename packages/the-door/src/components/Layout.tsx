@@ -178,7 +178,16 @@ const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
     setAllExternalArticles(allExternalArticles)
     setAllEvents(allEvents)
     setAllPartners(allPartners)
-  })
+  }, [
+    setAllInternalArticles,
+    setAllExternalArticles,
+    setAllEvents,
+    setAllPartners,
+    allEvents,
+    allExternalArticles,
+    allInternalArticles,
+    allPartners,
+  ])
   const { setTheme } = useThemeContext()
   useLayoutEffect(() => {
     setTheme('The Door')

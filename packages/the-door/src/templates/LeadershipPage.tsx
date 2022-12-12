@@ -225,7 +225,10 @@ const LeadershipPage = ({
   }
   return (
     <Layout>
-      <PageHero title={title} image={heroImage} />
+      <PageHero
+        title={title}
+        image={heroImage}
+      />
       <PageNav
         links={[leadershipAnchor[0], boardAnchor[0], advisoryAnchor[0]]}
       />
@@ -298,7 +301,10 @@ const LeadershipPage = ({
         <h2>{advisoryHeading}</h2>
         <div>
           {advisory.nodes.map((member, i) => (
-            <AdvisoryMember key={i} data={member} />
+            <AdvisoryMember
+              key={i}
+              data={member}
+            />
           ))}
         </div>
       </section>

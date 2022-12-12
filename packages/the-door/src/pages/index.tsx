@@ -98,7 +98,10 @@ const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
         cta={home.impactCta}
         ctaLink={home.impactCtaLink[0]}
       />
-      <HomeFaces heading={home.facesHeading} body={home.facesBody} />
+      <HomeFaces
+        heading={home.facesHeading}
+        body={home.facesBody}
+      />
       <HomeLatest
         heading={home.latestHeading}
         featuredArticle={home.featuredArticle}
@@ -110,7 +113,10 @@ const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
 }
 
 export const Head = (): JSX.Element => (
-  <Seo title={`The Door`} hideSuffix />
+  <Seo
+    title={`The Door`}
+    hideSuffix
+  />
 )
 
 export const data = graphql`

@@ -20,7 +20,10 @@ const EventArticlePage = ({
 }: PageProps<QueryProps, ContextProps>): JSX.Element => {
   return (
     <Layout>
-      <EventArticle data={data.event} layout="Page" />
+      <EventArticle
+        data={data.event}
+        layout="Page"
+      />
     </Layout>
   )
 }

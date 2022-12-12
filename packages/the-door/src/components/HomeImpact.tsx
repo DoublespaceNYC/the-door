@@ -194,10 +194,16 @@ const HomeImpact = ({
       <div css={styles.body}>
         <StructuredText data={body.value} />
       </div>
-      <DatoLink css={styles.link} data={link} />
+      <DatoLink
+        css={styles.link}
+        data={link}
+      />
       <div css={styles.stats}>
         {stats.map((stat, i) => (
-          <h3 key={i} css={styles.stat(stat.number.length)}>
+          <h3
+            key={i}
+            css={styles.stat(stat.number.length)}
+          >
             <span>{stat.number}</span>
             <span>{stat.text}</span>
           </h3>
@@ -207,7 +213,10 @@ const HomeImpact = ({
         <div>
           <span>{cta}</span>{' '}
           <span>
-            <DatoLink data={ctaLink} css={styles.ctaLink} />
+            <DatoLink
+              data={ctaLink}
+              css={styles.ctaLink}
+            />
           </span>
         </div>
       </div>

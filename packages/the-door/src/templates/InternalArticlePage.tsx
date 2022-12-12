@@ -20,7 +20,10 @@ const InternalArticlePage = ({
 }: PageProps<QueryProps, ContextProps>): JSX.Element => {
   return (
     <Layout>
-      <InternalArticle data={data.article} layout="Page" />
+      <InternalArticle
+        data={data.article}
+        layout="Page"
+      />
     </Layout>
   )
 }

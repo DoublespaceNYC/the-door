@@ -125,7 +125,10 @@ const HomeFaces = ({ heading, body }: Props): JSX.Element => {
         scrollWidthCss={styles.sliderScrollWidth}
       >
         {stories.nodes.map((story, i) => (
-          <FacesThumbnail key={i} story={story} />
+          <FacesThumbnail
+            key={i}
+            story={story}
+          />
         ))}
       </ScrollSlider>
     </section>

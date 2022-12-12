@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { Fragment } from 'react'
+import { Fragment, useMemo } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import { doorColors } from '../theme/variables'
@@ -26,25 +26,25 @@ const ProgramCatalogSection = ({
   data: { heading, catalogGroups, anchorLink },
 }: Props): JSX.Element => {
   const { theme } = useThemeContext()
-  const setColors = () => {
+  const colors = useMemo(() => {
+    const defaultColors = {
+      bg: 'transparent',
+      heading: '#fff',
+      accordionHeading: '#fff',
+      divider: '#ffffff88',
+      highlight: '#fff',
+    }
     switch (theme) {
       case 'The Door':
         return {
+          ...defaultColors,
           bg: `linear-gradient(to top right, ${doorColors.purpleDark}, ${doorColors.purple})`,
-          heading: '#fff',
-          accordionHeading: '#fff',
-          divider: '#ffffff88',
+          highlight: doorColors.pink,
         }
       default:
-        return {
-          bg: 'transparent',
-          heading: 'transparent',
-          accordionHeading: 'transparent',
-          divider: 'transparent',
-        }
+        return defaultColors
     }
-  }
-  const colors = setColors()
+  }, [theme])
   const styles = {
     section: css`
       background: ${colors.bg};
@@ -94,6 +94,8 @@ const ProgramCatalogSection = ({
                   program={program}
                   key={i}
                   headingLevel={4}
+                  theme="Dark"
+                  highlightColor={colors.highlight}
                 />
               ))}
             </Fragment>

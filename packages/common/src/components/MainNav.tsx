@@ -1,6 +1,6 @@
 import { Global, css } from '@emotion/react'
 import { Link } from 'gatsby'
-import { FC, Fragment, useEffect, useRef, useState } from 'react'
+import { FC, Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
 
@@ -80,7 +80,7 @@ const MainNav = ({
   })
 
   const { theme } = useThemeContext()
-  const setColors = () => {
+  const colors = useMemo(() => {
     const defaultColors = {
       bg: '',
       bgSecondary: '',
@@ -99,8 +99,7 @@ const MainNav = ({
       default:
         return defaultColors
     }
-  }
-  const colors = setColors()
+  }, [theme])
   const styles = {
     scrollObserver: css`
       position: absolute;
@@ -119,6 +118,7 @@ const MainNav = ({
       z-index: 10;
       font-size: var(--fs-48);
       height: 1.5em;
+      pointer-events: none;
       transition: height 300ms ease;
       ${mq().s} {
         height: 1.25em;
@@ -137,6 +137,7 @@ const MainNav = ({
       position: relative;
       width: 100%;
       box-sizing: border-box;
+      pointer-events: all;
       &:before {
         content: '';
         display: block;

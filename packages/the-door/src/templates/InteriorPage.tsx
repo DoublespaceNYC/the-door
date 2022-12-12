@@ -52,7 +52,10 @@ const InteriorPage = ({
   console.log(pageContent)
   return (
     <Layout>
-      <PageHero title={title} image={heroImage} />
+      <PageHero
+        title={title}
+        image={heroImage}
+      />
       <PageNav
         links={[...anchorLinks]}
         button={navButton ? navButton[0] : undefined}

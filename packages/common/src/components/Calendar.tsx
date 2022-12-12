@@ -170,7 +170,17 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
 
   const styles = {
     container: css`
-      height: calc(100vh - var(--nav-height, 0) - var(--alert-height, 0));
+      height: calc(
+        100 * var(--vh, 1vh) - var(--nav-height, 0) - var(--alert-height, 0)
+      );
+      /* position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: var(--nav-height);
+      box-sizing: border-box; 
+      height: 100%;
+      */
+      width: 100%;
       overflow: hidden;
       display: grid;
       grid-template-columns: 2fr 3fr 5fr;

@@ -140,6 +140,7 @@ const NavLinkGroup = ({
         grid-column: 1 / 2;
         grid-row: auto;
         overflow: visible;
+        z-index: 2;
       }
     `,
     linkList: css`
@@ -254,6 +255,7 @@ const NavLinkGroup = ({
       ${mq().s} {
         grid-row: auto;
         padding: var(--row-m) var(--margin) var(--row-s);
+        z-index: 1;
         h2 {
           font-size: var(--fs-72);
           margin-top: 0.125em;

@@ -41,6 +41,9 @@ export const Fragments = graphql`
       ... on DatoCmsCalendarPage {
         slug
       }
+      ... on DatoCmsProgramsPage {
+        slug
+      }
     }
   }
   fragment InternalLinkFilteredFragment on DatoCmsInternalLinkFiltered {

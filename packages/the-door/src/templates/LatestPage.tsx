@@ -89,7 +89,10 @@ const LatestPage = ({
 
   return (
     <Layout>
-      <PageHero title={page.title} image={page.heroImage} />
+      <PageHero
+        title={page.title}
+        image={page.heroImage}
+      />
       <PageFilter
         options={categories}
         initialOption={

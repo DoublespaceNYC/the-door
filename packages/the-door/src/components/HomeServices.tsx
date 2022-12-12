@@ -161,7 +161,10 @@ const HomeServices = ({
       <div css={styles.body}>
         <StructuredText data={body.value} />
       </div>
-      <ServicesModule css={styles.services} bgColor={colors.teal} />
+      <ServicesModule
+        css={styles.services}
+        bgColor={colors.teal}
+      />
       <section css={styles.bsaSection}>
         <div css={styles.bsaText}>
           <h3 css={styles.bsaHeading}>{bsaHeading}</h3>

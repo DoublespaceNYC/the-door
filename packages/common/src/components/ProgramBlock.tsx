@@ -1,12 +1,12 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { HTMLAttributes } from 'react'
+import { darken } from 'polished'
+import { HTMLAttributes, useMemo } from 'react'
 import { ElementType } from 'react'
 import { StructuredText } from 'react-datocms'
 
-import useThemeContext from '../context/ThemeContext'
+import useReadableColor from '../hooks/useReadableColor'
 import { buttonStyle, mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
 
 export interface IProgram extends Record {
@@ -21,37 +21,43 @@ export interface IProgram extends Record {
 interface Props extends HTMLAttributes<HTMLDivElement> {
   program: IProgram
   headingLevel?: number
+  highlightColor: string
+  theme: 'Light' | 'Dark'
 }
 
 const ProgramBlock = ({
   program: { programTitle, location, description, registration, url },
   headingLevel = 4,
+  highlightColor,
+  theme,
   ...props
 }: Props): JSX.Element => {
   const Heading = `h${headingLevel}` as ElementType
   const Subheading = `h${headingLevel + 1}` as ElementType
-  const { theme } = useThemeContext()
-  const setColors = () => {
+  const readableHighlight = useReadableColor(
+    highlightColor,
+    theme === 'Dark' ? '#333' : '#fff'
+  )
+  const colors = useMemo(() => {
     switch (theme) {
-      case 'The Door':
+      case 'Dark':
         return {
           heading: '#fff',
           location: '#ffffffaa',
           body: '#fff',
-          link: ['#fff', doorColors.pinkLight],
-          button: ['#fff', doorColors.pinkLight],
+          link: '#fff',
+          linkHover: readableHighlight,
         }
-      default:
+      case 'Light':
         return {
-          heading: 'transparent',
-          location: 'transparent',
-          body: 'transparent',
-          link: 'transparent',
-          button: 'transparent',
+          heading: '#333',
+          location: '#444',
+          body: '#444',
+          link: readableHighlight,
+          linkHover: darken(0.1, readableHighlight),
         }
     }
-  }
-  const colors = setColors()
+  }, [theme])
   const styles = {
     block: css`
       display: grid;
@@ -66,6 +72,7 @@ const ProgramBlock = ({
     heading: css`
       grid-column: 1 / 2;
       color: ${colors.heading};
+      font-family: var(--body-font);
       font-size: var(--fs-24);
       line-height: 1.25;
       font-weight: 400;
@@ -89,11 +96,11 @@ const ProgramBlock = ({
         margin: 0.67em 0 0;
       }
       a {
-        color: ${colors.link[0]};
+        color: ${colors.link};
         font-weight: 500;
         @media (hover: hover) {
           &:hover {
-            color: ${colors.link[1]};
+            color: ${colors.linkHover};
           }
         }
       }
@@ -106,12 +113,12 @@ const ProgramBlock = ({
       grid-row: 1 / 4;
       align-self: flex-start;
       font-size: var(--fs-21);
-      color: ${colors.button[0]};
+      color: ${colors.link};
       border: 1px solid currentColor;
       margin-top: 1.5em;
       @media (hover: hover) {
         &:hover {
-          color: ${colors.button[1]};
+          color: ${colors.linkHover};
         }
       }
       ${mq().s} {
