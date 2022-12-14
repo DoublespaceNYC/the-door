@@ -44,6 +44,9 @@ export const Fragments = graphql`
       ... on DatoCmsProgramsPage {
         slug
       }
+      ... on DatoCmsContactPage {
+        slug
+      }
     }
   }
   fragment InternalLinkFilteredFragment on DatoCmsInternalLinkFiltered {
@@ -496,9 +499,23 @@ export const Fragments = graphql`
     id: originalId
     label
     options {
-      id: originalId
-      label
-      value
+      ... on DatoCmsSelectOption {
+        __typename
+        id: originalId
+        label
+        value
+      }
+      ... on DatoCmsSelectGroup {
+        __typename
+        id: originalId
+        label
+        options {
+          __typename
+          id: originalId
+          label
+          value
+        }
+      }
     }
     required
   }

@@ -178,6 +178,7 @@ const NavLinkGroup = ({
       }
       li {
         display: block;
+        width: fit-content;
       }
       a {
         display: block;
@@ -198,6 +199,10 @@ const NavLinkGroup = ({
           }
         }
       }
+    `,
+    linkAfterGroup: css`
+      padding-top: 0.5em;
+      border-top: 2px solid ${mix(0.5, colors.text, colors.bg)};
     `,
     closeButton: css`
       display: flex;
@@ -305,7 +310,7 @@ const NavLinkGroup = ({
               </div>
               <div css={styles.linkListWrap}>
                 <ul css={styles.linkList}>
-                  {links.map((link, i) => {
+                  {links.map((link, i, array) => {
                     if (link.__typename === 'DatoCmsServicesGroupLink') {
                       return (
                         <li key={i}>
@@ -333,7 +338,16 @@ const NavLinkGroup = ({
                       )
                     } else {
                       return (
-                        <li key={i}>
+                        <li
+                          key={i}
+                          css={
+                            (i > 0 &&
+                              array[i - 1].__typename ===
+                                'DatoCmsServicesGroupLink' &&
+                              styles.linkAfterGroup) ||
+                            null
+                          }
+                        >
                           <DatoLink
                             data={link}
                             tabIndex={open ? 0 : -1}

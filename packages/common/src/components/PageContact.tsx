@@ -20,7 +20,7 @@ export interface IContactBlock extends Record {
 export interface IContactSection extends Record {
   __typename: 'DatoCmsContactSection'
   heading: string
-  anchorLink: [IAnchorLink?]
+  anchorLink: IAnchorLink[] 
   contactBlocks: IContactBlock[]
 }
 

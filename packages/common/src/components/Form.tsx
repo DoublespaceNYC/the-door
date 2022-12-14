@@ -35,11 +35,19 @@ export interface IFormEmbed extends Record {
   form: IForm
 }
 
+export interface IFieldStyles {
+  container: CSSInterpolation
+  inputBase: CSSInterpolation
+  input: CSSInterpolation
+  label: CSSInterpolation
+  shrink: CSSInterpolation
+  required: CSSInterpolation
+}
+
 interface Props extends HTMLAttributes<HTMLDivElement> {
   data: IForm
   formType?: 'Netlify' | 'Mailchimp'
   listId?: string
-  formCss?: CSSInterpolation
   successCss?: CSSInterpolation
   simpleSuccess?: boolean
   theme?: 'Light' | 'Dark'
@@ -61,9 +69,8 @@ const Form = ({
   const [formRef, setFormRef] = useState<HTMLElement | null>(null)
   const [successRef, setSuccessRef] = useState<HTMLElement | null>(null)
 
-  const { width: formWidth, height: formHeight } = useElementRect(formRef)
-  const { width: successWidth, height: successHeight } =
-    useElementRect(successRef)
+  const { height: formHeight } = useElementRect(formRef)
+  const { height: successHeight } = useElementRect(successRef)
 
   const [formData, setFormData] = useState({})
 
@@ -193,7 +200,7 @@ const Form = ({
       position: relative;
       display: grid;
       overflow: hidden;
-      width: ${submitted ? successWidth : formWidth}px;
+      width: auto;
       height: ${submitted ? successHeight : formHeight}px;
       transition: all 300ms ease;
     `,
@@ -508,13 +515,5 @@ export const FormFragments = graphql`
     }
   }
 `
-export interface IFieldStyles {
-  container: CSSInterpolation
-  inputBase: CSSInterpolation
-  input: CSSInterpolation
-  label: CSSInterpolation
-  shrink: CSSInterpolation
-  required: CSSInterpolation
-}
 
 export default Form

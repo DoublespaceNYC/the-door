@@ -102,6 +102,10 @@ export const createPages: GatsbyNode['createPages'] = async ({
         id
         slug
       }
+      datoCmsContactPage {
+        id
+        slug
+      }
     }
   `)
 
@@ -159,6 +163,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       datoCmsFacesPage: PageNode
       datoCmsCalendarPage: PageNode
       datoCmsProgramsPage: PageNode
+      datoCmsContactPage: PageNode
     }
   }
 
@@ -276,6 +281,10 @@ export const createPages: GatsbyNode['createPages'] = async ({
   createPage({
     path: `/${data?.datoCmsProgramsPage.slug}/`,
     component: resolve(`./src/templates/ProgramsPage.tsx`)
+  })
+  createPage({
+    path: `/${data?.datoCmsContactPage.slug}/`,
+    component: resolve(`./src/templates/ContactPage.tsx`)
   })
 }
 

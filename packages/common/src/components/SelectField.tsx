@@ -6,14 +6,24 @@ import { BiChevronDown } from 'react-icons/bi'
 import { toSlug } from '../helpers'
 import { IFieldStyles } from './Form'
 
+interface ISelectOption extends Record {
+  __typename: 'DatoCmsSelectOption'
+  id: string
+  label: string
+  value: string
+}
+
+interface ISelectGroup extends Record {
+  __typename: 'DatoCmsSelectGroup'
+  id: string
+  label: string
+  options: ISelectOption[]
+}
+
 export interface ISelectField extends Record {
   __typename: 'DatoCmsSelectField'
   label: string
-  options: {
-    id: string
-    label: string
-    value: string
-  }[]
+  options: (ISelectOption | ISelectGroup)[]
   required: boolean
 }
 
@@ -42,8 +52,18 @@ const SelectField = ({
   }
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
+      const allOptions = [
+        ...(options.filter(
+          option => option.__typename === 'DatoCmsSelectOption'
+        ) as ISelectOption[]),
+        ...options
+          .filter(option => option.__typename === 'DatoCmsSelectGroup')
+          .flatMap(optGroup => optGroup.options as ISelectOption[]),
+      ]
+
       const idToValue =
-        options.find(option => option.id === e.target.value)?.value || ''
+        allOptions.find(option => option.id === e.target.value)?.value || ''
+
       setValue(idToValue)
     },
     [options]
@@ -108,14 +128,35 @@ const SelectField = ({
           >
             {label}
           </option>
-          {options.map((option, i) => (
-            <option
-              key={i}
-              value={option.id}
-            >
-              {option.label}
-            </option>
-          ))}
+          {options.map((option, i) => {
+            if (option.__typename === 'DatoCmsSelectOption') {
+              return (
+                <option
+                  key={i}
+                  value={option.id}
+                >
+                  {option.label}
+                </option>
+              )
+            }
+            if (option.__typename === 'DatoCmsSelectGroup') {
+              return (
+                <optgroup
+                  label={option.label}
+                  key={i}
+                >
+                  {option.options.map((subOption, i) => (
+                    <option
+                      key={i}
+                      value={subOption.id}
+                    >
+                      {subOption.label}
+                    </option>
+                  ))}
+                </optgroup>
+              )
+            }
+          })}
         </select>
       </div>
     </div>

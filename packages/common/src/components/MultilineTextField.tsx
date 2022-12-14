@@ -12,7 +12,7 @@ export interface IMultilineTextField extends Record {
   required: boolean
 }
 
-type FieldProps = {
+interface FieldProps {
   data: IMultilineTextField
   onChange: (name: string, value: string) => void
   fieldStyles: IFieldStyles
@@ -54,21 +54,28 @@ const MultilineTextField = ({
   }, [onChange, name, value])
 
   const styles = {
+    container: css`
+      min-width: 100%;
+    `,
     sizer: css`
       display: block;
       visibility: hidden;
-      min-height: 6em;
+      min-height: 9em;
+      padding-top: 1.75em;
+      padding-bottom: 1.5em;
     `,
     textArea: css`
       ${absoluteFill}
       resize: none;
       height: 100%;
       border: none;
+      padding-top: 1.75em;
+      padding-bottom: 1.5em;
     `,
   }
 
   return (
-    <div css={fieldStyles.container}>
+    <div css={[fieldStyles.container, styles.container]}>
       <label
         htmlFor={name}
         css={[
