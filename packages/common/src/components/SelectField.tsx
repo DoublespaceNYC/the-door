@@ -1,21 +1,19 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
-import { toSlug } from '../helpers'
+import { toSlug } from '../utils'
 import { IFieldStyles } from './Form'
 
-interface ISelectOption extends Record {
+export interface ISelectOption extends Record {
   __typename: 'DatoCmsSelectOption'
-  id: string
   label: string
-  value: string
+  value: string | null
 }
 
-interface ISelectGroup extends Record {
+export interface ISelectGroup extends Record {
   __typename: 'DatoCmsSelectGroup'
-  id: string
   label: string
   options: ISelectOption[]
 }
@@ -25,18 +23,21 @@ export interface ISelectField extends Record {
   label: string
   options: (ISelectOption | ISelectGroup)[]
   required: boolean
+  fullWidth: boolean
 }
 
 type Props = {
   data: ISelectField
   onChange: (name: string, value: string) => void
   fieldStyles: IFieldStyles
+  statesList?: boolean
 }
 
 const SelectField = ({
-  data: { label, options, required },
+  data: { label, options, required, fullWidth },
   onChange,
   fieldStyles,
+  statesList,
 }: Props): JSX.Element => {
   const name = toSlug(label)
 
@@ -50,42 +51,64 @@ const SelectField = ({
       setShrink(false)
     }
   }
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      const allOptions = [
-        ...(options.filter(
-          option => option.__typename === 'DatoCmsSelectOption'
-        ) as ISelectOption[]),
-        ...options
-          .filter(option => option.__typename === 'DatoCmsSelectGroup')
-          .flatMap(optGroup => optGroup.options as ISelectOption[]),
-      ]
 
-      const idToValue =
-        allOptions.find(option => option.id === e.target.value)?.value || ''
-
-      setValue(idToValue)
-    },
-    [options]
-  )
   useEffect(() => {
     if (value.length > 0) {
       setShrink(true)
     }
   }, [value])
 
+  const allOptions = useMemo(
+    () => [
+      ...(options.filter(
+        option => option.__typename === 'DatoCmsSelectOption'
+      ) as ISelectOption[]),
+      ...options
+        .filter(option => option.__typename === 'DatoCmsSelectGroup')
+        .flatMap(optGroup => optGroup.options as ISelectOption[]),
+    ],
+    [options]
+  )
+
+  const [activeOptionLabel, setActiveOptionLabel] = useState<
+    string | undefined
+  >()
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      const idToOptionObject = allOptions.find(
+        option => option.id === e.target.value
+      )
+      setValue(idToOptionObject?.value || idToOptionObject?.label || '')
+      setActiveOptionLabel(idToOptionObject?.label || '')
+    },
+    [allOptions]
+  )
+
   useEffect(() => {
     onChange(name, value)
   }, [onChange, name, value])
 
   const styles = {
+    container: css`
+      min-width: ${fullWidth && '100%'};
+      ${statesList &&
+      css`
+        flex: 0.4;
+        min-width: 10ch;
+      `}
+    `,
     select: css`
       appearance: none;
       cursor: pointer;
-      ${!value &&
-      css`
-        color: transparent;
-      `}
+      color: transparent;
+      /* ${!value && css``} */
+    `,
+    inputValue: css`
+      position: absolute;
+      display: block;
+      pointer-events: none;
+      line-height: 1.333;
     `,
     arrow: css`
       font-size: 125%;
@@ -98,7 +121,7 @@ const SelectField = ({
   }
 
   return (
-    <div css={fieldStyles.container}>
+    <div css={[fieldStyles.container, styles.container]}>
       <label
         htmlFor={name}
         css={[
@@ -110,6 +133,14 @@ const SelectField = ({
         {label}
       </label>
       <BiChevronDown css={styles.arrow} />
+      {activeOptionLabel && (
+        <div
+          css={[fieldStyles.input, styles.inputValue]}
+          aria-hidden
+        >
+          {activeOptionLabel}
+        </div>
+      )}
       <div css={fieldStyles.inputBase}>
         <select
           css={[fieldStyles.input, styles.select]}

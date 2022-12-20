@@ -1,14 +1,16 @@
+import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
-import { toSlug } from '../helpers'
+import { toSlug } from '../utils'
 import { IFieldStyles } from './Form'
 
 export interface ITextField extends Record {
   __typename: 'DatoCmsTextField'
   label: string
-  fieldType: string
+  fieldType: 'text' | 'email' | 'tel' | 'zip'
   required: boolean
+  fullWidth: boolean
 }
 
 type FieldProps = {
@@ -18,7 +20,7 @@ type FieldProps = {
 }
 
 const TextField = ({
-  data: { label, fieldType, required },
+  data: { label, fieldType, required, fullWidth },
   onChange,
   fieldStyles,
 }: FieldProps): JSX.Element => {
@@ -78,25 +80,33 @@ const TextField = ({
     return output
   }, [])
 
-  const handleChange = useCallback(
+  const handleChangeText = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value)
+  }, [])
+
+  const handleChangePhone = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      let v
-      if (fieldType === 'tel') {
-        v = getFormattedPhoneNum(e)
-      } else {
-        v = e.target.value
-      }
-      setValue(v)
+      setValue(() => getFormattedPhoneNum(e))
     },
-    [fieldType, getFormattedPhoneNum]
+    [getFormattedPhoneNum]
   )
 
   useEffect(() => {
     onChange(name, value)
   }, [onChange, name, value])
 
+  const styles = {
+    container: css`
+      min-width: ${fullWidth && '100%'};
+      ${fieldType === 'zip' &&
+      css`
+        min-width: 15ch;
+        flex: 0.6;
+      `}
+    `,
+  }
   return (
-    <div css={fieldStyles.container}>
+    <div css={[fieldStyles.container, styles.container]}>
       <label
         htmlFor={name}
         css={[
@@ -109,15 +119,21 @@ const TextField = ({
       </label>
       <div css={fieldStyles.inputBase}>
         <input
-          css={fieldStyles.input}
+          css={[fieldStyles.input]}
           value={value}
           name={name}
           id={name}
           type={fieldType}
           required={required}
-          onChange={handleChange}
+          onChange={fieldType === 'tel' ? handleChangePhone : handleChangeText}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          inputMode={fieldType === 'zip' ? 'numeric' : undefined}
+          pattern={
+            fieldType === 'zip'
+              ? '^(?(^00000(|-0000))|(d{5}(|-d{4})))$'
+              : undefined
+          }
         />
       </div>
     </div>

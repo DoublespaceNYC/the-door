@@ -1,7 +1,7 @@
 import InternalArticle, {
   IInternalArticle,
 } from '@the-door/common/src/components/InternalArticle'
-import { render } from 'datocms-structured-text-to-plain-text'
+import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 
 import Layout from '../components/Layout'
@@ -36,9 +36,9 @@ export const Head = ({
   <Seo
     title={seo?.title || title}
     description={
-      seo?.description || (lede.value && render(lede)) || body.value
-        ? render(body)
-        : null
+      seo?.description ||
+      (lede && renderDescription(lede)) ||
+      renderDescription(body)
     }
     imageUrl={seo?.image?.url}
   />

@@ -3,6 +3,7 @@ import { graphql } from 'gatsby'
 
 import { ISEO } from '../types'
 import Article from './Article'
+import { IBlackbaudForm } from './BlackbaudForm'
 import { IForm } from './Form'
 
 export interface IFormLightbox extends Record {
@@ -12,7 +13,7 @@ export interface IFormLightbox extends Record {
   text: {
     value: Document
   }
-  form: IForm
+  form: IForm | IBlackbaudForm
   slug: string
   seo?: ISEO
 }

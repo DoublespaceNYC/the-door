@@ -1,8 +1,8 @@
 import { Record } from 'datocms-structured-text-utils'
-import { HTMLAttributes, ReactNode, SyntheticEvent, useEffect } from 'react'
+import { HTMLAttributes, MouseEvent, ReactNode, useEffect } from 'react'
 import smoothscroll from 'smoothscroll-polyfill'
 
-import { toSlug } from '../helpers'
+import { toSlug } from '../utils'
 
 export interface IAnchorLink extends Record {
   __typename: 'DatoCmsAnchorLink'
@@ -48,7 +48,7 @@ const AnchorLink = ({
 
   const slugId = toSlug(id)
 
-  const handleClick = (e: SyntheticEvent) => {
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
     window.history.replaceState(
       null,

@@ -1,9 +1,10 @@
 import { css } from '@emotion/react'
-import { Record } from 'datocms-structured-text-utils'
+import { Record, isLink } from 'datocms-structured-text-utils'
+import { Link } from 'gatsby'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
 import { darken } from 'polished'
 import { Fragment } from 'react'
-import { StructuredText, renderMarkRule } from 'react-datocms'
+import { StructuredText, renderMarkRule, renderNodeRule } from 'react-datocms'
 
 import useReadableColor from '../hooks/useReadableColor'
 import { baseGrid, buttonStyle, linkStyle, mq } from '../theme/mixins'
@@ -363,6 +364,36 @@ const ContentBlock = ({
                     }),
                     renderMarkRule('h5' || 'h6', ({ children, key }) => {
                       return <h4 key={key}>{children}</h4>
+                    }),
+                  ]}
+                  customNodeRules={[
+                    renderNodeRule(isLink, ({ node, key, children }) => {
+                      const metaProps = node.meta?.reduce(
+                        (a, v) => ({
+                          ...a,
+                          [v.id]: v.value,
+                        }),
+                        {}
+                      )
+                      if (node.url[0] === '/') {
+                        return (
+                          <Link
+                            to={node.url}
+                            key={key}
+                          >
+                            {children}
+                          </Link>
+                        )
+                      } else
+                        return (
+                          <a
+                            href={node.url}
+                            key={key}
+                            {...metaProps}
+                          >
+                            {children}
+                          </a>
+                        )
                     }),
                   ]}
                 />

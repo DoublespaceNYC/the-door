@@ -27,7 +27,7 @@ interface Props {
 
 const Calendar = ({ title, events }: Props): JSX.Element => {
   const { theme } = useThemeContext()
-  const locations = useMemo(() => {
+  const setLocations = () => {
     switch (theme) {
       case 'The Door':
         return [
@@ -39,8 +39,9 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       default:
         return []
     }
-  }, [theme])
-  const colors = useMemo(() => {
+  }
+  const locations = setLocations()
+  const setColors = () => {
     const defaultColors = {
       text: '#444',
       textMid: '#666',
@@ -60,7 +61,8 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       default:
         return defaultColors
     }
-  }, [theme])
+  }
+  const colors = setColors()
   const readableHighlight = useReadableColor(colors.highlight, colors.bg)
   const tags = useMemo(() => {
     const tagArray = events

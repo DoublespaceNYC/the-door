@@ -1,12 +1,5 @@
 import { css } from '@emotion/react'
-import {
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
 import useThemeContext from '../context/ThemeContext'
@@ -15,13 +8,15 @@ import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import AnchorLink, { IAnchorLink } from './AnchorLink'
 import DatoLink, { IDatoLink } from './DatoLink'
+import PageNavLanguage, { ILocale } from './PageNav__Language'
 
 type Props = {
   links: IAnchorLink[]
   button?: IDatoLink
+  locales?: ILocale[]
 }
 
-const PageNav = ({ links, button }: Props): JSX.Element => {
+const PageNav = ({ links, button, locales }: Props): JSX.Element => {
   const [navWrapRef, setNavWrapRef] = useState<HTMLDivElement | null>(null)
   const [navRef, setNavRef] = useState<HTMLElement | null>(null)
 
@@ -48,7 +43,7 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
   }, [handleOutsideClick])
 
   const { theme } = useThemeContext()
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'The Door':
         return {
@@ -67,7 +62,8 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
           langText: ['', ''],
         }
     }
-  }, [theme])
+  }
+  const colors = setColors()
   const styles = {
     navWrap: css`
       margin: 0 var(--margin);
@@ -228,6 +224,9 @@ const PageNav = ({ links, button }: Props): JSX.Element => {
           css={[styles.nav, styles.horizontalNav]}
           ref={node => setNavRef(node)}
         >
+          {locales && locales.length > 1 && (
+            <PageNavLanguage locales={locales} />
+          )}
           {button && (
             <DatoLink
               data={button}

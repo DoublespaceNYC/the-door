@@ -24,7 +24,10 @@ type Props = {
 
 const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
   type QueryProps = {
-    nav: Pick<MainNavProps, 'navItems' | 'buttons' | 'breakpoint'>
+    nav: Pick<
+      MainNavProps,
+      'navItems' | 'buttons' | 'modal' | 'breakpoint'
+    >
     footer: Pick<FooterProps, 'navItems' | 'buttons'> & {
       ctaBar: ICTABar
     }
@@ -99,12 +102,12 @@ const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
             }
           }
           buttons: highlightedLinks {
-            link {
-              ...InternalLinkFragment
-            }
-            modalTooltip
+            ...InternalLinkFragment
+          }
+          modal: highlightModal {
             modalHeading
             modalSubheading
+            highlightedLinkNumber
           }
           breakpoint
         }
@@ -198,6 +201,7 @@ const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
         logo: DoorLogo,
         navItems: nav.navItems,
         buttons: nav.buttons,
+        modal: nav.modal,
         breakpoint: nav.breakpoint,
       }}
       footer={{

@@ -5,10 +5,10 @@ import { Fragment } from 'react'
 import { StructuredText } from 'react-datocms'
 
 import useThemeContext from '../context/ThemeContext'
-import { toSlug } from '../helpers'
 import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
+import { toSlug } from '../utils'
 import { Anchor, IAnchorLink } from './AnchorLink'
 
 export interface IContactBlock extends Record {
@@ -20,7 +20,7 @@ export interface IContactBlock extends Record {
 export interface IContactSection extends Record {
   __typename: 'DatoCmsContactSection'
   heading: string
-  anchorLink: IAnchorLink[] 
+  anchorLink: IAnchorLink[]
   contactBlocks: IContactBlock[]
 }
 

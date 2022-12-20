@@ -1,6 +1,6 @@
 import { CSSInterpolation } from '@emotion/serialize'
 import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
-import { HTMLAttributes, useMemo, useState } from 'react'
+import { HTMLAttributes, useState } from 'react'
 
 import { useElementRect } from '../hooks/useElementRect'
 
@@ -42,7 +42,7 @@ const GatsbyImageFocused = ({
   const { width, height } = useElementRect(ref)
   const containerAR = (width && height && width / height) || 0
 
-  const trueFP = useMemo(() => {
+  const trueFP = () => {
     if (originalAspectRatio) {
       const ratioX = aspectRatio / originalAspectRatio
       const ratioY = originalAspectRatio / aspectRatio
@@ -62,9 +62,9 @@ const GatsbyImageFocused = ({
     } else {
       return focalPoint
     }
-  }, [originalAspectRatio, aspectRatio, focalPoint])
+  }
 
-  const objectPosition = useMemo(() => {
+  const objectPosition = () => {
     const ratioX = aspectRatio / containerAR
     const ratioY = containerAR / aspectRatio
     const getPosition = (ratio: number, fp: number) => {
@@ -73,16 +73,16 @@ const GatsbyImageFocused = ({
     }
 
     return {
-      x: getPosition(ratioX, trueFP.x) * 100 + '%',
-      y: getPosition(ratioY, trueFP.y) * 100 + '%',
+      x: getPosition(ratioX, trueFP().x) * 100 + '%',
+      y: getPosition(ratioY, trueFP().y) * 100 + '%',
     }
-  }, [containerAR, aspectRatio, trueFP])
+  }
 
   return (
     <div
       ref={node => setRef(node)}
       style={{
-        objectPosition: `${objectPosition.x} ${objectPosition.y}`,
+        objectPosition: `${objectPosition().x} ${objectPosition().y}`,
       }}
       {...props}
     >

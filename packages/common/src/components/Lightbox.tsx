@@ -176,6 +176,7 @@ const Lightbox = ({
         justify-self: center;
         margin: var(--row-s) 0;
         max-width: 90ch;
+        width: 100%;
         ${mq().ms} {
           grid-column: 2 / -2;
           --grid-w: min(calc(${widthInCols(12, '100vw')}), 90ch);

@@ -4,9 +4,9 @@ import {
   StructuredText as IStructuredText,
   Record,
 } from 'datocms-structured-text-utils'
-import { graphql } from 'gatsby'
+import { throttle } from 'lodash'
 import { darken } from 'polished'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useEffect, useMemo, useRef } from 'react'
 import { Fragment, SyntheticEvent, useCallback, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 import { BsCheck2Circle } from 'react-icons/bs'
@@ -16,9 +16,14 @@ import { useElementRect } from '../hooks/useElementRect'
 import useReadableColor from '../hooks/useReadableColor'
 import { absoluteFill, animateIn, buttonStyle } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
+import { toSlug } from '../utils'
+import CheckboxArrayField, { ICheckboxArrayField } from './CheckboxArrayField'
+import CheckboxField, { ICheckboxField } from './CheckboxField'
+import DateField, { IDateField } from './DateField'
 import LoadingSpinner from './LoadingSpinner'
 import MultilineTextField, { IMultilineTextField } from './MultilineTextField'
 import SelectField, { ISelectField } from './SelectField'
+import SelectStateField, { ISelectStateField } from './SelectStateField'
 import TextField, { ITextField } from './TextField'
 
 export interface IForm extends Record {
@@ -26,7 +31,16 @@ export interface IForm extends Record {
   formName: string
   submitButtonText: string
   successMessage: IStructuredText
-  formFields: (ITextField | ISelectField | IMultilineTextField)[]
+  formFields: (
+    | ITextField
+    | ISelectField
+    | ISelectStateField
+    | IMultilineTextField
+    | ICheckboxArrayField
+    | ICheckboxField
+    | IDateField
+  )[]
+  conditionalFields: string | null
 }
 
 export interface IFormEmbed extends Record {
@@ -42,6 +56,7 @@ export interface IFieldStyles {
   label: CSSInterpolation
   shrink: CSSInterpolation
   required: CSSInterpolation
+  checkbox: CSSInterpolation
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -53,10 +68,17 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   theme?: 'Light' | 'Dark'
   layout?: 'Page' | 'Lightbox'
   highlightColor?: string
+  showAllConditionalFields?: boolean
 }
 
 const Form = ({
-  data: { formName, submitButtonText, successMessage, formFields },
+  data: {
+    formName,
+    submitButtonText,
+    successMessage,
+    formFields,
+    conditionalFields,
+  },
   formType = 'Netlify',
   listId,
   successCss,
@@ -64,34 +86,136 @@ const Form = ({
   theme = 'Light',
   highlightColor,
   layout,
+  showAllConditionalFields,
   ...props
 }: Props): JSX.Element => {
-  const [formRef, setFormRef] = useState<HTMLElement | null>(null)
+  const [formRef, setFormRef] = useState<HTMLFormElement | null>(null)
   const [successRef, setSuccessRef] = useState<HTMLElement | null>(null)
 
   const { height: formHeight } = useElementRect(formRef)
   const { height: successHeight } = useElementRect(successRef)
 
-  const [formData, setFormData] = useState({})
+  // const [formData, setFormData] = useState<{ [key: string]: string }>({})
+  const formData = useRef<{ [key: string]: string }>({})
 
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
   const handleChange = useCallback((name: string, value: string) => {
-    setFormData(prev => ({
+    formData.current[name] = value
+    // setFormData(prev => ({
+    //   ...prev,
+    //   [name]: value,
+    // }))
+  }, [])
+
+  const handleChangeCheckbox = useCallback((name: string, checked: boolean) => {
+    formData.current[name] = checked ? 'true' : 'false'
+
+    // setFormData(prev => ({
+    //   ...prev,
+    //   [name]: checked.toString(),
+    // }))
+  }, [])
+
+  const [formSelectFieldData, setFormSelectFieldData] = useState<{
+    [key: string]: string
+  }>({})
+
+  const handleChangeSelect = useCallback((name: string, value: string) => {
+    setFormSelectFieldData(prev => ({
       ...prev,
       [name]: value,
     }))
+    formData.current[name] = value
+
+    // setFormData(prev => ({
+    //   ...prev,
+    //   [name]: value,
+    // }))
   }, [])
+
+  const formFieldsArray = useMemo(() => {
+    interface ISelectJSON {
+      label: string
+      options: ISelectOptionJSON[]
+    }
+    interface ISelectOptionJSON {
+      option: string
+      fields: (string | ISelectJSON)[]
+    }
+    interface IConditionsJSON {
+      fields: (string | ISelectJSON)[]
+    }
+    const conditionsJSON =
+      conditionalFields && (JSON.parse(conditionalFields) as IConditionsJSON)
+
+    if (!showAllConditionalFields && conditionsJSON) {
+      const getFieldFromLabel = (label: string) => {
+        return formFields.find(field => field.label === label) || null
+      }
+      const recursiveMap = (
+        fields: (string | ISelectJSON)[]
+      ): (ITextField | ISelectField | IMultilineTextField)[] => {
+        return fields
+          .flatMap(field_i => {
+            if (typeof field_i === 'string') {
+              return getFieldFromLabel(field_i)
+            } else {
+              return [
+                getFieldFromLabel(field_i.label),
+                ...field_i.options.flatMap(field_i_option => {
+                  if (
+                    typeof field_i_option !== 'string' &&
+                    formSelectFieldData[toSlug(field_i.label)] ===
+                      field_i_option.option
+                  ) {
+                    return recursiveMap(field_i_option.fields)
+                  }
+                }),
+              ]
+            }
+          })
+          .filter(Boolean) as (
+          | ITextField
+          | ISelectField
+          | IMultilineTextField
+        )[]
+      }
+      const newArray = recursiveMap(conditionsJSON.fields)
+      return newArray
+    } else {
+      return formFields
+    }
+  }, [
+    formFields,
+    conditionalFields,
+    formSelectFieldData,
+    showAllConditionalFields,
+  ])
 
   const handleSubmit = useCallback(
     (formData: { [key: string]: string }, formName: string) => {
+      const conditionsJSON = conditionalFields && JSON.parse(conditionalFields)
+      const sanitizedData = conditionsJSON ? {} : formData
+      if (conditionsJSON) {
+        const validFormLabels = formFieldsArray.map(field =>
+          toSlug(field.label)
+        )
+        const validFormDataKeys = Object.keys(formData).filter(key =>
+          validFormLabels.includes(key)
+        )
+        for (const key of validFormDataKeys) {
+          sanitizedData[key] = formData[key]
+        }
+      }
       const submitFunction = async (data: {
         url: string
         method: string
         headers?: { [key: string]: string }
         body: string
       }) => {
+        console.log(sanitizedData)
         setSubmitting(true)
         try {
           const response = await fetch(data.url, {
@@ -130,7 +254,7 @@ const Form = ({
           },
           body: encode({
             'form-name': formName,
-            ...formData,
+            ...sanitizedData,
           }),
         })
       }
@@ -138,17 +262,17 @@ const Form = ({
         submitFunction({
           url: `/.netlify/functions/mailChimpSubscribe`,
           method: 'POST',
-          body: JSON.stringify({ listId, ...formData }),
+          body: JSON.stringify({ listId, ...sanitizedData }),
         })
       }
     },
-    [formType, listId]
+    [formType, listId, formFieldsArray, conditionalFields]
   )
 
   const { theme: metaTheme } = useThemeContext()
   const setColors = () => {
     const defaultColors = {
-      fill: '',
+      fill: undefined,
       border: '',
       text: '',
       label: '',
@@ -190,10 +314,10 @@ const Form = ({
     }
   }
   const colors = setColors()
-  // const textHighlight = '#333'
+
   const textHighlight = useReadableColor(
     highlightColor || colors.highlight,
-    theme === 'Dark' ? '#444' : colors.fill
+    theme === 'Dark' ? '#444' : colors.fill || '#fff'
   )
   const styles = {
     wrapper: css`
@@ -251,10 +375,28 @@ const Form = ({
       grid-column: 1 / -1;
       justify-self: flex-start;
       box-sizing: border-box;
-      background: ${colors.buttonFill[0]};
-      color: ${colors.buttonText[0]};
-      border: ${colors.buttonBorder && `1px solid ${colors.buttonBorder?.[0]}`};
+
       transition: all 300ms ease;
+
+      form:invalid & {
+        color: #ffffffcc;
+        background: #88888888;
+      }
+      form:not(:invalid) & {
+        color: ${colors.buttonText[0]};
+        background: ${colors.buttonFill[0]};
+        border: ${colors.buttonBorder &&
+        `1px solid ${colors.buttonBorder?.[0]}`};
+        @media (hover: hover) {
+          &:hover,
+          &:focus-within {
+            color: ${colors.buttonText[1]};
+            background: ${colors.buttonFill[1]};
+            border-color: ${colors.buttonBorder?.[1]};
+          }
+        }
+      }
+
       ${formFields.length === 1 &&
       css`
         border-top-right-radius: 0.2em;
@@ -271,14 +413,6 @@ const Form = ({
         padding: 0;
         border: none;
         cursor: pointer;
-      }
-      @media (hover: hover) {
-        &:hover,
-        &:focus-within {
-          color: ${colors.buttonText[1]};
-          background: ${colors.buttonFill[1]};
-          border-color: ${colors.buttonBorder?.[1]};
-        }
       }
     `,
     successMessage: css`
@@ -315,7 +449,7 @@ const Form = ({
     container: css`
       position: relative;
       flex: 1;
-      min-width: 34%;
+      min-width: 49%;
       ${!colors.border &&
       css`
         &:after {
@@ -389,6 +523,42 @@ const Form = ({
         transform: translateY(-0.125em);
       }
     `,
+    checkbox: css`
+      width: 1.125em;
+      height: 1.125em;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.25em;
+      background-color: ${darken(0.1, colors.fill || '#444')};
+      border: 2px solid;
+      border-color: ${colors.border || 'transparent'};
+      box-sizing: border-box;
+      margin-top: 0.1em;
+      margin-right: 0.333em;
+      &:after {
+        content: '';
+        width: 0.25em;
+        height: 0.5em;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform-origin: 75% 50%;
+        transform: rotate(45deg);
+        visibility: hidden;
+      }
+      &[data-checked='true'] {
+        background-color: ${highlightColor || colors.highlight};
+        &:after {
+          visibility: visible;
+        }
+      }
+      @media (hover: hover) {
+        div:hover > & {
+          border-color: ${highlightColor || colors.highlight};
+        }
+      }
+    `,
   }
   return (
     <div
@@ -420,7 +590,7 @@ const Form = ({
           method="post"
           onSubmit={(e: SyntheticEvent) => {
             e.preventDefault()
-            handleSubmit(formData, formName)
+            handleSubmit(formData.current, formName)
           }}
         >
           {formType === 'Netlify' && (
@@ -438,7 +608,7 @@ const Form = ({
               />
             </Fragment>
           )}
-          {formFields.map((field, i) => (
+          {formFieldsArray.map((field, i) => (
             <Fragment key={i}>
               {field.__typename === 'DatoCmsTextField' && (
                 <TextField
@@ -452,12 +622,44 @@ const Form = ({
                 <SelectField
                   data={field}
                   fieldStyles={fieldStyles}
-                  onChange={handleChange}
+                  onChange={handleChangeSelect}
+                  key={i}
+                />
+              )}
+              {field.__typename === 'DatoCmsSelectStateField' && (
+                <SelectStateField
+                  data={field}
+                  fieldStyles={fieldStyles}
+                  onChange={handleChangeSelect}
                   key={i}
                 />
               )}
               {field.__typename === 'DatoCmsMultilineTextField' && (
                 <MultilineTextField
+                  data={field}
+                  fieldStyles={fieldStyles}
+                  onChange={handleChange}
+                  key={i}
+                />
+              )}
+              {field.__typename === 'DatoCmsCheckboxArrayField' && (
+                <CheckboxArrayField
+                  data={field}
+                  fieldStyles={fieldStyles}
+                  onChange={handleChange}
+                  key={i}
+                />
+              )}
+              {field.__typename === 'DatoCmsCheckboxField' && (
+                <CheckboxField
+                  data={field}
+                  fieldStyles={fieldStyles}
+                  onChange={handleChangeCheckbox}
+                  key={i}
+                />
+              )}
+              {field.__typename === 'DatoCmsDateField' && (
+                <DateField
                   data={field}
                   fieldStyles={fieldStyles}
                   onChange={handleChange}
@@ -482,38 +684,5 @@ const Form = ({
     </div>
   )
 }
-
-export const FormFragments = graphql`
-  fragment FormFragment on DatoCmsForm {
-    __typename
-    id: originalId
-    formName
-    formFields {
-      ... on DatoCmsTextField {
-        ...TextFieldFragment
-      }
-      ... on DatoCmsSelectField {
-        ...SelectFieldFragment
-      }
-      ... on DatoCmsMultilineTextField {
-        ...MultilineTextFieldFragment
-      }
-    }
-    submitButton
-    successMessage {
-      value
-    }
-    recipients {
-      email
-    }
-  }
-  fragment FormEmbedFragment on DatoCmsFormEmbed {
-    __typename
-    id: originalId
-    form {
-      ...FormFragment
-    }
-  }
-`
 
 export default Form

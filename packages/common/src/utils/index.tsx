@@ -1,3 +1,6 @@
+import { render } from 'datocms-structured-text-to-plain-text'
+import { StructuredText as IStructuredText } from 'datocms-structured-text-utils'
+
 export const toSlug = (string: string) =>
   string
     .replace(/[\s/]+/g, '-')
@@ -103,4 +106,15 @@ export const toDate = (dateString: string, locale = 'en-US') => {
     month: 'short',
     day: 'numeric',
   })
+}
+
+export const renderDescription = (structuredText: IStructuredText) => {
+  if (structuredText.value) {
+    const textString = render(structuredText as IStructuredText)
+    if (textString && textString.length > 160) {
+      return textString.slice(0, 157) + '...'
+    } else {
+      return textString
+    }
+  } else return null
 }

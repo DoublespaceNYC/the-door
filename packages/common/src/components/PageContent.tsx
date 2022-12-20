@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
+import { HTMLAttributes } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
 import { bsaColors, doorColors } from '../theme/variables'
@@ -15,7 +16,7 @@ export interface ILayoutOptions extends Record {
   startOrientation: 'left' | 'right'
 }
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   pageContent: IPageContent
   layoutOptions: ILayoutOptions
 }
@@ -23,6 +24,7 @@ type Props = {
 const PageContent = ({
   pageContent,
   layoutOptions: { startColor: startColorName, startShape, startOrientation },
+  ...props
 }: Props): JSX.Element => {
   const { theme } = useThemeContext()
   const setColorsArray = () => {
@@ -62,7 +64,10 @@ const PageContent = ({
     backdrop-filter: opacity(1);
   `
   return (
-    <div css={style}>
+    <div
+      css={style}
+      {...props}
+    >
       {pageContent.map((record, i) => {
         if (record.__typename === 'DatoCmsContentBlock') {
           blockIndex++

@@ -14,7 +14,7 @@ import ProgramCatalogSection, {
   IProgramCatalogSection,
 } from '@the-door/common/src/components/ProgramCatalogSection'
 import { IStructuredText } from '@the-door/common/src/types'
-import { render } from 'datocms-structured-text-to-plain-text'
+import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 import { useMemo } from 'react'
 
@@ -101,7 +101,9 @@ export const Head = ({
 }: HeadProps<DataProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description || intro.value ? render(intro) : null}
+    description={
+      seo?.description || intro.value ? renderDescription(intro) : null
+    }
     imageUrl={seo?.image?.url}
   />
 )

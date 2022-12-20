@@ -3,10 +3,10 @@ import { rgba } from 'polished'
 import { ElementType, Fragment, HTMLAttributes } from 'react'
 
 import useThemeContext from '../context/ThemeContext'
-import { formatTimeRange } from '../helpers'
 import useReadableColor from '../hooks/useReadableColor'
 import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
+import { formatTimeRange } from '../utils'
 import { IEvent } from './Event__Article'
 
 interface Props extends HTMLAttributes<HTMLAnchorElement> {

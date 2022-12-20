@@ -1,6 +1,8 @@
 import { css } from '@emotion/react'
+import { isLink } from 'datocms-structured-text-utils'
+import { Link } from 'gatsby'
 import { Fragment, HTMLAttributes } from 'react'
-import { StructuredText } from 'react-datocms'
+import { StructuredText, renderNodeRule } from 'react-datocms'
 
 import { mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
@@ -33,7 +35,39 @@ const PageIntro = ({
         css={styles.intro}
         {...props}
       >
-        <StructuredText data={intro} />
+        <StructuredText
+          data={intro}
+          customNodeRules={[
+            renderNodeRule(isLink, ({ node, key, children }) => {
+              const metaProps = node.meta?.reduce(
+                (a, v) => ({
+                  ...a,
+                  [v.id]: v.value,
+                }),
+                {}
+              )
+              if (node.url[0] === '/') {
+                return (
+                  <Link
+                    to={node.url}
+                    key={key}
+                  >
+                    {children}
+                  </Link>
+                )
+              } else
+                return (
+                  <a
+                    href={node.url}
+                    key={key}
+                    {...metaProps}
+                  >
+                    {children}
+                  </a>
+                )
+            }),
+          ]}
+        />
       </div>
     )
   } else {

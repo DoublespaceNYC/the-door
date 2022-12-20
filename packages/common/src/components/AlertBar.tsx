@@ -1,5 +1,5 @@
 import { Global, css } from '@emotion/react'
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 import { useInView } from 'react-intersection-observer'
 
@@ -30,7 +30,7 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
 
   const { theme } = useThemeContext()
 
-  const colors = useMemo(() => {
+  const setColors = () => {
     const defaultColors = {
       bg: '',
       text: '#fff',
@@ -47,7 +47,8 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
       default:
         return defaultColors
     }
-  }, [theme])
+  }
+  const colors = setColors()
 
   const styles = {
     wrap: css`

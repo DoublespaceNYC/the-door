@@ -9,31 +9,31 @@ import { useElementWidth } from '../hooks/useElementRect'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import useReadableColor from '../hooks/useReadableColor'
 import { absoluteFill, mq } from '../theme/mixins'
-import DatoLink, { IDatoLink } from './DatoLink'
+import DatoLink from './DatoLink'
+import { IInternalLink } from './InternalLink'
 
-export interface INavButton {
-  link: [IDatoLink]
-  modalTooltip: boolean
+export interface IHighlightedLinkModal {
   modalHeading: string
   modalSubheading: string
+  highlightedLinkNumber: number
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  button: INavButton
+  button: IInternalLink
   color: string
-  showModal?: boolean
+  modal?: IHighlightedLinkModal
   buttonCss?: CSSInterpolation
 }
 
 const NavButton = ({
   button,
   color,
-  showModal,
+  modal,
   buttonCss,
   ...props
 }: Props): JSX.Element => {
   const [wrapRef, setWrapRef] = useState<HTMLDivElement | null>(null)
-  const wrapWidth = useElementWidth(button.modalTooltip ? wrapRef : null)
+  const wrapWidth = useElementWidth(modal ? wrapRef : null)
 
   const { open, setOpen } = useNavButtonModalContext()
   const { open: navOpen } = useNavMenuContext()
@@ -68,7 +68,7 @@ const NavButton = ({
       }
     `,
     modal: css`
-      display: ${showModal ? 'block' : 'none'};
+      display: ${modal ? 'block' : 'none'};
       position: absolute;
       right: 0;
       bottom: calc(0.75rem + 1px);
@@ -153,13 +153,13 @@ const NavButton = ({
       {...props}
     >
       <DatoLink
-        data={button.link[0]}
+        data={button}
         css={[styles.button, buttonCss]}
       />
-      {button.modalTooltip && (
+      {modal && (
         <div css={styles.modal}>
-          <span>{button.modalHeading}</span>
-          <span>{button.modalSubheading}</span>
+          <span>{modal.modalHeading}</span>
+          <span>{modal.modalSubheading}</span>
           <button
             css={styles.close}
             onClick={() => setOpen(false)}

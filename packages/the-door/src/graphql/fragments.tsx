@@ -47,6 +47,9 @@ export const Fragments = graphql`
       ... on DatoCmsContactPage {
         slug
       }
+      ... on DatoCmsMembershipPage {
+        slug
+      }
     }
   }
   fragment InternalLinkFilteredFragment on DatoCmsInternalLinkFiltered {
@@ -493,6 +496,16 @@ export const Fragments = graphql`
     label
     fieldType
     required
+    fullWidth
+  }
+  fragment DateFieldFragment on DatoCmsDateField {
+    __typename
+    id: originalId
+    label
+    minDate
+    maxDate
+    required
+    fullWidth
   }
   fragment SelectFieldFragment on DatoCmsSelectField {
     __typename
@@ -518,12 +531,34 @@ export const Fragments = graphql`
       }
     }
     required
+    fullWidth
+  }
+  fragment SelectStateFieldFragment on DatoCmsSelectStateField {
+    __typename
+    id: originalId
+    label
+    required
   }
   fragment MultilineTextFieldFragment on DatoCmsMultilineTextField {
     __typename
     id: originalId
     label
     required
+    fullWidth
+  }
+  fragment CheckboxFieldFragment on DatoCmsCheckboxField {
+    __typename
+    id: originalId
+    label
+    required
+  }
+  fragment CheckboxArrayFieldFragment on DatoCmsCheckboxArrayField {
+    __typename
+    id: originalId
+    label
+    options {
+      ...CheckboxFieldFragment
+    }
   }
   fragment FormFragment on DatoCmsForm {
     id: originalId
@@ -540,10 +575,29 @@ export const Fragments = graphql`
       ... on DatoCmsSelectField {
         ...SelectFieldFragment
       }
+      ... on DatoCmsSelectStateField {
+        ...SelectStateFieldFragment
+      }
       ... on DatoCmsMultilineTextField {
         ...MultilineTextFieldFragment
       }
+      ... on DatoCmsCheckboxArrayField {
+        ...CheckboxArrayFieldFragment
+      }
+      ... on DatoCmsCheckboxField {
+        ...CheckboxFieldFragment
+      }
+      ... on DatoCmsDateField {
+        ...DateFieldFragment
+      }
     }
+    conditionalFields
+  }
+  fragment BlackbaudFormFragment on DatoCmsBlackbaudForm {
+    id: originalId
+    __typename
+    formName
+    formId
   }
   fragment FormLightboxFragment on DatoCmsFormLightbox {
     __typename
@@ -553,7 +607,12 @@ export const Fragments = graphql`
       value
     }
     form {
-      ...FormFragment
+      ... on DatoCmsForm {
+        ...FormFragment
+      }
+      ... on DatoCmsBlackbaudForm {
+        ...BlackbaudFormFragment
+      }
     }
     slug
     seo {

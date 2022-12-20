@@ -1,7 +1,7 @@
 import EventArticle, {
   IEvent,
 } from '@the-door/common/src/components/Event__Article'
-import { render } from 'datocms-structured-text-to-plain-text'
+import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 
 import Layout from '../components/Layout'
@@ -35,7 +35,7 @@ export const Head = ({
 }: HeadProps<QueryProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description || body.value ? render(body) : null}
+    description={seo?.description || renderDescription(body)}
     imageUrl={seo?.image?.url}
   />
 )

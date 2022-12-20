@@ -1,7 +1,7 @@
 import TertiaryPageContent, {
   ITertiaryPage,
 } from '@the-door/common/src/components/TertiaryPageContent'
-import { render } from 'datocms-structured-text-to-plain-text'
+import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 
 import Layout from '../components/Layout'
@@ -35,7 +35,7 @@ export const Head = ({
 }: HeadProps<DataProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description || lede.value ? render(lede) : null}
+    description={seo?.description || renderDescription(lede)}
     imageUrl={seo?.image?.url}
   />
 )

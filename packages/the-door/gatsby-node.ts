@@ -72,12 +72,18 @@ export const createPages: GatsbyNode['createPages'] = async ({
           }
         }
       }
-      allDatoCmsPartner {
+      allDatoCmsContactPage {
         nodes {
           id
           slug
         }
       }
+      allDatoCmsPartner {
+        nodes {
+          id
+          slug
+        }
+      }    
       datoCmsLeadershipPage {
         id
         slug
@@ -102,10 +108,13 @@ export const createPages: GatsbyNode['createPages'] = async ({
         id
         slug
       }
-      datoCmsContactPage {
+      datoCmsMembershipPage {        
         id
-        slug
-      }
+        _allSlugLocales {
+          locale
+          value
+        }      
+    }
     }
   `)
 
@@ -157,13 +166,16 @@ export const createPages: GatsbyNode['createPages'] = async ({
       allDatoCmsPartner: {
         nodes: PageNode[]
       }
+      allDatoCmsContactPage: {
+        nodes: PageNode[]
+      }
       datoCmsLeadershipPage: PageNode
       datoCmsTheLatestPage: PageNode
       datoCmsImpactPage: PageNode
       datoCmsFacesPage: PageNode
       datoCmsCalendarPage: PageNode
       datoCmsProgramsPage: PageNode
-      datoCmsContactPage: PageNode
+      datoCmsMembershipPage: LocalesPageNode
     }
   }
 
@@ -258,6 +270,15 @@ export const createPages: GatsbyNode['createPages'] = async ({
       }
     })
   })
+  data?.allDatoCmsContactPage.nodes.forEach(node => {
+    createPage({
+      path: `/${node.slug}/`,
+      component: resolve(`./src/templates/ContactPage.tsx`),
+      context: {
+        id: node.id
+      }
+    })
+  })
   createPage({
     path: `/${data?.datoCmsLeadershipPage.slug}/`,
     component: resolve(`./src/templates/LeadershipPage.tsx`)
@@ -282,9 +303,18 @@ export const createPages: GatsbyNode['createPages'] = async ({
     path: `/${data?.datoCmsProgramsPage.slug}/`,
     component: resolve(`./src/templates/ProgramsPage.tsx`)
   })
+  data?.datoCmsMembershipPage._allSlugLocales.map((slugLocale) => {
+    createPage({
+      path: `${localePrefix(slugLocale.locale)}/${slugLocale.value}/`,
+      component: resolve(`./src/templates/MembershipPage.tsx`),
+      context: {
+        locale: slugLocale.locale
+      }
+    })
+  })
   createPage({
-    path: `/${data?.datoCmsContactPage.slug}/`,
-    component: resolve(`./src/templates/ContactPage.tsx`)
+    path: `/forms-detection/`,
+    component: resolve(`./src/templates/ConditionalFormsPage.tsx`)
   })
 }
 

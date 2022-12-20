@@ -11,7 +11,7 @@ import PageContact, {
 import PageHero from '@the-door/common/src/components/PageHero'
 import PageIntro from '@the-door/common/src/components/PageIntro'
 import PageNav from '@the-door/common/src/components/PageNav'
-import { render } from 'datocms-structured-text-to-plain-text'
+import { renderDescription } from '@the-door/common/src/utils'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 
@@ -27,7 +27,7 @@ interface DataProps {
     }
     formAnchorLink: IAnchorLink[]
     contactForm: IForm
-    directory: [IContactSection]
+    directory: IContactSection[]
     seo?: ISEO
     slug: string
   }
@@ -65,20 +65,25 @@ const ContactPage = ({
         image={heroImage}
       />
       <PageNav
-        links={[...formAnchorLink, ...directory[0].anchorLink]}
+        links={[
+          ...formAnchorLink,
+          ...directory.flatMap(directory => directory.anchorLink),
+        ]}
       />
       <PageIntro
         intro={intro}
         css={styles.intro}
       />
       <section css={styles.formSection}>
-        <Anchor id={formAnchorLink[0].linkText} />
+        {formAnchorLink[0] && (
+          <Anchor id={formAnchorLink[0].linkText} />
+        )}
         <Form
           data={contactForm}
           css={styles.form}
         />
       </section>
-      <PageContact data={directory[0]} />
+      {directory[0] && <PageContact data={directory[0]} />}
     </Layout>
   )
 }
@@ -90,14 +95,14 @@ export const Head = ({
 }: HeadProps<DataProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description || intro.value ? render(intro) : null}
+    description={seo?.description || renderDescription(intro)}
     imageUrl={seo?.image?.url}
   />
 )
 
 export const data = graphql`
-  query {
-    page: datoCmsContactPage {
+  query ($id: String!) {
+    page: datoCmsContactPage(id: { eq: $id }) {
       title
       heroImage {
         gatsbyImageData(

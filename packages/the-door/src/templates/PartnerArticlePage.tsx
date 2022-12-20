@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import PartnerArticle, {
   IPartner,
 } from '@the-door/common/src/components/Partner__Article'
-import { render } from 'datocms-structured-text-to-plain-text'
+import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 
 import Layout from '../components/Layout'
@@ -41,9 +41,7 @@ export const Head = ({
 }: HeadProps<QueryProps>): JSX.Element => (
   <Seo
     title={seo?.title || name}
-    description={
-      seo?.description || description.value ? render(description) : null
-    }
+    description={seo?.description || renderDescription(description)}
     imageUrl={seo?.image?.url || logo.url}
   />
 )

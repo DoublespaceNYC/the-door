@@ -9,7 +9,7 @@ import PageHero from '@the-door/common/src/components/PageHero'
 import PageIntro from '@the-door/common/src/components/PageIntro'
 import PageNav from '@the-door/common/src/components/PageNav'
 import { IStructuredText } from '@the-door/common/src/types'
-import { render } from 'datocms-structured-text-to-plain-text'
+import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 import { useMemo } from 'react'
 
@@ -49,7 +49,6 @@ const InteriorPage = ({
       .map(block => block.anchorLink[0])
       .filter(block => block !== undefined) as IAnchorLink[]
   }, [pageContent])
-  console.log(pageContent)
   return (
     <Layout>
       <PageHero
@@ -76,7 +75,7 @@ export const Head = ({
 }: HeadProps<DataProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description || intro.value ? render(intro) : null}
+    description={seo?.description || renderDescription(intro)}
     imageUrl={seo?.image?.url}
   />
 )

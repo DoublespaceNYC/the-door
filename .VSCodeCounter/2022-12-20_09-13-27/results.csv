@@ -1,0 +1,154 @@
+"filename", "language", "JSON with Comments", "TypeScript React", "TypeScript", "SVG", "JSON", "Markdown", "Ignore", "CSS", "comment", "blank", "total"
+"/Users/claygiffin/Documents/@the-door/archive/blackbaudListSubscribe.ts", "TypeScript", 0, 0, 53, 0, 0, 0, 0, 0, 3, 11, 67
+"/Users/claygiffin/Documents/@the-door/archive/mailChimpSubscribe.ts", "TypeScript", 0, 0, 30, 0, 0, 0, 0, 0, 31, 6, 67
+"/Users/claygiffin/Documents/@the-door/package-lock.json", "JSON", 0, 0, 0, 0, 33931, 0, 0, 0, 0, 1, 33932
+"/Users/claygiffin/Documents/@the-door/package.json", "JSON", 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 13
+"/Users/claygiffin/Documents/@the-door/packages/common/.prettierrc", "JSON", 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 8
+"/Users/claygiffin/Documents/@the-door/packages/common/package-future.json", "JSON", 0, 0, 0, 0, 4, 0, 0, 0, 5, 0, 9
+"/Users/claygiffin/Documents/@the-door/packages/common/package.json", "JSON", 0, 0, 0, 0, 60, 0, 0, 0, 4, 0, 64
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Accordion.tsx", "TypeScript React", 0, 66, 0, 0, 0, 0, 0, 0, 0, 6, 72
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Accordion__Item.tsx", "TypeScript React", 0, 215, 0, 0, 0, 0, 0, 0, 0, 8, 223
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/AdvisoryMember.tsx", "TypeScript React", 0, 75, 0, 0, 0, 0, 0, 0, 0, 6, 81
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/AlertBar.tsx", "TypeScript React", 0, 152, 0, 0, 0, 0, 0, 0, 0, 9, 161
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/AnchorLink.tsx", "TypeScript React", 0, 65, 0, 0, 0, 0, 0, 0, 0, 11, 76
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Article.tsx", "TypeScript React", 0, 327, 0, 0, 0, 0, 0, 0, 1, 6, 334
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Article__Thumbnail.tsx", "TypeScript React", 0, 187, 0, 0, 0, 0, 0, 0, 0, 8, 195
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/BoardProfile.tsx", "TypeScript React", 0, 11, 0, 0, 0, 0, 0, 0, 7, 5, 23
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/CTABar.tsx", "TypeScript React", 0, 110, 0, 0, 0, 0, 0, 0, 0, 6, 116
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Calendar.tsx", "TypeScript React", 0, 527, 0, 0, 0, 0, 0, 0, 0, 17, 544
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/CheckboxArrayField.tsx", "TypeScript React", 0, 79, 0, 0, 0, 0, 0, 0, 0, 11, 90
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/CheckboxField.tsx", "TypeScript React", 0, 75, 0, 0, 0, 0, 0, 0, 0, 10, 85
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentBlock.tsx", "TypeScript React", 0, 434, 0, 0, 0, 0, 0, 0, 0, 16, 450
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentBlock__Shape.tsx", "TypeScript React", 0, 354, 0, 0, 0, 0, 0, 0, 0, 8, 362
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentCarousel.tsx", "TypeScript React", 0, 77, 0, 0, 0, 0, 0, 0, 0, 6, 83
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentCarousel__Links.tsx", "TypeScript React", 0, 81, 0, 0, 0, 0, 0, 0, 0, 5, 86
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentCarousel__Links__Block.tsx", "TypeScript React", 0, 163, 0, 0, 0, 0, 0, 0, 0, 6, 169
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentCarousel__Media.tsx", "TypeScript React", 0, 104, 0, 0, 0, 0, 0, 0, 0, 6, 110
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentCarousel__NewsEvents.tsx", "TypeScript React", 0, 137, 0, 0, 0, 0, 0, 0, 0, 6, 143
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/CornerPopup.tsx", "TypeScript React", 0, 187, 0, 0, 0, 0, 0, 0, 0, 9, 196
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/DateField.tsx", "TypeScript React", 0, 91, 0, 0, 0, 0, 0, 0, 0, 9, 100
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/DatoLink.tsx", "TypeScript React", 0, 123, 0, 0, 0, 0, 0, 0, 0, 7, 130
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/DocumentIcon.tsx", "TypeScript React", 0, 27, 0, 0, 0, 0, 0, 0, 0, 3, 30
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/DocumentLink.tsx", "TypeScript React", 0, 45, 0, 0, 0, 0, 0, 0, 0, 7, 52
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Event__Article.tsx", "TypeScript React", 0, 116, 0, 0, 0, 0, 0, 0, 0, 8, 124
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Event__Thumbnail.tsx", "TypeScript React", 0, 95, 0, 0, 0, 0, 0, 0, 0, 5, 100
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Event__Thumbnail_Innards.tsx", "TypeScript React", 0, 205, 0, 0, 0, 0, 0, 0, 0, 7, 212
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ExternalArticle.tsx", "TypeScript React", 0, 21, 0, 0, 0, 0, 0, 0, 0, 6, 27
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ExternalArticle__Thumbnail.tsx", "TypeScript React", 0, 31, 0, 0, 0, 0, 0, 0, 0, 5, 36
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ExternalLink.tsx", "TypeScript React", 0, 43, 0, 0, 0, 0, 0, 0, 0, 7, 50
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ExternalLinkIcon.tsx", "TypeScript React", 0, 27, 0, 0, 0, 0, 0, 0, 0, 3, 30
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Faces__Story.tsx", "TypeScript React", 0, 46, 0, 0, 0, 0, 0, 0, 0, 7, 53
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Footer.tsx", "TypeScript React", 0, 227, 0, 0, 0, 0, 0, 0, 0, 6, 233
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Form.tsx", "TypeScript React", 0, 676, 0, 0, 0, 0, 0, 0, 0, 22, 698
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Form__Lightbox.tsx", "TypeScript React", 0, 68, 0, 0, 0, 0, 0, 0, 0, 8, 76
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/GatsbyImageFocused.tsx", "TypeScript React", 0, 91, 0, 0, 0, 0, 0, 0, 13, 11, 115
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Home__Calendar.tsx", "TypeScript React", 0, 258, 0, 0, 0, 0, 0, 0, 0, 7, 265
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Home__Latest.tsx", "TypeScript React", 0, 189, 0, 0, 0, 0, 0, 0, 0, 7, 196
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/InternalArticle.tsx", "TypeScript React", 0, 109, 0, 0, 0, 0, 0, 0, 0, 8, 117
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/InternalArticle__Thumbnail.tsx", "TypeScript React", 0, 32, 0, 0, 0, 0, 0, 0, 0, 5, 37
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/InternalLink.tsx", "TypeScript React", 0, 24, 0, 0, 0, 0, 0, 0, 0, 5, 29
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/InternalLinkFiltered.tsx", "TypeScript React", 0, 37, 0, 0, 0, 0, 0, 0, 0, 5, 42
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Layout.tsx", "TypeScript React", 0, 59, 0, 0, 0, 0, 0, 0, 0, 6, 65
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Leader__Profile.tsx", "TypeScript React", 0, 132, 0, 0, 0, 0, 0, 0, 0, 6, 138
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Leader__Thumbnail.tsx", "TypeScript React", 0, 117, 0, 0, 0, 0, 0, 0, 0, 5, 122
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Lightbox.tsx", "TypeScript React", 0, 281, 0, 0, 0, 0, 0, 0, 0, 17, 298
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Lightbox__Content.tsx", "TypeScript React", 0, 81, 0, 0, 0, 0, 0, 0, 0, 6, 87
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Lightbox__Link.tsx", "TypeScript React", 0, 66, 0, 0, 0, 0, 0, 0, 0, 6, 72
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/LoadingSpinner.tsx", "TypeScript React", 0, 56, 0, 0, 0, 0, 0, 0, 0, 5, 61
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/MainNav.tsx", "TypeScript React", 0, 404, 0, 0, 0, 0, 0, 0, 0, 17, 421
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/MediaBlock.tsx", "TypeScript React", 0, 200, 0, 0, 0, 0, 0, 0, 0, 7, 207
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/MultilineTextField.tsx", "TypeScript React", 0, 107, 0, 0, 0, 0, 0, 0, 0, 11, 118
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/NavBurger.tsx", "TypeScript React", 0, 90, 0, 0, 0, 0, 0, 0, 0, 5, 95
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/NavButton.tsx", "TypeScript React", 0, 169, 0, 0, 0, 0, 0, 0, 0, 11, 180
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/NavLinkGroup.tsx", "TypeScript React", 0, 394, 0, 0, 0, 0, 0, 0, 0, 11, 405
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/PageContact.tsx", "TypeScript React", 0, 131, 0, 0, 0, 0, 0, 0, 0, 8, 139
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/PageContent.tsx", "TypeScript React", 0, 83, 0, 0, 0, 0, 0, 0, 0, 9, 92
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/PageFilter.tsx", "TypeScript React", 0, 199, 0, 0, 0, 0, 0, 0, 0, 16, 215
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/PageHero.tsx", "TypeScript React", 0, 82, 0, 0, 0, 0, 0, 0, 0, 5, 87
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/PageIntro.tsx", "TypeScript React", 0, 74, 0, 0, 0, 0, 0, 0, 0, 5, 79
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/PageNav.tsx", "TypeScript React", 0, 259, 0, 0, 0, 0, 0, 0, 0, 12, 271
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Partner__Article.tsx", "TypeScript React", 0, 124, 0, 0, 0, 0, 0, 0, 0, 6, 130
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/Partner__Thumbnail.tsx", "TypeScript React", 0, 70, 0, 0, 0, 0, 0, 0, 0, 5, 75
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/PartnersGrid.tsx", "TypeScript React", 0, 42, 0, 0, 0, 0, 0, 0, 0, 5, 47
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ProgramBlock.tsx", "TypeScript React", 0, 151, 0, 0, 0, 0, 0, 0, 0, 6, 157
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ProgramCatalogSection.tsx", "TypeScript React", 0, 106, 0, 0, 0, 0, 0, 0, 0, 6, 112
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ScrollSlider.tsx", "TypeScript React", 0, 330, 0, 0, 0, 0, 0, 0, 0, 15, 345
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/ScrollToggle.tsx", "TypeScript React", 0, 10, 0, 0, 0, 0, 0, 0, 0, 3, 13
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/SelectField.tsx", "TypeScript React", 0, 181, 0, 0, 0, 0, 0, 0, 0, 17, 198
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/SelectStateField.tsx", "TypeScript React", 0, 95, 0, 0, 0, 0, 0, 0, 0, 7, 102
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/SocialLink.tsx", "TypeScript React", 0, 52, 0, 0, 0, 0, 0, 0, 0, 5, 57
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/TertiaryPageContent.tsx", "TypeScript React", 0, 100, 0, 0, 0, 0, 0, 0, 0, 8, 108
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/TextField.tsx", "TypeScript React", 0, 137, 0, 0, 0, 0, 0, 0, 0, 11, 148
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/VectorGraphic.tsx", "TypeScript React", 0, 22, 0, 0, 0, 0, 0, 0, 0, 5, 27
+"/Users/claygiffin/Documents/@the-door/packages/common/src/components/VideoStreamPlayer.tsx", "TypeScript React", 0, 65, 0, 0, 0, 0, 0, 0, 6, 10, 81
+"/Users/claygiffin/Documents/@the-door/packages/common/src/context/CornerPopupContext.tsx", "TypeScript React", 0, 41, 0, 0, 0, 0, 0, 0, 0, 6, 47
+"/Users/claygiffin/Documents/@the-door/packages/common/src/context/LightboxContext.tsx", "TypeScript React", 0, 32, 0, 0, 0, 0, 0, 0, 0, 6, 38
+"/Users/claygiffin/Documents/@the-door/packages/common/src/context/NavButtonModalContext.tsx", "TypeScript React", 0, 33, 0, 0, 0, 0, 0, 0, 0, 6, 39
+"/Users/claygiffin/Documents/@the-door/packages/common/src/context/NavMenuContext.tsx", "TypeScript React", 0, 34, 0, 0, 0, 0, 0, 0, 0, 6, 40
+"/Users/claygiffin/Documents/@the-door/packages/common/src/context/QueryContext.tsx", "TypeScript React", 0, 66, 0, 0, 0, 0, 0, 0, 0, 7, 73
+"/Users/claygiffin/Documents/@the-door/packages/common/src/context/ThemeContext.tsx", "TypeScript React", 0, 35, 0, 0, 0, 0, 0, 0, 0, 7, 42
+"/Users/claygiffin/Documents/@the-door/packages/common/src/fonts/_font-face.css", "CSS", 0, 0, 0, 0, 0, 0, 0, 56, 0, 1, 57
+"/Users/claygiffin/Documents/@the-door/packages/common/src/hooks/useElementRect.tsx", "TypeScript React", 0, 45, 0, 0, 0, 0, 0, 0, 0, 6, 51
+"/Users/claygiffin/Documents/@the-door/packages/common/src/hooks/useEscKeyFunction.tsx", "TypeScript React", 0, 17, 0, 0, 0, 0, 0, 0, 0, 2, 19
+"/Users/claygiffin/Documents/@the-door/packages/common/src/hooks/useFocusTrap.tsx", "TypeScript React", 0, 59, 0, 0, 0, 0, 0, 0, 2, 8, 69
+"/Users/claygiffin/Documents/@the-door/packages/common/src/hooks/useReadableColor.tsx", "TypeScript React", 0, 34, 0, 0, 0, 0, 0, 0, 0, 4, 38
+"/Users/claygiffin/Documents/@the-door/packages/common/src/hooks/useWindowDimensions.tsx", "TypeScript React", 0, 40, 0, 0, 0, 0, 0, 0, 0, 9, 49
+"/Users/claygiffin/Documents/@the-door/packages/common/src/theme/GlobalStyles.tsx", "TypeScript React", 0, 149, 0, 0, 0, 0, 0, 0, 0, 7, 156
+"/Users/claygiffin/Documents/@the-door/packages/common/src/theme/mixins.ts", "TypeScript", 0, 0, 74, 0, 0, 0, 0, 0, 0, 10, 84
+"/Users/claygiffin/Documents/@the-door/packages/common/src/theme/variables.tsx", "TypeScript React", 0, 37, 0, 0, 0, 0, 0, 0, 6, 3, 46
+"/Users/claygiffin/Documents/@the-door/packages/common/src/types/index.ts", "TypeScript", 0, 0, 17, 0, 0, 0, 0, 0, 0, 4, 21
+"/Users/claygiffin/Documents/@the-door/packages/common/src/utils/index.tsx", "TypeScript React", 0, 109, 0, 0, 0, 0, 0, 0, 0, 16, 125
+"/Users/claygiffin/Documents/@the-door/packages/common/tsconfig.json", "JSON with Comments", 7, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8
+"/Users/claygiffin/Documents/@the-door/packages/the-door/.prettierignore", "Ignore", 0, 0, 0, 0, 0, 0, 4, 0, 0, 1, 5
+"/Users/claygiffin/Documents/@the-door/packages/the-door/.prettierrc", "JSON", 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 8
+"/Users/claygiffin/Documents/@the-door/packages/the-door/README.md", "Markdown", 0, 0, 0, 0, 0, 57, 0, 0, 2, 33, 92
+"/Users/claygiffin/Documents/@the-door/packages/the-door/gatsby-browser.tsx", "TypeScript React", 0, 23, 0, 0, 0, 0, 0, 0, 0, 2, 25
+"/Users/claygiffin/Documents/@the-door/packages/the-door/gatsby-config.ts", "TypeScript", 0, 0, 68, 0, 0, 0, 0, 0, 11, 9, 88
+"/Users/claygiffin/Documents/@the-door/packages/the-door/gatsby-node.ts", "TypeScript", 0, 0, 335, 0, 0, 0, 0, 0, 0, 11, 346
+"/Users/claygiffin/Documents/@the-door/packages/the-door/gatsby-ssr.tsx", "TypeScript React", 0, 23, 0, 0, 0, 0, 0, 0, 0, 2, 25
+"/Users/claygiffin/Documents/@the-door/packages/the-door/netlify/functions/scheduled-deploy.ts", "TypeScript", 0, 0, 20, 0, 0, 0, 0, 0, 0, 2, 22
+"/Users/claygiffin/Documents/@the-door/packages/the-door/package.json", "JSON", 0, 0, 0, 0, 66, 0, 0, 0, 13, 0, 79
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/Door50Logo.tsx", "TypeScript React", 0, 63, 0, 0, 0, 0, 0, 0, 0, 3, 66
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/DoorLogo.tsx", "TypeScript React", 0, 38, 0, 0, 0, 0, 0, 0, 0, 3, 41
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeFaces.tsx", "TypeScript React", 0, 134, 0, 0, 0, 0, 0, 0, 0, 5, 139
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeFaces__Thumbnail.tsx", "TypeScript React", 0, 138, 0, 0, 0, 0, 0, 0, 0, 6, 144
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeHero.tsx", "TypeScript React", 0, 155, 0, 0, 0, 0, 0, 0, 0, 6, 161
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeImpact.tsx", "TypeScript React", 0, 223, 0, 0, 0, 0, 0, 0, 0, 5, 228
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeServices.tsx", "TypeScript React", 0, 187, 0, 0, 0, 0, 0, 0, 0, 6, 193
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeWelcome.tsx", "TypeScript React", 0, 190, 0, 0, 0, 0, 0, 0, 0, 5, 195
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/Layout.tsx", "TypeScript React", 0, 225, 0, 0, 0, 0, 0, 0, 0, 5, 230
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/PageServices.tsx", "TypeScript React", 0, 32, 0, 0, 0, 0, 0, 0, 0, 4, 36
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/Seo.tsx", "TypeScript React", 0, 99, 0, 0, 0, 0, 0, 0, 4, 9, 112
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/ServiceModuleGroup.tsx", "TypeScript React", 0, 173, 0, 0, 0, 0, 0, 0, 1, 6, 180
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/components/ServicesModule.tsx", "TypeScript React", 0, 91, 0, 0, 0, 0, 0, 0, 0, 5, 96
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/graphql/fragments.tsx", "TypeScript React", 0, 752, 0, 0, 0, 0, 0, 0, 0, 2, 754
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/hooks/useEventsQuery.tsx", "TypeScript React", 0, 25, 0, 0, 0, 0, 0, 0, 0, 3, 28
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/hooks/useNewsQuery.tsx", "TypeScript React", 0, 39, 0, 0, 0, 0, 0, 0, 0, 3, 42
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/hooks/usePartnersQuery.tsx", "TypeScript React", 0, 22, 0, 0, 0, 0, 0, 0, 0, 3, 25
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/images/favicon.svg", "SVG", 0, 0, 0, 10, 0, 0, 0, 0, 0, 1, 11
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/pages/404.tsx", "TypeScript React", 0, 9, 0, 0, 0, 0, 0, 0, 0, 3, 12
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/pages/index.tsx", "TypeScript React", 0, 235, 0, 0, 0, 0, 0, 0, 1, 8, 244
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/CalendarPage.tsx", "TypeScript React", 0, 52, 0, 0, 0, 0, 0, 0, 0, 7, 59
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/ContactPage.tsx", "TypeScript React", 0, 132, 0, 0, 0, 0, 0, 0, 0, 7, 139
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/EventArticlePage.tsx", "TypeScript React", 0, 44, 0, 0, 0, 0, 0, 0, 0, 8, 52
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/FacesPage.tsx", "TypeScript React", 0, 238, 0, 0, 0, 0, 0, 0, 0, 8, 246
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/FacesStoryPage.tsx", "TypeScript React", 0, 45, 0, 0, 0, 0, 0, 0, 0, 8, 53
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/FormPage.tsx", "TypeScript React", 0, 44, 0, 0, 0, 0, 0, 0, 0, 8, 52
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/ImpactPage.tsx", "TypeScript React", 0, 452, 0, 0, 0, 0, 0, 0, 0, 8, 460
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/InteriorPage.tsx", "TypeScript React", 0, 124, 0, 0, 0, 0, 0, 0, 0, 8, 132
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/InternalArticlePage.tsx", "TypeScript React", 0, 48, 0, 0, 0, 0, 0, 0, 0, 8, 56
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/LatestPage.tsx", "TypeScript React", 0, 167, 0, 0, 0, 0, 0, 0, 0, 9, 176
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/LeaderProfilePage.tsx", "TypeScript React", 0, 44, 0, 0, 0, 0, 0, 0, 0, 8, 52
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/LeadershipPage.tsx", "TypeScript React", 0, 396, 0, 0, 0, 0, 0, 0, 0, 6, 402
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/MembershipPage.tsx", "TypeScript React", 0, 137, 0, 0, 0, 0, 0, 0, 0, 7, 144
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/PartnerArticlePage.tsx", "TypeScript React", 0, 50, 0, 0, 0, 0, 0, 0, 0, 8, 58
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/ProgramsPage.tsx", "TypeScript React", 0, 146, 0, 0, 0, 0, 0, 0, 0, 7, 153
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/ServicePage.tsx", "TypeScript React", 0, 149, 0, 0, 0, 0, 0, 0, 0, 8, 157
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/TertiaryPage.tsx", "TypeScript React", 0, 46, 0, 0, 0, 0, 0, 0, 0, 5, 51
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/theme/variables.ts", "TypeScript", 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 4
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/types/images.d.ts", "TypeScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 1, 5
+"/Users/claygiffin/Documents/@the-door/packages/the-door/src/types/index.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/claygiffin/Documents/@the-door/packages/the-door/tsconfig.json", "JSON with Comments", 7, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8
+"/Users/claygiffin/Documents/@the-door/tsconfig.build.json", "JSON", 0, 0, 0, 0, 8, 0, 0, 0, 0, 1, 9
+"/Users/claygiffin/Documents/@the-door/tsconfig.json", "JSON with Comments", 6, 0, 0, 0, 0, 0, 0, 0, 20, 0, 26
+"Total", "-", 20, 16397, 603, 10, 34098, 57, 4, 56, 130, 1012, 52387

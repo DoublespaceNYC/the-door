@@ -13,12 +13,21 @@ const gatsbyRequiredRules = join(
   'eslint-rules'
 )
 
+const {
+  NODE_ENV,
+  URL: NETLIFY_SITE_URL = 'https://www.door.org',
+  DEPLOY_PRIME_URL: NETLIFY_DEPLOY_URL = NETLIFY_SITE_URL,
+  CONTEXT: NETLIFY_ENV = NODE_ENV
+} = process.env;
+const isNetlifyProduction = NETLIFY_ENV === 'production';
+const siteUrl = isNetlifyProduction ? NETLIFY_SITE_URL : NETLIFY_DEPLOY_URL;
+
 const config: GatsbyConfig = {
   siteMetadata: {
     title: `The Door`,
     description: `Website for door.org built with DatoCMS, Emotion, and typescript.`,
     author: `Clay Giffin <clay@claygiffin.com>`,
-    siteUrl: `https://www.door.org/`,
+    siteUrl,
   },
   plugins: [
     `gatsby-plugin-netlify`,
@@ -81,6 +90,49 @@ const config: GatsbyConfig = {
     'gatsby-transformer-remark',
     `gatsby-plugin-sharp`,
     'gatsby-plugin-emotion',
+    {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        excludes: [
+          `/forms/*`,
+          `/forms-detection/`
+        ]
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {
+        resolveEnv: () => NETLIFY_ENV,
+        env: {
+          production: {
+            policy: [
+              {
+                userAgent: '*',
+                allow: '/',
+                disallow: ['/forms/', '/forms-detection/'],
+              },
+            ],
+            sitemap: `${siteUrl}/sitemap/sitemap-index.xml`,
+          },
+          'branch-deploy': {
+            policy: [{ userAgent: '*', disallow: ['/'] }],
+            sitemap: null,
+            host: null,
+          },
+          'deploy-preview': {
+            policy: [{ userAgent: '*', disallow: ['/'] }],
+            sitemap: null,
+            host: null,
+          },
+        },
+      },
+    },
   ],
 }
 

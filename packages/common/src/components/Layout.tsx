@@ -38,6 +38,7 @@ const Layout = ({
         logo={nav.logo}
         navItems={nav.navItems}
         buttons={nav.buttons}
+        modal={nav.modal}
         breakpoint={nav.breakpoint}
         collapsed={collapsed}
       />

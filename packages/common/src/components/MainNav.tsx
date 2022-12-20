@@ -1,6 +1,6 @@
 import { Global, css } from '@emotion/react'
 import { Link } from 'gatsby'
-import { FC, Fragment, useEffect, useMemo, useRef, useState } from 'react'
+import { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
 
@@ -17,7 +17,7 @@ import DatoLink from './DatoLink'
 import { IExternalLink } from './ExternalLink'
 import { IInternalLink } from './InternalLink'
 import NavBurger from './NavBurger'
-import NavButton, { INavButton } from './NavButton'
+import NavButton, { IHighlightedLinkModal } from './NavButton'
 import NavLinkGroup, { ILinkGroup } from './NavLinkGroup'
 import ScrollToggle from './ScrollToggle'
 
@@ -26,7 +26,8 @@ type INavItem = ILinkGroup | IInternalLink | IExternalLink
 export type MainNavProps = {
   logo: FC<LogoProps>
   navItems: INavItem[]
-  buttons: INavButton[]
+  buttons: IInternalLink[]
+  modal: IHighlightedLinkModal[]
   breakpoint: number
   collapsed?: boolean
 }
@@ -35,6 +36,7 @@ const MainNav = ({
   logo,
   navItems,
   buttons,
+  modal,
   breakpoint,
   collapsed,
 }: MainNavProps): JSX.Element => {
@@ -80,7 +82,7 @@ const MainNav = ({
   })
 
   const { theme } = useThemeContext()
-  const colors = useMemo(() => {
+  const setColors = () => {
     const defaultColors = {
       bg: '',
       bgSecondary: '',
@@ -99,7 +101,8 @@ const MainNav = ({
       default:
         return defaultColors
     }
-  }, [theme])
+  }
+  const colors = setColors()
   const styles = {
     scrollObserver: css`
       position: absolute;
@@ -375,7 +378,11 @@ const MainNav = ({
                 buttonCss={[styles.navItem]}
                 button={button}
                 color={colors.buttons[i % colors.buttons.length]}
-                showModal
+                modal={
+                  modal[0].highlightedLinkNumber === i + 1
+                    ? modal[0]
+                    : undefined
+                }
                 key={i}
               />
             ))}

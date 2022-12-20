@@ -11,7 +11,7 @@ import ProgramBlock, {
   IProgram,
 } from '@the-door/common/src/components/ProgramBlock'
 import { ISEO } from '@the-door/common/src/types'
-import { render } from 'datocms-structured-text-to-plain-text'
+import { renderDescription } from '@the-door/common/src/utils'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 
@@ -115,7 +115,7 @@ export const Head = ({
 }: HeadProps<DataProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={seo?.description || intro.value ? render(intro) : null}
+    description={seo?.description || renderDescription(intro)}
     imageUrl={seo?.image?.url}
   />
 )

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { darken } from 'polished'
-import { HTMLAttributes, useMemo } from 'react'
+import { HTMLAttributes } from 'react'
 import { ElementType } from 'react'
 import { StructuredText } from 'react-datocms'
 
@@ -38,7 +38,7 @@ const ProgramBlock = ({
     highlightColor,
     theme === 'Dark' ? '#333' : '#fff'
   )
-  const colors = useMemo(() => {
+  const setColors = () => {
     switch (theme) {
       case 'Dark':
         return {
@@ -57,7 +57,8 @@ const ProgramBlock = ({
           linkHover: darken(0.1, readableHighlight),
         }
     }
-  }, [theme])
+  }
+  const colors = setColors()
   const styles = {
     block: css`
       display: grid;

@@ -1,9 +1,5 @@
 import { css } from '@emotion/react'
-import { render } from 'datocms-structured-text-to-plain-text'
-import {
-  Document,
-  StructuredText as IStructuredText,
-} from 'datocms-structured-text-utils'
+import { Document } from 'datocms-structured-text-utils'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
 import { darken } from 'polished'
 import { Fragment, HTMLAttributes, ReactNode } from 'react'
@@ -16,6 +12,8 @@ import useThemeContext from '../context/ThemeContext'
 import useReadableColor from '../hooks/useReadableColor'
 import { baseGrid, mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
+import { renderDescription } from '../utils'
+import BlackbaudForm, { IBlackbaudForm } from './BlackbaudForm'
 import MediaCarousel, { IMediaCarousel } from './ContentCarousel__Media'
 import Form, { IForm } from './Form'
 import MediaBlock, { IMediaBlock } from './MediaBlock'
@@ -30,12 +28,14 @@ interface Props extends HTMLAttributes<HTMLElement> {
   eyebrow?: ReactNode
   subheading?: ReactNode
   heroImage?: IHeroImage
-  lede?: IStructuredText
+  lede?: {
+    value: Document
+  }
   body: {
     value: Document
     blocks?: (IMediaBlock | IMediaCarousel)[]
   }
-  form?: IForm
+  form?: IForm | IBlackbaudForm
   highlightColor?: string
 }
 
@@ -259,7 +259,6 @@ const Article = ({
       grid-column: 2 / -2;
       width: 100%;
       margin: 2em 0 1em;
-      max-width: 90ch;
     `,
   }
   return (
@@ -280,7 +279,7 @@ const Article = ({
       {eyebrow && <div css={styles.eyebrow}>{eyebrow}</div>}
       <h1 css={styles.title}>{title}</h1>
       {subheading && <div css={styles.subheading}>{subheading}</div>}
-      {lede?.value && (render(lede.value)?.length || 0) > 0 && (
+      {lede && renderDescription(lede)?.length && (
         <div css={styles.lede}>
           <StructuredText data={lede} />
         </div>
@@ -316,7 +315,7 @@ const Article = ({
           />
         </div>
       )}
-      {form && (
+      {form?.__typename === 'DatoCmsForm' ? (
         <Form
           data={form}
           css={styles.form}
@@ -326,6 +325,13 @@ const Article = ({
           }
           highlightColor={highlightColor}
         />
+      ) : (
+        form?.__typename === 'DatoCmsBlackbaudForm' && (
+          <BlackbaudForm
+            data={form}
+            css={styles.form}
+          />
+        )
       )}
     </article>
   )

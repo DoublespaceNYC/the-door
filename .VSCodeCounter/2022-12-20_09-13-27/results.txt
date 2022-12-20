@@ -1,0 +1,206 @@
+Date : 2022-12-20 09:13:27
+Directory : /Users/claygiffin/Documents/@the-door
+Total : 152 files,  51245 codes, 130 comments, 1012 blanks, all 52387 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          8 |     34,098 |         22 |          2 |     34,122 |
+| TypeScript React   |        127 |     16,397 |         41 |        915 |     17,353 |
+| TypeScript         |         10 |        603 |         45 |         57 |        705 |
+| Markdown           |          1 |         57 |          2 |         33 |         92 |
+| CSS                |          1 |         56 |          0 |          1 |         57 |
+| JSON with Comments |          3 |         20 |         20 |          2 |         42 |
+| SVG                |          1 |         10 |          0 |          1 |         11 |
+| Ignore             |          1 |          4 |          0 |          1 |          5 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                   | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                      |        152 |     51,245 |        130 |      1,012 |     52,387 |
+| archive                                                                                                |          2 |         83 |         34 |         17 |        134 |
+| packages                                                                                               |        146 |     17,204 |         76 |        993 |     18,273 |
+| packages/common                                                                                        |         96 |     11,433 |         44 |        709 |     12,186 |
+| packages/common/src                                                                                    |         92 |     11,354 |         35 |        708 |     12,097 |
+| packages/common/src/components                                                                         |         75 |     10,476 |         27 |        600 |     11,103 |
+| packages/common/src/context                                                                            |          6 |        241 |          0 |         38 |        279 |
+| packages/common/src/fonts                                                                              |          1 |         56 |          0 |          1 |         57 |
+| packages/common/src/hooks                                                                              |          5 |        195 |          2 |         29 |        226 |
+| packages/common/src/theme                                                                              |          3 |        260 |          6 |         20 |        286 |
+| packages/common/src/types                                                                              |          1 |         17 |          0 |          4 |         21 |
+| packages/common/src/utils                                                                              |          1 |        109 |          0 |         16 |        125 |
+| packages/the-door                                                                                      |         50 |      5,771 |         32 |        284 |      6,087 |
+| packages/the-door/netlify                                                                              |          1 |         20 |          0 |          2 |         22 |
+| packages/the-door/netlify/functions                                                                    |          1 |         20 |          0 |          2 |         22 |
+| packages/the-door/src                                                                                  |         40 |      5,160 |          6 |        223 |      5,389 |
+| packages/the-door/src/components                                                                       |         13 |      1,748 |          5 |         68 |      1,821 |
+| packages/the-door/src/graphql                                                                          |          1 |        752 |          0 |          2 |        754 |
+| packages/the-door/src/hooks                                                                            |          3 |         86 |          0 |          9 |         95 |
+| packages/the-door/src/images                                                                           |          1 |         10 |          0 |          1 |         11 |
+| packages/the-door/src/pages                                                                            |          2 |        244 |          1 |         11 |        256 |
+| packages/the-door/src/templates                                                                        |         17 |      2,314 |          0 |        128 |      2,442 |
+| packages/the-door/src/theme                                                                            |          1 |          2 |          0 |          2 |          4 |
+| packages/the-door/src/types                                                                            |          2 |          4 |          0 |          2 |          6 |
++--------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                               | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/claygiffin/Documents/@the-door/archive/blackbaudListSubscribe.ts                                | TypeScript         |         53 |          3 |         11 |         67 |
+| /Users/claygiffin/Documents/@the-door/archive/mailChimpSubscribe.ts                                    | TypeScript         |         30 |         31 |          6 |         67 |
+| /Users/claygiffin/Documents/@the-door/package-lock.json                                                | JSON               |     33,931 |          0 |          1 |     33,932 |
+| /Users/claygiffin/Documents/@the-door/package.json                                                     | JSON               |         13 |          0 |          0 |         13 |
+| /Users/claygiffin/Documents/@the-door/packages/common/.prettierrc                                      | JSON               |          8 |          0 |          0 |          8 |
+| /Users/claygiffin/Documents/@the-door/packages/common/package-future.json                              | JSON               |          4 |          5 |          0 |          9 |
+| /Users/claygiffin/Documents/@the-door/packages/common/package.json                                     | JSON               |         60 |          4 |          0 |         64 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Accordion.tsx                     | TypeScript React   |         66 |          0 |          6 |         72 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Accordion__Item.tsx               | TypeScript React   |        215 |          0 |          8 |        223 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/AdvisoryMember.tsx                | TypeScript React   |         75 |          0 |          6 |         81 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/AlertBar.tsx                      | TypeScript React   |        152 |          0 |          9 |        161 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/AnchorLink.tsx                    | TypeScript React   |         65 |          0 |         11 |         76 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Article.tsx                       | TypeScript React   |        327 |          1 |          6 |        334 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Article__Thumbnail.tsx            | TypeScript React   |        187 |          0 |          8 |        195 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/BoardProfile.tsx                  | TypeScript React   |         11 |          7 |          5 |         23 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/CTABar.tsx                        | TypeScript React   |        110 |          0 |          6 |        116 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Calendar.tsx                      | TypeScript React   |        527 |          0 |         17 |        544 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/CheckboxArrayField.tsx            | TypeScript React   |         79 |          0 |         11 |         90 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/CheckboxField.tsx                 | TypeScript React   |         75 |          0 |         10 |         85 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentBlock.tsx                  | TypeScript React   |        434 |          0 |         16 |        450 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentBlock__Shape.tsx           | TypeScript React   |        354 |          0 |          8 |        362 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentCarousel.tsx               | TypeScript React   |         77 |          0 |          6 |         83 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentCarousel__Links.tsx        | TypeScript React   |         81 |          0 |          5 |         86 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentCarousel__Links__Block.tsx | TypeScript React   |        163 |          0 |          6 |        169 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentCarousel__Media.tsx        | TypeScript React   |        104 |          0 |          6 |        110 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ContentCarousel__NewsEvents.tsx   | TypeScript React   |        137 |          0 |          6 |        143 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/CornerPopup.tsx                   | TypeScript React   |        187 |          0 |          9 |        196 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/DateField.tsx                     | TypeScript React   |         91 |          0 |          9 |        100 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/DatoLink.tsx                      | TypeScript React   |        123 |          0 |          7 |        130 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/DocumentIcon.tsx                  | TypeScript React   |         27 |          0 |          3 |         30 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/DocumentLink.tsx                  | TypeScript React   |         45 |          0 |          7 |         52 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Event__Article.tsx                | TypeScript React   |        116 |          0 |          8 |        124 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Event__Thumbnail.tsx              | TypeScript React   |         95 |          0 |          5 |        100 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Event__Thumbnail_Innards.tsx      | TypeScript React   |        205 |          0 |          7 |        212 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ExternalArticle.tsx               | TypeScript React   |         21 |          0 |          6 |         27 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ExternalArticle__Thumbnail.tsx    | TypeScript React   |         31 |          0 |          5 |         36 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ExternalLink.tsx                  | TypeScript React   |         43 |          0 |          7 |         50 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ExternalLinkIcon.tsx              | TypeScript React   |         27 |          0 |          3 |         30 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Faces__Story.tsx                  | TypeScript React   |         46 |          0 |          7 |         53 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Footer.tsx                        | TypeScript React   |        227 |          0 |          6 |        233 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Form.tsx                          | TypeScript React   |        676 |          0 |         22 |        698 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Form__Lightbox.tsx                | TypeScript React   |         68 |          0 |          8 |         76 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/GatsbyImageFocused.tsx            | TypeScript React   |         91 |         13 |         11 |        115 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Home__Calendar.tsx                | TypeScript React   |        258 |          0 |          7 |        265 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Home__Latest.tsx                  | TypeScript React   |        189 |          0 |          7 |        196 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/InternalArticle.tsx               | TypeScript React   |        109 |          0 |          8 |        117 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/InternalArticle__Thumbnail.tsx    | TypeScript React   |         32 |          0 |          5 |         37 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/InternalLink.tsx                  | TypeScript React   |         24 |          0 |          5 |         29 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/InternalLinkFiltered.tsx          | TypeScript React   |         37 |          0 |          5 |         42 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Layout.tsx                        | TypeScript React   |         59 |          0 |          6 |         65 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Leader__Profile.tsx               | TypeScript React   |        132 |          0 |          6 |        138 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Leader__Thumbnail.tsx             | TypeScript React   |        117 |          0 |          5 |        122 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Lightbox.tsx                      | TypeScript React   |        281 |          0 |         17 |        298 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Lightbox__Content.tsx             | TypeScript React   |         81 |          0 |          6 |         87 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Lightbox__Link.tsx                | TypeScript React   |         66 |          0 |          6 |         72 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/LoadingSpinner.tsx                | TypeScript React   |         56 |          0 |          5 |         61 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/MainNav.tsx                       | TypeScript React   |        404 |          0 |         17 |        421 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/MediaBlock.tsx                    | TypeScript React   |        200 |          0 |          7 |        207 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/MultilineTextField.tsx            | TypeScript React   |        107 |          0 |         11 |        118 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/NavBurger.tsx                     | TypeScript React   |         90 |          0 |          5 |         95 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/NavButton.tsx                     | TypeScript React   |        169 |          0 |         11 |        180 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/NavLinkGroup.tsx                  | TypeScript React   |        394 |          0 |         11 |        405 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/PageContact.tsx                   | TypeScript React   |        131 |          0 |          8 |        139 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/PageContent.tsx                   | TypeScript React   |         83 |          0 |          9 |         92 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/PageFilter.tsx                    | TypeScript React   |        199 |          0 |         16 |        215 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/PageHero.tsx                      | TypeScript React   |         82 |          0 |          5 |         87 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/PageIntro.tsx                     | TypeScript React   |         74 |          0 |          5 |         79 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/PageNav.tsx                       | TypeScript React   |        259 |          0 |         12 |        271 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Partner__Article.tsx              | TypeScript React   |        124 |          0 |          6 |        130 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/Partner__Thumbnail.tsx            | TypeScript React   |         70 |          0 |          5 |         75 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/PartnersGrid.tsx                  | TypeScript React   |         42 |          0 |          5 |         47 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ProgramBlock.tsx                  | TypeScript React   |        151 |          0 |          6 |        157 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ProgramCatalogSection.tsx         | TypeScript React   |        106 |          0 |          6 |        112 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ScrollSlider.tsx                  | TypeScript React   |        330 |          0 |         15 |        345 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/ScrollToggle.tsx                  | TypeScript React   |         10 |          0 |          3 |         13 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/SelectField.tsx                   | TypeScript React   |        181 |          0 |         17 |        198 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/SelectStateField.tsx              | TypeScript React   |         95 |          0 |          7 |        102 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/SocialLink.tsx                    | TypeScript React   |         52 |          0 |          5 |         57 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/TertiaryPageContent.tsx           | TypeScript React   |        100 |          0 |          8 |        108 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/TextField.tsx                     | TypeScript React   |        137 |          0 |         11 |        148 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/VectorGraphic.tsx                 | TypeScript React   |         22 |          0 |          5 |         27 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/components/VideoStreamPlayer.tsx             | TypeScript React   |         65 |          6 |         10 |         81 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/context/CornerPopupContext.tsx               | TypeScript React   |         41 |          0 |          6 |         47 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/context/LightboxContext.tsx                  | TypeScript React   |         32 |          0 |          6 |         38 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/context/NavButtonModalContext.tsx            | TypeScript React   |         33 |          0 |          6 |         39 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/context/NavMenuContext.tsx                   | TypeScript React   |         34 |          0 |          6 |         40 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/context/QueryContext.tsx                     | TypeScript React   |         66 |          0 |          7 |         73 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/context/ThemeContext.tsx                     | TypeScript React   |         35 |          0 |          7 |         42 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/fonts/_font-face.css                         | CSS                |         56 |          0 |          1 |         57 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/hooks/useElementRect.tsx                     | TypeScript React   |         45 |          0 |          6 |         51 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/hooks/useEscKeyFunction.tsx                  | TypeScript React   |         17 |          0 |          2 |         19 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/hooks/useFocusTrap.tsx                       | TypeScript React   |         59 |          2 |          8 |         69 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/hooks/useReadableColor.tsx                   | TypeScript React   |         34 |          0 |          4 |         38 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/hooks/useWindowDimensions.tsx                | TypeScript React   |         40 |          0 |          9 |         49 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/theme/GlobalStyles.tsx                       | TypeScript React   |        149 |          0 |          7 |        156 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/theme/mixins.ts                              | TypeScript         |         74 |          0 |         10 |         84 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/theme/variables.tsx                          | TypeScript React   |         37 |          6 |          3 |         46 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/types/index.ts                               | TypeScript         |         17 |          0 |          4 |         21 |
+| /Users/claygiffin/Documents/@the-door/packages/common/src/utils/index.tsx                              | TypeScript React   |        109 |          0 |         16 |        125 |
+| /Users/claygiffin/Documents/@the-door/packages/common/tsconfig.json                                    | JSON with Comments |          7 |          0 |          1 |          8 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/.prettierignore                                | Ignore             |          4 |          0 |          1 |          5 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/.prettierrc                                    | JSON               |          8 |          0 |          0 |          8 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/README.md                                      | Markdown           |         57 |          2 |         33 |         92 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/gatsby-browser.tsx                             | TypeScript React   |         23 |          0 |          2 |         25 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/gatsby-config.ts                               | TypeScript         |         68 |         11 |          9 |         88 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/gatsby-node.ts                                 | TypeScript         |        335 |          0 |         11 |        346 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/gatsby-ssr.tsx                                 | TypeScript React   |         23 |          0 |          2 |         25 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/netlify/functions/scheduled-deploy.ts          | TypeScript         |         20 |          0 |          2 |         22 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/package.json                                   | JSON               |         66 |         13 |          0 |         79 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/Door50Logo.tsx                  | TypeScript React   |         63 |          0 |          3 |         66 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/DoorLogo.tsx                    | TypeScript React   |         38 |          0 |          3 |         41 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeFaces.tsx                   | TypeScript React   |        134 |          0 |          5 |        139 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeFaces__Thumbnail.tsx        | TypeScript React   |        138 |          0 |          6 |        144 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeHero.tsx                    | TypeScript React   |        155 |          0 |          6 |        161 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeImpact.tsx                  | TypeScript React   |        223 |          0 |          5 |        228 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeServices.tsx                | TypeScript React   |        187 |          0 |          6 |        193 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/HomeWelcome.tsx                 | TypeScript React   |        190 |          0 |          5 |        195 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/Layout.tsx                      | TypeScript React   |        225 |          0 |          5 |        230 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/PageServices.tsx                | TypeScript React   |         32 |          0 |          4 |         36 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/Seo.tsx                         | TypeScript React   |         99 |          4 |          9 |        112 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/ServiceModuleGroup.tsx          | TypeScript React   |        173 |          1 |          6 |        180 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/components/ServicesModule.tsx              | TypeScript React   |         91 |          0 |          5 |         96 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/graphql/fragments.tsx                      | TypeScript React   |        752 |          0 |          2 |        754 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/hooks/useEventsQuery.tsx                   | TypeScript React   |         25 |          0 |          3 |         28 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/hooks/useNewsQuery.tsx                     | TypeScript React   |         39 |          0 |          3 |         42 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/hooks/usePartnersQuery.tsx                 | TypeScript React   |         22 |          0 |          3 |         25 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/images/favicon.svg                         | SVG                |         10 |          0 |          1 |         11 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/pages/404.tsx                              | TypeScript React   |          9 |          0 |          3 |         12 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/pages/index.tsx                            | TypeScript React   |        235 |          1 |          8 |        244 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/CalendarPage.tsx                 | TypeScript React   |         52 |          0 |          7 |         59 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/ContactPage.tsx                  | TypeScript React   |        132 |          0 |          7 |        139 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/EventArticlePage.tsx             | TypeScript React   |         44 |          0 |          8 |         52 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/FacesPage.tsx                    | TypeScript React   |        238 |          0 |          8 |        246 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/FacesStoryPage.tsx               | TypeScript React   |         45 |          0 |          8 |         53 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/FormPage.tsx                     | TypeScript React   |         44 |          0 |          8 |         52 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/ImpactPage.tsx                   | TypeScript React   |        452 |          0 |          8 |        460 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/InteriorPage.tsx                 | TypeScript React   |        124 |          0 |          8 |        132 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/InternalArticlePage.tsx          | TypeScript React   |         48 |          0 |          8 |         56 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/LatestPage.tsx                   | TypeScript React   |        167 |          0 |          9 |        176 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/LeaderProfilePage.tsx            | TypeScript React   |         44 |          0 |          8 |         52 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/LeadershipPage.tsx               | TypeScript React   |        396 |          0 |          6 |        402 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/MembershipPage.tsx               | TypeScript React   |        137 |          0 |          7 |        144 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/PartnerArticlePage.tsx           | TypeScript React   |         50 |          0 |          8 |         58 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/ProgramsPage.tsx                 | TypeScript React   |        146 |          0 |          7 |        153 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/ServicePage.tsx                  | TypeScript React   |        149 |          0 |          8 |        157 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/templates/TertiaryPage.tsx                 | TypeScript React   |         46 |          0 |          5 |         51 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/theme/variables.ts                         | TypeScript         |          2 |          0 |          2 |          4 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/types/images.d.ts                          | TypeScript         |          4 |          0 |          1 |          5 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/src/types/index.ts                             | TypeScript         |          0 |          0 |          1 |          1 |
+| /Users/claygiffin/Documents/@the-door/packages/the-door/tsconfig.json                                  | JSON with Comments |          7 |          0 |          1 |          8 |
+| /Users/claygiffin/Documents/@the-door/tsconfig.build.json                                              | JSON               |          8 |          0 |          1 |          9 |
+| /Users/claygiffin/Documents/@the-door/tsconfig.json                                                    | JSON with Comments |          6 |         20 |          0 |         26 |
+| Total                                                                                                  |                    |     51,245 |        130 |      1,012 |     52,387 |
++--------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
