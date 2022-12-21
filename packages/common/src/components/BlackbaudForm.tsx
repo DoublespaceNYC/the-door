@@ -73,6 +73,16 @@ const BlackbaudForm = ({
               font-size: inherit;
             }
           }
+          &.BBDFormSectionComments {
+            .BBFormFieldContainer {
+              margin-left: 0;
+              > * {
+                margin-left: 0;
+                width: 100%;
+                max-width: 100%;
+              }
+            }
+          }
           .BBFormFieldContainer {
             display: flex;
             flex-wrap: wrap;
@@ -89,28 +99,23 @@ const BlackbaudForm = ({
             .BBFormRadioLabelGivingLevelNotSelected {
             }
             .BBFormRadioLabelGivingLevelSelected {
-              font-size: var(--fs-24);
+              font-size: var(--fs-21);
               background: ${highlightColor};
+              color: #fff;
               border: 1px solid ${highlightColor};
             }
-            &.BBDFormSectionComments {
-              .BBFormFieldContainer {
-                margin-left: 0;
-                > * {
-                  margin-left: 0;
-                  width: 100%;
-                  max-width: 100%;
-                }
-              }
-            }
             .BBFormFieldLabel {
-              width: 6em;
+              font-size: inherit;
               line-height: 1.25;
               padding: 0.75em 0.5em 0.75em 0;
               width: auto;
+              min-width: 6em;
               &.BBFormCheckboxLabel {
                 padding-left: 0.333em;
               }
+            }
+            .BBFormRadioItem {
+              margin: 0 0.5em 0.5em 0;
             }
             .BBFormTextArea {
               height: auto;
@@ -124,7 +129,7 @@ const BlackbaudForm = ({
               flex: 1;
               max-width: 100%;
             }
-            .BBTwoFields {
+            &.BBTwoFields {
               display: flex;
               .BBFormTextbox,
               .BBFormSelectList {
@@ -135,9 +140,6 @@ const BlackbaudForm = ({
                   margin-left: 0.5em;
                 }
               }
-            }
-            &.BBFormIndivFields {
-              margin: 0;
             }
             .BBFormSummaryTotal {
               width: 0;
@@ -156,6 +158,9 @@ const BlackbaudForm = ({
               border-radius: 0;
               padding: 0.5em 0.75em;
             }
+          }
+          .BBFormIndivFields {
+            margin: 0;
           }
           .BBFormFieldTributeInfo {
             margin-left: 0;
