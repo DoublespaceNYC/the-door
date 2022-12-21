@@ -55,7 +55,7 @@ const BlackbaudForm = ({
     align-items: center;
     #mongo-form {
       width: 100%;
-      .BBFormContainer[data-bbox-part-id=${formId}] {
+      .BBFormContainer[data-bbox-part-id='${formId}'] {
         padding: 0;
         width: 100%;
         font-size: var(--fs-16);
