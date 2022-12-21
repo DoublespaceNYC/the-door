@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
+import { darken } from 'polished'
 import { HTMLAttributes, useEffect } from 'react'
 
 export interface IBlackbaudForm extends Record {
@@ -45,6 +46,20 @@ const BlackbaudForm = ({
       window.bbox = undefined
       window.bboxInit = undefined
       document.head.removeChild(script)
+      const headScriptsArray = Array.from(
+        document.head.getElementsByTagName('script')
+      )
+      headScriptsArray.forEach(scriptElement => {
+        const UrlsForRemoval = [
+          'bbox.blackbaudhosting.com',
+          'payments.blackbaud.com',
+          'google.com/recaptcha/api.js',
+          'gstatic.com/recaptcha/releases/',
+        ]
+        if (UrlsForRemoval.some(url => scriptElement.src.includes(url))) {
+          document.head.removeChild(scriptElement)
+        }
+      })
     }
   }, [formId])
 
@@ -62,7 +77,7 @@ const BlackbaudForm = ({
         color: #444;
         .BBFormSection {
           max-width: 100%;
-          margin: 0 0 1em;
+          margin: 0 0 2em;
           .BBFormSectionHeading {
             font-size: var(--fs-15);
             font-weight: 500;
@@ -74,12 +89,17 @@ const BlackbaudForm = ({
             }
           }
           &.BBDFormSectionComments {
+            margin-top: -3em;
             .BBFormFieldContainer {
               margin-left: 0;
               > * {
                 margin-left: 0;
                 width: 100%;
                 max-width: 100%;
+                &textarea {
+                  flex: none;
+                  min-height: 8em;
+                }
               }
             }
           }
@@ -87,7 +107,7 @@ const BlackbaudForm = ({
             display: flex;
             flex-wrap: wrap;
             color: inherit;
-            margin: 0;
+            margin: 0 0 1em;
             .BBFormRadioLabelGivingLevel {
               font-size: var(--fs-21);
               color: #444;
@@ -119,7 +139,7 @@ const BlackbaudForm = ({
             }
             .BBFormTextArea {
               height: auto;
-              min-height: 8em;
+              min-height: 4em;
               padding: 0.75em;
             }
             .BBFormTextbox,
@@ -146,6 +166,8 @@ const BlackbaudForm = ({
               height: 0;
               margin: 0;
               padding: 0;
+              overflow: hidden;
+              position: absolute;
             }
             input[type='submit'].BBFormSubmitbutton {
               font-size: var(--fs-24);
@@ -157,6 +179,12 @@ const BlackbaudForm = ({
               box-shadow: none;
               border-radius: 0;
               padding: 0.5em 0.75em;
+              @media (hover: hover) {
+                &:hover {
+                  opacity: 1;
+                  background: ${darken(0.1, highlightColor || '')};
+                }
+              }
             }
           }
           .BBFormIndivFields {
@@ -164,6 +192,12 @@ const BlackbaudForm = ({
           }
           .BBFormFieldTributeInfo {
             margin-left: 0;
+          }
+        }
+        #reCAPTCHASection {
+          margin: 0;
+          * {
+            margin: 0;
           }
         }
       }
