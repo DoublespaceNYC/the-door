@@ -6,11 +6,11 @@ import {
   useRef,
   useState,
 } from 'react'
-import { BiChevronDown } from 'react-icons/bi'
 
 import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
+import DropdownArrow from './DropdownArrow'
 
 type Props = {
   options: string[]
@@ -179,13 +179,7 @@ const PageFilter = ({
       }
     `,
     arrow: css`
-      font-size: 125%;
-      margin: 0 -0.25em -0.2em -0.125em;
-      transition: transform 300ms ease;
-      ${dropdownOpen &&
-      css`
-        transform: scale3d(1, -1, 1) translateY(-8%);
-      `}
+      margin-left: 0.333em;
     `,
   }
 
@@ -195,7 +189,11 @@ const PageFilter = ({
       ref={ref}
     >
       <button onClick={() => setDropdownOpen(prev => !prev)}>
-        {activeOption} <BiChevronDown css={styles.arrow} />
+        {activeOption}
+        <DropdownArrow
+          css={styles.arrow}
+          open={dropdownOpen}
+        />
       </button>
       <nav>
         {options.map((option, i) => (

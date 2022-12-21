@@ -496,7 +496,7 @@ export const Fragments = graphql`
     label
     fieldType
     required
-    fullWidth
+    width
   }
   fragment DateFieldFragment on DatoCmsDateField {
     __typename
@@ -505,7 +505,7 @@ export const Fragments = graphql`
     minDate
     maxDate
     required
-    fullWidth
+    width
   }
   fragment SelectFieldFragment on DatoCmsSelectField {
     __typename
@@ -531,7 +531,7 @@ export const Fragments = graphql`
       }
     }
     required
-    fullWidth
+    width
   }
   fragment SelectStateFieldFragment on DatoCmsSelectStateField {
     __typename
@@ -544,7 +544,7 @@ export const Fragments = graphql`
     id: originalId
     label
     required
-    fullWidth
+    width
   }
   fragment CheckboxFieldFragment on DatoCmsCheckboxField {
     __typename
@@ -559,6 +559,10 @@ export const Fragments = graphql`
     options {
       ...CheckboxFieldFragment
     }
+  }
+  fragment FormDividerFragment on DatoCmsFormDivider {
+    __typename
+    id: originalId
   }
   fragment FormFragment on DatoCmsForm {
     id: originalId
@@ -589,6 +593,9 @@ export const Fragments = graphql`
       }
       ... on DatoCmsDateField {
         ...DateFieldFragment
+      }
+      ... on DatoCmsFormDivider {
+        ...FormDividerFragment
       }
     }
     conditionalFields

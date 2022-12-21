@@ -81,6 +81,7 @@ const ContactPage = ({
         <Form
           data={contactForm}
           css={styles.form}
+          layout="Page"
         />
       </section>
       {directory[0] && <PageContact data={directory[0]} />}

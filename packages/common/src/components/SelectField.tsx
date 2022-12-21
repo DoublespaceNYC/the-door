@@ -1,9 +1,10 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
-import { BiChevronDown } from 'react-icons/bi'
 
+import { inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
+import DropdownArrow from './DropdownArrow'
 import { IFieldStyles } from './Form'
 
 export interface ISelectOption extends Record {
@@ -23,7 +24,7 @@ export interface ISelectField extends Record {
   label: string
   options: (ISelectOption | ISelectGroup)[]
   required: boolean
-  fullWidth: boolean
+  width: 'Full' | 'Half' | 'Third' | 'Quarter'
 }
 
 type Props = {
@@ -34,7 +35,7 @@ type Props = {
 }
 
 const SelectField = ({
-  data: { label, options, required, fullWidth },
+  data: { label, options, required, width },
   onChange,
   fieldStyles,
   statesList,
@@ -91,16 +92,15 @@ const SelectField = ({
 
   const styles = {
     container: css`
-      min-width: ${fullWidth && '100%'};
-      ${statesList &&
+      ${inputWidth(width)}/* ${statesList &&
       css`
         flex: 0.4;
         min-width: 10ch;
-      `}
+      `} */
     `,
     select: css`
       appearance: none;
-      cursor: pointer;
+      /* cursor: pointer; */
       color: transparent;
       /* ${!value && css``} */
     `,
@@ -111,12 +111,16 @@ const SelectField = ({
       line-height: 1.333;
     `,
     arrow: css`
-      font-size: 125%;
       position: absolute;
       top: 50%;
-      right: 0.5em;
-      transform: translateY(-50%);
+      right: 1.5em;
+      transform: translateY(-33%);
       pointer-events: none;
+      @media (hover: hover) {
+        div:hover > & {
+          color: var(--textHighlight);
+        }
+      }
     `,
   }
 
@@ -132,7 +136,7 @@ const SelectField = ({
       >
         {label}
       </label>
-      <BiChevronDown css={styles.arrow} />
+      <DropdownArrow css={styles.arrow} />
       {activeOptionLabel && (
         <div
           css={[fieldStyles.input, styles.inputValue]}

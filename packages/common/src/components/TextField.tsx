@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
+import { inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
 import { IFieldStyles } from './Form'
 
@@ -10,7 +11,7 @@ export interface ITextField extends Record {
   label: string
   fieldType: 'text' | 'email' | 'tel' | 'zip'
   required: boolean
-  fullWidth: boolean
+  width: 'Full' | 'Half' | 'Third' | 'Quarter'
 }
 
 type FieldProps = {
@@ -20,7 +21,7 @@ type FieldProps = {
 }
 
 const TextField = ({
-  data: { label, fieldType, required, fullWidth },
+  data: { label, fieldType, required, width },
   onChange,
   fieldStyles,
 }: FieldProps): JSX.Element => {
@@ -97,11 +98,11 @@ const TextField = ({
 
   const styles = {
     container: css`
-      min-width: ${fullWidth && '100%'};
+      ${inputWidth(width)}
       ${fieldType === 'zip' &&
       css`
         min-width: 15ch;
-        flex: 0.6;
+        /* flex: 0.6; */
       `}
     `,
   }

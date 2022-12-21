@@ -110,10 +110,9 @@ const Article = ({
       ${mq().s} {
         font-size: var(--fs-72);
       }
-      ${layout === 'Lightbox' &&
-      form &&
+      ${form &&
       css`
-        font-size: var(--fs-48);
+        font-size: ${layout === 'Lightbox' ? `var(--fs-48)` : `var(--fs-72)`};
         margin-bottom: 0;
       `}
       ${layout === 'Calendar' &&

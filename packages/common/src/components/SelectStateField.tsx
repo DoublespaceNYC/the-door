@@ -89,7 +89,7 @@ const SelectStateField = ({
             value: statesList[key as keyof typeof statesList],
           } as ISelectOption
         }),
-        fullWidth: false,
+        width: 'Quarter',
       }}
       onChange={onChange}
       fieldStyles={fieldStyles}

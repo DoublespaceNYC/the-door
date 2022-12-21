@@ -4,9 +4,8 @@ import {
   StructuredText as IStructuredText,
   Record,
 } from 'datocms-structured-text-utils'
-import { throttle } from 'lodash'
 import { darken } from 'polished'
-import { HTMLAttributes, useEffect, useMemo, useRef } from 'react'
+import { HTMLAttributes, useMemo, useRef } from 'react'
 import { Fragment, SyntheticEvent, useCallback, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 import { BsCheck2Circle } from 'react-icons/bs'
@@ -20,26 +19,29 @@ import { toSlug } from '../utils'
 import CheckboxArrayField, { ICheckboxArrayField } from './CheckboxArrayField'
 import CheckboxField, { ICheckboxField } from './CheckboxField'
 import DateField, { IDateField } from './DateField'
+import FormDivider, { IFormDivider } from './FormDivider'
 import LoadingSpinner from './LoadingSpinner'
 import MultilineTextField, { IMultilineTextField } from './MultilineTextField'
 import SelectField, { ISelectField } from './SelectField'
 import SelectStateField, { ISelectStateField } from './SelectStateField'
 import TextField, { ITextField } from './TextField'
 
+type IFormField =
+  | ITextField
+  | ISelectField
+  | ISelectStateField
+  | IMultilineTextField
+  | ICheckboxArrayField
+  | ICheckboxField
+  | IDateField
+  | IFormDivider
+
 export interface IForm extends Record {
   __typename: 'DatoCmsForm'
   formName: string
   submitButtonText: string
   successMessage: IStructuredText
-  formFields: (
-    | ITextField
-    | ISelectField
-    | ISelectStateField
-    | IMultilineTextField
-    | ICheckboxArrayField
-    | ICheckboxField
-    | IDateField
-  )[]
+  formFields: IFormField[]
   conditionalFields: string | null
 }
 
@@ -128,11 +130,6 @@ const Form = ({
       [name]: value,
     }))
     formData.current[name] = value
-
-    // setFormData(prev => ({
-    //   ...prev,
-    //   [name]: value,
-    // }))
   }, [])
 
   const formFieldsArray = useMemo(() => {
@@ -152,11 +149,15 @@ const Form = ({
 
     if (!showAllConditionalFields && conditionsJSON) {
       const getFieldFromLabel = (label: string) => {
-        return formFields.find(field => field.label === label) || null
+        if (label === 'DIVIDER') {
+          return {
+            __typename: 'DatoCmsFormDivider',
+            id: 'conditionalDivider',
+          }
+        } else return formFields.find(field => field.label === label) || null
       }
-      const recursiveMap = (
-        fields: (string | ISelectJSON)[]
-      ): (ITextField | ISelectField | IMultilineTextField)[] => {
+
+      const recursiveMap = (fields: (string | ISelectJSON)[]): IFormField[] => {
         return fields
           .flatMap(field_i => {
             if (typeof field_i === 'string') {
@@ -176,11 +177,7 @@ const Form = ({
               ]
             }
           })
-          .filter(Boolean) as (
-          | ITextField
-          | ISelectField
-          | IMultilineTextField
-        )[]
+          .filter(Boolean) as IFormField[]
       }
       const newArray = recursiveMap(conditionsJSON.fields)
       return newArray
@@ -199,8 +196,9 @@ const Form = ({
       const conditionsJSON = conditionalFields && JSON.parse(conditionalFields)
       const sanitizedData = conditionsJSON ? {} : formData
       if (conditionsJSON) {
-        const validFormLabels = formFieldsArray.map(field =>
-          toSlug(field.label)
+        const validFormLabels = formFieldsArray.map(
+          field =>
+            field.__typename !== 'DatoCmsFormDivider' && toSlug(field.label)
         )
         const validFormDataKeys = Object.keys(formData).filter(key =>
           validFormLabels.includes(key)
@@ -327,13 +325,16 @@ const Form = ({
       width: auto;
       height: ${submitted ? successHeight : formHeight}px;
       transition: all 300ms ease;
+      --highlight: ${highlightColor || colors.highlight};
+      --textHighlight: ${textHighlight};
     `,
     form: css`
       grid-area: 1 / 1 / 2 / 2;
       align-self: flex-start;
       display: flex;
       flex-wrap: wrap;
-      gap: 1em;
+      --gap: 1em;
+      gap: var(--gap);
       align-items: flex-start;
       justify-content: flex-start;
       opacity: 1;
@@ -449,7 +450,6 @@ const Form = ({
     container: css`
       position: relative;
       flex: 1;
-      min-width: 49%;
       ${!colors.border &&
       css`
         &:after {
@@ -663,6 +663,12 @@ const Form = ({
                   data={field}
                   fieldStyles={fieldStyles}
                   onChange={handleChange}
+                  key={i}
+                />
+              )}
+              {field.__typename === 'DatoCmsFormDivider' && (
+                <FormDivider
+                  fieldStyles={fieldStyles}
                   key={i}
                 />
               )}

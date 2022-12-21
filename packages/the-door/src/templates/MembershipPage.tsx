@@ -1,5 +1,8 @@
 import { css } from '@emotion/react'
-import { IAnchorLink } from '@the-door/common/src/components/AnchorLink'
+import {
+  Anchor,
+  IAnchorLink,
+} from '@the-door/common/src/components/AnchorLink'
 import Form, { IForm } from '@the-door/common/src/components/Form'
 import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
 import PageContent, {
@@ -82,11 +85,15 @@ const MembershipPage = ({
         layoutOptions={layoutOptions[0]}
       />
       <section css={styles.formSection}>
+        {formAnchorLink[0] && (
+          <Anchor id={formAnchorLink[0].linkText} />
+        )}
         <h2>{formHeading}</h2>
         <Form
           data={form}
           css={styles.form}
           highlightColor={colors.pink}
+          layout="Page"
         />
       </section>
     </Layout>

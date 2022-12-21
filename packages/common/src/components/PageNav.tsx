@@ -1,6 +1,5 @@
 import { css } from '@emotion/react'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
-import { BiChevronDown } from 'react-icons/bi'
 
 import useThemeContext from '../context/ThemeContext'
 import { useElementWidth } from '../hooks/useElementRect'
@@ -8,6 +7,7 @@ import { mq } from '../theme/mixins'
 import { doorColors } from '../theme/variables'
 import AnchorLink, { IAnchorLink } from './AnchorLink'
 import DatoLink, { IDatoLink } from './DatoLink'
+import DropdownArrow from './DropdownArrow'
 import PageNavLanguage, { ILocale } from './PageNav__Language'
 
 type Props = {
@@ -190,13 +190,7 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
       `}
     `,
     arrow: css`
-      font-size: 125%;
-      margin: -1em -0.125em -0.25em;
-      transition: transform 300ms ease;
-      ${dropdownOpen &&
-      css`
-        transform: scale3d(1, -1, 1) translateY(-8%);
-      `}
+      margin-left: 0.333em;
     `,
   }
   const NavContent = () => (
@@ -245,7 +239,11 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
           >
             <div css={{ position: 'relative' }}>
               <button onClick={() => setDropdownOpen(prev => !prev)}>
-                Jump to section <BiChevronDown css={styles.arrow} />
+                Jump to section
+                <DropdownArrow
+                  css={styles.arrow}
+                  open={dropdownOpen}
+                />
               </button>
               <nav>
                 <NavContent />

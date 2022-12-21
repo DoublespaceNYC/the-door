@@ -69,7 +69,10 @@ const CheckboxArrayField = ({
   }
 
   return (
-    <fieldset css={[fieldStyles.container, styles.container]}>
+    <fieldset
+      name={name}
+      css={[fieldStyles.container, styles.container]}
+    >
       <legend css={[fieldStyles.label]}>{label}</legend>
       <div css={[fieldStyles.inputBase, styles.inputBase]}>
         {options.map((option, i) => (

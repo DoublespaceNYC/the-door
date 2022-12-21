@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { ChangeEvent, Fragment, useCallback, useEffect, useState } from 'react'
 
-import { absoluteFill } from '../theme/mixins'
+import { absoluteFill, inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
 import { IFieldStyles } from './Form'
 
@@ -10,7 +10,7 @@ export interface IMultilineTextField extends Record {
   __typename: 'DatoCmsMultilineTextField'
   label: string
   required: boolean
-  fullWidth: boolean
+  width: 'Full' | 'Half'
 }
 
 interface FieldProps {
@@ -20,7 +20,7 @@ interface FieldProps {
 }
 
 const MultilineTextField = ({
-  data: { label, required, fullWidth },
+  data: { label, required, width },
   onChange,
   fieldStyles,
 }: FieldProps): JSX.Element => {
@@ -56,7 +56,7 @@ const MultilineTextField = ({
 
   const styles = {
     container: css`
-      min-width: ${fullWidth && '100%'};
+      ${inputWidth(width)}
     `,
     sizer: css`
       display: block;

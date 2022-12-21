@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
+import { inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
 import { IFieldStyles } from './Form'
 
@@ -11,7 +12,7 @@ export interface IDateField extends Record {
   minDate: string
   maxDate: string
   required: boolean
-  fullWidth: boolean
+  width: 'Full' | 'Half' | 'Third' | 'Quarter'
 }
 
 type FieldProps = {
@@ -21,7 +22,7 @@ type FieldProps = {
 }
 
 const DateField = ({
-  data: { label, minDate, maxDate, required, fullWidth },
+  data: { label, minDate, maxDate, required, width },
   onChange,
   fieldStyles,
 }: FieldProps): JSX.Element => {
@@ -56,7 +57,7 @@ const DateField = ({
 
   const styles = {
     container: css`
-      min-width: ${fullWidth && '100%'};
+      ${inputWidth(width)}
     `,
     dateInput: css`
       color: ${value.length === 0 && !shrink && 'transparent'};
