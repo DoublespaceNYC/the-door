@@ -322,13 +322,14 @@ const Article = ({
           layout={
             layout === 'Page' || layout === 'Lightbox' ? layout : undefined
           }
-          highlightColor={highlightColor}
+          highlightColor={colors.highlight}
         />
       ) : (
         form?.__typename === 'DatoCmsBlackbaudForm' && (
           <BlackbaudForm
             data={form}
             css={styles.form}
+            highlightColor={colors.highlight}
           />
         )
       )}
