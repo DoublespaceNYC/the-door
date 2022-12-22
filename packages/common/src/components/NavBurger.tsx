@@ -79,6 +79,7 @@ const NavBurger = ({ open, onClick, ...props }: Props): JSX.Element => {
   return (
     <button
       onClick={onClick}
+      aria-label="toggle menu"
       css={style}
       {...props}
     >

@@ -425,6 +425,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
           <button
             onClick={() => setFiltersOpen(prev => !prev)}
             css={styles.filterIcon}
+            aria-label={`${filtersOpen ? 'close' : 'open'} filters list`}
           >
             <svg viewBox="0 0 24 24">
               <line
@@ -468,6 +469,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
                   key={i}
                   onClick={() => setLocationFilter(location)}
                   css={styles.filter(location === locationFilter)}
+                  aria-label={`filter by location: ${location}`}
                 >
                   {location}
                 </button>
@@ -481,6 +483,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
                   key={i}
                   onClick={() => setTagFilter(tag)}
                   css={styles.filter(tag === tagFilter)}
+                  aria-label={`filter by tag: ${tag}`}
                 >
                   {tag}
                 </button>
@@ -501,6 +504,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
                   key={i}
                   onClick={() => setActiveEvent(event)}
                   css={styles.eventThumb(event === activeEvent)}
+                  aria-label={`view event details: ${event.title}`}
                 >
                   <EventThumbnailInnards
                     headingLevel={2}

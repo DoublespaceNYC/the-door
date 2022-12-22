@@ -238,7 +238,10 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
             ref={condensedRef}
           >
             <div css={{ position: 'relative' }}>
-              <button onClick={() => setDropdownOpen(prev => !prev)}>
+              <button
+                onClick={() => setDropdownOpen(prev => !prev)}
+                aria-label="toggle anchor navigation dropdown"
+              >
                 Jump to section
                 <DropdownArrow
                   css={styles.arrow}

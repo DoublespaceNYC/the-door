@@ -8,6 +8,7 @@ import PageContent, {
 import PageHero from '@the-door/common/src/components/PageHero'
 import PageIntro from '@the-door/common/src/components/PageIntro'
 import PageNav from '@the-door/common/src/components/PageNav'
+import { ILocale } from '@the-door/common/src/components/PageNav__Language'
 import { IStructuredText } from '@the-door/common/src/types'
 import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
@@ -18,6 +19,7 @@ import Seo, { ISEO } from '../components/Seo'
 
 type DataProps = {
   page: {
+    locales: ILocale[]
     title: string
     navButton: [IDatoLink] | null
     heroImage: IGatsbyImageFocused
@@ -72,17 +74,20 @@ export const Head = ({
   data: {
     page: { title, intro, seo },
   },
-}: HeadProps<DataProps>): JSX.Element => (
+  pageContext: { locale },
+}: HeadProps<DataProps, { locale: ILocale }>): JSX.Element => (
   <Seo
     title={seo?.title || title}
     description={seo?.description || renderDescription(intro)}
     imageUrl={seo?.image?.url}
+    lang={locale}
   />
 )
 
 export const data = graphql`
   query ($id: String!, $locale: String!) {
     page: datoCmsInteriorPage(id: { eq: $id }) {
+      locales
       title(locale: $locale)
       navButton(locale: $locale) {
         ... on DatoCmsExternalLink {

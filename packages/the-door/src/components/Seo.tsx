@@ -1,5 +1,5 @@
 import { graphql, useStaticQuery } from 'gatsby'
-import { Fragment, ReactNode } from 'react'
+import { Fragment, ReactNode, useLayoutEffect } from 'react'
 
 export interface ISEO {
   title: string | null
@@ -16,6 +16,7 @@ type Props = {
   imageUrl?: string | null
   hideSuffix?: boolean
   children?: ReactNode
+  lang?: string
 }
 
 const Seo = ({
@@ -24,6 +25,7 @@ const Seo = ({
   imageUrl,
   hideSuffix,
   children,
+  lang,
 }: Props): JSX.Element => {
   const {
     site: {
@@ -48,6 +50,10 @@ const Seo = ({
 
   const metaDescription = description || defaultDescription
   const metaTitle = title || defaultTitle
+
+  useLayoutEffect(() => {
+    document.documentElement.lang = lang || 'en'
+  }, [lang])
 
   return (
     <Fragment>

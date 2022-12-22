@@ -164,6 +164,7 @@ const NavButton = ({
             css={styles.close}
             onClick={() => setOpen(false)}
             tabIndex={open ? 0 : -1}
+            aria-label="close menu"
           >
             <svg viewBox="0 0 12 12">
               <path d="M1 1L11 11" />

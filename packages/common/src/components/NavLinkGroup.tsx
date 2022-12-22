@@ -284,6 +284,7 @@ const NavLinkGroup = ({
       <button
         css={[buttonCss, styles.button]}
         onClick={onOpen}
+        aria-label={`open menu for ${linkText}`}
       >
         <span>{linkText}</span>
       </button>
@@ -371,6 +372,7 @@ const NavLinkGroup = ({
               onClick={onClose}
               css={styles.closeButton}
               tabIndex={open ? 0 : -1}
+              aria-label={`close menu for ${linkText}`}
             >
               <svg
                 viewBox="0 0 24 24"

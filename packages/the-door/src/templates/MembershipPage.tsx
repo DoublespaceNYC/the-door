@@ -104,11 +104,13 @@ export const Head = ({
   data: {
     page: { title, intro, seo },
   },
-}: HeadProps<DataProps>): JSX.Element => (
+  pageContext: { locale },
+}: HeadProps<DataProps, { locale: ILocale }>): JSX.Element => (
   <Seo
     title={seo?.title || title}
     description={seo?.description || renderDescription(intro)}
     imageUrl={seo?.image?.url}
+    lang={locale}
   />
 )
 

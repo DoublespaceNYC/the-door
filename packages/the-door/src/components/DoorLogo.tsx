@@ -12,6 +12,7 @@ const DoorLogo = ({
   `
   return (
     <svg
+      aria-label="The Door"
       viewBox="0 0 155 49"
       css={style}
       {...props}

@@ -145,7 +145,10 @@ const ServiceModuleGroup = ({
     `,
   }
   return (
-    <button css={styles.serviceGroup}>
+    <button
+      css={styles.serviceGroup}
+      aria-label={`show ${serviceGroup.title} links`}
+    >
       <GatsbyImageFocused
         css={styles.imageWrap}
         gatsbyImageCss={styles.image}

@@ -10,6 +10,7 @@ import PageContent, {
 import PageHero from '@the-door/common/src/components/PageHero'
 import PageIntro from '@the-door/common/src/components/PageIntro'
 import PageNav from '@the-door/common/src/components/PageNav'
+import { ILocale } from '@the-door/common/src/components/PageNav__Language'
 import ProgramCatalogSection, {
   IProgramCatalogSection,
 } from '@the-door/common/src/components/ProgramCatalogSection'
@@ -24,6 +25,7 @@ import Seo, { ISEO } from '../components/Seo'
 
 type DataProps = {
   service: {
+    locales: ILocale[]
     title: string
     heroImage: IGatsbyImageFocused
     intro: IStructuredText
@@ -98,19 +100,20 @@ export const Head = ({
   data: {
     service: { title, intro, seo },
   },
-}: HeadProps<DataProps>): JSX.Element => (
+  pageContext: { locale },
+}: HeadProps<DataProps, { locale: ILocale }>): JSX.Element => (
   <Seo
     title={seo?.title || title}
-    description={
-      seo?.description || intro.value ? renderDescription(intro) : null
-    }
+    description={seo?.description || renderDescription(intro)}
     imageUrl={seo?.image?.url}
+    lang={locale}
   />
 )
 
 export const data = graphql`
   query ($id: String!, $locale: String!) {
     service: datoCmsService(id: { eq: $id }) {
+      locales
       title(locale: $locale)
       heroImage {
         gatsbyImageData(

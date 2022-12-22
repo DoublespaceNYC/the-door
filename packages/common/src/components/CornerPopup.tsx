@@ -178,6 +178,7 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
               <button
                 css={styles.close}
                 onClick={() => setClosed(true)}
+                aria-label="close popup"
               >
                 <svg viewBox="0 0 12 12">
                   <path d="M1 1L11 11" />

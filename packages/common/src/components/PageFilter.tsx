@@ -188,7 +188,10 @@ const PageFilter = ({
       css={[styles.filter]}
       ref={ref}
     >
-      <button onClick={() => setDropdownOpen(prev => !prev)}>
+      <button
+        onClick={() => setDropdownOpen(prev => !prev)}
+        aria-label="toggle filters list"
+      >
         {activeOption}
         <DropdownArrow
           css={styles.arrow}
@@ -200,6 +203,7 @@ const PageFilter = ({
           <button
             key={i}
             onClick={() => handleOptionClick(option)}
+            aria-label={`set filter to: ${option}`}
           >
             {option}
           </button>

@@ -195,6 +195,7 @@ const AccordionItem = ({
       <button
         onClick={onClick}
         css={styles.button}
+        aria-label="close accordion"
       >
         <div>
           <Heading css={styles.heading}>{heading}</Heading>

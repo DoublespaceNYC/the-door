@@ -47,6 +47,7 @@ const SocialLink = ({ social }: Props): JSX.Element => {
       href={social.url}
       target="_blank"
       rel="noreferrer"
+      aria-label={social.socialType}
     >
       {renderIcon()}
     </a>
