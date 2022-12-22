@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useId, useState } from 'react'
 
 import { inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
@@ -55,6 +55,8 @@ const DateField = ({
     onChange(name, value)
   }, [onChange, name, value])
 
+  const uniqueId = useId()
+
   const styles = {
     container: css`
       ${inputWidth(width)}
@@ -66,7 +68,7 @@ const DateField = ({
   return (
     <div css={[fieldStyles.container, styles.container]}>
       <label
-        htmlFor={name}
+        htmlFor={name + uniqueId}
         css={[
           fieldStyles.label,
           shrink && fieldStyles.shrink,
@@ -81,6 +83,7 @@ const DateField = ({
           type="date"
           value={value}
           name={name}
+          id={name + uniqueId}
           required={required}
           onChange={handleChangeText}
           onFocus={handleFocus}

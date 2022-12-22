@@ -1,6 +1,13 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useState,
+} from 'react'
 
 import { inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
@@ -90,19 +97,15 @@ const SelectField = ({
     onChange(name, value)
   }, [onChange, name, value])
 
+  const uniqueId = useId()
+
   const styles = {
     container: css`
-      ${inputWidth(width)}/* ${statesList &&
-      css`
-        flex: 0.4;
-        min-width: 10ch;
-      `} */
+      ${inputWidth(width)}
     `,
     select: css`
       appearance: none;
-      /* cursor: pointer; */
       color: transparent;
-      /* ${!value && css``} */
     `,
     inputValue: css`
       position: absolute;
@@ -127,7 +130,7 @@ const SelectField = ({
   return (
     <div css={[fieldStyles.container, styles.container]}>
       <label
-        htmlFor={name}
+        htmlFor={name + uniqueId}
         css={[
           fieldStyles.label,
           shrink && fieldStyles.shrink,
@@ -149,6 +152,7 @@ const SelectField = ({
         <select
           css={[fieldStyles.input, styles.select]}
           name={name}
+          id={name + uniqueId}
           required={required}
           onChange={handleChange}
           onFocus={handleShrink}

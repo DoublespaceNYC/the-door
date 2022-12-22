@@ -1,6 +1,13 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { ChangeEvent, Fragment, useCallback, useEffect, useState } from 'react'
+import {
+  ChangeEvent,
+  Fragment,
+  useCallback,
+  useEffect,
+  useId,
+  useState,
+} from 'react'
 
 import { absoluteFill, inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
@@ -54,6 +61,8 @@ const MultilineTextField = ({
     onChange(name, value)
   }, [onChange, name, value])
 
+  const uniqueId = useId()
+
   const styles = {
     container: css`
       ${inputWidth(width)}
@@ -78,7 +87,7 @@ const MultilineTextField = ({
   return (
     <div css={[fieldStyles.container, styles.container]}>
       <label
-        htmlFor={name}
+        htmlFor={name + uniqueId}
         css={[
           fieldStyles.label,
           shrink && fieldStyles.shrink,
@@ -99,6 +108,7 @@ const MultilineTextField = ({
         <textarea
           css={[fieldStyles.input, styles.textArea]}
           name={name}
+          id={name + uniqueId}
           required={required}
           onChange={handleChange}
           onFocus={handleFocus}

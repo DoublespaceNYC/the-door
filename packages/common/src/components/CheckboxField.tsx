@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useId, useState } from 'react'
 
 import { absoluteFill } from '../theme/mixins'
 import { toSlug } from '../utils'
@@ -37,6 +37,8 @@ const CheckboxField = ({
     onChange(name, checked)
   }, [onChange, name, checked])
 
+  const uniqueId = useId()
+
   const styles = {
     inputOption: css`
       position: relative;
@@ -64,7 +66,7 @@ const CheckboxField = ({
         data-checked={checked}
       />
       <label
-        htmlFor={id}
+        htmlFor={id + uniqueId}
         css={required && fieldStyles.required}
       >
         {label}
@@ -75,6 +77,7 @@ const CheckboxField = ({
         type="checkbox"
         onChange={handleChange}
         value={id}
+        id={id + uniqueId}
       />
     </div>
   )

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useId, useState } from 'react'
 
 import { inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
@@ -96,20 +96,21 @@ const TextField = ({
     onChange(name, value)
   }, [onChange, name, value])
 
+  const uniqueId = useId()
+
   const styles = {
     container: css`
       ${inputWidth(width)}
       ${fieldType === 'zip' &&
       css`
         min-width: 15ch;
-        /* flex: 0.6; */
       `}
     `,
   }
   return (
     <div css={[fieldStyles.container, styles.container]}>
       <label
-        htmlFor={name}
+        htmlFor={name + uniqueId}
         css={[
           fieldStyles.label,
           shrink && fieldStyles.shrink,
@@ -123,6 +124,7 @@ const TextField = ({
           css={[fieldStyles.input]}
           value={value}
           name={name}
+          id={name + uniqueId}
           type={fieldType}
           required={required}
           onChange={fieldType === 'tel' ? handleChangePhone : handleChangeText}
