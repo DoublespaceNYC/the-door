@@ -230,16 +230,6 @@ const BlackbaudForm = ({
               max-width: 100%;
               line-height: 1.25;
             }
-            &.BBTwoFields {
-              display: flex;
-              .BBFormTextbox,
-              .BBFormSelectList {
-                margin: 0 1em 0 0;
-                &:last-child {
-                  margin-right: 0;
-                }
-              }
-            }
             .BBFormSummaryTotal {
               width: 0;
               height: 0;
@@ -264,6 +254,16 @@ const BlackbaudForm = ({
                   opacity: 1;
                   background: ${darken(0.1, highlightColor || '')};
                 }
+              }
+            }
+          }
+          .BBTwoFields {
+            display: flex;
+            .BBFormTextbox,
+            .BBFormSelectList {
+              margin: 0 1em 0 0;
+              &:last-child {
+                margin-right: 0;
               }
             }
           }
