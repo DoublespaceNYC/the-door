@@ -70,7 +70,7 @@ const BlackbaudForm = ({
     script.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-min.js'
     document.head.appendChild(script)
     return () => {
-      // remove scripts from head
+      // Clean up scripts
       document.head.removeChild(script)
       const UrlsForRemoval = [
         'bbox.blackbaudhosting.com',
@@ -86,7 +86,7 @@ const BlackbaudForm = ({
           document.head.removeChild(scriptElement)
         }
       })
-      // remove links from head
+      // Clean up links
       const headLinkArray = Array.from(
         document.head.getElementsByTagName('link')
       )
@@ -95,13 +95,17 @@ const BlackbaudForm = ({
           document.head.removeChild(linkElement)
         }
       })
-      // remove last 4 nodes from body
-      const bodyNodes = document.body.childNodes
-      for (let i = bodyNodes.length - 5; i < bodyNodes.length - 1; i++) {
-        document.body.removeChild(bodyNodes[i])
-      }
+      // Clean up iframes
+      const iframeArray = Array.from(
+        document.body.getElementsByTagName('iframe')
+      )
+      iframeArray.forEach(iframeElement => {
+        if (iframeElement.name.includes('easyXDM')) {
+          document.body.removeChild(iframeElement)
+        }
+      })
 
-      // clean up window variables
+      // Clean up variables
       window.bb$ = undefined
       window.bbCheckout2_0 = undefined
       window.bbFormToggleGivingLevels = undefined
@@ -254,6 +258,7 @@ const BlackbaudForm = ({
               box-shadow: none;
               border-radius: 0;
               padding: 0.5em 0.75em;
+              transition: background-color 300ms ease;
               @media (hover: hover) {
                 &:hover {
                   opacity: 1;
