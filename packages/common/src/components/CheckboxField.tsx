@@ -74,7 +74,6 @@ const CheckboxField = ({
         required={required}
         type="checkbox"
         onChange={handleChange}
-        id={id}
         value={id}
       />
     </div>

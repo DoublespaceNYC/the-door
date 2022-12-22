@@ -81,7 +81,6 @@ const DateField = ({
           type="date"
           value={value}
           name={name}
-          id={name}
           required={required}
           onChange={handleChangeText}
           onFocus={handleFocus}

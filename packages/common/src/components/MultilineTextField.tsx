@@ -99,7 +99,6 @@ const MultilineTextField = ({
         <textarea
           css={[fieldStyles.input, styles.textArea]}
           name={name}
-          id={name}
           required={required}
           onChange={handleChange}
           onFocus={handleFocus}

@@ -149,7 +149,6 @@ const SelectField = ({
         <select
           css={[fieldStyles.input, styles.select]}
           name={name}
-          id={name}
           required={required}
           onChange={handleChange}
           onFocus={handleShrink}

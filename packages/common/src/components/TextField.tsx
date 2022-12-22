@@ -123,7 +123,6 @@ const TextField = ({
           css={[fieldStyles.input]}
           value={value}
           name={name}
-          id={name}
           type={fieldType}
           required={required}
           onChange={fieldType === 'tel' ? handleChangePhone : handleChangeText}
