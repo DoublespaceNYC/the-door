@@ -37,7 +37,7 @@ const HomeCalendar = ({
           eventTitle: ['#444', doorColors.yellow],
           eventText: ['#888'],
           ctaBg: [doorColors.gray50, doorColors.yellow],
-          ctaText: ['#fff'],
+          ctaText: ['#fff', '#fff'],
           ctaSlider: [doorColors.navy, doorColors.yellow],
           dividerTop: '#80808080',
           divider: '#ddd',

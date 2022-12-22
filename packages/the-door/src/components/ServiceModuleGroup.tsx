@@ -141,6 +141,7 @@ const ServiceModuleGroup = ({
       }
       &:hover > span {
         background-position: 0 100%;
+        color: #fff;
       }
     `,
   }
