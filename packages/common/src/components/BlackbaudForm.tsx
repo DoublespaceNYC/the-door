@@ -232,11 +232,9 @@ const BlackbaudForm = ({
               display: flex;
               .BBFormTextbox,
               .BBFormSelectList {
-                &:nth-of-type(1) {
-                  margin-right: 0.5em;
-                }
-                &:nth-of-type(2) {
-                  margin-left: 0.5em;
+                margin-right: 1em;
+                &:last-child {
+                  margin-right: 0;
                 }
               }
             }

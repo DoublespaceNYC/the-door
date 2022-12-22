@@ -9,8 +9,9 @@ export const mq = (minMax: 'min' | 'max' = 'max') => {
   const mqArray = Object.keys(breakpoints) as Array<keyof breakpoints>
 
   mqArray.forEach(key => {
-    mqObject[key] = `@media (${minMax}-width: ${breakpoints[key] + (minMax === 'min' ? 1 : 0)
-      }px)`
+    mqObject[key] = `@media (${minMax}-width: ${
+      breakpoints[key] + (minMax === 'min' ? 1 : 0)
+    }px)`
   })
 
   return mqObject
@@ -81,21 +82,23 @@ export const bezier = {
   easeOut: `cubic-bezier(0.25, 0.5, 0.33, 1)`,
 }
 
-export const inputWidth = (
-  width: 'Full' | 'Half' | 'Third' | 'Quarter'
-) => {
+export const inputWidth = (width: 'Full' | 'Half' | 'Third' | 'Quarter') => {
   switch (width) {
-    case 'Full': return css`
-      flex-basis: 100%;
-    `
-    case 'Half': return css`
-      flex-basis: calc(50% - 0.5 * var(--gap));
-    `
-    case 'Third': return css`
-      flex-basis: calc(33.3% - var(--gap));
-    `
-    case 'Quarter': return css`
-      flex-basis: calc(25% - 1.5 * var(--gap));
-    `
+    case 'Full':
+      return css`
+        flex-basis: 100%;
+      `
+    case 'Half':
+      return css`
+        flex-basis: calc(50% - 0.5 * var(--gap));
+      `
+    case 'Third':
+      return css`
+        flex-basis: calc(33.3% - var(--gap));
+      `
+    case 'Quarter':
+      return css`
+        flex-basis: calc(25% - 1.5 * var(--gap));
+      `
   }
 }
