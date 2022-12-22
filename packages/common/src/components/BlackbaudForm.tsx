@@ -70,6 +70,38 @@ const BlackbaudForm = ({
     script.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-min.js'
     document.head.appendChild(script)
     return () => {
+      // remove scripts from head
+      document.head.removeChild(script)
+      const UrlsForRemoval = [
+        'bbox.blackbaudhosting.com',
+        'payments.blackbaud.com',
+        'google.com/recaptcha/api.js',
+        'gstatic.com/recaptcha/releases/',
+      ]
+      const headScriptsArray = Array.from(
+        document.head.getElementsByTagName('script')
+      )
+      headScriptsArray.forEach(scriptElement => {
+        if (UrlsForRemoval.some(url => scriptElement.src.includes(url))) {
+          document.head.removeChild(scriptElement)
+        }
+      })
+      // remove links from head
+      const headLinkArray = Array.from(
+        document.head.getElementsByTagName('link')
+      )
+      headLinkArray.forEach(linkElement => {
+        if (linkElement.href.includes('bbox.blackbaudhosting.com')) {
+          document.head.removeChild(linkElement)
+        }
+      })
+      // remove last 4 nodes from body
+      const bodyNodes = document.body.childNodes
+      for (let i = bodyNodes.length - 5; i < bodyNodes.length - 1; i++) {
+        document.body.removeChild(bodyNodes[i])
+      }
+
+      // clean up window variables
       window.bb$ = undefined
       window.bbCheckout2_0 = undefined
       window.bbFormToggleGivingLevels = undefined
@@ -103,22 +135,6 @@ const BlackbaudForm = ({
       window.Blackbaud_OpenUpdateDirectDebitForm = undefined
       window._MongoServerUrlBase = undefined
       window._MongoServerUrl = undefined
-
-      document.head.removeChild(script)
-      const headScriptsArray = Array.from(
-        document.head.getElementsByTagName('script')
-      )
-      headScriptsArray.forEach(scriptElement => {
-        const UrlsForRemoval = [
-          'bbox.blackbaudhosting.com',
-          'payments.blackbaud.com',
-          'google.com/recaptcha/api.js',
-          'gstatic.com/recaptcha/releases/',
-        ]
-        if (UrlsForRemoval.some(url => scriptElement.src.includes(url))) {
-          document.head.removeChild(scriptElement)
-        }
-      })
     }
   }, [formId])
 
