@@ -112,7 +112,7 @@ const Article = ({
       }
       ${form &&
       css`
-        font-size: ${layout === 'Lightbox' ? `var(--fs-48)` : `var(--fs-72)`};
+        font-size: ${layout === 'Lightbox' ? `var(--fs-60)` : `var(--fs-72)`};
         margin-bottom: 0;
       `}
       ${layout === 'Calendar' &&
