@@ -76,6 +76,7 @@ const PageHero = ({ title, section, image }: Props): JSX.Element => {
         focalPoint={image.focalPoint}
         aspectRatio={8 / 3}
         originalAspectRatio={image.sizes.aspectRatio}
+        loading="eager"
       />
       {section && <div css={styles.eyebrow}>{section}</div>}
       <h1 css={styles.title}>{title}</h1>

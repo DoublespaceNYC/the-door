@@ -27,6 +27,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   aspectRatio: number
   originalAspectRatio?: number
   gatsbyImageCss?: CSSInterpolation
+  loading?: 'lazy' | 'eager'
 }
 
 const GatsbyImageFocused = ({
@@ -36,6 +37,7 @@ const GatsbyImageFocused = ({
   aspectRatio,
   originalAspectRatio,
   gatsbyImageCss,
+  loading,
   ...props
 }: Props): JSX.Element => {
   const [ref, setRef] = useState<HTMLDivElement | null>(null)
@@ -92,23 +94,10 @@ const GatsbyImageFocused = ({
         alt={alt || ''}
         style={{ objectPosition: 'inherit' }}
         objectPosition="inherit"
+        loading={loading}
       />
     </div>
   )
 }
 
 export default GatsbyImageFocused
-
-// export const ImageFocalData = graphql`
-//   fragment ImageFocalData on DatoCmsFileField {
-//     isImage
-//     alt
-//     sizes {
-//       aspectRatio
-//     }
-//     focalPoint {
-//       x
-//       y
-//     }
-//   }
-// `
