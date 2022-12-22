@@ -16,12 +16,43 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 declare global {
   interface Window {
-    _bboxDefine: any
     bb$: any
-    BBOX: any
-    BBOXReCAPTCHAv2: any
+    bbCheckout2_0: any
+    bbFormToggleGivingLevels: any
     bbox: any
     bboxInit: any
+
+    _bboxDefine: any
+
+    BBOX: any
+    BBOXBillingSection: any
+    BBOXDesignationSection: any
+    BBOXDonationForm: any
+    BBOXForm: any
+    BBOXFormAddressBlock: any
+    BBOXGiftSection: any
+    BBOXGiftAttributesSection: any
+    BBOXPaymentSection: any
+    BBOXReCAPTCHAv2: any
+    BBOXRecurrenceSection: any
+    BBOXSectionScripts: any
+    BBOXTributeSection: any
+    BBOXValidation: any
+
+    Blackbaud_GetBlackoutDaysForRecurringDirectDebit: any
+    Blackbaud_Init: any
+    Blackbaud_Open: any
+    Blackbaud_OpenCardNotPresentForm: any
+    Blackbaud_OpenCardPresentForm: any
+    Blackbaud_OpenDirectDebitForm: any
+    Blackbaud_OpenPaymentForm: any
+    Blackbaud_OpenStoreCardForm: any
+    Blackbaud_OpenStoreDirectDebitForm: any
+    Blackbaud_OpenUpdateCardForm: any
+    Blackbaud_OpenUpdateDirectDebitForm: any
+
+    _MongoServerUrlBase: any
+    _MongoServerUrl: any
   }
 }
 const BlackbaudForm = ({
@@ -39,12 +70,40 @@ const BlackbaudForm = ({
     script.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-min.js'
     document.head.appendChild(script)
     return () => {
-      window._bboxDefine = undefined
       window.bb$ = undefined
-      window.BBOX = undefined
-      window.BBOXReCAPTCHAv2 = undefined
+      window.bbCheckout2_0 = undefined
+      window.bbFormToggleGivingLevels = undefined
       window.bbox = undefined
       window.bboxInit = undefined
+      window._bboxDefine = undefined
+      window.BBOX = undefined
+      window.BBOXBillingSection = undefined
+      window.BBOXDesignationSection = undefined
+      window.BBOXDonationForm = undefined
+      window.BBOXForm = undefined
+      window.BBOXFormAddressBlock = undefined
+      window.BBOXGiftSection = undefined
+      window.BBOXGiftAttributesSection = undefined
+      window.BBOXPaymentSection = undefined
+      window.BBOXReCAPTCHAv2 = undefined
+      window.BBOXRecurrenceSection = undefined
+      window.BBOXSectionScripts = undefined
+      window.BBOXTributeSection = undefined
+      window.BBOXValidation = undefined
+      window.Blackbaud_GetBlackoutDaysForRecurringDirectDebit = undefined
+      window.Blackbaud_Init = undefined
+      window.Blackbaud_Open = undefined
+      window.Blackbaud_OpenCardNotPresentForm = undefined
+      window.Blackbaud_OpenCardPresentForm = undefined
+      window.Blackbaud_OpenDirectDebitForm = undefined
+      window.Blackbaud_OpenPaymentForm = undefined
+      window.Blackbaud_OpenStoreCardForm = undefined
+      window.Blackbaud_OpenStoreDirectDebitForm = undefined
+      window.Blackbaud_OpenUpdateCardForm = undefined
+      window.Blackbaud_OpenUpdateDirectDebitForm = undefined
+      window._MongoServerUrlBase = undefined
+      window._MongoServerUrl = undefined
+
       document.head.removeChild(script)
       const headScriptsArray = Array.from(
         document.head.getElementsByTagName('script')
