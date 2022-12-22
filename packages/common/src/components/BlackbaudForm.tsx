@@ -148,6 +148,7 @@ const BlackbaudForm = ({
     justify-content: center;
     align-items: center;
     #mongo-form {
+      margin-top: 1em;
       width: 100%;
       .BBFormContainer[data-bbox-part-id='${formId}'] {
         padding: 0;
@@ -175,10 +176,10 @@ const BlackbaudForm = ({
                 margin-left: 0;
                 width: 100%;
                 max-width: 100%;
-                &textarea {
-                  flex: none;
-                  min-height: 8em;
-                }
+              }
+              > textarea {
+                flex: none;
+                min-height: 8em;
               }
             }
           }
@@ -227,12 +228,13 @@ const BlackbaudForm = ({
               padding: 0.75em;
               flex: 1;
               max-width: 100%;
+              line-height: 1.25;
             }
             &.BBTwoFields {
               display: flex;
               .BBFormTextbox,
               .BBFormSelectList {
-                margin-right: 1em;
+                margin: 0 1em 0 0;
                 &:last-child {
                   margin-right: 0;
                 }
@@ -278,6 +280,11 @@ const BlackbaudForm = ({
             margin: 0;
           }
         }
+      }
+      .BBFormErrorBlock {
+        max-width: 100%;
+        padding: 1em;
+        border-radius: 0.5em;
       }
     }
   `

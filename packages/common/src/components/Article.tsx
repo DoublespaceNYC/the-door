@@ -258,6 +258,10 @@ const Article = ({
       grid-column: 2 / -2;
       width: 100%;
       margin: 2em 0 1em;
+      ${layout === 'Page' &&
+      css`
+        max-width: 90ch;
+      `}
     `,
   }
   return (
