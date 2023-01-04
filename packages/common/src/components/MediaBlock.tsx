@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { render } from 'datocms-structured-text-to-plain-text'
 import {
   StructuredText as IStructuredText,
@@ -9,10 +10,9 @@ import { HTMLAttributes } from 'react'
 import { StructuredText } from 'react-datocms'
 import { useInView } from 'react-intersection-observer'
 
-import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
+import { ITheme } from './Layout'
 import VideoStreamPlayer from './VideoStreamPlayer'
 
 interface IVideoMedia {
@@ -44,27 +44,8 @@ const MediaBlock = ({
     rootMargin: '50% -20%',
   })
 
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    const defaultColors = {
-      textbox: '#f2f2f2',
-      shadow: '#44444426',
-      text: '#444',
-      highlight: highlightColor || '#444',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          ...defaultColors,
-          textbox: layout === 'Lightbox' ? '#fff' : doorColors.gray95,
-          shadow: rgba(doorColors.navy, 0.15),
-          highlight: highlightColor || doorColors.blue,
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+
   const styles = {
     block: css`
       display: grid;
@@ -73,7 +54,8 @@ const MediaBlock = ({
       margin: 0 0 var(--shadow-offset);
       padding: 0;
       filter: drop-shadow(
-        calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0 ${colors.shadow}
+        calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
+          ${rgba(theme.primary, 0.15)}
       );
     `,
     media: css`
@@ -108,11 +90,11 @@ const MediaBlock = ({
       justify-self: flex-end;
       z-index: 2;
       width: calc(25% + var(--gtr-m));
-      background: ${colors.textbox};
+      background: ${layout === 'Lightbox' ? '#fff' : theme.gray95};
       padding: 1em 1.5em;
       overflow: hidden;
       box-sizing: border-box;
-      color: ${colors.text};
+      color: #444;
       ${mq().m} {
         grid-row: 2 / 3;
         padding: 0.5em 1.25em;
@@ -149,9 +131,9 @@ const MediaBlock = ({
         }
       }
       a {
-        color: ${colors.highlight};
+        color: ${highlightColor || theme.secondary};
         &:hover {
-          color: ${darken(0.1, colors.highlight)};
+          color: ${darken(0.1, highlightColor || theme.secondary)};
         }
       }
       > div {

@@ -1,13 +1,13 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
 import { useElementWidth } from '../hooks/useElementRect'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import AnchorLink, { IAnchorLink } from './AnchorLink'
 import DatoLink, { IDatoLink } from './DatoLink'
 import DropdownArrow from './DropdownArrow'
+import { ITheme } from './Layout'
 import PageNavLanguage, { ILocale } from './PageNav__Language'
 
 type Props = {
@@ -42,28 +42,8 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
     }
   }, [handleOutsideClick])
 
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    switch (theme) {
-      case 'The Door':
-        return {
-          bg: doorColors.gray95,
-          divider: doorColors.gray92,
-          text: [doorColors.blue, doorColors.blueDark],
-          buttonText: [doorColors.pink, doorColors.purple],
-          langText: [doorColors.gray50, doorColors.gray40],
-        }
-      default:
-        return {
-          bg: '',
-          divider: '',
-          text: ['', ''],
-          buttonText: ['', ''],
-          langText: ['', ''],
-        }
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+
   const styles = {
     navWrap: css`
       margin: 0 var(--margin);
@@ -74,7 +54,7 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
     `,
     nav: css`
       width: max-content;
-      background: ${colors.bg};
+      background: ${theme.gray95};
       font-size: var(--fs-30);
       font-family: var(--display-font);
       display: flex;
@@ -104,20 +84,20 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
       `}
     `,
     anchorLink: css`
-      color: ${colors.text[0]};
+      color: ${theme.secondary};
       @media (hover: hover) {
         &:hover {
-          color: ${colors.text[1]};
+          color: ${theme.secondaryDark};
         }
       }
     `,
     button: css`
       && {
         flex: 1;
-        color: ${colors.buttonText[0]};
+        color: ${theme.tertiary};
         @media (hover: hover) {
           &:hover {
-            color: ${colors.buttonText[1]};
+            color: ${theme.tertiaryDark};
           }
         }
       }
@@ -126,7 +106,7 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
       width: 3px;
       margin: 0 0.5em;
       justify-self: stretch;
-      background: ${colors.divider};
+      background: ${theme.gray92};
       ${condensed &&
       css`
         margin: 0;
@@ -134,7 +114,7 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
     `,
     dropdownNav: css`
       position: relative;
-      background: ${colors.bg};
+      background: ${theme.gray95};
       width: fit-content;
       margin: 0 var(--margin);
       padding: 0 !important;
@@ -151,7 +131,7 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
         flex-direction: column;
         padding: 0.5em 0;
         min-width: 100%;
-        background: ${colors.divider};
+        background: ${theme.gray92};
         transform: translate3d(0, calc(100% - 3rem), 0);
         transition: opacity 300ms ease, transform 300ms ease;
         a {
@@ -162,18 +142,18 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
         }
       }
       button {
-        background: ${colors.bg};
+        background: ${theme.gray95};
         transition: color 300ms ease;
       }
       button,
       a {
         position: relative;
         padding: 0.667em;
-        color: ${colors.text[0]};
+        color: ${theme.secondary};
         z-index: 2;
         @media (hover: hover) {
           &:hover {
-            color: ${colors.text[1]};
+            color: ${theme.secondaryDark};
           }
         }
       }
@@ -185,7 +165,7 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
           transform: translate3d(0, 100%, 0);
         }
         > button {
-          color: ${colors.text[1]};
+          color: ${theme.secondaryDark};
         }
       `}
     `,

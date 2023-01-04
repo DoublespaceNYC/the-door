@@ -10,13 +10,13 @@ import ScrollSlider from './ScrollSlider'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   links: ICarouselLink[]
-  color: string
+  highlightColor: string
   orientation: 'left' | 'right'
 }
 
 const LinksCarousel = ({
   links,
-  color,
+  highlightColor,
   orientation,
   ...props
 }: Props): JSX.Element => {
@@ -64,9 +64,9 @@ const LinksCarousel = ({
       contentCss={styles.sliderContent}
       navStyle="above"
       colors={{
-        arrow: [color],
+        arrow: [highlightColor],
         arrowDisabled: '#00000015',
-        link: [color, rgba(color, 0.75)],
+        link: [highlightColor, rgba(highlightColor, 0.75)],
       }}
       {...props}
     >
@@ -74,7 +74,7 @@ const LinksCarousel = ({
         <ContentCarouselLinkThumbnail
           key={i}
           link={link}
-          highlightColor={color}
+          highlightColor={highlightColor}
           css={styles.thumbnail}
         />
       ))}

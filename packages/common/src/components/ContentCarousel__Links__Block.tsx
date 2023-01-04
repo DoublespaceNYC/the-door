@@ -1,13 +1,13 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { Block } from 'datocms-structured-text-utils'
 import { rgba } from 'polished'
 import { Fragment, HTMLAttributes } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import DocumentIcon from './DocumentIcon'
 import ExternalLinkIcon from './ExternalLinkIcon'
+import { ITheme } from './Layout'
 
 export interface ICarouselLink extends Block {
   __typename: 'DatoCmsCarouselLink'
@@ -32,27 +32,15 @@ const ContentCarouselLinkThumbnail = ({
   ...props
 }: Props): JSX.Element => {
   const date = link.date && new Date(link.date)
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    switch (theme) {
-      case 'The Door':
-        return {
-          bg: doorColors.gray95,
-          title: '#444',
-          date: '#888',
-          shadow: rgba(doorColors.navy, 0.15),
-          shadowHover: highlightColor,
-        }
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+
   const styles = {
     container: css`
       position: relative;
       display: grid;
       grid-template-columns: 1fr;
       grid-template-rows: auto 1fr;
-      background: ${colors?.bg};
+      background: ${theme.gray95};
       justify-items: flex-start;
       text-decoration: none;
       padding: 1em 1em 2em;
@@ -60,12 +48,12 @@ const ContentCarouselLinkThumbnail = ({
       cursor: pointer;
       margin-bottom: var(--shadow-offset-hover);
       box-shadow: calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
-        ${colors?.shadow};
+        ${rgba(theme.primary, 0.15)};
       transition: box-shadow 300ms ease;
       @media (hover: hover) {
         &:hover {
           box-shadow: calc(-1 * var(--shadow-offset-hover))
-            var(--shadow-offset-hover) 0 ${colors?.shadowHover};
+            var(--shadow-offset-hover) 0 ${highlightColor};
         }
       }
       ${mq().s} {
@@ -75,7 +63,7 @@ const ContentCarouselLinkThumbnail = ({
     title: css`
       order: 2;
       font-size: var(--fs-30);
-      color: ${colors?.title};
+      color: #444;
       margin: 0.125em 0 0;
       line-height: 1;
       ${mq().s} {
@@ -89,7 +77,7 @@ const ContentCarouselLinkThumbnail = ({
         text-transform: uppercase;
         font-weight: 500;
         display: inline-block;
-        color: ${colors?.date};
+        color: #888;
         margin: 0;
         &:nth-of-type(1) {
           color: ${highlightColor};

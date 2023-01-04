@@ -43,7 +43,7 @@ const ContentCarousel = ({
         <NewsEventsCarousel
           contentType={contentType}
           tags={tags}
-          color={highlightColor}
+          highlightColor={highlightColor}
           orientation={orientation}
           {...props}
         />
@@ -52,7 +52,7 @@ const ContentCarousel = ({
       return (
         <LinksCarousel
           links={links}
-          color={highlightColor}
+          highlightColor={highlightColor}
           orientation={orientation}
           {...props}
         />

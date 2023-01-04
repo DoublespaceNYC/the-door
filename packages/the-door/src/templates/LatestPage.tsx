@@ -1,4 +1,4 @@
-import { css, useTheme } from '@emotion/react'
+import { css } from '@emotion/react'
 import ExternalArticleThumbnail from '@the-door/common/src/components/ExternalArticle__Thumbnail'
 import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImageFocused'
 import InternalArticleThumbnail from '@the-door/common/src/components/InternalArticle__Thumbnail'
@@ -6,13 +6,13 @@ import PageFilter from '@the-door/common/src/components/PageFilter'
 import PageHero from '@the-door/common/src/components/PageHero'
 import useQueryContext from '@the-door/common/src/context/QueryContext'
 import { mq } from '@the-door/common/src/theme/mixins'
-import { doorColors } from '@the-door/common/src/theme/variables'
 import { ISEO } from '@the-door/common/src/types'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 import { useMemo, useState } from 'react'
 
 import Layout from '../components/Layout'
 import Seo from '../components/Seo'
+import { colors } from '../theme/variables'
 
 interface DataProps {
   page: {
@@ -32,7 +32,6 @@ const LatestPage = ({
   Record<string, never>,
   { filter: string }
 >): JSX.Element => {
-  const theme = useTheme()
   const { allNews, allInternalArticles, allExternalArticles } =
     useQueryContext()
   const categories = useMemo(() => {
@@ -109,9 +108,7 @@ const LatestPage = ({
               <InternalArticleThumbnail
                 key={i}
                 layout="Carousel"
-                highlightColor={
-                  theme === 'The Door' ? doorColors.yellow : undefined
-                }
+                highlightColor={colors.yellow}
                 article={article}
               />
             )
@@ -121,9 +118,7 @@ const LatestPage = ({
               <ExternalArticleThumbnail
                 key={i}
                 layout="Carousel"
-                highlightColor={
-                  theme === 'The Door' ? doorColors.yellow : undefined
-                }
+                highlightColor={colors.yellow}
                 article={article}
               />
             )

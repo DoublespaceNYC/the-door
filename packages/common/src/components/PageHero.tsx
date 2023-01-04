@@ -1,9 +1,9 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 
-import useThemeContext from '../context/ThemeContext'
 import { baseGrid, mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
+import { ITheme } from './Layout'
 
 type Props = {
   title: string
@@ -12,13 +12,8 @@ type Props = {
 }
 
 const PageHero = ({ title, section, image }: Props): JSX.Element => {
-  const { theme } = useThemeContext()
-  const colors = {
-    bg: theme === 'The Door' ? doorColors.blue : '',
-    text: '#fff',
-    eyebrowBg: theme === 'The Door' ? doorColors.blueMid : '',
-    eyebrowText: '#fff',
-  }
+  const theme = useTheme() as ITheme
+
   const styles = {
     hero: css`
       width: 100%;
@@ -36,8 +31,8 @@ const PageHero = ({ title, section, image }: Props): JSX.Element => {
       grid-column: 2 / -2;
       grid-row: 2 / 3;
       position: relative;
-      color: ${colors.eyebrowText};
-      background: ${colors.eyebrowBg};
+      color: #fff;
+      background: ${theme.secondaryMid};
       max-width: fit-content;
       font-size: var(--fs-18);
       margin: 0;
@@ -54,8 +49,8 @@ const PageHero = ({ title, section, image }: Props): JSX.Element => {
       grid-column: 2 / -2;
       grid-row: 3 / 5;
       position: relative;
-      color: ${colors.text};
-      background: ${colors.bg};
+      color: #fff;
+      background: ${theme.secondary};
       max-width: fit-content;
       font-size: var(--fs-108);
       margin: 0;

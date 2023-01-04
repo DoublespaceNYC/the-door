@@ -15,14 +15,14 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   tags?: {
     name: string
   }[]
-  color: string
+  highlightColor: string
   orientation: 'left' | 'right'
 }
 
 const NewsEventsCarousel = ({
   contentType,
   tags,
-  color,
+  highlightColor,
   orientation,
   ...props
 }: Props): JSX.Element => {
@@ -91,9 +91,9 @@ const NewsEventsCarousel = ({
       contentCss={styles.sliderContent}
       scrollAreaCss={styles.scrollArea}
       colors={{
-        arrow: [color],
+        arrow: [highlightColor],
         arrowDisabled: '#00000015',
-        link: [color, rgba(color, 0.75)],
+        link: [highlightColor, rgba(highlightColor, 0.75)],
       }}
       {...props}
     >
@@ -106,7 +106,7 @@ const NewsEventsCarousel = ({
                   key={i}
                   css={styles.thumbnail}
                   layout="Carousel"
-                  highlightColor={color}
+                  highlightColor={highlightColor}
                   article={item}
                 />
               )
@@ -117,7 +117,7 @@ const NewsEventsCarousel = ({
                   key={i}
                   css={styles.thumbnail}
                   layout="Carousel"
-                  highlightColor={color}
+                  highlightColor={highlightColor}
                   article={item}
                 />
               )
@@ -129,7 +129,7 @@ const NewsEventsCarousel = ({
                 key={i}
                 css={styles.thumbnail}
                 event={item as IEvent}
-                highlightColor={color}
+                highlightColor={highlightColor}
                 layout="Carousel"
               />
             )

@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import { lighten } from 'polished'
 import { Fragment, useEffect } from 'react'
@@ -7,12 +8,11 @@ import { createPortal } from 'react-dom'
 import { useInView } from 'react-intersection-observer'
 
 import useCornerPopupContext from '../context/CornerPopupContext'
-import useThemeContext from '../context/ThemeContext'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import { buttonStyle } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
+import { ITheme } from './Layout'
 
 interface IPopupBody extends IStructuredText {
   blocks?: IDatoLink[]
@@ -44,31 +44,8 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
   }, [inView, setTriggered])
   useEscKeyFunction(() => setClosed(true))
 
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    const defaultColors = {
-      bg: '#fff',
-      heading: '#333',
-      text: '#333',
-      ctaBg: '#888',
-      ctaBgHover: '#666',
-      ctaText: '#fff',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          bg: '#fff',
-          heading: doorColors.navy,
-          text: '#333',
-          ctaBg: doorColors.pink,
-          ctaBgHover: doorColors.pinkDark,
-          ctaText: '#fff',
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+
   const styles = {
     container: css`
       position: fixed;
@@ -81,8 +58,8 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
       pointer-events: none;
     `,
     content: css`
-      background: ${colors.bg};
-      color: ${colors.text};
+      background: #fff;
+      color: #444;
       font-size: var(--fs-15);
       border-radius: 0.75rem;
       padding: 1rem;
@@ -91,7 +68,7 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
       line-height: 1.5;
       h2 {
         font-size: var(--fs-30);
-        color: ${colors.heading};
+        color: #333;
         margin: 0;
         line-height: 1;
         padding-right: 1.5rem;
@@ -119,13 +96,14 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
       letter-spacing: 0.05em;
       text-transform: uppercase;
       text-decoration: none;
-      background: ${colors.ctaBg};
-      color: ${colors.ctaText};
+      background: ${theme.tertiary};
+      color: #fff;
       ${buttonStyle};
       padding: 1rem;
       @media (hover: hover) {
         &:hover {
-          background: ${colors.ctaBgHover};
+          background: ${theme.tertiaryDark};
+          color: #fff;
         }
       }
     `,
@@ -140,13 +118,13 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
         height: 1rem;
         path {
           stroke-width: 2;
-          stroke: ${lighten(0.4, colors.text)};
+          stroke: ${lighten(0.4, '#444')};
           transition: stroke 300ms ease;
         }
       }
       &:hover {
         svg path {
-          stroke: ${colors.text};
+          stroke: #444;
         }
       }
     `,

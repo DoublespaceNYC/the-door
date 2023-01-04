@@ -1,14 +1,14 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { rgba } from 'polished'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import useLightboxContext from '../context/LightboxContext'
-import useThemeContext from '../context/ThemeContext'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import useFocusTrap from '../hooks/useFocusTrap'
 import { baseGrid, bezier, mq, widthInCols } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
+import { ITheme } from './Layout'
 import LightboxContent, { ILightboxContent } from './Lightbox__Content'
 import ScrollToggle from './ScrollToggle'
 
@@ -36,7 +36,7 @@ const Lightbox = ({
   layout = 'Full',
   highlightColor,
 }: Props): JSX.Element => {
-  const { theme } = useThemeContext()
+  const theme = useTheme() as ITheme
 
   const portalTarget =
     typeof window !== `undefined` &&
@@ -48,7 +48,7 @@ const Lightbox = ({
   const title = pageTitle || data.seo?.title || (data.title as string)
 
   const titleSuffix =
-    theme === 'The Door' ? ' | The Door' : ' | Broome Street Academy'
+    theme.themeName === 'The Door' ? ' | The Door' : ' | Broome Street Academy'
   useEffect(() => {
     if (open && !closing) {
       window.history.replaceState(null, '', slug)
@@ -98,17 +98,17 @@ const Lightbox = ({
 
   useEscKeyFunction(handleClose)
 
-  const setColors = () => {
-    switch (theme) {
-      case 'The Door':
-        return {
-          bg: rgba(doorColors.navyDark, 0.9),
-          contentBg: doorColors.gray95,
-          buttonBg: doorColors.navy,
-        }
-    }
-  }
-  const colors = setColors()
+  // const setColors = () => {
+  //   switch (theme) {
+  //     case 'The Door':
+  //       return {
+  //         bg: rgba(doorColors.navyDark, 0.9),
+  //         contentBg: doorColors.gray95,
+  //         buttonBg: doorColors.navy,
+  //       }
+  //   }
+  // }
+  // const colors = setColors()
   const styles = {
     background: css`
       position: fixed;
@@ -120,7 +120,7 @@ const Lightbox = ({
       transition: background-color ${transitionDuration}ms ease;
       ${loaded &&
       css`
-        background-color: ${colors?.bg};
+        background-color: ${rgba(theme.primaryDark, 0.9)};
         backdrop-filter: blur(0.333rem) saturate(0);
       `}
       ${(closing || !loaded) &&
@@ -159,7 +159,7 @@ const Lightbox = ({
       align-self: center;
       display: flex;
       position: relative;
-      background: ${colors?.contentBg};
+      background: ${theme.gray95};
       ${layout === 'Full' &&
       css`
         grid-column: 1 / span 12;
@@ -205,7 +205,7 @@ const Lightbox = ({
         opacity: 0;
       `}
       ${mq().ms} {
-        background: ${colors?.buttonBg};
+        background: ${theme.primary};
         border-radius: 50%;
         padding: 1rem;
         top: calc(var(--nav-height) + 1rem);

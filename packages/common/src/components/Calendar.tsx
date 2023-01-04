@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { rgba } from 'polished'
 import {
   Fragment,
@@ -10,15 +11,15 @@ import {
   useState,
 } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
 import { useElementWidth } from '../hooks/useElementRect'
 import useReadableColor from '../hooks/useReadableColor'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { mq } from '../theme/mixins'
-import { breakpoints, doorColors } from '../theme/variables'
+import { breakpoints } from '../theme/variables'
 import EventArticle, { IEvent } from './Event__Article'
 import EventThumbnail from './Event__Thumbnail'
 import EventThumbnailInnards from './Event__Thumbnail_Innards'
+import { ITheme } from './Layout'
 
 interface Props {
   title: string
@@ -26,9 +27,9 @@ interface Props {
 }
 
 const Calendar = ({ title, events }: Props): JSX.Element => {
-  const { theme } = useThemeContext()
+  const theme = useTheme() as ITheme
   const setLocations = () => {
-    switch (theme) {
+    switch (theme.themeName) {
       case 'The Door':
         return [
           'All Locations',
@@ -36,34 +37,13 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
           'Bronx Youth Center',
           'Off Campus',
         ]
-      default:
+      case 'BSA':
         return []
     }
   }
   const locations = setLocations()
-  const setColors = () => {
-    const defaultColors = {
-      text: '#444',
-      textMid: '#666',
-      textLight: '#888',
-      highlight: '',
-      bg: '',
-      bgShade: '',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          ...defaultColors,
-          highlight: doorColors.blue,
-          bg: doorColors.gray95,
-          bgShade: doorColors.gray92,
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
-  const readableHighlight = useReadableColor(colors.highlight, colors.bg)
+
+  const readableHighlight = useReadableColor(theme.secondary, theme.gray95)
   const tags = useMemo(() => {
     const tagArray = events
       ?.map(event => event.tags)
@@ -197,7 +177,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
     title: css`
       grid-column: 1 / 2;
       grid-row: 1 / 2;
-      background: ${colors.highlight};
+      background: ${theme.secondary};
       color: #fff;
       font-size: var(--fs-48);
       line-height: 1;
@@ -205,9 +185,9 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       padding: 0.5em var(--gtr-m) 0.25em var(--gtr-m);
       ${mq().s} {
         background: transparent;
-        color: ${colors.highlight};
+        color: ${theme.secondary};
         padding: 0.25em 0 0.5em;
-        border-bottom: 1px solid ${rgba(colors.text, 0.67)};
+        border-bottom: 1px solid ${rgba('#444', 0.67)};
       }
     `,
     filtersColumn: css`
@@ -216,7 +196,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       overflow: auto;
       grid-column: 1 / 2;
       grid-row: 2 / 3;
-      background: ${colors.bgShade};
+      background: ${theme.gray92};
       > div {
         display: flex;
         flex-direction: column;
@@ -257,17 +237,17 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       font-size: var(--fs-18);
       padding: 1em 0;
       &:not(:last-of-type) {
-        border-bottom: 1px solid ${rgba(colors.textLight, 0.5)};
+        border-bottom: 1px solid ${rgba('#888', 0.5)};
       }
     `,
     filter: (active: boolean) => css`
       display: block;
-      color: ${colors.text};
+      color: #444;
       text-align: left;
       padding: 0.5em 0;
       transition: color 300ms ease;
       ${mq().s} {
-        color: ${colors.textLight};
+        color: #888;
         font-weight: 500;
       }
       ${active &&
@@ -343,7 +323,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       overflow: auto;
       grid-column: 2 / 3;
       grid-row: 1 / 3;
-      background: ${colors.bg};
+      background: ${theme.gray95};
       padding: 2em var(--gtr-m) var(--row-s);
       box-sizing: border-box;
       ${mq().s} {
@@ -357,14 +337,14 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       padding: 1em 0;
       width: 100%;
       box-sizing: border-box;
-      border-top: 1px solid ${rgba(colors.text, 0.25)};
+      border-top: 1px solid ${rgba('#444', 0.25)};
       ${mq().s} {
         &:first-of-type {
           border: none;
         }
       }
       &:last-of-type {
-        border-bottom: 1px solid ${rgba(colors.text, 0.25)};
+        border-bottom: 1px solid ${rgba('#444', 0.25)};
       }
       &:before {
         display: block;
@@ -377,13 +357,13 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
         transition: background-color 300ms ease;
         ${active &&
         css`
-          background: ${colors.bgShade};
+          background: ${theme.gray92};
         `}
       }
       @media (hover: hover) {
         &:hover {
           &:before {
-            background: ${colors.bgShade};
+            background: ${theme.gray92};
           }
         }
       }
@@ -407,11 +387,11 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       overflow: auto;
       grid-column: 2 / 4;
       grid-row: 1 / 3;
-      background: ${colors.bg};
+      background: ${theme.gray95};
       padding: var(--row-m) var(--margin);
       h2 {
         font-size: var(--fs-48);
-        color: ${colors.textLight};
+        color: #888;
       }
     `,
   }
@@ -529,7 +509,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
             <EventArticle
               data={activeEvent}
               layout="Calendar"
-              highlightColor={colors.highlight}
+              highlightColor={theme.secondary}
             />
           )}
         </section>

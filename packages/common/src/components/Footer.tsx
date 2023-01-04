@@ -1,12 +1,12 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import parse from 'html-react-parser'
 import { FC, HTMLAttributes } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
 import { baseGrid, mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import { LogoProps } from '../types'
 import DatoLink, { IDatoLink } from './DatoLink'
+import { ITheme } from './Layout'
 import SocialLink, { ISocialLink } from './SocialLink'
 
 export interface FooterProps extends HTMLAttributes<HTMLElement> {
@@ -30,31 +30,12 @@ const Footer = ({
 }: FooterProps): JSX.Element => {
   const Logo = logo
 
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    switch (theme) {
-      case 'The Door':
-        return {
-          bg: doorColors.navy,
-          logo: '#fff',
-          text: '#fff',
-          buttons: [doorColors.pink, doorColors.green],
-        }
-      default:
-        return {
-          bg: '#000',
-          logo: '#fff',
-          text: '#fff',
-          buttons: ['#fff, #fff'],
-        }
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
   const styles = {
     footer: css`
       ${baseGrid}
-      background: ${colors.bg};
-      color: ${colors.text};
+      background: ${theme.primary};
+      color: #fff;
       padding: var(--row-m) 0;
       font-size: var(--fs-21);
       font-family: var(--display-font);
@@ -86,7 +67,7 @@ const Footer = ({
         display: flex;
         margin: 0.5em 0.25em 0.25em;
         transition: transform 150ms ease;
-        color: ${colors.text};
+        color: #fff;
         @media (hover: hover) {
           &:hover {
             transform: scale3d(1.2, 1.2, 1);
@@ -120,7 +101,7 @@ const Footer = ({
       }
     `,
     link: css`
-      color: ${colors.text};
+      color: #fff;
       display: block;
       text-decoration: none;
       max-width: fit-content;
@@ -147,9 +128,9 @@ const Footer = ({
         border-bottom: 2px solid;
         background: none;
       }
-      ${colors.buttons.map(
-        (color, i) => css`
-          &:nth-of-type(${colors.buttons.length}n + ${i}) {
+      ${theme.buttonColorsArray.map(
+        (color, i, array) => css`
+          &:nth-of-type(${array.length}n + ${i}) {
             > span {
               border-color: ${color};
             }
@@ -170,7 +151,7 @@ const Footer = ({
     >
       <Logo
         css={styles.logo}
-        fill={colors.logo}
+        fill="#fff"
       />
       <div css={styles.meta}>
         <a

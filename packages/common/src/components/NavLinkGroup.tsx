@@ -1,4 +1,4 @@
-import { css } from '@emotion/react'
+import { css, useTheme } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import { Link } from 'gatsby'
 import { mix } from 'polished'
@@ -14,6 +14,7 @@ import DatoLink from './DatoLink'
 import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
 import { IInternalLink } from './InternalLink'
 import { IInternalLinkFiltered } from './InternalLinkFiltered'
+import { ITheme } from './Layout'
 
 export interface IServicesGroupLink {
   __typename: 'DatoCmsServicesGroupLink'
@@ -44,10 +45,6 @@ type Props = {
   portalTarget: HTMLDivElement | null
   breakpoint: number
   buttonCss?: CSSInterpolation
-  colors: {
-    bg: string
-    text: string
-  }
 }
 
 const NavLinkGroup = ({
@@ -58,7 +55,6 @@ const NavLinkGroup = ({
   onCloseAll = () => null,
   portalTarget,
   breakpoint,
-  colors,
   buttonCss,
 }: Props): JSX.Element => {
   const linkCount = useMemo(() => {
@@ -78,6 +74,7 @@ const NavLinkGroup = ({
 
   const windowWidth = useWindowWidth()
 
+  const theme = useTheme() as ITheme
   const styles = {
     button: css`
       ${open &&
@@ -97,8 +94,8 @@ const NavLinkGroup = ({
       z-index: 2;
       pointer-events: none;
       overflow: hidden;
-      background-color: ${colors.bg};
-      color: ${colors.text};
+      background-color: ${theme.primaryDark};
+      color: #fff;
       font-size: var(--fs-24);
       transform: translate3d(0, -100%, 0);
       transition: transform ${transitionDuration}ms ease,
@@ -163,7 +160,7 @@ const NavLinkGroup = ({
         margin: 0.5em 0 1.5em;
         &:before {
           content: attr(aria-label);
-          color: ${mix(0.5, colors.text, colors.bg)};
+          color: ${mix(0.5, '#fff', theme.primaryDark)};
           display: block;
           font-family: var(--display-font);
           font-size: var(--fs-21);
@@ -182,7 +179,7 @@ const NavLinkGroup = ({
       }
       a {
         display: block;
-        color: ${colors.text};
+        color: #fff;
         max-width: fit-content;
         padding: 0.5em 0;
         text-decoration: none;
@@ -202,7 +199,7 @@ const NavLinkGroup = ({
     `,
     linkAfterGroup: css`
       padding-top: 0.5em;
-      border-top: 2px solid ${mix(0.5, colors.text, colors.bg)};
+      border-top: 2px solid ${mix(0.5, '#fff', theme.primaryDark)};
     `,
     closeButton: css`
       display: flex;
@@ -212,14 +209,14 @@ const NavLinkGroup = ({
       position: absolute;
       top: 0.75em;
       right: 0.75em;
-      color: ${mix(0.5, colors.text, colors.bg)};
+      color: ${mix(0.5, '#fff', theme.primaryDark)};
       transition: color 300ms ease;
       @media (max-width: ${breakpoint}px) {
         right: calc(var(--margin) - 0.25em);
       }
       ${mq().s} {
         position: fixed;
-        color: ${colors.text};
+        color: #fff;
       }
       svg {
         width: 100%;
@@ -234,7 +231,7 @@ const NavLinkGroup = ({
       }
       @media (hover: hover) {
         &:hover {
-          color: ${colors.text};
+          color: #fff;
           svg {
             transform: scale3d(1.25, 1.25, 1);
           }

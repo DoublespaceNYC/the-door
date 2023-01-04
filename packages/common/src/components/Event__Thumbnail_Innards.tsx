@@ -1,13 +1,12 @@
 import { css } from '@emotion/react'
-import { rgba } from 'polished'
+import { useTheme } from '@emotion/react'
 import { ElementType, Fragment, HTMLAttributes } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
 import useReadableColor from '../hooks/useReadableColor'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import { formatTimeRange } from '../utils'
 import { IEvent } from './Event__Article'
+import { ITheme } from './Layout'
 
 interface Props extends HTMLAttributes<HTMLAnchorElement> {
   event: IEvent
@@ -26,35 +25,17 @@ const EventThumbnailInnards = ({
   const Heading = `h${headingLevel}` as ElementType
   const Subheading = `h${headingLevel + 1}` as ElementType
 
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    switch (theme) {
-      case 'The Door':
-        return {
-          bg: layout === 'Home Calendar' ? 'transparent' : doorColors.gray95,
-          title: '#444',
-          text: '#444',
-          details: '#888',
-          shadow: rgba(doorColors.navy, 0.15),
-          divider: '#ddd',
-          homeDate: doorColors.gray66,
-          highlight: doorColors.yellow,
-        }
-    }
-  }
-  const colors = setColors()
-  const dateColor = useReadableColor(
-    highlightColor || colors?.highlight || '#666',
-    highlightColor || colors?.highlight || '#666',
-    2
-  )
+  const theme = useTheme() as ITheme
+
+  const highlight = highlightColor || theme.quaternary
+  const dateColor = useReadableColor(highlight, highlight, 2)
   const styles = {
     title: css`
       position: relative;
       font-size: var(--fs-30);
       font-family: var(--display-font);
       line-height: 1.125;
-      color: ${colors?.title};
+      color: #444;
       margin: 0 0 0.25em;
       ${mq().s} {
         font-size: var(--fs-24);
@@ -66,7 +47,7 @@ const EventThumbnailInnards = ({
         transition: color 300ms ease;
         @media (hover: hover) {
           a:hover > div > & {
-            color: ${colors?.highlight};
+            color: ${highlight};
           }
         }
       `}
@@ -77,7 +58,7 @@ const EventThumbnailInnards = ({
     `,
     details: css`
       position: relative;
-      color: ${colors?.details};
+      color: #888;
       font-size: var(--fs-15);
       font-family: var(--body-font);
       font-weight: 500;
@@ -91,7 +72,7 @@ const EventThumbnailInnards = ({
         transition: color 300ms ease;
         @media (hover: hover) {
           a:hover > div > & {
-            color: ${colors?.highlight};
+            color: ${highlight};
           }
         }
       `}
@@ -120,7 +101,7 @@ const EventThumbnailInnards = ({
       align-items: center;
       justify-content: flex-start;
       flex-direction: column;
-      background-color: ${highlightColor || colors?.highlight};
+      background-color: ${highlight};
       color: ${dateColor};
       font-size: var(--fs-48);
       font-family: var(--display-font);
@@ -159,11 +140,11 @@ const EventThumbnailInnards = ({
         overflow: visible;
         align-self: flex-start;
         background-color: transparent;
-        color: ${colors?.homeDate};
+        color: ${theme.gray66};
         transition: color 300ms ease;
         @media (hover: hover) {
           a:hover > & {
-            color: ${colors?.highlight};
+            color: ${highlight};
           }
         }
       `}

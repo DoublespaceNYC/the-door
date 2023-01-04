@@ -1,11 +1,11 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { darken } from 'polished'
 import { HTMLAttributes } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
 import { widthInCols } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
+import { ITheme } from './Layout'
 import MediaBlock, { IMediaBlock } from './MediaBlock'
 import ScrollSlider from './ScrollSlider'
 
@@ -26,21 +26,8 @@ const MediaCarousel = ({
   layout = 'Page',
   ...props
 }: Props): JSX.Element => {
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    const defaultColors = {
-      highlight: '#444',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          highlight: highlightColor || doorColors.blue,
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+  const highlight = highlightColor || theme.secondary
   const styles = {
     slider: css`
       margin-top: 1rem;
@@ -87,9 +74,9 @@ const MediaCarousel = ({
       navStyle="overlay"
       snap
       colors={{
-        arrow: [colors.highlight],
+        arrow: [highlight],
         arrowDisabled: '#00000015',
-        link: [colors.highlight, darken(0.1, colors.highlight)],
+        link: [highlight, darken(0.1, highlight)],
       }}
       {...props}
     >

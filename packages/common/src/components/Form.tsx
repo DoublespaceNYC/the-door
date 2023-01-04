@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { CSSInterpolation } from '@emotion/serialize'
 import {
   StructuredText as IStructuredText,
@@ -10,16 +11,15 @@ import { Fragment, SyntheticEvent, useCallback, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 import { BsCheck2Circle } from 'react-icons/bs'
 
-import useThemeContext from '../context/ThemeContext'
 import { useElementRect } from '../hooks/useElementRect'
 import useReadableColor from '../hooks/useReadableColor'
 import { absoluteFill, animateIn, buttonStyle } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import { toSlug } from '../utils'
 import CheckboxArrayField, { ICheckboxArrayField } from './CheckboxArrayField'
 import CheckboxField, { ICheckboxField } from './CheckboxField'
 import DateField, { IDateField } from './DateField'
 import FormDivider, { IFormDivider } from './FormDivider'
+import { ITheme } from './Layout'
 import LoadingSpinner from './LoadingSpinner'
 import MultilineTextField, { IMultilineTextField } from './MultilineTextField'
 import SelectField, { ISelectField } from './SelectField'
@@ -97,7 +97,6 @@ const Form = ({
   const { height: formHeight } = useElementRect(formRef)
   const { height: successHeight } = useElementRect(successRef)
 
-  // const [formData, setFormData] = useState<{ [key: string]: string }>({})
   const formData = useRef<{ [key: string]: string }>({})
 
   const [submitting, setSubmitting] = useState(false)
@@ -105,19 +104,10 @@ const Form = ({
 
   const handleChange = useCallback((name: string, value: string) => {
     formData.current[name] = value
-    // setFormData(prev => ({
-    //   ...prev,
-    //   [name]: value,
-    // }))
   }, [])
 
   const handleChangeCheckbox = useCallback((name: string, checked: boolean) => {
     formData.current[name] = checked ? 'true' : 'false'
-
-    // setFormData(prev => ({
-    //   ...prev,
-    //   [name]: checked.toString(),
-    // }))
   }, [])
 
   const [formSelectFieldData, setFormSelectFieldData] = useState<{
@@ -267,48 +257,32 @@ const Form = ({
     [formType, listId, formFieldsArray, conditionalFields]
   )
 
-  const { theme: metaTheme } = useThemeContext()
+  const metaTheme = useTheme() as ITheme
   const setColors = () => {
-    const defaultColors = {
-      fill: undefined,
-      border: '',
-      text: '',
-      label: '',
-      highlight: '',
-      buttonBorder: undefined,
-      buttonFill: ['', ''],
-      buttonText: ['#fff', '#fff'],
-    }
-    switch (metaTheme) {
-      case 'The Door':
+    switch (theme) {
+      case 'Dark':
         return {
-          ...defaultColors,
-          fill:
-            theme === 'Dark'
-              ? 'transparent'
-              : layout === 'Page'
-              ? doorColors.gray95
-              : doorColors.gray92,
-          border: theme === 'Dark' ? '#ffffff88' : 'transparent',
-          text: theme === 'Dark' ? '#fff' : '#444',
-          label: theme === 'Dark' ? '#ffffffaa' : '#444444aa',
-          highlight: theme === 'Dark' ? doorColors.blueLight : doorColors.blue,
-          buttonFill:
-            theme === 'Dark'
-              ? ['#fff', highlightColor || doorColors.pink]
-              : [
-                  highlightColor || doorColors.blue,
-                  highlightColor
-                    ? darken(0.1, highlightColor)
-                    : doorColors.pink,
-                ],
-          buttonText:
-            theme === 'Dark'
-              ? [highlightColor || doorColors.blue, '#fff']
-              : ['#fff'],
+          fill: 'transparent',
+          border: '#ffffff88',
+          text: '#fff',
+          label: '#ffffffaa',
+          highlight: highlightColor || metaTheme.secondaryLight,
+          buttonFill: ['#fff', highlightColor || metaTheme.quaternary],
+          buttonText: [highlightColor || metaTheme.quaternary, '#fff'],
         }
-      default:
-        return { ...defaultColors }
+      case 'Light':
+        return {
+          fill: layout === 'Page' ? metaTheme.gray95 : metaTheme.gray92,
+          border: 'transparent',
+          text: '#444',
+          label: '#444444aa',
+          highlight: metaTheme.secondary,
+          buttonFill: [
+            highlightColor || metaTheme.secondary,
+            highlightColor ? darken(0.1, highlightColor) : metaTheme.tertiary,
+          ],
+          buttonText: ['#fff'],
+        }
     }
   }
   const colors = setColors()
@@ -386,14 +360,11 @@ const Form = ({
       form:not(:invalid) & {
         color: ${colors.buttonText[0]};
         background: ${colors.buttonFill[0]};
-        border: ${colors.buttonBorder &&
-        `1px solid ${colors.buttonBorder?.[0]}`};
         @media (hover: hover) {
           &:hover,
           &:focus-within {
             color: ${colors.buttonText[1]};
             background: ${colors.buttonFill[1]};
-            border-color: ${colors.buttonBorder?.[1]};
           }
         }
       }

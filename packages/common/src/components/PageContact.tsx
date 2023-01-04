@@ -1,15 +1,14 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
-import { lighten } from 'polished'
 import { Fragment } from 'react'
 import { StructuredText } from 'react-datocms'
 
-import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
 import { toSlug } from '../utils'
 import { Anchor, IAnchorLink } from './AnchorLink'
+import { ITheme } from './Layout'
 
 export interface IContactBlock extends Record {
   __typename: 'DatoCmsContactBlock'
@@ -31,27 +30,28 @@ type Props = {
 const PageContact = ({
   data: { heading, anchorLink, contactBlocks },
 }: Props): JSX.Element => {
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    const common = {
-      text: '#fff',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          ...common,
-          bg: `linear-gradient(to top right, ${doorColors.blueMid}, ${doorColors.blue})`,
-          link: ['#fff', lighten(0.1, doorColors.green)],
-        }
-      default:
-        return {
-          ...common,
-          link: ['#fff', '#ffffffbf'],
-          bg: '',
-        }
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+  // const setColors = () => {
+  //   const common = {
+  //     text: '#fff',
+  //   }
+  //   switch (theme) {
+  //     case 'The Door':
+  //       return {
+  //         ...common,
+  //         bg: `linear-gradient(to top right, ${doorColors.blueMid}, ${doorColors.blue})`,
+  //         link: ['#fff', lighten(0.1, doorColors.green)],
+  //       }
+  //     default:
+  //       return {
+  //         ...common,
+  //         link: ['#fff', '#ffffffbf'],
+  //         bg: '',
+  //       }
+  //   }
+  // }
+  // const colors = setColors()
+
   const styles = {
     section: css`
       position: relative;
@@ -59,8 +59,14 @@ const PageContact = ({
       grid-template-columns: repeat(3, 1fr);
       grid-column-gap: var(--gtr-m);
       grid-row-gap: var(--row-s);
-      background: ${colors.bg};
-      color: ${colors.text};
+      background: ${theme.themeName === 'The Door'
+        ? `linear-gradient(
+        to top right,
+        ${theme.secondaryMid},
+        ${theme.secondary}
+        )`
+        : theme.tertiaryLight};
+      color: #fff;
       padding: var(--row-m) var(--margin) var(--row-l);
       ${mq().m} {
         grid-template-columns: 1fr 1fr;
@@ -79,7 +85,7 @@ const PageContact = ({
       }
     `,
     block: css`
-      border-top: 3px solid ${colors.text};
+      border-top: 3px solid #fff;
       margin-top: ${contactBlocks.length <= 2 ? '1.5em' : '0'};
       ${mq().m} {
         margin-top: ${contactBlocks.length <= 1 ? '1.5em' : '0'};
@@ -99,11 +105,13 @@ const PageContact = ({
         line-height: 1.333;
       }
       a {
-        color: ${colors.link[0]};
+        color: #fff;
         font-weight: 500;
         @media (hover: hover) {
           &:hover {
-            color: ${colors.link[1]};
+            color: ${theme.themeName === 'The Door'
+              ? theme.septenary
+              : theme.secondary};
           }
         }
       }

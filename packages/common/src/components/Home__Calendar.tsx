@@ -1,16 +1,17 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { Link } from 'gatsby'
 import { rgba } from 'polished'
 import { HTMLAttributes, useRef } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { mq, widthInCols } from '../theme/mixins'
-import { breakpoints, doorColors } from '../theme/variables'
+import { breakpoints } from '../theme/variables'
 import DatoLink from './DatoLink'
 import { IEvent } from './Event__Article'
 import EventThumbnail from './Event__Thumbnail'
 import { IInternalLink } from './InternalLink'
+import { ITheme } from './Layout'
 import ScrollSlider from './ScrollSlider'
 
 interface Props extends HTMLAttributes<HTMLElement> {
@@ -27,24 +28,8 @@ const HomeCalendar = ({
 
   const sliderNavRef = useRef<HTMLDivElement | null>(null)
 
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    switch (theme) {
-      case 'The Door':
-        return {
-          bg: '#fff',
-          heading: doorColors.yellow,
-          eventTitle: ['#444', doorColors.yellow],
-          eventText: ['#888'],
-          ctaBg: [doorColors.gray50, doorColors.yellow],
-          ctaText: ['#fff', '#fff'],
-          ctaSlider: [doorColors.navy, doorColors.yellow],
-          dividerTop: '#80808080',
-          divider: '#ddd',
-        }
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+
   const styles = {
     section: css`
       grid-column: 2 / 3;
@@ -61,13 +46,11 @@ const HomeCalendar = ({
       }
     `,
     wrap: css`
-      background: ${colors?.bg};
+      background: #fff;
       width: 100%;
       max-height: 100%;
       display: flex;
       flex-direction: column;
-      /* position: sticky;
-      top: calc(var(--nav-height) + 1rem); */
       ${mq().ml} {
         width: 100%;
         max-height: none;
@@ -79,7 +62,7 @@ const HomeCalendar = ({
     `,
     heading: css`
       font-size: var(--fs-36);
-      color: ${colors?.heading};
+      color: ${theme.quaternary};
       margin: 0;
       text-transform: uppercase;
       letter-spacing: 0.025em;
@@ -95,16 +78,16 @@ const HomeCalendar = ({
       text-transform: uppercase;
       letter-spacing: 0.025em;
       width: 100%;
-      color: ${colors?.ctaText[0]};
-      background: ${colors?.ctaBg[0]};
+      color: #fff;
+      background: ${theme.gray50};
       text-decoration: none;
       padding: 1rem 2rem;
       transition: background 200ms ease, color 300ms ease;
       box-sizing: border-box;
       @media (hover: hover) {
         &:hover {
-          background: ${colors?.ctaBg[1] || null};
-          color: ${colors?.ctaText[1] || null};
+          background: ${theme.quaternary};
+          color: #fff;
         }
       }
       ${mq().ml} {
@@ -124,7 +107,7 @@ const HomeCalendar = ({
         height: 1px;
         left: 0;
         top: 0;
-        background: ${colors?.dividerTop};
+        background: #80808080;
       }
     `,
     sliderNav: css`
@@ -145,7 +128,7 @@ const HomeCalendar = ({
           height: 1px;
           left: 0;
           top: 0;
-          background: ${colors?.dividerTop};
+          background: #80808080;
         }
       }
       ${mq().ml} {
@@ -194,7 +177,7 @@ const HomeCalendar = ({
       font-family: var(--display-font);
       font-size: var(--fs-30);
       line-height: 1.125;
-      color: ${colors?.eventText};
+      color: #888;
       margin: 1em 0 2em;
       ${mq().ml} {
         margin: 0;
@@ -221,10 +204,9 @@ const HomeCalendar = ({
           navContainer={sliderNavRef.current}
           navStyle="above"
           colors={{
-            arrow: [colors?.ctaSlider[0] as string],
-            arrowDisabled:
-              colors?.ctaSlider[0] && rgba(colors?.ctaSlider[0], 0.125),
-            link: [colors?.ctaSlider[0], colors?.ctaSlider[1]],
+            arrow: [theme.primary],
+            arrowDisabled: rgba(theme.primary, 0.125),
+            link: [theme.primary, theme.quaternary],
           }}
           link={<Link to="/calendar/">View All</Link>}
         >

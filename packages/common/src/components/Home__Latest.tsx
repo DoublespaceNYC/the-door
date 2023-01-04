@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import DatoLink from '@the-door/common/src/components/DatoLink'
 import HomeCalendar from '@the-door/common/src/components/Home__Calendar'
 import { IInternalArticle } from '@the-door/common/src/components/InternalArticle'
@@ -6,12 +7,11 @@ import useQueryContext from '@the-door/common/src/context/QueryContext'
 import { absoluteFill, linkStyle, mq } from '@the-door/common/src/theme/mixins'
 import { useMemo } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
-import { doorColors } from '../theme/variables'
 import { IExternalArticle } from './ExternalArticle'
 import ExternalArticleThumbnail from './ExternalArticle__Thumbnail'
 import InternalArticleThumbnail from './InternalArticle__Thumbnail'
 import { IInternalLink } from './InternalLink'
+import { ITheme } from './Layout'
 
 type Props = {
   heading: string
@@ -38,14 +38,14 @@ const HomeLatest = ({
     )
   }, [allNews, featuredArticle])
 
-  const { theme } = useThemeContext()
+  const theme = useTheme() as ITheme
   const setColors = () => {
-    switch (theme) {
+    switch (theme.themeName) {
       case 'The Door':
         return {
-          bg: doorColors.purpleDark,
-          heading: doorColors.yellow,
-          pageLink: [doorColors.navy, doorColors.yellowDark],
+          bg: theme.quinaryDark,
+          heading: theme.quaternary,
+          pageLink: [theme.primary, theme.quaternary],
         }
     }
   }

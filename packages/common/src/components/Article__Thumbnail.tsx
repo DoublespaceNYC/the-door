@@ -1,14 +1,15 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { rgba } from 'polished'
 import { Fragment, HTMLAttributes } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
+import useReadableColor from '../hooks/useReadableColor'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import { IExternalArticle } from './ExternalArticle'
 import ExternalLinkIcon from './ExternalLinkIcon'
 import GatsbyImageFocused from './GatsbyImageFocused'
 import { IInternalArticle } from './InternalArticle'
+import { ITheme } from './Layout'
 
 export type IArticleThumbnailLayout = 'Featured' | 'Grid' | 'Carousel'
 
@@ -29,32 +30,14 @@ const ArticleThumbnail = ({
   const featured = layout === 'Featured'
   const grid = layout === 'Grid'
   const carousel = layout === 'Carousel'
-  const { theme } = useThemeContext()
+  const theme = useTheme() as ITheme
 
-  const setColors = () => {
-    const defaultColors = {
-      title: '#444',
-      category: highlightColor || '#444',
-      date: '#888',
-      excerpt: '#666',
-      bg: '#fff',
-      shadow: rgba('#444', 0.15),
-      shadowHover: highlightColor || '#444',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          ...defaultColors,
-          category: highlightColor || doorColors.yellowDark,
-          bg: carousel ? doorColors.gray95 : '#fff',
-          shadow: rgba(doorColors.navy, 0.15),
-          shadowHover: highlightColor || doorColors.yellow,
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const readableHighlight = useReadableColor(
+    highlightColor || theme.quaternary,
+    carousel ? theme.gray95 : '#fff',
+    3
+  )
+
   const styles = {
     container: css`
       position: relative;
@@ -63,18 +46,18 @@ const ArticleThumbnail = ({
       grid-template-rows: auto 1fr;
       grid-column-gap: var(--gtr-m);
       min-height: 100%;
-      background: ${colors?.bg};
-      color: ${colors?.title || '#444'};
+      background: ${carousel ? theme.gray95 : '#fff'};
+      color: #444;
       justify-items: flex-start;
       text-decoration: none;
       cursor: pointer;
       box-shadow: calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
-        ${colors?.shadow};
+        ${rgba(theme.primary, 0.15)};
       transition: box-shadow 300ms ease;
       @media (hover: hover) {
         &:hover {
           box-shadow: calc(-1 * var(--shadow-offset-hover))
-            var(--shadow-offset-hover) 0 ${colors?.shadowHover};
+            var(--shadow-offset-hover) 0 ${highlightColor || theme.quaternary};
         }
       }
       ${mq().s} {
@@ -92,7 +75,7 @@ const ArticleThumbnail = ({
       h3 {
         order: 2;
         font-size: var(--fs-${featured ? '36' : carousel ? '30' : '24'});
-        color: ${colors?.title};
+        color: #444;
         margin: 0.125em 0 0;
         line-height: 1;
         ${mq().s} {
@@ -107,10 +90,10 @@ const ArticleThumbnail = ({
         text-transform: uppercase;
         font-weight: 500;
         display: inline-block;
-        color: ${colors?.date};
+        color: #888;
         margin: 0;
         &:nth-of-type(1) {
-          color: ${colors?.category};
+          color: ${readableHighlight};
         }
         ${mq().s} {
           font-size: var(--fs-13);
@@ -120,7 +103,7 @@ const ArticleThumbnail = ({
     excerpt: css`
       order: 4;
       margin-top: 0.5em;
-      color: ${colors?.excerpt};
+      color: #666;
       line-height: 1.5;
     `,
     imageWrap: css`

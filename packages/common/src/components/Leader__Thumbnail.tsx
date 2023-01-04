@@ -1,11 +1,11 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { GatsbyImage } from 'gatsby-plugin-image'
 import { rgba } from 'polished'
 import { ElementType } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
+import { ITheme } from './Layout'
 import { ILeader } from './Leader__Profile'
 import LightboxLink from './Lightbox__Link'
 
@@ -22,37 +22,19 @@ const LeaderThumbnail = ({
 }: Props): JSX.Element => {
   const Heading = `h${headingLevel}` as ElementType
   const Subheading = `h${headingLevel + 1}` as ElementType
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    const defaultColors = {
-      bg: '#f2f2f2',
-      shadow: rgba('#444', 0.15),
-      shadowHover: highlightColor || '#444',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          bg: doorColors.gray95,
-          shadow: rgba(doorColors.navy, 0.15),
-          shadowHover: highlightColor,
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
   const styles = {
     link: css`
       display: flex;
       flex-direction: column;
-      background: ${colors.bg};
+      background: ${theme.gray95};
       box-shadow: calc(-1 * var(--shadow-offset)) var(--shadow-offset) 0
-        ${colors.shadow};
+        ${rgba(theme.primary, 0.15)};
       transition: box-shadow 300ms ease;
       @media (hover: hover) {
         &:hover {
           box-shadow: calc(-1 * var(--shadow-offset-hover))
-            var(--shadow-offset-hover) 0 ${colors.shadowHover};
+            var(--shadow-offset-hover) 0 ${highlightColor};
         }
       }
     `,

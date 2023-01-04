@@ -1,4 +1,4 @@
-import { css } from '@emotion/react'
+import { css, useTheme } from '@emotion/react'
 import { isLink } from 'datocms-structured-text-utils'
 import { Link } from 'gatsby'
 import { Fragment, HTMLAttributes } from 'react'
@@ -6,6 +6,7 @@ import { StructuredText, renderNodeRule } from 'react-datocms'
 
 import { mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
+import { ITheme } from './Layout'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   intro: IStructuredText
@@ -17,6 +18,7 @@ const PageIntro = ({
   textColor = '#333',
   ...props
 }: Props): JSX.Element => {
+  const theme = useTheme() as ITheme
   const styles = {
     intro: css`
       font-size: var(--fs-21);
@@ -26,6 +28,14 @@ const PageIntro = ({
       max-width: 80ch;
       ${mq().ms} {
         font-size: var(--fs-18);
+      }
+      a {
+        color: ${theme.tertiary};
+        @media (hover: hover) {
+          &:hover {
+            color: ${theme.tertiaryDark};
+          }
+        }
       }
     `,
   }

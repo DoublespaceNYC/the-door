@@ -93,7 +93,6 @@ const SelectStateField = ({
       }}
       onChange={onChange}
       fieldStyles={fieldStyles}
-      statesList
     />
   )
 }

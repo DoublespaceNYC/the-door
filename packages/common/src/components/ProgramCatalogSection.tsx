@@ -1,11 +1,11 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { Fragment } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
-import { doorColors } from '../theme/variables'
 import Accordion from './Accordion'
 import { Anchor, IAnchorLink } from './AnchorLink'
+import { ITheme } from './Layout'
 import ProgramBlock, { IProgram } from './ProgramBlock'
 
 export interface IProgramCatalogSection extends Record {
@@ -25,42 +25,25 @@ type Props = {
 const ProgramCatalogSection = ({
   data: { heading, catalogGroups, anchorLink },
 }: Props): JSX.Element => {
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    const defaultColors = {
-      bg: 'transparent',
-      heading: '#fff',
-      accordionHeading: '#fff',
-      divider: '#ffffff88',
-      highlight: '#fff',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          ...defaultColors,
-          bg: `linear-gradient(to top right, ${doorColors.purpleDark}, ${doorColors.purple})`,
-          highlight: doorColors.pink,
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+
   const styles = {
     section: css`
-      background: ${colors.bg};
+      background: ${theme.themeName === 'The Door'
+        ? `linear-gradient(to top right, ${theme.quinaryDark}, ${theme.quinary})`
+        : `linear-gradient(to top right, ${theme.tertiary}, ${theme.tertiaryLight})`};
       position: relative;
       padding: var(--row-l) var(--margin) var(--row-l);
     `,
     heading: css`
-      color: ${colors.heading};
+      color: #fff;
       font-size: var(--fs-72);
       margin: 0 0 1em;
       line-height: 1;
     `,
     programBlock: css`
       margin-left: var(--gtr-m);
-      border-bottom: 1px solid ${colors.divider};
+      border-bottom: 1px solid #ffffff88;
     `,
     lastBlock: css`
       border-bottom: none;
@@ -96,7 +79,11 @@ const ProgramCatalogSection = ({
                   key={i}
                   headingLevel={4}
                   theme="Dark"
-                  highlightColor={colors.highlight}
+                  highlightColor={
+                    theme.themeName === 'The Door'
+                      ? theme.tertiary
+                      : theme.secondary
+                  }
                 />
               ))}
             </Fragment>

@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { Document } from 'datocms-structured-text-utils'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
 import { darken } from 'polished'
@@ -8,14 +9,13 @@ import { StructuredText } from 'react-datocms'
 import GatsbyImageFocused, {
   IGatsbyImageFocused,
 } from '../components/GatsbyImageFocused'
-import useThemeContext from '../context/ThemeContext'
 import useReadableColor from '../hooks/useReadableColor'
 import { baseGrid, mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import { renderDescription } from '../utils'
 import BlackbaudForm, { IBlackbaudForm } from './BlackbaudForm'
 import MediaCarousel, { IMediaCarousel } from './ContentCarousel__Media'
 import Form, { IForm } from './Form'
+import { ITheme } from './Layout'
 import MediaBlock, { IMediaBlock } from './MediaBlock'
 
 interface IHeroImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
@@ -51,31 +51,11 @@ const Article = ({
   highlightColor,
   ...props
 }: Props): JSX.Element => {
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    const defaultColors = {
-      highlight: '#444',
-      highlightHover: '#888',
-      text: '#444',
-      textLight: '#888',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          ...defaultColors,
-          highlight: highlightColor || doorColors.blue,
-          highlightHover: highlightColor
-            ? darken(0.1, highlightColor)
-            : doorColors.pink,
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+
   const readableHighlight = useReadableColor(
-    colors.highlight,
-    layout === 'Lightbox' ? '#f2f2f2' : '#fff'
+    highlightColor || theme.secondary,
+    layout === 'Lightbox' ? theme.gray95 : '#fff'
   )
   const styles = {
     article: css`
@@ -104,7 +84,7 @@ const Article = ({
       grid-column: 2 / -2;
       font-size: var(--fs-108);
       justify-self: flex-start;
-      color: ${colors.highlight};
+      color: ${highlightColor || theme.secondary};
       line-height: 1;
       margin: 0 0 0.125em;
       ${mq().s} {
@@ -125,14 +105,14 @@ const Article = ({
       margin: 0 0 0.5em;
       text-transform: uppercase;
       font-weight: 500;
-      color: ${colors.textLight};
+      color: #888;
     `,
     subheading: css`
       grid-column: 2 / -2;
       font-size: var(--fs-16);
       font-family: var(--body-font);
       font-weight: 500;
-      color: ${colors.textLight};
+      color: #888;
       line-height: 1.25;
       margin-bottom: 0.25em;
     `,
@@ -326,14 +306,14 @@ const Article = ({
           layout={
             layout === 'Page' || layout === 'Lightbox' ? layout : undefined
           }
-          highlightColor={colors.highlight}
+          highlightColor={highlightColor}
         />
       ) : (
         form?.__typename === 'DatoCmsBlackbaudForm' && (
           <BlackbaudForm
             data={form}
             css={styles.form}
-            highlightColor={colors.highlight}
+            highlightColor={highlightColor}
           />
         )
       )}

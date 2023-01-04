@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import {
   Document,
   StructuredText as IStructuredText,
@@ -7,11 +8,10 @@ import {
 import { IGatsbyImageData } from 'gatsby-plugin-image'
 
 import { IGatsbyImageFocused } from '../components/GatsbyImageFocused'
-import useThemeContext from '../context/ThemeContext'
-import { doorColors } from '../theme/variables'
 import { ISEO } from '../types'
 import Article from './Article'
 import { IMediaCarousel } from './ContentCarousel__Media'
+import { ITheme } from './Layout'
 import { IMediaBlock } from './MediaBlock'
 
 interface IArticleImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
@@ -53,21 +53,8 @@ const InternalArticle = ({
   highlightColor,
 }: Props): JSX.Element => {
   const date = new Date(publicationDate)
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    const defaultColors = {
-      highlight: '',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          highlight: highlightColor || doorColors.blue,
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+
   const styles = {
     details: css`
       grid-column: 2 / -2;
@@ -76,7 +63,7 @@ const InternalArticle = ({
         display: inline-block;
         &:nth-of-type(1) {
           margin-right: 0.75em;
-          color: ${colors.highlight};
+          color: ${highlightColor || theme.secondary};
         }
       }
     `,

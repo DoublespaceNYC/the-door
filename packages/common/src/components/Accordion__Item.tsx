@@ -1,11 +1,11 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { rgba } from 'polished'
 import { ElementType, HTMLAttributes, ReactNode, useState } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
 import { useElementHeight } from '../hooks/useElementRect'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
+import { ITheme } from './Layout'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   heading: string
@@ -36,33 +36,24 @@ const AccordionItem = ({
 
   const transitionDuration = 200 + Math.round(0.25 * (contentsHeight || 0))
 
-  const { theme: metaTheme } = useThemeContext()
+  const metaTheme = useTheme() as ITheme
   const setColors = () => {
-    switch (metaTheme) {
-      case 'The Door':
+    switch (theme) {
+      case 'Dark':
         return {
-          heading:
-            theme === 'Dark'
-              ? ['#fff', doorColors.pinkLight]
-              : [doorColors.purple, doorColors.pink],
-          subheading:
-            theme === 'Dark'
-              ? ['#fff', doorColors.pinkLight]
-              : ['#666', doorColors.pink],
-          button:
-            theme === 'Dark'
-              ? ['#fff', doorColors.pinkLight]
-              : ['#666', doorColors.pink],
-          divider: theme === 'Dark' ? '#fff' : rgba('#888', 0.5),
-          subdivider: theme === 'Dark' ? rgba('#fff', 0.5) : rgba('#888', 0.5),
-        }
-      default:
-        return {
-          heading: ['#fff', '#fff'],
-          subheading: ['#fff', '#fff'],
-          button: ['#fff', '#fff'],
+          heading: ['#fff', metaTheme.tertiaryLight],
+          subheading: ['#fff', metaTheme.tertiaryLight],
+          button: ['#fff', metaTheme.tertiaryLight],
           divider: '#fff',
-          subdivider: '#ffffff88',
+          subdivider: rgba('#fff', 0.5),
+        }
+      case 'Light':
+        return {
+          heading: [metaTheme.senary, metaTheme.tertiary],
+          subheading: ['#666', metaTheme.tertiary],
+          button: ['#666', metaTheme.tertiary],
+          divider: rgba('#888', 0.5),
+          subdivider: rgba('#888', 0.5),
         }
     }
   }

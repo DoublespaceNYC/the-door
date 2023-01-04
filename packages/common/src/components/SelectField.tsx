@@ -38,14 +38,12 @@ type Props = {
   data: ISelectField
   onChange: (name: string, value: string) => void
   fieldStyles: IFieldStyles
-  statesList?: boolean
 }
 
 const SelectField = ({
   data: { label, options, required, width },
   onChange,
   fieldStyles,
-  statesList,
 }: Props): JSX.Element => {
   const name = toSlug(label)
 

@@ -1,18 +1,18 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import {
   StructuredText as IStructuredText,
   isParagraph,
 } from 'datocms-structured-text-utils'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 
-import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import DatoLink, { isDatoLink } from './DatoLink'
 import { IExternalLink } from './ExternalLink'
 import Form, { IFormEmbed } from './Form'
 import { IFormLightboxLink } from './Form__Lightbox'
 import { IInternalLink } from './InternalLink'
+import { ITheme } from './Layout'
 
 export interface ICTABar extends IStructuredText {
   blocks: (IInternalLink | IExternalLink | IFormLightboxLink | IFormEmbed)[]
@@ -23,23 +23,23 @@ export type CTABarProps = {
 }
 
 const CTABar = ({ data }: CTABarProps): JSX.Element => {
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    switch (theme) {
-      case 'The Door':
-        return {
-          bg: doorColors.navyDark,
-          text: '#fff',
-          boldText: doorColors.blueLight,
-        }
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+  // const setColors = () => {
+  //   switch (theme) {
+  //     case 'The Door':
+  //       return {
+  //         bg: doorColors.navyDark,
+  //         text: '#fff',
+  //         boldText: doorColors.blueLight,
+  //       }
+  //   }
+  // }
+  // const colors = setColors()
   const styles = {
     section: css`
-      background: ${colors?.bg};
+      background: ${theme.primaryDark};
       padding: 1rem var(--margin);
-      color: ${colors?.text};
+      color: #fff;
       display: flex;
       grid-gap: 1.5em;
       justify-content: center;
@@ -55,7 +55,7 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
           font-size: var(--fs-30);
         }
         strong {
-          color: ${colors?.boldText};
+          color: ${theme.secondaryLight};
           ${mq().m} {
             display: block;
           }
@@ -78,7 +78,7 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
     `,
     formSuccess: css`
       font-size: var(--fs-30);
-      color: ${colors?.boldText};
+      color: ${theme.secondaryLight};
     `,
   }
   return (

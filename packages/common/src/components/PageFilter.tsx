@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import {
   useCallback,
   useEffect,
@@ -7,10 +8,9 @@ import {
   useState,
 } from 'react'
 
-import useThemeContext from '../context/ThemeContext'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import DropdownArrow from './DropdownArrow'
+import { ITheme } from './Layout'
 
 type Props = {
   options: string[]
@@ -80,31 +80,8 @@ const PageFilter = ({
     activeOption && onChange(activeOption)
   }, [activeOption, onChange])
 
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    const defaultColors = {
-      bg: '',
-      dropdownBg: '',
-      buttonText: '',
-      buttonTextHover: '',
-      optionText: '',
-      optionTextHover: '',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          bg: doorColors.gray95,
-          dropdownBg: doorColors.gray92,
-          buttonText: doorColors.blue,
-          buttonTextHover: doorColors.blueDark,
-          optionText: doorColors.gray50,
-          optionTextHover: doorColors.blue,
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+
   const styles = {
     filter: css`
       font-size: var(--fs-30);
@@ -112,7 +89,7 @@ const PageFilter = ({
       display: flex;
       box-sizing: border-box;
       position: relative;
-      background: ${colors.bg};
+      background: ${theme.gray95};
       width: fit-content;
       margin: 0 var(--margin);
       padding: 0;
@@ -135,12 +112,12 @@ const PageFilter = ({
         }
       }
       > button {
-        color: ${colors.buttonText};
-        background: ${colors.bg};
+        color: ${theme.secondary};
+        background: ${theme.gray95};
         transition: color 300ms ease;
         @media (hover: hover) {
           &:hover {
-            color: ${colors.buttonTextHover};
+            color: ${theme.secondaryDark};
           }
         }
       }
@@ -157,16 +134,16 @@ const PageFilter = ({
         align-items: flex-start;
         padding: 0.5em 0;
         min-width: max-content;
-        background: ${colors.dropdownBg};
+        background: ${theme.gray92};
         transform: translate3d(0, calc(100% - 3rem), 0);
         transition: opacity 300ms ease, transform 300ms ease;
         > button {
-          color: ${colors.optionText};
+          color: ${theme.gray50};
           padding: 0.375em 1em;
           width: 100%;
           @media (hover: hover) {
             &:hover {
-              color: ${colors.optionTextHover};
+              color: ${theme.secondary};
             }
           }
         }

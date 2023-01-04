@@ -1,4 +1,5 @@
 import { Global, css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { Link } from 'gatsby'
 import { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
@@ -6,16 +7,15 @@ import { useInView } from 'react-intersection-observer'
 
 import useLightboxContext from '../context/LightboxContext'
 import useNavMenuContext from '../context/NavMenuContext'
-import useThemeContext from '../context/ThemeContext'
 import { useElementHeight } from '../hooks/useElementRect'
 import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { absoluteFill, mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import { LogoProps } from '../types'
 import DatoLink from './DatoLink'
 import { IExternalLink } from './ExternalLink'
 import { IInternalLink } from './InternalLink'
+import { ITheme } from './Layout'
 import NavBurger from './NavBurger'
 import NavButton, { IHighlightedLinkModal } from './NavButton'
 import NavLinkGroup, { ILinkGroup } from './NavLinkGroup'
@@ -81,28 +81,8 @@ const MainNav = ({
     setBurgerOpen(false)
   })
 
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    const defaultColors = {
-      bg: '',
-      bgSecondary: '',
-      logo: '#fff',
-      text: '#fff',
-      buttons: [],
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          ...defaultColors,
-          bg: doorColors.navy,
-          bgSecondary: doorColors.navyDark,
-          buttons: [doorColors.pink, doorColors.green],
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
+
   const styles = {
     scrollObserver: css`
       position: absolute;
@@ -145,7 +125,7 @@ const MainNav = ({
         content: '';
         display: block;
         ${absoluteFill}
-        background: ${colors.bg};
+        background: ${theme.primary};
         z-index: 4;
       }
     `,
@@ -188,7 +168,7 @@ const MainNav = ({
         width: 100%;
         top: calc(var(--nav-height) - 1px);
         height: calc(100% - var(--nav-height) + 1px);
-        background: ${colors.bgSecondary};
+        background: ${theme.primaryDark};
         z-index: 0;
         font-size: var(--fs-36);
         opacity: 0;
@@ -221,7 +201,7 @@ const MainNav = ({
       font-size: var(--fs-18);
     `,
     navItem: css`
-      color: ${colors.text};
+      color: #fff;
       font-size: inherit;
       font-family: var(--display-font);
       text-transform: uppercase;
@@ -269,7 +249,7 @@ const MainNav = ({
     burger: css`
       font-size: var(--fs-18);
       display: none;
-      color: ${colors.text};
+      color: #fff;
       padding: 0 0.75em;
       margin-right: -0.75em;
       @media (max-width: ${breakpoint}px) {
@@ -308,7 +288,7 @@ const MainNav = ({
           >
             <Logo
               css={styles.logo}
-              fill={colors.logo}
+              fill="#fff"
             />
           </Link>
           <div
@@ -338,10 +318,6 @@ const MainNav = ({
                             buttonCss={[styles.navItem, styles.navLink]}
                             portalTarget={dropdownContainerRef.current}
                             breakpoint={breakpoint}
-                            colors={{
-                              bg: colors.bgSecondary,
-                              text: colors.text,
-                            }}
                             key={i}
                           />
                         )
@@ -360,7 +336,11 @@ const MainNav = ({
                         <NavButton
                           buttonCss={styles.navItem}
                           button={button}
-                          color={colors.buttons[i % colors.buttons.length]}
+                          color={
+                            theme.buttonColorsArray[
+                              i % theme.buttonColorsArray.length
+                            ]
+                          }
                           key={i}
                         />
                       ))}
@@ -377,7 +357,9 @@ const MainNav = ({
                 css={i + 1 === buttons.length && styles.lastButton}
                 buttonCss={[styles.navItem]}
                 button={button}
-                color={colors.buttons[i % colors.buttons.length]}
+                color={
+                  theme.buttonColorsArray[i % theme.buttonColorsArray.length]
+                }
                 modal={
                   modal[0].highlightedLinkNumber === i + 1
                     ? modal[0]

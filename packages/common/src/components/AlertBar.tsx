@@ -1,16 +1,16 @@
 import { Global, css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import { Fragment, useState } from 'react'
 import { StructuredText } from 'react-datocms'
 import { useInView } from 'react-intersection-observer'
 
 import useLightboxContext from '../context/LightboxContext'
 import useNavMenuContext from '../context/NavMenuContext'
-import useThemeContext from '../context/ThemeContext'
 import { useElementHeight } from '../hooks/useElementRect'
 import { mq } from '../theme/mixins'
-import { doorColors } from '../theme/variables'
 import { IStructuredText } from '../types'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
+import { ITheme } from './Layout'
 
 export interface IAlert extends IStructuredText {
   blocks?: IDatoLink[]
@@ -28,27 +28,7 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
   const { open: navOpen } = useNavMenuContext()
   const { open: lightboxOpen } = useLightboxContext()
 
-  const { theme } = useThemeContext()
-
-  const setColors = () => {
-    const defaultColors = {
-      bg: '',
-      text: '#fff',
-      cta: '#fff',
-      ctaHover: '',
-    }
-    switch (theme) {
-      case 'The Door':
-        return {
-          ...defaultColors,
-          bg: doorColors.navyDark,
-          ctaHover: doorColors.yellow,
-        }
-      default:
-        return defaultColors
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
 
   const styles = {
     wrap: css`
@@ -72,8 +52,8 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
       `}
     `,
     alert: css`
-      background: ${colors.bg};
-      color: ${colors.text};
+      background: ${theme.primaryDark};
+      color: #fff;
       position: absolute;
       top: 0;
       left: 0;
@@ -97,7 +77,7 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
       display: inline-block;
       text-decoration: none;
       margin: 0 0.167em;
-      color: ${colors.cta};
+      color: #fff;
       &:after {
         display: inline-block;
         content: ' ▶';
@@ -107,7 +87,7 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
       }
       @media (hover: hover) {
         &:hover {
-          color: ${colors.ctaHover};
+          color: ${theme.quaternary};
         }
       }
     `,

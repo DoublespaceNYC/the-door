@@ -1,25 +1,15 @@
 import '../fonts/_font-face.css'
 
 import { Global, css } from '@emotion/react'
+import { useTheme } from '@emotion/react'
 import emotionNormalize from 'emotion-normalize'
 
-import useThemeContext from '../context/ThemeContext'
+import { ITheme } from '../components/Layout'
 import { useWindowHeight } from '../hooks/useWindowDimensions'
 import { mq } from './mixins'
-import { doorColors } from './variables'
 
 const GlobalStyles = () => {
-  const { theme } = useThemeContext()
-  const setColors = () => {
-    switch (theme) {
-      case 'The Door':
-        return {
-          highlight: doorColors.blue,
-          highlightHover: doorColors.pink,
-        }
-    }
-  }
-  const colors = setColors()
+  const theme = useTheme() as ITheme
 
   const windowHeight = useWindowHeight()
 
@@ -103,14 +93,6 @@ const GlobalStyles = () => {
     }
     p {
       line-height: inherit;
-    }
-    a {
-      color: ${colors?.highlight};
-      @media (hover: hover) {
-        &:hover {
-          color: ${colors?.highlightHover};
-        }
-      }
     }
     a,
     button {

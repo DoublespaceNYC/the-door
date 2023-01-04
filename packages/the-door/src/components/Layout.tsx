@@ -5,13 +5,13 @@ import CommonLayout from '@the-door/common/src/components/Layout'
 import { MainNavProps } from '@the-door/common/src/components/MainNav'
 import { ISocialLink } from '@the-door/common/src/components/SocialLink'
 import useQueryContext from '@the-door/common/src/context/QueryContext'
-import useThemeContext from '@the-door/common/src/context/ThemeContext'
 import { graphql, useStaticQuery } from 'gatsby'
 import { ReactNode, useLayoutEffect } from 'react'
 
 import useEventsQuery from '../hooks/useEventsQuery'
 import useNewsQuery from '../hooks/useNewsQuery'
 import usePartnersQuery from '../hooks/usePartnersQuery'
+import { colors } from '../theme/variables'
 import Door50Logo from './Door50Logo'
 import DoorLogo from './DoorLogo'
 
@@ -23,6 +23,7 @@ type Props = {
 }
 
 const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
+  console.log('rerender')
   type QueryProps = {
     nav: Pick<
       MainNavProps,
@@ -191,10 +192,7 @@ const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
     allInternalArticles,
     allPartners,
   ])
-  const { setTheme } = useThemeContext()
-  useLayoutEffect(() => {
-    setTheme('The Door')
-  }, [setTheme])
+
   return (
     <CommonLayout
       nav={{
@@ -220,6 +218,43 @@ const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
       collapsed={collapsed}
       noFooter={noFooter}
       noAlert={noAlert}
+      theme={{
+        themeName: 'The Door',
+        primary: colors.navy,
+        primaryDark: colors.navyDark,
+        secondary: colors.blue,
+        secondaryLight: colors.blueLight,
+        secondaryMid: colors.blueMid,
+        secondaryDark: colors.blueDark,
+        tertiary: colors.pink,
+        tertiaryLight: colors.pinkLight,
+        tertiaryDark: colors.pinkDark,
+        quaternary: colors.yellow,
+        quaternaryLight: colors.yellowLight,
+        quaternaryDark: colors.yellowDark,
+        quinary: colors.purple,
+        quinaryLight: colors.purpleLight,
+        quinaryDark: colors.purpleDark,
+        senary: colors.teal,
+        senaryLight: colors.tealLight,
+        senaryDark: colors.tealDark,
+        septenary: colors.green,
+        septenaryLight: colors.greenLight,
+        septenaryDark: colors.greenDark,
+        gray95: colors.gray95,
+        gray92: colors.gray92,
+        gray75: colors.gray75,
+        gray66: colors.gray66,
+        gray50: colors.gray50,
+        gray40: colors.gray40,
+        contentColorsArray: [
+          colors.purple,
+          colors.pink,
+          colors.teal,
+          colors.green,
+        ],
+        buttonColorsArray: [colors.pink, colors.green],
+      }}
     >
       {children}
     </CommonLayout>
