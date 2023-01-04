@@ -276,7 +276,7 @@ const Form = ({
           border: 'transparent',
           text: '#444',
           label: '#444444aa',
-          highlight: metaTheme.secondary,
+          highlight: highlightColor || metaTheme.secondary,
           buttonFill: [
             highlightColor || metaTheme.secondary,
             highlightColor ? darken(0.1, highlightColor) : metaTheme.tertiary,
@@ -287,9 +287,10 @@ const Form = ({
   }
   const colors = setColors()
 
+  // const textHighlight = colors.highlight
   const textHighlight = useReadableColor(
-    highlightColor || colors.highlight,
-    theme === 'Dark' ? '#444' : colors.fill || '#fff'
+    colors.highlight || '',
+    colors.fill || ''
   )
   const styles = {
     wrapper: css`
@@ -502,7 +503,7 @@ const Form = ({
       align-items: center;
       justify-content: center;
       border-radius: 0.25em;
-      background-color: ${darken(0.1, colors.fill || '#444')};
+      /* background-color: ${colors.fill && darken(0.1, colors.fill)}; */
       border: 2px solid;
       border-color: ${colors.border || 'transparent'};
       box-sizing: border-box;

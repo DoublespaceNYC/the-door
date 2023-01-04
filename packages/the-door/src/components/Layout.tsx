@@ -23,7 +23,6 @@ type Props = {
 }
 
 const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
-  console.log('rerender')
   type QueryProps = {
     nav: Pick<
       MainNavProps,

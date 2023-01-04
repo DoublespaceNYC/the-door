@@ -252,7 +252,7 @@ const BlackbaudForm = ({
               @media (hover: hover) {
                 &:hover {
                   opacity: 1;
-                  background: ${darken(0.1, highlightColor || '')};
+                  background: ${highlightColor && darken(0.1, highlightColor)};
                 }
               }
             }
