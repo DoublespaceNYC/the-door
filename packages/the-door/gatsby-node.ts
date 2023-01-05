@@ -333,6 +333,7 @@ export const createResolvers: GatsbyNode['createResolvers'] = ({ createResolvers
         resolve: async (source, args, context, info) => {
           const { start_date_time, end_date_time } = source.entityPayload.attributes
           const cutoff = new Date(end_date_time || start_date_time)
+          console.log(`${source.entityPayload.attributes.slug}: ${cutoff > today}`)
           return cutoff > today
         }
       },
