@@ -30,7 +30,6 @@ const config: GatsbyConfig = {
     siteUrl,
   },
   plugins: [
-    `gatsby-plugin-netlify`,
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -133,6 +132,7 @@ const config: GatsbyConfig = {
         },
       },
     },
+    `gatsby-plugin-netlify`,
   ],
 }
 
