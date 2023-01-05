@@ -68,7 +68,7 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
       line-height: 1.5;
       h2 {
         font-size: var(--fs-30);
-        color: #333;
+        color: ${theme.primary};
         margin: 0;
         line-height: 1;
         padding-right: 1.5rem;

@@ -36,7 +36,8 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
       transition: height 300ms ease;
       overflow: hidden;
       z-index: 11;
-      height: 0;
+      background: ${theme.primaryDark};
+      height: auto;
       ${alertHeight &&
       css`
         height: ${alertHeight}px;
@@ -52,11 +53,8 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
       `}
     `,
     alert: css`
-      background: ${theme.primaryDark};
       color: #fff;
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: relative;
       width: 100%;
       box-sizing: border-box;
       text-align: center;

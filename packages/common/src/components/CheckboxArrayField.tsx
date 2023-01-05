@@ -61,20 +61,30 @@ const CheckboxArrayField = ({
       border: none;
     `,
     inputBase: css`
-      padding: 2.75em 0.5em 1em;
+      padding: 0.5em 0.5em 1em;
       display: flex;
       flex-wrap: wrap;
       grid-gap: 0 1em;
+      background: transparent;
+    `,
+    label: css`
+      position: relative;
+      transform: none;
+      top: 0;
+      padding: 1.125em 0 0;
+      white-space: normal;
     `,
   }
 
   return (
     <fieldset
       name={name}
-      css={[fieldStyles.container, styles.container]}
+      css={[fieldStyles.container, fieldStyles.inputBase, styles.container]}
     >
-      <legend css={[fieldStyles.label]}>{label}</legend>
-      <div css={[fieldStyles.inputBase, styles.inputBase]}>
+      <div>
+        <legend css={[fieldStyles.label, styles.label]}>{label}</legend>
+      </div>
+      <div css={[styles.inputBase]}>
         {options.map((option, i) => (
           <CheckboxField
             key={i}

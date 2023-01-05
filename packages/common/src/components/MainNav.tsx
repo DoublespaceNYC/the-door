@@ -158,6 +158,7 @@ const MainNav = ({
       font-size: var(--fs-18);
       > div {
         display: flex;
+        min-height: 100%;
       }
       @media (max-width: ${breakpoint}px) {
         display: block;
@@ -215,6 +216,9 @@ const MainNav = ({
 
       @media (max-width: ${breakpoint}px) {
         padding: 0.5em 0.75em;
+      }
+      ${mq().s} {
+        padding: 0.5em;
       }
     `,
     navLink: css`

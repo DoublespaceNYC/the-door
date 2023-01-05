@@ -91,14 +91,23 @@ export const inputWidth = (width: 'Full' | 'Half' | 'Third' | 'Quarter') => {
     case 'Half':
       return css`
         flex-basis: calc(50% - 0.5 * var(--gap));
+        ${mq().s} {
+          flex-basis: 100%;
+        }
       `
     case 'Third':
       return css`
         flex-basis: calc(33.3% - var(--gap));
+        ${mq().s} {
+          flex-basis: 100%;
+        }
       `
     case 'Quarter':
       return css`
         flex-basis: calc(25% - 1.5 * var(--gap));
+        ${mq().s} {
+          flex-basis: calc(50% - 0.5 * var(--gap));
+        }
       `
   }
 }

@@ -62,13 +62,13 @@ export const createPages: GatsbyNode['createPages'] = async ({
         nodes {
           id
           slug
-          parentPage {            
-            ...on DatoCmsService {
+          parentPage {
+            ... on DatoCmsService {
               slug
             }
             ... on DatoCmsInteriorPage {
               slug
-            }          
+            }
           }
         }
       }
@@ -83,7 +83,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
           id
           slug
         }
-      }    
+      }
       datoCmsLeadershipPage {
         id
         slug
@@ -108,13 +108,13 @@ export const createPages: GatsbyNode['createPages'] = async ({
         id
         slug
       }
-      datoCmsMembershipPage {        
+      datoCmsMembershipPage {
         id
         _allSlugLocales {
           locale
           value
-        }      
-    }
+        }
+      }
     }
   `)
 
@@ -122,7 +122,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
     id: string
     slug: string
   }
-  type Locale = ('en' | 'es' | 'fr')
+  type Locale = 'en' | 'es' | 'fr'
   type LocalesPageNode = {
     id: string
     _allSlugLocales: {
@@ -157,7 +157,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       allDatoCmsTertiaryPage: {
         nodes: {
           id: string
-          slug: string,
+          slug: string
           parentPage: {
             slug: string
           }
@@ -181,7 +181,8 @@ export const createPages: GatsbyNode['createPages'] = async ({
 
   const { data } = datoQuery
 
-  const localePrefix = (locale: string) => locale === 'en' ? '' : '/' + locale
+  const localePrefix = (locale: string) =>
+    locale === 'en' ? '' : '/' + locale
 
   data?.allDatoCmsService.nodes.forEach(node => {
     node._allSlugLocales.forEach(slugLocale => {
@@ -200,8 +201,8 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/leadership/${node.slug}/`,
       component: resolve(`./src/templates/LeaderProfilePage.tsx`),
       context: {
-        id: node.id
-      }
+        id: node.id,
+      },
     })
   })
   data?.allDatoCmsInternalArticle.nodes.forEach(node => {
@@ -209,8 +210,8 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/articles/${node.slug}/`,
       component: resolve(`./src/templates/InternalArticlePage.tsx`),
       context: {
-        id: node.id
-      }
+        id: node.id,
+      },
     })
   })
   data?.allDatoCmsFormLightbox.nodes.forEach(node => {
@@ -218,8 +219,8 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/forms/${node.slug}/`,
       component: resolve(`./src/templates/FormPage.tsx`),
       context: {
-        id: node.id
-      }
+        id: node.id,
+      },
     })
   })
   data?.allDatoCmsFacesStory.nodes.forEach(node => {
@@ -227,8 +228,8 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/${data.datoCmsFacesPage.slug}/${node.slug}/`,
       component: resolve(`./src/templates/FacesStoryPage.tsx`),
       context: {
-        id: node.id
-      }
+        id: node.id,
+      },
     })
   })
   data?.allDatoCmsEvent.nodes.forEach(node => {
@@ -236,8 +237,8 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/events/${node.slug}/`,
       component: resolve(`./src/templates/EventArticlePage.tsx`),
       context: {
-        id: node.id
-      }
+        id: node.id,
+      },
     })
   })
   data?.allDatoCmsInteriorPage.nodes.forEach(node => {
@@ -257,8 +258,8 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/${node.parentPage.slug}/${node.slug}/`,
       component: resolve(`./src/templates/TertiaryPage.tsx`),
       context: {
-        id: node.id
-      }
+        id: node.id,
+      },
     })
   })
   data?.allDatoCmsPartner.nodes.forEach(node => {
@@ -266,8 +267,8 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/partners/${node.slug}/`,
       component: resolve(`./src/templates/PartnerArticlePage.tsx`),
       context: {
-        id: node.id
-      }
+        id: node.id,
+      },
     })
   })
   data?.allDatoCmsContactPage.nodes.forEach(node => {
@@ -275,52 +276,59 @@ export const createPages: GatsbyNode['createPages'] = async ({
       path: `/${node.slug}/`,
       component: resolve(`./src/templates/ContactPage.tsx`),
       context: {
-        id: node.id
-      }
+        id: node.id,
+      },
     })
   })
   createPage({
     path: `/${data?.datoCmsLeadershipPage.slug}/`,
-    component: resolve(`./src/templates/LeadershipPage.tsx`)
+    component: resolve(`./src/templates/LeadershipPage.tsx`),
   })
   createPage({
     path: `/${data?.datoCmsTheLatestPage.slug}/`,
-    component: resolve(`./src/templates/LatestPage.tsx`)
+    component: resolve(`./src/templates/LatestPage.tsx`),
   })
   createPage({
     path: `/${data?.datoCmsImpactPage.slug}/`,
-    component: resolve(`./src/templates/ImpactPage.tsx`)
+    component: resolve(`./src/templates/ImpactPage.tsx`),
   })
   createPage({
     path: `/${data?.datoCmsFacesPage.slug}/`,
-    component: resolve(`./src/templates/FacesPage.tsx`)
+    component: resolve(`./src/templates/FacesPage.tsx`),
   })
   createPage({
     path: `/${data?.datoCmsCalendarPage.slug}/`,
-    component: resolve(`./src/templates/CalendarPage.tsx`)
+    component: resolve(`./src/templates/CalendarPage.tsx`),
   })
   createPage({
     path: `/${data?.datoCmsProgramsPage.slug}/`,
-    component: resolve(`./src/templates/ProgramsPage.tsx`)
+    component: resolve(`./src/templates/ProgramsPage.tsx`),
   })
-  data?.datoCmsMembershipPage._allSlugLocales.map((slugLocale) => {
+  data?.datoCmsMembershipPage._allSlugLocales.map(slugLocale => {
     createPage({
       path: `${localePrefix(slugLocale.locale)}/${slugLocale.value}/`,
       component: resolve(`./src/templates/MembershipPage.tsx`),
       context: {
-        locale: slugLocale.locale
-      }
+        locale: slugLocale.locale,
+      },
     })
   })
   createPage({
     path: `/forms-detection/`,
-    component: resolve(`./src/templates/ConditionalFormsPage.tsx`)
+    component: resolve(`./src/templates/ConditionalFormsPage.tsx`),
   })
 }
 
-export const createResolvers: GatsbyNode['createResolvers'] = ({ createResolvers }) => {
+export const createResolvers: GatsbyNode['createResolvers'] = ({
+  createResolvers,
+}) => {
   const convertTZ = (date: Date, tzString: string) => {
-    return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", { timeZone: tzString }));
+    return new Date(
+      (typeof date === 'string' ? new Date(date) : date).toLocaleString(
+        'en-US',
+        { timeZone: tzString }
+      )
+    )
   }
   const newDate = new Date()
   const today = convertTZ(newDate, 'America/New_York')
@@ -331,20 +339,24 @@ export const createResolvers: GatsbyNode['createResolvers'] = ({ createResolvers
       isUpcoming: {
         type: `Boolean!`,
         resolve: async (source, args, context, info) => {
-          const { start_date_time, end_date_time } = source.entityPayload.attributes
+          const { start_date_time, end_date_time } =
+            source.entityPayload.attributes
           const cutoff = new Date(end_date_time || start_date_time)
-          console.log(`${source.entityPayload.attributes.slug}: ${cutoff > today}`)
+          console.log(
+            `${source.entityPayload.attributes.slug}: ${cutoff > today}`
+          )
           return cutoff > today
-        }
+        },
       },
     },
   })
 }
 
-export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({ actions: { createTypes } }) => {
-  createTypes(`
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
+  ({ actions: { createTypes } }) => {
+    createTypes(`
     type DatoCmsEvent implements Node {
       isUpcoming: Boolean!
     }
   `)
-}
+  }

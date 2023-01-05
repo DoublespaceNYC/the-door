@@ -1,8 +1,7 @@
-import fetch from 'node-fetch'
 import { schedule } from '@netlify/functions'
+import fetch from 'node-fetch'
 
-const buildHookUrl =
-  `https://api.netlify.com/build_hooks/${process.env.BUILD_HOOK_NIGHTLY}`
+const buildHookUrl = `https://api.netlify.com/build_hooks/${process.env.BUILD_HOOK_NIGHTLY}`
 
 export const handler = schedule('0 8 * * *', async () => {
   try {
@@ -11,12 +10,12 @@ export const handler = schedule('0 8 * * *', async () => {
       console.log('Build hook response:', response)
     }
     return {
-      statusCode: 200
+      statusCode: 200,
     }
   } catch (error) {
     console.log('Build hook error:', error)
     return {
-      statusCode: 500
+      statusCode: 500,
     }
   }
 })

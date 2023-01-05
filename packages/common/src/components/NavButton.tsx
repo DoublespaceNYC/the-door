@@ -71,7 +71,7 @@ const NavButton = ({
       display: ${modal ? 'block' : 'none'};
       position: absolute;
       right: 0;
-      bottom: calc(0.75rem + 1px);
+      bottom: 0.75rem;
       color: ${textColor};
       font-size: var(--fs-15);
       padding: 1.5rem 1rem 0.75rem;

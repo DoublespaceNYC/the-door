@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { ChangeEvent, useCallback, useEffect, useId, useState } from 'react'
 
+import { useElementHeight } from '../hooks/useElementRect'
 import { inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
 import { IFieldStyles } from './Form'
@@ -98,13 +99,16 @@ const TextField = ({
 
   const uniqueId = useId()
 
+  const [labelRef, setLabelRef] = useState<HTMLElement | null>(null)
+  const labelHeight = useElementHeight(labelRef)
+
   const styles = {
     container: css`
       ${inputWidth(width)}
-      ${fieldType === 'zip' &&
-      css`
-        min-width: 15ch;
-      `}
+    `,
+    input: css`
+      min-height: max(3.333em, 2em + ${labelHeight}px);
+      transition: min-height 150ms ease;
     `,
   }
   return (
@@ -116,12 +120,13 @@ const TextField = ({
           shrink && fieldStyles.shrink,
           required && fieldStyles.required,
         ]}
+        ref={node => setLabelRef(node)}
       >
         {label}
       </label>
-      <div css={fieldStyles.inputBase}>
+      <div css={[fieldStyles.inputBase]}>
         <input
-          css={[fieldStyles.input]}
+          css={[fieldStyles.input, styles.input]}
           value={value}
           name={name}
           id={name + uniqueId}

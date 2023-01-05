@@ -12,7 +12,10 @@ import PageContent, {
 import PageHero from '@the-door/common/src/components/PageHero'
 import PageIntro from '@the-door/common/src/components/PageIntro'
 import PageNav from '@the-door/common/src/components/PageNav'
-import { ILocale } from '@the-door/common/src/components/PageNav__Language'
+import {
+  ILocale,
+  ISlugLocale,
+} from '@the-door/common/src/components/PageNav__Language'
 import { renderDescription } from '@the-door/common/src/utils'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
@@ -23,7 +26,7 @@ import { colors } from '../theme/variables'
 
 interface DataProps {
   page: {
-    locals: ILocale[]
+    _allSlugLocales: ISlugLocale[]
     title: string
     heroImage: IGatsbyImageFocused
     intro: {
@@ -49,9 +52,11 @@ const MembershipPage = ({
       formHeading,
       form,
       layoutOptions,
+      _allSlugLocales,
     },
   },
-}: PageProps<DataProps>): JSX.Element => {
+  pageContext: { locale },
+}: PageProps<DataProps, { locale: ILocale }>): JSX.Element => {
   const anchorLinks = [
     ...join.map(block => block.anchorLink[0]),
     formAnchorLink[0],
@@ -78,7 +83,11 @@ const MembershipPage = ({
         title={title}
         image={heroImage}
       />
-      <PageNav links={anchorLinks} />
+      <PageNav
+        links={anchorLinks}
+        currentLocale={locale}
+        slugLocales={_allSlugLocales}
+      />
       <PageIntro intro={intro} />
       <PageContent
         pageContent={join}
@@ -117,7 +126,10 @@ export const Head = ({
 export const data = graphql`
   query ($locale: String!) {
     page: datoCmsMembershipPage {
-      locales
+      _allSlugLocales {
+        locale
+        value
+      }
       title(locale: $locale)
       heroImage {
         gatsbyImageData(

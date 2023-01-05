@@ -436,6 +436,10 @@ const Form = ({
           background-color: ${highlightColor || colors.highlight};
         }
       `}
+      ${formFields.length === 1 &&
+      css`
+        flex-basis: auto !important;
+      `}
     `,
     inputBase: css`
       background-color: ${colors.fill};
@@ -467,12 +471,9 @@ const Form = ({
       top: 1.5835em;
       left: 1em;
       color: ${colors.label};
-      max-width: 100%;
+      max-width: calc(100% - 2em);
       line-height: 1.333;
       padding-right: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       transform: translate3d(0, -0.5em, 0);
       transition: transform 200ms ease;
       transform-origin: 0 0;
@@ -482,6 +483,10 @@ const Form = ({
     shrink: css`
       transform: translate3d(0, -1.25em, 0) scale3d(0.75, 0.75, 1);
       font-weight: 500;
+      max-width: calc(133.333% - 2.667em);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       div:focus-within > & {
         color: ${textHighlight};
       }
@@ -503,7 +508,7 @@ const Form = ({
       align-items: center;
       justify-content: center;
       border-radius: 0.25em;
-      /* background-color: ${colors.fill && darken(0.1, colors.fill)}; */
+      background-color: ${colors.fill && darken(0.1, colors.fill)};
       border: 2px solid;
       border-color: ${colors.border || 'transparent'};
       box-sizing: border-box;

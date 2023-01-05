@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react'
 
+import { useElementHeight } from '../hooks/useElementRect'
 import { inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
 import DropdownArrow from './DropdownArrow'
@@ -97,6 +98,14 @@ const SelectField = ({
 
   const uniqueId = useId()
 
+  const [labelRef, setLabelRef] = useState<HTMLElement | null>(null)
+  const labelHeight = useElementHeight(labelRef)
+
+  const [activeOptionRef, setActiveOptionRef] = useState<HTMLElement | null>(
+    null
+  )
+  const activeOptionHeight = useElementHeight(activeOptionRef)
+
   const styles = {
     container: css`
       ${inputWidth(width)}
@@ -104,6 +113,12 @@ const SelectField = ({
     select: css`
       appearance: none;
       color: transparent;
+      min-height: max(
+        3.333em,
+        2em + ${labelHeight || 0}px,
+        ${activeOptionHeight || 0}px
+      );
+      transition: min-height 150ms ease;
     `,
     inputValue: css`
       position: absolute;
@@ -134,6 +149,7 @@ const SelectField = ({
           shrink && fieldStyles.shrink,
           required && fieldStyles.required,
         ]}
+        ref={node => setLabelRef(node)}
       >
         {label}
       </label>
@@ -142,6 +158,7 @@ const SelectField = ({
         <div
           css={[fieldStyles.input, styles.inputValue]}
           aria-hidden
+          ref={node => setActiveOptionRef(node)}
         >
           {activeOptionLabel}
         </div>

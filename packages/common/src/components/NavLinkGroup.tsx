@@ -207,6 +207,7 @@ const NavLinkGroup = ({
       padding: 0.25em;
       box-sizing: content-box;
       position: absolute;
+      z-index: 10;
       top: 0.75em;
       right: 0.75em;
       color: ${mix(0.5, '#fff', theme.primaryDark)};
@@ -249,10 +250,12 @@ const NavLinkGroup = ({
         font-size: var(--fs-108);
         margin: -0.125em 0 0.25em;
         line-height: 1;
+        z-index: 1;
       }
       p {
         position: relative;
         line-height: 1.5;
+        z-index: 1;
       }
       ${mq().s} {
         grid-row: auto;
@@ -267,6 +270,7 @@ const NavLinkGroup = ({
     image: css`
       ${absoluteFill}
       opacity: ${open ? 1 : 0};
+      z-index: 0;
       transition: opacity 500ms ease 100ms;
       > div[data-gatsby-image-wrapper] {
         height: 100%;

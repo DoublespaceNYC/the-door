@@ -22,7 +22,7 @@ const DropdownArrow = ({ open, ...props }: Props): JSX.Element => {
       11.8% 3.6%
     );
     background-color: currentColor;
-    transition: clip-path 150ms ease, color 200ms ease;
+    transition: clip-path 150ms ease;
     ${open &&
     css`
       clip-path: polygon(

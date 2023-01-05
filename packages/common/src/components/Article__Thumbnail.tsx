@@ -33,7 +33,7 @@ const ArticleThumbnail = ({
   const theme = useTheme() as ITheme
 
   const readableHighlight = useReadableColor(
-    highlightColor || theme.quaternary,
+    highlightColor || theme.quaternaryDark,
     carousel ? theme.gray95 : '#fff',
     3
   )

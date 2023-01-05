@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react'
 
+import { useElementHeight } from '../hooks/useElementRect'
 import { absoluteFill, inputWidth } from '../theme/mixins'
 import { toSlug } from '../utils'
 import { IFieldStyles } from './Form'
@@ -63,6 +64,9 @@ const MultilineTextField = ({
 
   const uniqueId = useId()
 
+  const [labelRef, setLabelRef] = useState<HTMLElement | null>(null)
+  const labelHeight = useElementHeight(labelRef)
+
   const styles = {
     container: css`
       ${inputWidth(width)}
@@ -70,9 +74,11 @@ const MultilineTextField = ({
     sizer: css`
       display: block;
       visibility: hidden;
-      min-height: 9em;
+      /* min-height: 9em; */
       padding-top: 1.75em;
       padding-bottom: 1.5em;
+      min-height: max(9em, 3.25em + ${labelHeight}px);
+      transition: min-height 150ms ease;
     `,
     textArea: css`
       ${absoluteFill}
@@ -93,6 +99,7 @@ const MultilineTextField = ({
           shrink && fieldStyles.shrink,
           required && fieldStyles.required,
         ]}
+        ref={node => setLabelRef(node)}
       >
         {label}
       </label>
