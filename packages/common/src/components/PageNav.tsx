@@ -8,15 +8,21 @@ import AnchorLink, { IAnchorLink } from './AnchorLink'
 import DatoLink, { IDatoLink } from './DatoLink'
 import DropdownArrow from './DropdownArrow'
 import { ITheme } from './Layout'
-import PageNavLanguage, { ILocale } from './PageNav__Language'
+import PageNavLanguage, { ILocale, ISlugLocale } from './PageNav__Language'
 
 type Props = {
   links: IAnchorLink[]
   button?: IDatoLink
-  locales?: ILocale[]
+  currentLocale?: ILocale
+  slugLocales?: ISlugLocale[]
 }
 
-const PageNav = ({ links, button, locales }: Props): JSX.Element => {
+const PageNav = ({
+  links,
+  button,
+  currentLocale,
+  slugLocales,
+}: Props): JSX.Element => {
   const [navWrapRef, setNavWrapRef] = useState<HTMLDivElement | null>(null)
   const [navRef, setNavRef] = useState<HTMLElement | null>(null)
 
@@ -42,19 +48,24 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
     }
   }, [handleOutsideClick])
 
+  const showLanguage = slugLocales && slugLocales.length > 1 && currentLocale
+
   const theme = useTheme() as ITheme
 
   const styles = {
     navWrap: css`
       margin: 0 var(--margin);
-      width: calc(100vw - 2 * var(--margin));
+      width: fit-content;
+      max-width: calc(100vw - 2 * var(--margin));
       height: ${condensed && '0px'};
-      overflow: hidden;
+      /* overflow: hidden; */
+      display: flex;
+      justify-content: flex-start;
       box-sizing: border-box;
+      background: ${theme.gray95};
     `,
     nav: css`
       width: max-content;
-      background: ${theme.gray95};
       font-size: var(--fs-30);
       font-family: var(--display-font);
       display: flex;
@@ -64,6 +75,10 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
         font-size: var(--fs-24);
         padding: 0 max((var(--gtr-m) - 0.333em), 0.333em);
       }
+      ${showLanguage &&
+      css`
+        padding-left: 0.5em;
+      `}
       a,
       button {
         flex: none;
@@ -104,7 +119,7 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
     `,
     divider: css`
       width: 3px;
-      margin: 0 0.5em;
+      /* margin: 0 0.5em; */
       justify-self: stretch;
       background: ${theme.gray92};
       ${condensed &&
@@ -170,7 +185,9 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
       `}
     `,
     arrow: css`
-      margin-left: 0.333em;
+      font-size: 50%;
+      transform: translateY(-33%);
+      margin-left: 0.5em;
     `,
   }
   const NavContent = () => (
@@ -194,13 +211,17 @@ const PageNav = ({ links, button, locales }: Props): JSX.Element => {
         ref={node => setNavWrapRef(node)}
         aria-hidden={condensed}
       >
+        {showLanguage && (
+          <PageNavLanguage
+            currentLocale={currentLocale}
+            slugLocales={slugLocales}
+          />
+        )}
+        {links.length > 0 && showLanguage && <div css={styles.divider} />}
         <nav
           css={[styles.nav, styles.horizontalNav]}
           ref={node => setNavRef(node)}
         >
-          {locales && locales.length > 1 && (
-            <PageNavLanguage locales={locales} />
-          )}
           {button && (
             <DatoLink
               data={button}
