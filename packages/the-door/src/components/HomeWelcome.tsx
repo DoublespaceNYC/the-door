@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import AnimateIn from '@the-door/common/src/components/AnimateIn'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
@@ -164,8 +165,13 @@ const HomeWelcome = ({
           css={styles.decoration(i)}
         />
       ))}
-      <h2 css={styles.heading}>{heading}</h2>
-      <div css={styles.body}>
+      <AnimateIn
+        as="h2"
+        css={styles.heading}
+      >
+        {heading}
+      </AnimateIn>
+      <AnimateIn css={styles.body}>
         <StructuredText data={body.value} />
         <div css={styles.links}>
           {links.map((link, i) => (
@@ -177,7 +183,7 @@ const HomeWelcome = ({
             />
           ))}
         </div>
-      </div>
+      </AnimateIn>
       <GatsbyImageFocused
         css={styles.image}
         gatsbyImageCss={styles.imageInner}

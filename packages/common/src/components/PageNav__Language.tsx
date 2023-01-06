@@ -2,10 +2,7 @@ import { css, useTheme } from '@emotion/react'
 import { Link } from 'gatsby'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { HiOutlineGlobe } from 'react-icons/hi'
-import { SlGlobe } from 'react-icons/sl'
 
-import { mq } from '../theme/mixins'
-import { toSlug } from '../utils'
 import DropdownArrow from './DropdownArrow'
 import { ITheme } from './Layout'
 
@@ -51,16 +48,17 @@ const PageNavLanguage = ({
 
   const styles = {
     container: css`
-      font-size: var(--fs-30);
-      font-family: var(--display-font);
       display: flex;
+      flex: none;
       box-sizing: border-box;
       position: relative;
       width: fit-content;
       padding: 0;
-      z-index: 2;
-      ${mq().ms} {
-        font-size: var(--fs-24);
+      z-index: 3;
+      > button {
+        transition: color 300ms ease;
+        padding: 0.667em 0.667em 0.667em 0.75em;
+        background: ${theme.gray95};
       }
       button,
       a {
@@ -71,7 +69,7 @@ const PageNavLanguage = ({
         line-height: 1;
         position: relative;
         text-align: left;
-        z-index: 2;
+        z-index: 3;
         box-sizing: border-box;
         color: ${theme.gray50};
         @media (hover: hover) {
@@ -79,10 +77,6 @@ const PageNavLanguage = ({
             color: ${theme.primary};
           }
         }
-      }
-      > button {
-        transition: color 300ms ease;
-        padding: 0 0.75em;
       }
       nav {
         position: absolute;

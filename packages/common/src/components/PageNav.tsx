@@ -1,13 +1,14 @@
 import { css } from '@emotion/react'
 import { useTheme } from '@emotion/react'
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useElementWidth } from '../hooks/useElementRect'
 import { mq } from '../theme/mixins'
-import AnchorLink, { IAnchorLink } from './AnchorLink'
+import { IAnchorLink } from './AnchorLink'
 import DatoLink, { IDatoLink } from './DatoLink'
 import DropdownArrow from './DropdownArrow'
 import { ITheme } from './Layout'
+import PageNavContent from './PageNav__Content'
 import PageNavLanguage, { ILocale, ISlugLocale } from './PageNav__Language'
 
 type Props = {
@@ -23,7 +24,7 @@ const PageNav = ({
   currentLocale,
   slugLocales,
 }: Props): JSX.Element => {
-  const [navWrapRef, setNavWrapRef] = useState<HTMLDivElement | null>(null)
+  const [navWrapRef, setNavWrapRef] = useState<HTMLElement | null>(null)
   const [navRef, setNavRef] = useState<HTMLElement | null>(null)
 
   const navWrapWidth = useElementWidth(navWrapRef) || 0
@@ -53,45 +54,54 @@ const PageNav = ({
   const theme = useTheme() as ITheme
 
   const styles = {
-    navWrap: css`
+    container: css`
       margin: 0 var(--margin);
-      width: fit-content;
+      width: 100%;
       max-width: calc(100vw - 2 * var(--margin));
-      height: ${condensed && '0px'};
-      /* overflow: hidden; */
       display: flex;
       justify-content: flex-start;
       box-sizing: border-box;
-      background: ${theme.gray95};
-    `,
-    nav: css`
-      width: max-content;
       font-size: var(--fs-30);
       font-family: var(--display-font);
-      display: flex;
-      padding: 0 max((var(--gtr-m) - 0.5em), 0.5em);
-      box-sizing: border-box;
       ${mq().ms} {
         font-size: var(--fs-24);
-        padding: 0 max((var(--gtr-m) - 0.333em), 0.333em);
       }
-      ${showLanguage &&
-      css`
-        padding-left: 0.5em;
-      `}
       a,
       button {
         flex: none;
         text-decoration: none;
         display: block;
         line-height: 1;
-        padding: 0.7em 0.5em;
+        padding: 0.667em 0.5em;
         ${mq().ms} {
           padding: 0.667em 0.333em;
         }
       }
     `,
+    navWrap: css`
+      display: grid;
+    `,
     horizontalNav: css`
+      grid-area: 1 / 1 / 2 / 2;
+      flex: 1;
+      overflow: hidden;
+      > div {
+        display: flex;
+        flex: 0;
+        width: max-content;
+        box-sizing: border-box;
+        padding: 0 max((var(--gtr-m) - 0.5em), 0.5em);
+        ${mq().ms} {
+          padding: 0 max((var(--gtr-m) - 0.333em), 0.333em);
+        }
+        ${(showLanguage || button) &&
+        css`
+          padding-left: 0.5em;
+          ${mq().ms} {
+            padding-left: 0.333em;
+          }
+        `}
+      }
       ${condensed &&
       css`
         visibility: hidden;
@@ -106,59 +116,16 @@ const PageNav = ({
         }
       }
     `,
-    button: css`
-      && {
-        flex: 1;
-        color: ${theme.tertiary};
-        @media (hover: hover) {
-          &:hover {
-            color: ${theme.tertiaryDark};
-          }
-        }
-      }
-    `,
-    divider: css`
-      width: 3px;
-      /* margin: 0 0.5em; */
-      justify-self: stretch;
-      background: ${theme.gray92};
-      ${condensed &&
-      css`
-        margin: 0;
-      `}
-    `,
     dropdownNav: css`
+      grid-area: 1 / 1 / 2 / 2;
       position: relative;
-      background: ${theme.gray95};
       width: fit-content;
-      margin: 0 var(--margin);
-      padding: 0 !important;
       z-index: 3;
-      nav {
-        position: absolute;
-        z-index: 1;
-        box-sizing: border-box;
-        bottom: 0;
-        left: 0;
-        opacity: 0;
-        pointer-events: none;
-        display: flex;
-        flex-direction: column;
-        padding: 0.5em 0;
-        min-width: 100%;
-        background: ${theme.gray92};
-        transform: translate3d(0, calc(100% - 3rem), 0);
-        transition: opacity 300ms ease, transform 300ms ease;
-        a {
-          width: max-content;
-          min-width: 100%;
-          max-width: calc(100vw - var(--margin) * 2);
-          box-sizing: border-box;
-        }
-      }
-      button {
+      min-height: 100%;
+      > button {
+        min-height: 100%;
         background: ${theme.gray95};
-        transition: color 300ms ease;
+        color: ${dropdownOpen && theme.secondaryDark};
       }
       button,
       a {
@@ -172,98 +139,127 @@ const PageNav = ({
           }
         }
       }
-      ${dropdownOpen &&
-      css`
-        nav {
+      > div {
+        position: absolute;
+        z-index: 1;
+        box-sizing: border-box;
+        bottom: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        padding: 0.5em 0;
+        width: 100%;
+        background: ${theme.gray92};
+        transform: translate3d(0, calc(100% - 3rem), 0);
+        transition: opacity 300ms ease, transform 300ms ease;
+        a {
+          width: 100%;
+          padding-top: 0.5em;
+          padding-bottom: 0.5em;
+          box-sizing: border-box;
+        }
+        ${dropdownOpen &&
+        css`
           opacity: 1;
           pointer-events: all;
           transform: translate3d(0, 100%, 0);
-        }
-        > button {
-          color: ${theme.secondaryDark};
-        }
-      `}
+        `}
+      }
     `,
     arrow: css`
       font-size: 50%;
       transform: translateY(-33%);
       margin-left: 0.5em;
     `,
+    ctaButton: css`
+      && {
+        min-height: 100%;
+        color: ${theme.tertiary};
+        background: ${theme.gray95};
+        @media (hover: hover) {
+          &:hover {
+            color: ${theme.tertiaryDark};
+          }
+        }
+        padding: 0.667em max(var(--gtr-m), 1em);
+        ${links.length > 0 &&
+        css`
+          padding-right: 1em;
+        `}
+        ${showLanguage &&
+        css`
+          padding-left: 1em;
+          ${mq().ms} {
+            padding-left: 0.667em;
+          }
+        `}
+      }
+    `,
+    divider: css`
+      width: 3px;
+      justify-self: stretch;
+      background: ${theme.gray92};
+      ${condensed &&
+      css`
+        margin: 0;
+      `}
+    `,
   }
-  const NavContent = () => (
-    <Fragment>
-      {links.map((link, i) => (
-        <AnchorLink
-          id={link.linkText}
-          key={i}
-          css={styles.anchorLink}
-          onClick={() => setDropdownOpen(false)}
-        >
-          {link.linkText}
-        </AnchorLink>
-      ))}
-    </Fragment>
-  )
+
   return (
-    <Fragment>
-      <div
-        css={styles.navWrap}
-        ref={node => setNavWrapRef(node)}
-        aria-hidden={condensed}
-      >
-        {showLanguage && (
-          <PageNavLanguage
-            currentLocale={currentLocale}
-            slugLocales={slugLocales}
-          />
-        )}
-        {links.length > 0 && showLanguage && <div css={styles.divider} />}
+    <div
+      css={styles.container}
+      aria-hidden={condensed}
+    >
+      {showLanguage && (
+        <PageNavLanguage
+          currentLocale={currentLocale}
+          slugLocales={slugLocales}
+        />
+      )}
+      {(button || links.length > 0) && showLanguage && (
+        <div css={styles.divider} />
+      )}
+      {button && (
+        <DatoLink
+          data={button}
+          css={styles.ctaButton}
+        />
+      )}
+      {links.length > 0 && button && <div css={styles.divider} />}
+      <div css={styles.navWrap}>
         <nav
-          css={[styles.nav, styles.horizontalNav]}
-          ref={node => setNavRef(node)}
+          css={styles.horizontalNav}
+          ref={node => setNavWrapRef(node)}
+          aria-hidden={condensed}
         >
-          {button && (
-            <DatoLink
-              data={button}
-              css={styles.button}
-            />
-          )}
-          {links.length > 0 && button && <div css={styles.divider} />}
-          <NavContent />
+          <PageNavContent
+            links={links}
+            ref={node => setNavRef(node)}
+          />
         </nav>
-      </div>
-      {condensed && (
-        <Fragment>
-          <div
-            css={[styles.nav, styles.dropdownNav]}
+        {condensed && (
+          <nav
+            css={styles.dropdownNav}
             ref={condensedRef}
           >
-            <div css={{ position: 'relative' }}>
-              <button
-                onClick={() => setDropdownOpen(prev => !prev)}
-                aria-label="toggle anchor navigation dropdown"
-              >
-                Jump to section
-                <DropdownArrow
-                  css={styles.arrow}
-                  open={dropdownOpen}
-                />
-              </button>
-              <nav>
-                <NavContent />
-              </nav>
-            </div>
-            {links.length > 0 && button && <div css={styles.divider} />}
-            {button && (
-              <DatoLink
-                data={button}
-                css={styles.button}
+            <button
+              onClick={() => setDropdownOpen(prev => !prev)}
+              aria-label="toggle anchor navigation dropdown"
+            >
+              Jump to section
+              <DropdownArrow
+                css={styles.arrow}
+                open={dropdownOpen}
               />
-            )}
-          </div>
-        </Fragment>
-      )}
-    </Fragment>
+            </button>
+            <PageNavContent links={links} />
+          </nav>
+        )}
+      </div>
+    </div>
   )
 }
 

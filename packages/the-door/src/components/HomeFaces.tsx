@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import AnimateIn from '@the-door/common/src/components/AnimateIn'
 import { IFacesStory } from '@the-door/common/src/components/Faces__Story'
 import ScrollSlider from '@the-door/common/src/components/ScrollSlider'
 import {
@@ -112,10 +113,15 @@ const HomeFaces = ({ heading, body }: Props): JSX.Element => {
     <section css={styles.section}>
       <div css={styles.decoOne} />
       <div css={styles.decoTwo} />
-      <h2 css={styles.heading}>{heading}</h2>
-      <div css={styles.body}>
+      <AnimateIn
+        as="h2"
+        css={styles.heading}
+      >
+        {heading}
+      </AnimateIn>
+      <AnimateIn css={styles.body}>
         <StructuredText data={body.value} />
-      </div>
+      </AnimateIn>
       <ScrollSlider
         snap
         navStyle="overlay"

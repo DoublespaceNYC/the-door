@@ -1,16 +1,12 @@
 import '../fonts/_font-face.css'
 
 import { Global, css } from '@emotion/react'
-import { useTheme } from '@emotion/react'
 import emotionNormalize from 'emotion-normalize'
 
-import { ITheme } from '../components/Layout'
 import { useWindowHeight } from '../hooks/useWindowDimensions'
 import { mq } from './mixins'
 
 const GlobalStyles = () => {
-  const theme = useTheme() as ITheme
-
   const windowHeight = useWindowHeight()
 
   const globalStyles = css`

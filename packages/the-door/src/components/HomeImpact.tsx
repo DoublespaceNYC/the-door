@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import AnimateIn from '@the-door/common/src/components/AnimateIn'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
@@ -61,8 +62,8 @@ const HomeImpact = ({
     `,
     link: css`
       grid-column: 2 / -2;
+      display: inline-block;
       position: relative;
-      justify-self: center;
       ${linkStyle}
       color: #fff;
       margin: 0.5em 0 3em;
@@ -86,10 +87,11 @@ const HomeImpact = ({
       }
     `,
     stat: (length: number) => css`
-      display: contents;
       font-size: 10vw;
       line-height: 1;
-      > span {
+      margin: 0;
+      span {
+        display: block;
         &:nth-of-type(1) {
           grid-row: 1 / 2;
           margin-top: 0.125em;
@@ -190,23 +192,30 @@ const HomeImpact = ({
     <section css={styles.section}>
       <div css={styles.decoOne} />
       <div css={styles.decoTwo} />
-      <h2 css={styles.heading}>{heading}</h2>
-      <div css={styles.body}>
+      <AnimateIn
+        as="h2"
+        css={styles.heading}
+      >
+        {heading}
+      </AnimateIn>
+      <AnimateIn css={styles.body}>
         <StructuredText data={body.value} />
-      </div>
-      <DatoLink
-        css={styles.link}
-        data={link}
-      />
+        <DatoLink
+          css={styles.link}
+          data={link}
+        />
+      </AnimateIn>
       <div css={styles.stats}>
         {stats.map((stat, i) => (
-          <h3
+          <AnimateIn
+            as="h3"
+            delay={i * 200 + 100}
             key={i}
             css={styles.stat(stat.number.length)}
           >
             <span>{stat.number}</span>
             <span>{stat.text}</span>
-          </h3>
+          </AnimateIn>
         ))}
       </div>
       <div css={styles.cta}>

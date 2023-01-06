@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import AnimateIn from '@the-door/common/src/components/AnimateIn'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
@@ -157,16 +158,21 @@ const HomeServices = ({
     <section css={styles.section}>
       <div css={styles.decoration} />
       <div css={styles.circle} />
-      <h2 css={styles.heading}>{heading}</h2>
-      <div css={styles.body}>
+      <AnimateIn
+        as="h2"
+        css={styles.heading}
+      >
+        {heading}
+      </AnimateIn>
+      <AnimateIn css={styles.body}>
         <StructuredText data={body.value} />
-      </div>
+      </AnimateIn>
       <ServicesModule
         css={styles.services}
         bgColor={colors.teal}
       />
       <section css={styles.bsaSection}>
-        <div css={styles.bsaText}>
+        <AnimateIn css={styles.bsaText}>
           <h3 css={styles.bsaHeading}>{bsaHeading}</h3>
           <div css={styles.bsaBody}>
             <StructuredText data={bsaBody.value} />
@@ -176,7 +182,7 @@ const HomeServices = ({
             data={bsaLink}
             css={[styles.link, styles.bsaLink]}
           />
-        </div>
+        </AnimateIn>
         <GatsbyImageFocused
           gatsbyImageCss={styles.bsaImage}
           image={bsaImage.gatsbyImageData}

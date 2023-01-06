@@ -1,11 +1,14 @@
 import { css } from '@emotion/react'
+import AnimateIn from '@the-door/common/src/components/AnimateIn'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
 import VideoStreamPlayer from '@the-door/common/src/components/VideoStreamPlayer'
 import {
   absoluteFill,
+  animateIn,
   baseGrid,
+  bezier,
   mq,
 } from '@the-door/common/src/theme/mixins'
 import { Fragment } from 'react'
@@ -46,11 +49,25 @@ const HomeHero = ({
       padding: calc(var(--row-ll) * 2) 0 var(--row-ll);
       box-sizing: border-box;
       color: ${colors.navy};
+      background: ${colors.navyDark};
+    `,
+    video: css`
+      ${absoluteFill}
+      height: calc(100% + 2px);
+      top: -1px;
+      bottom: -1px;
+      object-fit: cover;
+      opacity: 0;
+      animation: ${animateIn} 1000ms ${bezier.easeOut} forwards 300ms;
+    `,
+    text: css`
+      grid-column: 3 / -3;
+      justify-self: flex-start;
+      ${mq().m} {
+        grid-column: 2 / -2;
+      }
       h1,
       h2 {
-        grid-column: 3 / -3;
-        position: relative;
-        justify-self: flex-start;
         line-height: 1.125;
         margin-left: var(--gtr-m);
         > span {
@@ -74,12 +91,8 @@ const HomeHero = ({
             z-index: 0;
           }
         }
-        ${mq().m} {
-          grid-column: 2 / -2;
-        }
       }
       h1 {
-        align-self: flex-end;
         font-size: var(--fs-108);
         margin-top: 0;
         margin-bottom: 0.167em;
@@ -87,7 +100,7 @@ const HomeHero = ({
       }
       h2 {
         font-size: var(--fs-24);
-        margin-top: 0;
+        margin-top: 0.667em;
         margin-bottom: 0;
         text-transform: uppercase;
         letter-spacing: 0.025em;
@@ -97,17 +110,10 @@ const HomeHero = ({
         }
       }
     `,
-    video: css`
-      ${absoluteFill}
-      height: calc(100% + 2px);
-      top: -1px;
-      bottom: -1px;
-      object-fit: cover;
-    `,
     link: css`
       text-underline-offset: 3px;
       text-decoration-thickness: 2px;
-      margin-left: 0.25em;
+      /* margin-left: 0.25em; */
       color: inherit;
       &:hover {
         color: ${colors.navy};
@@ -131,28 +137,34 @@ const HomeHero = ({
         loop
         playing={videoInView}
       />
-      <h1>
-        {heading.split(/[\s]/).map((word, i) => (
-          <Fragment key={i}>
-            <span>
-              <span>{word}</span>
-            </span>{' '}
-          </Fragment>
-        ))}
-      </h1>
-      <h2>
-        <span>
-          <span>{ctaText}</span>
-        </span>{' '}
-        <span>
+      <AnimateIn
+        css={styles.text}
+        delay={300}
+      >
+        <h1>
+          {heading.split(/[\s]/).map((word, i) => (
+            <Fragment key={i}>
+              <span>
+                <span>{word}</span>
+              </span>{' '}
+            </Fragment>
+          ))}
+        </h1>
+        <h2>
           <span>
-            <DatoLink
-              data={ctaLink}
-              css={styles.link}
-            />
+            <span>{ctaText}</span>
           </span>
-        </span>
-      </h2>
+          &#8194;
+          <span>
+            <span>
+              <DatoLink
+                data={ctaLink}
+                css={styles.link}
+              />
+            </span>
+          </span>
+        </h2>
+      </AnimateIn>
     </section>
   )
 }
