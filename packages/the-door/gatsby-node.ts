@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 
-import type { GatsbyNode } from 'gatsby'
+import { GatsbyNode, graphql } from 'gatsby'
 
 export const createPages: GatsbyNode['createPages'] = async ({
   actions,
@@ -319,31 +319,40 @@ export const createPages: GatsbyNode['createPages'] = async ({
   })
 }
 
-export const createResolvers: GatsbyNode['createResolvers'] = ({
+export const createResolvers: GatsbyNode['createResolvers'] = async ({
   createResolvers,
 }) => {
-  const convertTZ = (date: Date, tzString: string) => {
-    return new Date(
-      (typeof date === 'string' ? new Date(date) : date).toLocaleString(
-        'en-US',
-        { timeZone: tzString }
-      )
-    )
-  }
-  const newDate = new Date()
-  const today = convertTZ(newDate, 'America/New_York')
-  today.setHours(0, 0, 0, 0)
+  // const convertTZ = (date: Date, tzString: string) => {
+  //   return new Date(
+  //     (typeof date === 'string' ? new Date(date) : date).toLocaleString(
+  //       'en-US',
+  //       { timeZone: tzString }
+  //     )
+  //   )
+  // }
+  // const newDate = new Date()
+  // const today = convertTZ(newDate, 'America/New_York')
+  // today.setHours(0, 0, 0, 0)
+
+  //     "siteBuildMetadata": {
+  //   "buildTime": "2023-01-09T18:58:13.000Z"
+  // }
 
   createResolvers({
     DatoCmsEvent: {
       isUpcoming: {
         type: `Boolean!`,
         resolve: async (source, args, context, info) => {
+          const { buildTime } = await context.nodeModel.findOne({
+            type: `SiteBuildMetadata`,
+          })
+          const today = new Date(buildTime)
+          today.setHours(0, 0, 0, 0)
           const { start_date_time, end_date_time } =
             source.entityPayload.attributes
           const cutoff = new Date(end_date_time || start_date_time)
           console.log(
-            `${source.entityPayload.attributes.slug}: ${cutoff > today}`
+            `${source.entityPayload.attributes.slug}: ${cutoff} > ${today}? ${cutoff > today}`
           )
           return cutoff > today
         },
