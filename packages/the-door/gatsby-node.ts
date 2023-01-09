@@ -347,7 +347,7 @@ export const createResolvers: GatsbyNode['createResolvers'] = async ({
             type: `SiteBuildMetadata`,
           })
           const today = new Date(buildTime)
-          today.setHours(0, 0, 0, 0)
+          today.setUTCHours(4, 0, 0, 0)
           const { start_date_time, end_date_time } =
             source.entityPayload.attributes
           const cutoff = new Date(end_date_time || start_date_time)
