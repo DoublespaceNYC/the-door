@@ -47,7 +47,7 @@ const HomeServices = ({
       );
       color: #fff;
       margin-top: -4rem;
-      &:before {
+      &::before {
         content: '';
         display: block;
         grid-column: 1 / -1;

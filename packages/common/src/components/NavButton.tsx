@@ -89,7 +89,7 @@ const NavButton = ({
           padding-right: 1.75rem;
         }
       }
-      &:before {
+      &::before {
         content: '';
         ${absoluteFill};
         background: ${color};

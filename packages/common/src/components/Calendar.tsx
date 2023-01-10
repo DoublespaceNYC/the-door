@@ -346,7 +346,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       &:last-of-type {
         border-bottom: 1px solid ${rgba('#444', 0.25)};
       }
-      &:before {
+      &::before {
         display: block;
         content: '';
         position: absolute;
@@ -362,7 +362,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       }
       @media (hover: hover) {
         &:hover {
-          &:before {
+          &::before {
             background: ${theme.gray92};
           }
         }

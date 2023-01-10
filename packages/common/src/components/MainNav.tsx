@@ -121,7 +121,7 @@ const MainNav = ({
       width: 100%;
       box-sizing: border-box;
       pointer-events: all;
-      &:before {
+      &::before {
         content: '';
         display: block;
         ${absoluteFill}
@@ -224,10 +224,8 @@ const MainNav = ({
     navLink: css`
       > span {
         padding: calc(0.125em + 2px) 0;
-        background: linear-gradient(currentColor, currentColor) no-repeat 0
-          calc(100% + 3px);
-        background-size: 100% 2px;
-        transition: background-position 100ms ease;
+        text-underline-offset: calc(0.333em + 1px);
+        text-decoration-thickness: 2px;
 
         /* Icon CSS */
         > span {
@@ -239,7 +237,7 @@ const MainNav = ({
       }
       @media (hover: hover) {
         &:hover > span {
-          background-position: 0 100%;
+          text-decoration-line: underline;
         }
       }
     `,

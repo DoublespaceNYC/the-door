@@ -144,7 +144,7 @@ const ContentBlock = ({
         --text-span: ${textSpan.ms};
         margin-bottom: var(--row-l);
       }
-      &:before {
+      &::before {
         content: '';
         display: block;
         grid-row: 1 / 3;
@@ -160,7 +160,7 @@ const ContentBlock = ({
       margin: 0 0 0.25em;
       padding-top: calc(0.375em + 3px);
       ${textGridCss}
-      &:before {
+      &::before {
         content: '';
         position: absolute;
         display: block;
@@ -176,7 +176,7 @@ const ContentBlock = ({
       }
       ${mq().ms} {
         width: fit-content;
-        &:before {
+        &::before {
           width: calc(100% + var(--margin));
           max-width: calc(100vw - 2 * var(--margin));
           left: 0;

@@ -80,7 +80,7 @@ const NavLinkGroup = ({
       ${open &&
       css`
         span {
-          background-position: 0 100%;
+          text-decoration-line: underline;
         }
       `}
     `,
@@ -158,7 +158,7 @@ const NavLinkGroup = ({
         display: inline-block;
         width: 100%;
         margin: 0.5em 0 1.5em;
-        &:before {
+        &::before {
           content: attr(aria-label);
           color: ${mix(0.5, '#fff', theme.primaryDark)};
           display: block;
@@ -185,14 +185,13 @@ const NavLinkGroup = ({
         text-decoration: none;
         line-height: 1.333;
         span {
-          background: linear-gradient(currentColor, currentColor) no-repeat;
-          background-position: 0 calc(100% + 3px);
-          background-size: 100% 2px;
-          transition: background-position 100ms ease;
+          text-underline-offset: 0.125em;
+          text-decoration-thickness: 2px;
+          text-decoration-skip-ink: auto;
         }
         @media (hover: hover) {
           &:hover > span {
-            background-position: 0 100%;
+            text-decoration-line: underline;
           }
         }
       }

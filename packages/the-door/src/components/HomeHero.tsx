@@ -78,7 +78,7 @@ const HomeHero = ({
             position: relative;
             z-index: 1;
           }
-          &:before {
+          &::before {
             content: '';
             position: absolute;
             background: #fff;
@@ -105,7 +105,7 @@ const HomeHero = ({
         text-transform: uppercase;
         letter-spacing: 0.025em;
         color: ${colors.pink};
-        > span:before {
+        > span::before {
           height: 2em;
         }
       }

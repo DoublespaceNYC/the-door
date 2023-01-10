@@ -62,20 +62,26 @@ const ServiceModuleGroup = ({
     imageWrap: css`
       ${absoluteFill}
       z-index: 0;
-      &:before {
+      &::before {
         content: '';
         ${absoluteFill};
         background: linear-gradient(to bottom, transparent, #000000);
         opacity: 0.75;
         z-index: 2;
         transition: opacity 750ms ease;
-        button:hover > &,
-        button:focus > &,
-        button:focus-within > & {
-          opacity: 1;
+        @media (hover: none) {
+          button:focus > &,
+          button:focus-within > & {
+            opacity: 1;
+          }
+        }
+        @media (hover: hover) {
+          button:hover > & {
+            opacity: 1;
+          }
         }
       }
-      &:after {
+      &::after {
         content: '';
         ${absoluteFill};
         background-color: ${bgColor};
@@ -83,20 +89,32 @@ const ServiceModuleGroup = ({
         mix-blend-mode: overlay;
         opacity: 0;
         transition: opacity 750ms ease;
-        button:hover > &,
-        button:focus > &,
-        button:focus-within > & {
-          opacity: 1;
+        @media (hover: none) {
+          button:focus > &,
+          button:focus-within > & {
+            opacity: 1;
+          }
+        }
+        @media (hover: hover) {
+          button:hover > & {
+            opacity: 1;
+          }
         }
       }
     `,
     image: css`
       ${absoluteFill}
       transition: filter 750ms ease;
-      button:hover > div > &,
-      button:focus > div > &,
-      button:focus-within > div > & {
-        filter: saturate(0) contrast(0.75);
+      @media (hover: none) {
+        button:focus > div > &,
+        button:focus-within > div > & {
+          filter: saturate(0) contrast(0.75);
+        }
+      }
+      @media (hover: hover) {
+        button:hover > div > & {
+          filter: saturate(0) contrast(0.75);
+        }
       }
     `,
     servicesList: css`
@@ -107,13 +125,23 @@ const ServiceModuleGroup = ({
       transition: all ${300 + Math.round(0.5 * listHeight)}ms ease-out;
       height: 0;
       margin: 0.5em 0 6rem;
-      button:hover > &,
-      button:focus > &,
-      button:focus-within > & {
-        height: ${listHeight}px;
-        margin-bottom: 1rem;
-        ${mq().m} {
-          margin-bottom: 0;
+      @media (hover: none) {
+        button:focus > &,
+        button:focus-within > & {
+          height: ${listHeight}px;
+          margin-bottom: 1rem;
+          ${mq().m} {
+            margin-bottom: 0;
+          }
+        }
+      }
+      @media (hover: hover) {
+        button:hover > & {
+          height: ${listHeight}px;
+          margin-bottom: 1rem;
+          ${mq().m} {
+            margin-bottom: 0;
+          }
         }
       }
     `,
@@ -134,14 +162,16 @@ const ServiceModuleGroup = ({
       margin: 0;
       padding: 0.5em 0;
       > span {
-        background: linear-gradient(#fff, #fff) no-repeat 0
-          calc(100% + 3px);
-        background-size: 100% 2px;
-        transition: background-position 100ms ease;
+        text-underline-offset: 0.125em;
+        text-decoration-thickness: 2px;
+        text-decoration-skip-ink: auto;
       }
-      &:hover > span {
-        background-position: 0 100%;
-        color: #fff;
+      @media (hover: hover) {
+        &:hover {
+          > span {
+            text-decoration-line: underline;
+          }
+        }
       }
     `,
   }

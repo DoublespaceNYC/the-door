@@ -76,7 +76,7 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
       text-decoration: none;
       margin: 0 0.167em;
       color: #fff;
-      &:after {
+      &::after {
         display: inline-block;
         content: ' ▶';
         font-size: 75%;

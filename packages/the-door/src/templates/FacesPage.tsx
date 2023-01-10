@@ -66,7 +66,7 @@ const FacesPage = ({
     story: (i: number) => css`
       ${baseGrid}
       padding-bottom: var(--row-s);
-      &:before {
+      &::before {
         display: block;
         content: '';
         ${absoluteFill}

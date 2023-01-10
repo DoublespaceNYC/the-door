@@ -64,14 +64,14 @@ const HomeLatest = ({
       ${mq().ms} {
         margin-top: 0;
       }
-      &:after {
+      &::after {
         content: '';
         ${absoluteFill};
         max-width: 87.5vw;
         background: linear-gradient(to bottom right, #fff, #dbeaf5);
         z-index: 0;
       }
-      &:before {
+      &::before {
         content: '';
         ${absoluteFill};
         grid-column: 1 / -1;
@@ -79,10 +79,10 @@ const HomeLatest = ({
         background: ${colors?.bg};
       }
       ${mq().ml} {
-        &:after {
+        &::after {
           max-width: 100%;
         }
-        &:before {
+        &::before {
           display: none;
         }
       }

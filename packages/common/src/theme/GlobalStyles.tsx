@@ -110,7 +110,7 @@ const GlobalStyles = () => {
         outline: none;
       }
     }
-    *:-webkit-autofill {
+    /* *:-webkit-autofill {
       &,
       &:hover,
       &:focus,
@@ -118,7 +118,7 @@ const GlobalStyles = () => {
         transition: all 0s 99999s;
         border-radius: 0;
       }
-    }
+    } */
 
     .gatsby-image-wrapper-constrained {
       width: 100%;

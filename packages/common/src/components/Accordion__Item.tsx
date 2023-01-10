@@ -85,8 +85,8 @@ const AccordionItem = ({
       transform: scale3d(0.999, 0.999, 1);
       transition: all 200ms ease;
       margin-right: var(--gtr-s);
-      &:before,
-      &:after {
+      &::before,
+      &::after {
         content: '';
         display: block;
         width: 100%;
@@ -97,12 +97,12 @@ const AccordionItem = ({
         left: 0%;
         transition: transform 400ms ease;
       }
-      &:before {
+      &::before {
         transform: ${open
           ? `rotate3d(0, 0, 1, 135deg)`
           : `rotate3d(0, 0, 0, 90deg)`};
       }
-      &:after {
+      &::after {
         transform: ${open
           ? `rotate3d(0, 0, 1, -135deg)`
           : `rotate3d(0, 0, 1, 90deg)`};

@@ -39,9 +39,12 @@ type IFormField =
 export interface IForm extends Record {
   __typename: 'DatoCmsForm'
   formName: string
+  formFields: IFormField[]
   submitButtonText: string
   successMessage: IStructuredText
-  formFields: IFormField[]
+  recipients: {
+    email: string
+  }[]
   conditionalFields: string | null
 }
 
@@ -80,6 +83,7 @@ const Form = ({
     successMessage,
     formFields,
     conditionalFields,
+    recipients,
   },
   formType = 'Netlify',
   listId,
@@ -228,12 +232,17 @@ const Form = ({
         }
       }
       if (formType === 'Netlify') {
-        const encode = (data: { [key: string]: string }) => {
+        const encode = (data: { [key: string]: string | null }) => {
           return Object.keys(data)
-            .map(
-              key =>
-                encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
-            )
+            .map(key => {
+              if (data[key] !== null) {
+                return (
+                  encodeURIComponent(key) +
+                  '=' +
+                  encodeURIComponent(data[key] as string)
+                )
+              }
+            })
             .join('&')
         }
         submitFunction({
@@ -245,6 +254,10 @@ const Form = ({
           body: encode({
             'form-name': formName,
             ...sanitizedData,
+            recipients:
+              recipients.length > 0
+                ? recipients.map(recipient => recipient.email).join(', ')
+                : null,
           }),
         })
       }
@@ -264,13 +277,13 @@ const Form = ({
     switch (theme) {
       case 'Dark':
         return {
-          fill: 'transparent',
-          border: '#ffffff88',
+          fill: metaTheme.primaryDark,
+          border: '#dddddd88',
           text: '#fff',
           label: '#ffffffaa',
           highlight: highlightColor || metaTheme.secondaryLight,
-          buttonFill: ['#fff', highlightColor || metaTheme.quaternary],
-          buttonText: [highlightColor || metaTheme.quaternary, '#fff'],
+          buttonFill: [highlightColor || metaTheme.quaternary, '#fff'],
+          buttonText: ['#fff', highlightColor || metaTheme.quaternary],
         }
       case 'Light':
         return {
@@ -354,11 +367,11 @@ const Form = ({
       justify-self: flex-start;
       box-sizing: border-box;
 
-      transition: all 300ms ease;
+      transition: all 200ms ease;
 
       form:invalid & {
         color: #ffffffcc;
-        background: #88888888;
+        background: ${theme === 'Dark' ? '#dddddd88' : '#88888888'};
       }
       form:not(:invalid) & {
         color: ${colors.buttonText[0]};
@@ -397,6 +410,16 @@ const Form = ({
       animation: ${animateIn} 300ms ease-out forwards;
       align-self: flex-start;
       color: ${colors.text};
+      ${theme === 'Light' &&
+      css`
+        background: ${colors.fill};
+        padding: 1em 1.5em 1.5em;
+        border-radius: 0.5em;
+      `}
+      h3 {
+        font-size: var(--fs-36);
+        margin: 0.5em 0;
+      }
       ${simpleSuccess &&
       css`
         display: flex;
@@ -426,7 +449,7 @@ const Form = ({
       flex: 1;
       ${!colors.border &&
       css`
-        &:after {
+        &::after {
           content: '';
           position: absolute;
           bottom: 0px;
@@ -447,6 +470,7 @@ const Form = ({
       background-color: ${colors.fill};
       border-radius: 0.25em;
       border: ${colors.border && `1px solid ${colors.border}`};
+      overflow: hidden;
       div:focus-within > & {
         border-color: ${highlightColor || colors.highlight};
       }
@@ -465,6 +489,15 @@ const Form = ({
       width: 100%;
       color: ${colors.text};
       background-color: transparent;
+      /* hide text in webkit */
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        -webkit-text-fill-color: ${colors.text} !important;
+        box-shadow: 0 0 0 10em ${colors.fill} inset !important;
+        caret-color: ${colors.text} !important;
+      }
     `,
     label: css`
       position: absolute;
@@ -494,7 +527,7 @@ const Form = ({
       }
     `,
     required: css`
-      &:after {
+      &::after {
         content: '*';
         display: inline-block;
         font-size: 75%;
@@ -516,7 +549,7 @@ const Form = ({
       box-sizing: border-box;
       margin-top: 0.1em;
       margin-right: 0.333em;
-      &:after {
+      &::after {
         content: '';
         width: 0.25em;
         height: 0.5em;
@@ -528,7 +561,7 @@ const Form = ({
       }
       &[data-checked='true'] {
         background-color: ${highlightColor || colors.highlight};
-        &:after {
+        &::after {
           visibility: visible;
         }
       }
@@ -586,6 +619,13 @@ const Form = ({
                 aria-hidden
               />
             </Fragment>
+          )}
+          {recipients.length > 0 && (
+            <input
+              type="hidden"
+              name="recipients"
+              aria-hidden
+            />
           )}
           {formFieldsArray.map((field, i) => (
             <Fragment key={i}>

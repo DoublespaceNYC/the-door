@@ -132,7 +132,7 @@ const HomeImpact = ({
       justify-content: center;
       display: flex;
       position: relative;
-      &:before {
+      &::before {
         content: '';
         position: absolute;
         width: 100%;

@@ -99,7 +99,7 @@ const HomeCalendar = ({
       margin-left: 3rem;
       padding-right: 3rem;
       overflow: auto;
-      &:before {
+      &::before {
         content: '';
         position: sticky;
         display: block;
@@ -120,7 +120,7 @@ const HomeCalendar = ({
         margin-top: 0;
         padding-right: 3rem;
         overflow: auto;
-        &:before {
+        &::before {
           content: '';
           position: sticky;
           display: block;

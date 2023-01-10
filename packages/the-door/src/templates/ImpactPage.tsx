@@ -104,7 +104,7 @@ const ImpactPage = ({
     statGroup: (i: number) => css`
       ${baseGrid}
       color: #fff;
-      &:before {
+      &::before {
         content: '';
         display: block;
         position: absolute;
@@ -251,7 +251,7 @@ const ImpactPage = ({
           margin-bottom: 1.5em;
         }
         ${mq().s} {
-          &:after {
+          &::after {
             display: block;
             content: '';
             position: absolute;
@@ -268,7 +268,7 @@ const ImpactPage = ({
       `}
       ${i % 4 === 0 &&
       css`
-        &:before {
+        &::before {
           grid-column: 1 / span 12;
         }
         div[data-image-container] {
@@ -282,10 +282,10 @@ const ImpactPage = ({
           margin-right: var(--gtr-s);
         }
         ${mq().s} {
-          &:before {
+          &::before {
             grid-column: 1 / span 13;
           }
-          &:after {
+          &::after {
             grid-column: -2 / -1;
             right: 0;
           }
@@ -298,7 +298,7 @@ const ImpactPage = ({
       `}
       ${i % 4 === 2 &&
       css`
-        &:before {
+        &::before {
           grid-column: span 12 / -1;
         }
         div[data-image-container] {
@@ -312,10 +312,10 @@ const ImpactPage = ({
           margin-left: var(--gtr-s);
         }
         ${mq().s} {
-          &:before {
+          &::before {
             grid-column: span 13 / -1;
           }
-          &:after {
+          &::after {
             grid-column: 1 / 2;
             left: 0;
           }

@@ -119,6 +119,14 @@ const SelectField = ({
         ${activeOptionHeight || 0}px
       );
       transition: min-height 150ms ease;
+
+      /* hide text in webkit */
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        -webkit-text-fill-color: transparent !important;
+      }
     `,
     inputValue: css`
       position: absolute;

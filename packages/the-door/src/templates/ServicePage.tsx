@@ -10,7 +10,10 @@ import PageContent, {
 import PageHero from '@the-door/common/src/components/PageHero'
 import PageIntro from '@the-door/common/src/components/PageIntro'
 import PageNav from '@the-door/common/src/components/PageNav'
-import { ILocale } from '@the-door/common/src/components/PageNav__Language'
+import {
+  ILocale,
+  ISlugLocale,
+} from '@the-door/common/src/components/PageNav__Language'
 import ProgramCatalogSection, {
   IProgramCatalogSection,
 } from '@the-door/common/src/components/ProgramCatalogSection'
@@ -25,7 +28,7 @@ import Seo, { ISEO } from '../components/Seo'
 
 type DataProps = {
   service: {
-    locales: ILocale[]
+    _allSlugLocales: ISlugLocale[]
     title: string
     heroImage: IGatsbyImageFocused
     intro: IStructuredText
@@ -41,7 +44,7 @@ type DataProps = {
 }
 
 interface ContextProps {
-  locale: string
+  locale: ILocale
   id: string
 }
 
@@ -55,9 +58,11 @@ const ServicePage = ({
       programCatalog,
       contactSection,
       layoutOptions,
+      _allSlugLocales,
     },
     section,
   },
+  pageContext: { locale },
 }: PageProps<DataProps, ContextProps>): JSX.Element => {
   const anchorLinks = useMemo(() => {
     return pageContent
@@ -81,6 +86,8 @@ const ServicePage = ({
             ? [contactSection[0]?.anchorLink[0]]
             : []),
         ]}
+        slugLocales={_allSlugLocales}
+        currentLocale={locale}
       />
       <PageIntro intro={intro} />
       <PageContent
@@ -113,7 +120,10 @@ export const Head = ({
 export const data = graphql`
   query ($id: String!, $locale: String!) {
     service: datoCmsService(id: { eq: $id }) {
-      locales
+      _allSlugLocales {
+        locale
+        value
+      }
       title(locale: $locale)
       heroImage {
         gatsbyImageData(

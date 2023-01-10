@@ -109,24 +109,22 @@ const Footer = ({
       padding: 0.125em 0;
       margin: 0.75em 0;
       > span {
-        background: linear-gradient(currentColor, currentColor) no-repeat 0
-          calc(100% + 3px);
-        background-size: 100% 2px;
-        transition: background-position 100ms ease;
+        text-underline-offset: 0.175em;
+        text-decoration-thickness: 2px;
       }
       @media (hover: hover) {
         &:hover > span {
-          background-position: 0 100%;
+          text-decoration-line: underline;
         }
       }
     `,
     button: css`
       margin: 0.375em 0 calc(1em - 4px);
-      > span {
+      && > span {
         padding: 0.125em 0;
         border-top: 2px solid;
         border-bottom: 2px solid;
-        background: none;
+        text-decoration: none;
       }
       ${theme.buttonColorsArray.map(
         (color, i, array) => css`

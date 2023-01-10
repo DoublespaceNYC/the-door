@@ -8,7 +8,10 @@ import PageContent, {
 import PageHero from '@the-door/common/src/components/PageHero'
 import PageIntro from '@the-door/common/src/components/PageIntro'
 import PageNav from '@the-door/common/src/components/PageNav'
-import { ILocale } from '@the-door/common/src/components/PageNav__Language'
+import {
+  ILocale,
+  ISlugLocale,
+} from '@the-door/common/src/components/PageNav__Language'
 import { IStructuredText } from '@the-door/common/src/types'
 import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
@@ -19,7 +22,7 @@ import Seo, { ISEO } from '../components/Seo'
 
 type DataProps = {
   page: {
-    locales: ILocale[]
+    _allSlugLocales: ISlugLocale[]
     title: string
     navButton: [IDatoLink] | null
     heroImage: IGatsbyImageFocused
@@ -32,11 +35,13 @@ type DataProps = {
 
 interface ContextProps {
   id: string
+  locale: ILocale
 }
 
 const InteriorPage = ({
   data: {
     page: {
+      _allSlugLocales,
       title,
       navButton,
       heroImage,
@@ -45,6 +50,7 @@ const InteriorPage = ({
       layoutOptions,
     },
   },
+  pageContext: { locale },
 }: PageProps<DataProps, ContextProps>): JSX.Element => {
   const anchorLinks = useMemo(() => {
     return pageContent
@@ -60,6 +66,8 @@ const InteriorPage = ({
       <PageNav
         links={[...anchorLinks]}
         button={navButton ? navButton[0] : undefined}
+        slugLocales={_allSlugLocales}
+        currentLocale={locale}
       />
       <PageIntro intro={intro} />
       <PageContent
@@ -75,7 +83,7 @@ export const Head = ({
     page: { title, intro, seo },
   },
   pageContext: { locale },
-}: HeadProps<DataProps, { locale: ILocale }>): JSX.Element => (
+}: HeadProps<DataProps, ContextProps>): JSX.Element => (
   <Seo
     title={seo?.title || title}
     description={seo?.description || renderDescription(intro)}
@@ -87,7 +95,10 @@ export const Head = ({
 export const data = graphql`
   query ($id: String!, $locale: String!) {
     page: datoCmsInteriorPage(id: { eq: $id }) {
-      locales
+      _allSlugLocales {
+        locale
+        value
+      }
       title(locale: $locale)
       navButton(locale: $locale) {
         ... on DatoCmsExternalLink {

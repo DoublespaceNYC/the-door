@@ -95,6 +95,7 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
                 successCss={styles.formSuccess}
                 simpleSuccess
                 theme="Dark"
+                highlightColor={theme.secondary}
               />
             )
           }

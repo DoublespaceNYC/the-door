@@ -84,7 +84,7 @@ const LeadershipPage = ({
         margin: 0 0 0.167em;
         padding-top: calc(0.333em + 3px);
         grid-column: 2 / span 8;
-        &:before {
+        &::before {
           content: '';
           position: absolute;
           display: block;
@@ -100,7 +100,7 @@ const LeadershipPage = ({
         ${mq().ms} {
           grid-column: 2 / -2;
           width: fit-content;
-          &:before {
+          &::before {
             width: calc(100% + var(--margin));
             max-width: calc(100vw - 2 * var(--margin));
             left: 0;
