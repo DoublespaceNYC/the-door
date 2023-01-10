@@ -14,6 +14,7 @@ const ConditionalFormsPage = ({
         <Form
           data={form}
           key={form.id}
+          showAllConditionalFields
         />
       ))}
     </div>

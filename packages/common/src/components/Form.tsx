@@ -183,6 +183,9 @@ const Form = ({
 
   const handleSubmit = useCallback(
     (formData: { [key: string]: string }, formName: string) => {
+      if (showAllConditionalFields) {
+        return null
+      }
       const conditionsJSON = conditionalFields && JSON.parse(conditionalFields)
       const sanitizedData = conditionsJSON ? {} : formData
       if (conditionsJSON) {
@@ -203,7 +206,6 @@ const Form = ({
         headers?: { [key: string]: string }
         body: string
       }) => {
-        console.log(sanitizedData)
         setSubmitting(true)
         try {
           const response = await fetch(data.url, {
@@ -659,6 +661,7 @@ const Form = ({
                 type="submit"
                 aria-label={submitButtonText}
                 value=""
+                disabled={showAllConditionalFields}
               />
             </div>
           </div>
