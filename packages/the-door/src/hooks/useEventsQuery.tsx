@@ -2,10 +2,7 @@ import { IEvent } from '@the-door/common/src/components/Event__Article'
 import { graphql, useStaticQuery } from 'gatsby'
 
 const useEventsQuery = () => {
-  const {
-    allEvents,
-    siteBuildMetadata: { buildTime },
-  } = useStaticQuery<QueryProps>(graphql`
+  const { allEvents } = useStaticQuery<QueryProps>(graphql`
     query {
       siteBuildMetadata {
         buildTime
@@ -28,7 +25,6 @@ const useEventsQuery = () => {
       nodes: IEvent[]
     }
   }
-  console.log(buildTime)
   return {
     allEvents: allEvents.nodes,
   }
