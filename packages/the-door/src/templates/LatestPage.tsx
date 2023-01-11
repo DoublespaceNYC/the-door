@@ -4,13 +4,13 @@ import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImage
 import InternalArticleThumbnail from '@the-door/common/src/components/InternalArticle__Thumbnail'
 import PageFilter from '@the-door/common/src/components/PageFilter'
 import PageHero from '@the-door/common/src/components/PageHero'
-import useQueryContext from '@the-door/common/src/context/QueryContext'
 import { mq } from '@the-door/common/src/theme/mixins'
 import { ISEO } from '@the-door/common/src/types'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 import { Fragment, useMemo, useState } from 'react'
 
 import Seo from '../components/Seo'
+import useNewsQuery from '../hooks/useNewsQuery'
 import { colors } from '../theme/variables'
 
 interface DataProps {
@@ -31,10 +31,11 @@ const LatestPage = ({
   Record<string, never>,
   { filter: string }
 >): JSX.Element => {
-  const { allNews } = useQueryContext()
+  const { allNews, allInternalArticles, allExternalArticles } =
+    useNewsQuery()
   const categories = useMemo(() => {
-    const catArray = allNews.reduce<string[]>((acc, val) => {
-      if (val.__typename === 'DatoCmsInternalArticle') {
+    const catArray = allInternalArticles.reduce<string[]>(
+      (acc, val) => {
         if (!acc.includes(val.category.pluralName)) {
           acc.splice(
             val.category.position - 1,
@@ -42,32 +43,31 @@ const LatestPage = ({
             val.category.pluralName
           )
         }
-      }
-      return acc
-    }, [])
+        return acc
+      },
+      []
+    )
     return [
       page.allArticlesFilter,
       ...catArray,
       page.externalArticlesFilter,
     ]
-  }, [page.allArticlesFilter, page.externalArticlesFilter, allNews])
+  }, [
+    page.allArticlesFilter,
+    page.externalArticlesFilter,
+    allInternalArticles,
+  ])
   const [filter, setFilter] = useState<string | null>(null)
   const filteredArticles = useMemo(() => {
     switch (filter) {
       case page.allArticlesFilter:
         return allNews.filter(article => article.inLatest)
       case page.externalArticlesFilter:
-        return allNews.filter(
-          article =>
-            article.inLatest &&
-            article.__typename === 'DatoCmsExternalArticle'
-        )
+        return allExternalArticles.filter(article => article.inLatest)
       default:
-        return allNews.filter(
+        return allInternalArticles.filter(
           article =>
-            article.inLatest &&
-            article.__typename === 'DatoCmsInternalArticle' &&
-            article.category.pluralName === filter
+            article.inLatest && article.category.pluralName === filter
         )
     }
   }, [
@@ -75,6 +75,8 @@ const LatestPage = ({
     page.allArticlesFilter,
     page.externalArticlesFilter,
     allNews,
+    allExternalArticles,
+    allInternalArticles,
   ])
 
   const styles = {

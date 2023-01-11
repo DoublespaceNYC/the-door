@@ -7,7 +7,7 @@ import { ISocialLink } from '@the-door/common/src/components/SocialLink'
 import useLayoutContext from '@the-door/common/src/context/LayoutContext'
 import useQueryContext from '@the-door/common/src/context/QueryContext'
 import { PageProps, graphql, useStaticQuery } from 'gatsby'
-import { ReactElement, useEffect, useMemo } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import useEventsQuery from '../hooks/useEventsQuery'
 import useNewsQuery from '../hooks/useNewsQuery'
@@ -169,14 +169,8 @@ const Layout = ({
         }
       }
     `)
-  const { allInternalArticles, allExternalArticles } = useNewsQuery()
-  const allNews = useMemo(
-    () =>
-      [...allInternalArticles, ...allExternalArticles].sort((a, b) =>
-        b.publicationDate.localeCompare(a.publicationDate)
-      ),
-    [allInternalArticles, allExternalArticles]
-  )
+  const { allNews } = useNewsQuery()
+
   const { allEvents } = useEventsQuery()
   const { allPartners } = usePartnersQuery()
   const { setAllNews, setAllEvents, setAllPartners } = useQueryContext()
