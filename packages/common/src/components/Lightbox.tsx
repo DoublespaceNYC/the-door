@@ -62,6 +62,9 @@ const Lightbox = ({
     if (closing) {
       setOpenContext(false)
     }
+    return () => {
+      setOpenContext(false)
+    }
   }, [setOpenContext, open, closing])
 
   const [lightboxRef, setLightboxRef] = useState<HTMLDivElement | null>(null)

@@ -1,7 +1,10 @@
-import { Theme, ThemeProvider } from '@emotion/react'
+import { Theme, ThemeProvider, css } from '@emotion/react'
+import { Location, Router, globalHistory } from '@reach/router'
 import { Fragment, ReactNode } from 'react'
+import { Transition, TransitionGroup } from 'react-transition-group'
 
 import GlobalStyles from '../theme/GlobalStyles'
+import { absoluteFill } from '../theme/mixins'
 import AlertBar, { AlertBarProps } from './AlertBar'
 import CTABar, { CTABarProps } from './CTABar'
 import Footer, { FooterProps } from './Footer'
@@ -14,8 +17,6 @@ type Props = {
   children: ReactNode
   alert: AlertBarProps
   collapsed?: boolean
-  noFooter?: boolean
-  noAlert?: boolean
   theme: ITheme
 }
 
@@ -62,16 +63,67 @@ const Layout = ({
   ctaBar,
   children,
   collapsed,
-  noFooter,
-  noAlert,
   theme,
 }: Props): JSX.Element => {
+  const transitionTimeout = 500
+
+  const mainStyle = css`
+    display: grid;
+  `
+  const transitionStyles = {
+    default: css`
+      position: relative;
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      opacity: 0;
+      transition: opacity 0ms linear ${transitionTimeout / 2}ms;
+      z-index: 1;
+      &::after {
+        content: '';
+        display: block;
+        ${absoluteFill}
+        background: ${theme.primaryDark};
+        transition: opacity ${transitionTimeout / 2}ms ease-in
+          ${transitionTimeout / 2}ms;
+        opacity: 1;
+        z-index: 100;
+        pointer-events: none;
+      }
+    `,
+    unmounted: null,
+    entering: css`
+      opacity: 1;
+      &::after {
+        opacity: 0;
+      }
+    `,
+    entered: css`
+      opacity: 1;
+      &::after {
+        opacity: 0;
+      }
+    `,
+    exiting: css`
+      z-index: 2;
+      &::after {
+        transition-delay: 0ms;
+        transition-timing-function: ease-out;
+        opacity: 1;
+      }
+    `,
+    exited: css`
+      &::after {
+        opacity: 1;
+      }
+    `,
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <AlertBar
         alert={alert.alert}
-        showAlert={noAlert ? false : alert.showAlert}
+        showAlert={collapsed ? false : alert.showAlert}
       />
       <MainNav
         logo={nav.logo}
@@ -81,8 +133,29 @@ const Layout = ({
         breakpoint={nav.breakpoint}
         collapsed={collapsed}
       />
-      <main>{children}</main>
-      {!noFooter && (
+      <Location>
+        {({ location }) => (
+          <TransitionGroup
+            component={'main'}
+            css={mainStyle}
+          >
+            <Transition
+              key={location.key}
+              timeout={transitionTimeout}
+            >
+              {status => (
+                <div
+                  css={[transitionStyles.default, transitionStyles[status]]}
+                  data-status={status}
+                >
+                  {children}
+                </div>
+              )}
+            </Transition>
+          </TransitionGroup>
+        )}
+      </Location>
+      {!collapsed && (
         <Fragment>
           <CTABar data={ctaBar.data} />
           <Footer

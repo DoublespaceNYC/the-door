@@ -3,8 +3,8 @@ import LeaderProfile, {
 } from '@the-door/common/src/components/Leader__Profile'
 import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 
 interface QueryProps {
@@ -19,12 +19,12 @@ const LeaderProfilePage = ({
   data,
 }: PageProps<QueryProps, ContextProps>): JSX.Element => {
   return (
-    <Layout>
+    <Fragment>
       <LeaderProfile
         data={data.leader}
         layout="Page"
       />
-    </Layout>
+    </Fragment>
   )
 }
 

@@ -70,6 +70,7 @@ const NavButton = ({
     modal: css`
       display: ${modal ? 'block' : 'none'};
       position: absolute;
+      z-index: 3;
       right: 0;
       bottom: 0.75rem;
       color: ${textColor};

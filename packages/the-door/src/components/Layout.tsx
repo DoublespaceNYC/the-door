@@ -4,9 +4,10 @@ import { FooterProps } from '@the-door/common/src/components/Footer'
 import CommonLayout from '@the-door/common/src/components/Layout'
 import { MainNavProps } from '@the-door/common/src/components/MainNav'
 import { ISocialLink } from '@the-door/common/src/components/SocialLink'
+import useLayoutContext from '@the-door/common/src/context/LayoutContext'
 import useQueryContext from '@the-door/common/src/context/QueryContext'
-import { graphql, useStaticQuery } from 'gatsby'
-import { ReactNode, useLayoutEffect } from 'react'
+import { PageProps, graphql, useStaticQuery } from 'gatsby'
+import { ReactElement, useEffect, useMemo } from 'react'
 
 import useEventsQuery from '../hooks/useEventsQuery'
 import useNewsQuery from '../hooks/useNewsQuery'
@@ -15,14 +16,12 @@ import { colors } from '../theme/variables'
 import Door50Logo from './Door50Logo'
 import DoorLogo from './DoorLogo'
 
-type Props = {
-  collapsed?: boolean
-  noFooter?: boolean
-  noAlert?: boolean
-  children: ReactNode
+interface Props {
+  children: ReactElement
+  pageProps: PageProps
 }
 
-const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
+const Layout = ({ children }: Props): JSX.Element => {
   type QueryProps = {
     nav: Pick<
       MainNavProps,
@@ -168,32 +167,33 @@ const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
       }
     `)
   const { allInternalArticles, allExternalArticles } = useNewsQuery()
+  const allNews = useMemo(
+    () =>
+      [...allInternalArticles, ...allExternalArticles].sort((a, b) =>
+        b.publicationDate.localeCompare(a.publicationDate)
+      ),
+    [allInternalArticles, allExternalArticles]
+  )
   const { allEvents } = useEventsQuery()
   const { allPartners } = usePartnersQuery()
-  const {
-    setAllInternalArticles,
-    setAllExternalArticles,
-    setAllEvents,
-    setAllPartners,
-  } = useQueryContext()
-  useLayoutEffect(() => {
-    setAllInternalArticles(allInternalArticles)
-    setAllExternalArticles(allExternalArticles)
+  const { setAllNews, setAllEvents, setAllPartners } = useQueryContext()
+  const { collapsed } = useLayoutContext()
+  useEffect(() => {
+    setAllNews(allNews)
     setAllEvents(allEvents)
     setAllPartners(allPartners)
   }, [
-    setAllInternalArticles,
-    setAllExternalArticles,
+    setAllNews,
     setAllEvents,
     setAllPartners,
+    allNews,
     allEvents,
-    allExternalArticles,
-    allInternalArticles,
     allPartners,
   ])
 
   return (
     <CommonLayout
+      collapsed={collapsed}
       nav={{
         logo: DoorLogo,
         navItems: nav.navItems,
@@ -214,9 +214,6 @@ const Layout = ({ children, collapsed, noFooter, noAlert }: Props) => {
       ctaBar={{
         data: footer.ctaBar,
       }}
-      collapsed={collapsed}
-      noFooter={noFooter}
-      noAlert={noAlert}
       theme={{
         themeName: 'The Door',
         primary: colors.navy,

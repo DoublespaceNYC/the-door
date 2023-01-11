@@ -14,8 +14,8 @@ import PageNav from '@the-door/common/src/components/PageNav'
 import { renderDescription } from '@the-door/common/src/utils'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 
-import Layout from '../components/Layout'
 import Seo, { ISEO } from '../components/Seo'
 
 interface DataProps {
@@ -59,7 +59,7 @@ const ContactPage = ({
     `,
   }
   return (
-    <Layout>
+    <Fragment>
       <PageHero
         title={title}
         image={heroImage}
@@ -85,7 +85,7 @@ const ContactPage = ({
         />
       </section>
       {directory[0] && <PageContact data={directory[0]} />}
-    </Layout>
+    </Fragment>
   )
 }
 

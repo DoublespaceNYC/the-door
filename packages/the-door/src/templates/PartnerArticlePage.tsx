@@ -4,8 +4,8 @@ import PartnerArticle, {
 } from '@the-door/common/src/components/Partner__Article'
 import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 import { colors } from '../theme/variables'
 
@@ -24,13 +24,13 @@ const PartnerArticlePage = ({
     min-height: 75vh;
   `
   return (
-    <Layout>
+    <Fragment>
       <PartnerArticle
         css={style}
         data={data.partner}
         highlightColor={colors.blue}
       />
-    </Layout>
+    </Fragment>
   )
 }
 

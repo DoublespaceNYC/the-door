@@ -2,7 +2,6 @@ import Calendar from '@the-door/common/src/components/Calendar'
 import useQueryContext from '@the-door/common/src/context/QueryContext'
 import { HeadProps, PageProps, graphql } from 'gatsby'
 
-import Layout from '../components/Layout'
 import Seo, { ISEO } from '../components/Seo'
 
 interface DataProps {
@@ -19,16 +18,10 @@ const CalendarPage = ({
 }: PageProps<DataProps>): JSX.Element => {
   const { allEvents } = useQueryContext()
   return (
-    <Layout
-      collapsed
-      noFooter
-      noAlert
-    >
-      <Calendar
-        title={title}
-        events={allEvents}
-      />
-    </Layout>
+    <Calendar
+      title={title}
+      events={allEvents}
+    />
   )
 }
 

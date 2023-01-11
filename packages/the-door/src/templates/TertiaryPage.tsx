@@ -3,8 +3,8 @@ import TertiaryPageContent, {
 } from '@the-door/common/src/components/TertiaryPageContent'
 import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 import { colors } from '../theme/variables'
 
@@ -19,13 +19,13 @@ const TertiaryPage = ({
   data: { tertiaryPage },
 }: PageProps<DataProps, ContextProps>): JSX.Element => {
   return (
-    <Layout>
+    <Fragment>
       <TertiaryPageContent
         data={tertiaryPage}
         layout="Page"
         highlightColor={colors.blue}
       />
-    </Layout>
+    </Fragment>
   )
 }
 export const Head = ({

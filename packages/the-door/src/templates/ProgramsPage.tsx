@@ -14,8 +14,8 @@ import { ISEO } from '@the-door/common/src/types'
 import { renderDescription } from '@the-door/common/src/utils'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 import { colors } from '../theme/variables'
 
@@ -69,7 +69,7 @@ const ProgramsPage = ({
     `,
   }
   return (
-    <Layout>
+    <Fragment>
       <PageHero
         title={title}
         image={heroImage}
@@ -104,7 +104,7 @@ const ProgramsPage = ({
           </div>
         </section>
       ))}
-    </Layout>
+    </Fragment>
   )
 }
 

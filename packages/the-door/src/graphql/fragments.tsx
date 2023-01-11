@@ -599,6 +599,9 @@ export const Fragments = graphql`
       }
     }
     conditionalFields
+    recipients {
+      email
+    }
   }
   fragment BlackbaudFormFragment on DatoCmsBlackbaudForm {
     id: originalId

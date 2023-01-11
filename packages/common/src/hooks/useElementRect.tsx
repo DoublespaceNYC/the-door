@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const useElementRect = (element: HTMLElement | null) => {
   const [rect, setRect] = useState<{
@@ -10,7 +10,7 @@ export const useElementRect = (element: HTMLElement | null) => {
     height: undefined,
   })
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const resizeObserver = new ResizeObserver(
       debounce(entries => {
         entries.forEach((entry: ResizeObserverEntry) => {

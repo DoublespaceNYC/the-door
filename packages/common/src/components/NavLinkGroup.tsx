@@ -323,11 +323,7 @@ const NavLinkGroup = ({
                                   <Link
                                     to={slug}
                                     tabIndex={open ? 0 : -1}
-                                    onClick={() => {
-                                      if (window.location.pathname === slug) {
-                                        onCloseAll()
-                                      }
-                                    }}
+                                    onClick={onCloseAll}
                                   >
                                     <span>{service.title}</span>
                                   </Link>
@@ -352,14 +348,7 @@ const NavLinkGroup = ({
                           <DatoLink
                             data={link}
                             tabIndex={open ? 0 : -1}
-                            onClick={() => {
-                              if (
-                                window.location.pathname ===
-                                `/${link.link.slug}/`.replace('//', '/')
-                              ) {
-                                onCloseAll()
-                              }
-                            }}
+                            onClick={onCloseAll}
                           />
                         </li>
                       )

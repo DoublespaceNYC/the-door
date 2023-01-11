@@ -11,9 +11,9 @@ import { baseGrid, mq } from '@the-door/common/src/theme/mixins'
 import { renderDescription } from '@the-door/common/src/utils'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 import { StructuredText } from 'react-datocms'
 
-import Layout from '../components/Layout'
 import Seo, { ISEO } from '../components/Seo'
 import { colors } from '../theme/variables'
 
@@ -329,7 +329,7 @@ const ImpactPage = ({
     `,
   }
   return (
-    <Layout>
+    <Fragment>
       <PageHero
         title={page.title}
         image={page.heroImage}
@@ -384,7 +384,7 @@ const ImpactPage = ({
           </div>
         ))}
       </section>
-    </Layout>
+    </Fragment>
   )
 }
 

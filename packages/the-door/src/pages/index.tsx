@@ -8,14 +8,13 @@ import { IInternalArticle } from '@the-door/common/src/components/InternalArticl
 import { IInternalLink } from '@the-door/common/src/components/InternalLink'
 import { IStructuredText } from '@the-door/common/src/types'
 import { PageProps, graphql } from 'gatsby'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import HomeFaces from '../components/HomeFaces'
 import HomeHero from '../components/HomeHero'
 import HomeImpact from '../components/HomeImpact'
 import HomeServices from '../components/HomeServices'
 import HomeWelcome from '../components/HomeWelcome'
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 
 type DataProps = {
@@ -68,7 +67,7 @@ const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
   useEffect(() => setShowPopup(home.showPopup), [home.showPopup])
 
   return (
-    <Layout>
+    <Fragment>
       <HomeHero
         heading={home.heroHeading}
         ctaText={home.heroCtaText}
@@ -108,7 +107,7 @@ const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
         pageLink={home.latestLink[0]}
         calendarLink={home.calendarLink[0]}
       />
-    </Layout>
+    </Fragment>
   )
 }
 

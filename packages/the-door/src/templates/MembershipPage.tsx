@@ -19,8 +19,8 @@ import {
 import { renderDescription } from '@the-door/common/src/utils'
 import { Document } from 'datocms-structured-text-utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 
-import Layout from '../components/Layout'
 import Seo, { ISEO } from '../components/Seo'
 import { colors } from '../theme/variables'
 
@@ -78,7 +78,7 @@ const MembershipPage = ({
     `,
   }
   return (
-    <Layout>
+    <Fragment>
       <PageHero
         title={title}
         image={heroImage}
@@ -105,7 +105,7 @@ const MembershipPage = ({
           layout="Page"
         />
       </section>
-    </Layout>
+    </Fragment>
   )
 }
 

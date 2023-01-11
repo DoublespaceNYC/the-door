@@ -11,6 +11,7 @@ import {
   useState,
 } from 'react'
 
+import useLayoutContext from '../context/LayoutContext'
 import { useElementWidth } from '../hooks/useElementRect'
 import useReadableColor from '../hooks/useReadableColor'
 import { useWindowWidth } from '../hooks/useWindowDimensions'
@@ -27,6 +28,14 @@ interface Props {
 }
 
 const Calendar = ({ title, events }: Props): JSX.Element => {
+  const { setCollapsed } = useLayoutContext()
+  useEffect(() => {
+    setCollapsed(true)
+    return () => {
+      setCollapsed(false)
+    }
+  }, [setCollapsed])
+
   const theme = useTheme() as ITheme
   const setLocations = () => {
     switch (theme.themeName) {

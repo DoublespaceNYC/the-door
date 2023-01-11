@@ -3,8 +3,8 @@ import InternalArticle, {
 } from '@the-door/common/src/components/InternalArticle'
 import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 
 interface QueryProps {
@@ -19,12 +19,12 @@ const InternalArticlePage = ({
   data,
 }: PageProps<QueryProps, ContextProps>): JSX.Element => {
   return (
-    <Layout>
+    <Fragment>
       <InternalArticle
         data={data.article}
         layout="Page"
       />
-    </Layout>
+    </Fragment>
   )
 }
 

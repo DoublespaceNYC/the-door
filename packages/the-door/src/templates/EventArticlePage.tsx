@@ -3,8 +3,8 @@ import EventArticle, {
 } from '@the-door/common/src/components/Event__Article'
 import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 
 interface QueryProps {
@@ -19,12 +19,12 @@ const EventArticlePage = ({
   data,
 }: PageProps<QueryProps, ContextProps>): JSX.Element => {
   return (
-    <Layout>
+    <Fragment>
       <EventArticle
         data={data.event}
         layout="Page"
       />
-    </Layout>
+    </Fragment>
   )
 }
 

@@ -269,7 +269,14 @@ const Form = ({
         })
       }
     },
-    [formType, listId, formFieldsArray, conditionalFields]
+    [
+      formType,
+      listId,
+      formFieldsArray,
+      conditionalFields,
+      recipients,
+      showAllConditionalFields,
+    ]
   )
 
   const metaTheme = useTheme() as ITheme

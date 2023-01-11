@@ -8,9 +8,8 @@ import useQueryContext from '@the-door/common/src/context/QueryContext'
 import { mq } from '@the-door/common/src/theme/mixins'
 import { ISEO } from '@the-door/common/src/types'
 import { HeadProps, PageProps, graphql } from 'gatsby'
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 import { colors } from '../theme/variables'
 
@@ -32,43 +31,50 @@ const LatestPage = ({
   Record<string, never>,
   { filter: string }
 >): JSX.Element => {
-  const { allNews, allInternalArticles, allExternalArticles } =
-    useQueryContext()
+  const { allNews } = useQueryContext()
   const categories = useMemo(() => {
-    const catArray = allInternalArticles
-      .sort((a, b) => a.category.position - b.category.position)
-      .map(article => article.category.pluralName)
+    const catArray = allNews.reduce<string[]>((acc, val) => {
+      if (val.__typename === 'DatoCmsInternalArticle') {
+        if (!acc.includes(val.category.pluralName)) {
+          acc.splice(
+            val.category.position - 1,
+            0,
+            val.category.pluralName
+          )
+        }
+      }
+      return acc
+    }, [])
     return [
       page.allArticlesFilter,
-      ...new Set(catArray),
+      ...catArray,
       page.externalArticlesFilter,
     ]
-  }, [
-    page.allArticlesFilter,
-    page.externalArticlesFilter,
-    allInternalArticles,
-  ])
+  }, [page.allArticlesFilter, page.externalArticlesFilter, allNews])
   const [filter, setFilter] = useState<string | null>(null)
   const filteredArticles = useMemo(() => {
-    if (filter === page.allArticlesFilter) {
-      return allNews.filter(article => article.inLatest)
-    } else if (filter === page.externalArticlesFilter) {
-      return allExternalArticles.filter(article => article.inLatest)
-    } else if (filter && filter.length > 0) {
-      return allInternalArticles.filter(
-        article =>
-          article.inLatest && article.category.pluralName === filter
-      )
-    } else {
-      return []
+    switch (filter) {
+      case page.allArticlesFilter:
+        return allNews.filter(article => article.inLatest)
+      case page.externalArticlesFilter:
+        return allNews.filter(
+          article =>
+            article.inLatest &&
+            article.__typename === 'DatoCmsExternalArticle'
+        )
+      default:
+        return allNews.filter(
+          article =>
+            article.inLatest &&
+            article.__typename === 'DatoCmsInternalArticle' &&
+            article.category.pluralName === filter
+        )
     }
   }, [
     filter,
     page.allArticlesFilter,
     page.externalArticlesFilter,
     allNews,
-    allExternalArticles,
-    allInternalArticles,
   ])
 
   const styles = {
@@ -87,7 +93,7 @@ const LatestPage = ({
   }
 
   return (
-    <Layout>
+    <Fragment>
       <PageHero
         title={page.title}
         image={page.heroImage}
@@ -125,7 +131,7 @@ const LatestPage = ({
           }
         })}
       </section>
-    </Layout>
+    </Fragment>
   )
 }
 

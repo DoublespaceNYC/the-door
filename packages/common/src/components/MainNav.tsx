@@ -81,6 +81,11 @@ const MainNav = ({
     setBurgerOpen(false)
   })
 
+  const handleLinkClick = () => {
+    setActiveNavGroup(null)
+    setBurgerOpen(false)
+  }
+
   const theme = useTheme() as ITheme
 
   const styles = {
@@ -287,6 +292,7 @@ const MainNav = ({
           <Link
             to="/"
             css={styles.logoWrap}
+            onClick={handleLinkClick}
           >
             <Logo
               css={styles.logo}
@@ -312,10 +318,7 @@ const MainNav = ({
                             onClose={() => {
                               setActiveNavGroup(null)
                             }}
-                            onCloseAll={() => {
-                              setActiveNavGroup(null)
-                              setBurgerOpen(false)
-                            }}
+                            onCloseAll={handleLinkClick}
                             open={activeNavGroup === i}
                             buttonCss={[styles.navItem, styles.navLink]}
                             portalTarget={dropdownContainerRef.current}

@@ -20,9 +20,8 @@ import ProgramCatalogSection, {
 import { IStructuredText } from '@the-door/common/src/types'
 import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
-import { useMemo } from 'react'
+import { Fragment, useMemo } from 'react'
 
-import Layout from '../components/Layout'
 import PageServices from '../components/PageServices'
 import Seo, { ISEO } from '../components/Seo'
 
@@ -70,7 +69,7 @@ const ServicePage = ({
       .filter(block => block !== undefined) as IAnchorLink[]
   }, [pageContent])
   return (
-    <Layout>
+    <Fragment>
       <PageHero
         title={title}
         image={heroImage}
@@ -99,7 +98,7 @@ const ServicePage = ({
       )}
       {contactSection[0] && <PageContact data={contactSection[0]} />}
       <PageServices />
-    </Layout>
+    </Fragment>
   )
 }
 

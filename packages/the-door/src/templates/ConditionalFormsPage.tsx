@@ -1,5 +1,6 @@
 import Form, { IForm } from '@the-door/common/src/components/Form'
 import { PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 
 interface QueryProps {
   allDatoCmsForm: { nodes: IForm[] }
@@ -9,7 +10,7 @@ const ConditionalFormsPage = ({
   data: { allDatoCmsForm },
 }: PageProps<QueryProps>): JSX.Element => {
   return (
-    <div>
+    <Fragment>
       {allDatoCmsForm.nodes.map(form => (
         <Form
           data={form}
@@ -17,7 +18,7 @@ const ConditionalFormsPage = ({
           showAllConditionalFields
         />
       ))}
-    </div>
+    </Fragment>
   )
 }
 

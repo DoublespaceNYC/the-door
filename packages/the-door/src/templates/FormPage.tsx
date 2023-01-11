@@ -3,8 +3,8 @@ import FormLightbox, {
 } from '@the-door/common/src/components/Form__Lightbox'
 import { renderDescription } from '@the-door/common/src/utils'
 import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
 
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 
 interface QueryProps {
@@ -19,12 +19,12 @@ const FormPage = ({
   data,
 }: PageProps<QueryProps, ContextProps>): JSX.Element => {
   return (
-    <Layout>
+    <Fragment>
       <FormLightbox
         data={data.formLightbox}
         layout="Page"
       />
-    </Layout>
+    </Fragment>
   )
 }
 

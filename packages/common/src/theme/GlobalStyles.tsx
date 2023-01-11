@@ -73,6 +73,7 @@ const GlobalStyles = () => {
     }
 
     html {
+      scroll-behavior: smooth;
       font-size: 12px;
       ${mq('min').l} {
         font-size: calc(9px + 0.21vw);
