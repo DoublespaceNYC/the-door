@@ -21,7 +21,10 @@ interface Props {
   pageProps: PageProps
 }
 
-const Layout = ({ children }: Props): JSX.Element => {
+const Layout = ({
+  children,
+  pageProps: { location },
+}: Props): JSX.Element => {
   type QueryProps = {
     nav: Pick<
       MainNavProps,
@@ -193,6 +196,7 @@ const Layout = ({ children }: Props): JSX.Element => {
 
   return (
     <CommonLayout
+      location={location}
       collapsed={collapsed}
       nav={{
         logo: DoorLogo,

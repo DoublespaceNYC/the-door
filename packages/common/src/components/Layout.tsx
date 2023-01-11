@@ -1,5 +1,5 @@
 import { Theme, ThemeProvider, css } from '@emotion/react'
-import { Location, Router, globalHistory } from '@reach/router'
+import { WindowLocation } from '@reach/router'
 import { Fragment, ReactNode } from 'react'
 import { Transition, TransitionGroup } from 'react-transition-group'
 
@@ -11,6 +11,7 @@ import Footer, { FooterProps } from './Footer'
 import MainNav, { MainNavProps } from './MainNav'
 
 type Props = {
+  location: WindowLocation
   nav: MainNavProps
   ctaBar: CTABarProps
   footer: FooterProps
@@ -57,6 +58,7 @@ export interface ITheme extends Theme {
 }
 
 const Layout = ({
+  location,
   nav,
   footer,
   alert,
@@ -133,28 +135,25 @@ const Layout = ({
         breakpoint={nav.breakpoint}
         collapsed={collapsed}
       />
-      <Location>
-        {({ location }) => (
-          <TransitionGroup
-            component={'main'}
-            css={mainStyle}
-          >
-            <Transition
-              key={location.key}
-              timeout={transitionTimeout}
+      <TransitionGroup
+        component={'main'}
+        css={mainStyle}
+      >
+        <Transition
+          key={location.key}
+          timeout={transitionTimeout}
+        >
+          {status => (
+            <div
+              css={[transitionStyles.default, transitionStyles[status]]}
+              data-status={status}
             >
-              {status => (
-                <div
-                  css={[transitionStyles.default, transitionStyles[status]]}
-                  data-status={status}
-                >
-                  {children}
-                </div>
-              )}
-            </Transition>
-          </TransitionGroup>
-        )}
-      </Location>
+              {children}
+            </div>
+          )}
+        </Transition>
+      </TransitionGroup>
+
       {!collapsed && (
         <Fragment>
           <CTABar data={ctaBar.data} />
