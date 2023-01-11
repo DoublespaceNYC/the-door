@@ -42,6 +42,9 @@ const ProgramsPage = ({
   const styles = {
     programGroup: css`
       padding: 0 var(--margin) var(--row-s);
+      &:last-of-type {
+        padding-bottom: var(--row-l);
+      }
       h2 {
         color: ${colors.purple};
         font-size: var(--fs-36);
