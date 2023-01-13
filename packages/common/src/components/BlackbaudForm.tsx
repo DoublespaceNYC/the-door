@@ -1,7 +1,9 @@
-import { css } from '@emotion/react'
+import { css, useTheme } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { darken } from 'polished'
 import { HTMLAttributes, useEffect } from 'react'
+
+import { ITheme } from './Layout'
 
 export interface IBlackbaudForm extends Record {
   __typename: 'DatoCmsBlackbaudForm'
@@ -57,11 +59,12 @@ declare global {
 }
 const BlackbaudForm = ({
   data: { formId },
-  highlightColor,
+  highlightColor: inheritedHighlight,
   ...props
 }: Props): JSX.Element => {
+  const theme = useTheme() as ITheme
+  const highlightColor = inheritedHighlight || theme.secondary
   useEffect(() => {
-    // const testId = 'fa82fe40-c80a-43ae-9719-8393105cabe4'
     window.bboxInit = () => {
       window.bbox.showForm(formId)
     }
