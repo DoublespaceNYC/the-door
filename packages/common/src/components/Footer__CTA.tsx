@@ -21,16 +21,10 @@ interface Props extends ComponentProps<'div'> {
 
 const FooterCTA = ({ cta, ctaButtons, ...props }: Props): JSX.Element => {
   const theme = useTheme() as ITheme
-  const readableHighlight = useReadableColor(
-    theme.themeName === 'The Door' ? theme.septenary : theme.secondary,
-    theme.primary,
-    3
-  )
-  const readableButton = useReadableColor(
-    theme.themeName === 'The Door' ? theme.septenary : theme.secondary,
-    '#fff',
-    3
-  )
+  const highlightColor =
+    theme.themeName === 'The Door' ? theme.septenary : theme.secondary
+  const readableHighlight = useReadableColor(highlightColor, theme.primary, 3)
+  const readableButton = useReadableColor(highlightColor, '#fff', 3)
   const styles = {
     container: css`
       grid-column: span 6 / -2;
@@ -92,6 +86,7 @@ const FooterCTA = ({ cta, ctaButtons, ...props }: Props): JSX.Element => {
           <DatoLink
             css={styles.button}
             data={button}
+            highlightColor={highlightColor}
             key={i}
           >
             {button.linkText}

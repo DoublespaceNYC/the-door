@@ -3,6 +3,7 @@ import { Record } from 'datocms-structured-text-utils'
 import { darken } from 'polished'
 import { HTMLAttributes, useEffect } from 'react'
 
+import useReadableColor from '../hooks/useReadableColor'
 import { ITheme } from './Layout'
 
 export interface IBlackbaudForm extends Record {
@@ -59,11 +60,15 @@ declare global {
 }
 const BlackbaudForm = ({
   data: { formId },
-  highlightColor: inheritedHighlight,
+  highlightColor,
   ...props
 }: Props): JSX.Element => {
   const theme = useTheme() as ITheme
-  const highlightColor = inheritedHighlight || theme.secondary
+
+  const readableHighlight = useReadableColor(
+    highlightColor || theme.secondary,
+    theme.gray95
+  )
   useEffect(() => {
     window.bboxInit = () => {
       window.bbox.showForm(formId)
@@ -203,9 +208,9 @@ const BlackbaudForm = ({
             }
             .BBFormRadioLabelGivingLevelSelected {
               font-size: var(--fs-21);
-              background: ${highlightColor};
+              background: ${readableHighlight};
               color: #fff;
-              border: 1px solid ${highlightColor};
+              border: 1px solid ${readableHighlight};
             }
             .BBFormFieldLabel {
               font-size: inherit;
@@ -247,7 +252,7 @@ const BlackbaudForm = ({
               text-transform: uppercase;
               letter-spacing: 0.05em;
               filter: none;
-              background: ${highlightColor};
+              background: ${readableHighlight};
               box-shadow: none;
               border-radius: 0;
               padding: 0.5em 0.75em;
@@ -255,7 +260,7 @@ const BlackbaudForm = ({
               @media (hover: hover) {
                 &:hover {
                   opacity: 1;
-                  background: ${highlightColor && darken(0.1, highlightColor)};
+                  background: ${readableHighlight && darken(0.1, readableHighlight)};
                 }
               }
             }
