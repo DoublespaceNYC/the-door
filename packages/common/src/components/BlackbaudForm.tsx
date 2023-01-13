@@ -67,7 +67,8 @@ const BlackbaudForm = ({
 
   const readableHighlight = useReadableColor(
     highlightColor || theme.secondary,
-    theme.gray95
+    '#fff',
+    3
   )
   useEffect(() => {
     window.bboxInit = () => {
@@ -260,7 +261,8 @@ const BlackbaudForm = ({
               @media (hover: hover) {
                 &:hover {
                   opacity: 1;
-                  background: ${readableHighlight && darken(0.1, readableHighlight)};
+                  background: ${readableHighlight &&
+                  darken(0.1, readableHighlight)};
                 }
               }
             }
