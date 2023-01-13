@@ -38,7 +38,7 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
   const styles = {
     section: css`
       background: ${theme.primaryDark};
-      padding: 1rem var(--margin);
+      padding: 0.75em var(--margin);
       color: #fff;
       display: flex;
       grid-gap: 1.5em;
@@ -46,6 +46,8 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
       align-items: center;
       ${mq().s} {
         flex-wrap: wrap;
+        grid-gap: 1em;
+        padding-bottom: 1em;
       }
       h2 {
         line-height: 1.125;

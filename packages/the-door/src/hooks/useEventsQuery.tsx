@@ -4,6 +4,8 @@ import { graphql, useStaticQuery } from 'gatsby'
 const useEventsQuery = () => {
   const { allEvents } = useStaticQuery<QueryProps>(graphql`
     query {
+      # 'buildTime' query is required for Gatsby
+      # to avoid skipping 'isUpcoming' custom schema
       siteBuildMetadata {
         buildTime
       }

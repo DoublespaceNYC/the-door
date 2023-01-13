@@ -107,10 +107,7 @@ const HomeImpact = ({
         }
       }
       ${mq().ms} {
-        display: flex;
-        flex-direction: column;
-        margin: 0;
-        > span {
+        span {
           &:nth-of-type(1) {
             grid-row: auto;
             margin-top: 0.125em;

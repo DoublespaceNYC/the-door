@@ -164,13 +164,6 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       height: calc(
         100 * var(--vh, 1vh) - var(--nav-height, 0) - var(--alert-height, 0)
       );
-      /* position: fixed;
-      top: 0;
-      left: 0;
-      padding-top: var(--nav-height);
-      box-sizing: border-box; 
-      height: 100%;
-      */
       width: 100%;
       overflow: hidden;
       display: grid;
@@ -289,6 +282,8 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
       color: #fff;
       background: ${readableHighlight};
       svg {
+        width: 1em;
+        height: 1em;
         line {
           stroke-width: 2;
           stroke: currentColor;

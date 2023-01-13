@@ -238,12 +238,22 @@ const NavLinkGroup = ({
         }
       }
     `,
-    imageWrap: css`
+    headerWrap: css`
       position: relative;
       grid-column: 1 / 2;
       grid-row: 1 / 4;
-      padding: var(--row-l) var(--margin);
+      display: grid;
       font-size: var(--fs-18);
+      ${mq().s} {
+        grid-row: auto;
+        padding: var(--row-m) var(--margin) var(--row-s);
+        z-index: 1;
+      }
+    `,
+    headingText: css`
+      padding: var(--row-l) var(--margin);
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
       h2 {
         position: relative;
         font-size: var(--fs-108);
@@ -257,9 +267,7 @@ const NavLinkGroup = ({
         z-index: 1;
       }
       ${mq().s} {
-        grid-row: auto;
         padding: var(--row-m) var(--margin) var(--row-s);
-        z-index: 1;
         h2 {
           font-size: var(--fs-72);
           margin-top: 0.125em;
@@ -267,7 +275,9 @@ const NavLinkGroup = ({
       }
     `,
     image: css`
-      ${absoluteFill}
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      ${absoluteFill};
       opacity: ${open ? 1 : 0};
       z-index: 0;
       transition: opacity 500ms ease 100ms;
@@ -295,7 +305,7 @@ const NavLinkGroup = ({
             ref={navRef}
           >
             <div css={styles.content}>
-              <div css={styles.imageWrap}>
+              <div css={styles.headerWrap}>
                 {backgroundImage && (
                   <GatsbyImageFocused
                     css={styles.image}
@@ -306,8 +316,10 @@ const NavLinkGroup = ({
                     originalAspectRatio={backgroundImage.sizes.aspectRatio}
                   />
                 )}
-                <h2>{title}</h2>
-                {description.value && <StructuredText data={description} />}
+                <div css={styles.headingText}>
+                  <h2>{title}</h2>
+                  {description.value && <StructuredText data={description} />}
+                </div>
               </div>
               <div css={styles.linkListWrap}>
                 <ul css={styles.linkList}>

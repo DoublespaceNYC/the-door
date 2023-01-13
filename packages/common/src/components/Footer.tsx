@@ -55,35 +55,41 @@ const Footer = ({
       }
     `,
     meta: css`
-      grid-column: 5 / span 4;
+      > div {
+        display: inline-block;
+      }
+      grid-column: 5 / span 3;
       ${mq().ms} {
         grid-column: 2 / span 6;
       }
     `,
     socials: css`
-      display: flex;
-      font-size: var(--fs-30);
-      > a {
+      && {
         display: flex;
-        margin: 0.5em 0.25em 0.25em;
-        transition: transform 150ms ease;
-        color: #fff;
-        @media (hover: hover) {
-          &:hover {
-            transform: scale3d(1.2, 1.2, 1);
+        width: 100%;
+        font-size: var(--fs-30);
+        > a {
+          display: flex;
+          margin: 0.5em 0.25em 0.25em;
+          transition: transform 150ms ease;
+          color: #fff;
+          @media (hover: hover) {
+            &:hover {
+              transform: scale3d(1.2, 1.2, 1);
+            }
           }
-        }
-        &:first-of-type {
-          margin-left: 0;
-        }
-        &:last-of-type {
-          margin-right: 0;
+          &:first-of-type {
+            margin-left: 0;
+          }
+          &:last-of-type {
+            margin-right: 0;
+          }
         }
       }
     `,
     nav: css`
-      grid-column: span 4 / -2;
-      column-count: 2;
+      grid-column: span 6 / -2;
+      column-count: 3;
       column-gap: 1em;
       > div {
         display: inline-block;
@@ -93,6 +99,7 @@ const Footer = ({
         }
       }
       ${mq().ml} {
+        grid-column: span 5 / -2;
         column-count: 1;
       }
       ${mq().ms} {
@@ -107,7 +114,7 @@ const Footer = ({
       max-width: fit-content;
       line-height: 1.125;
       padding: 0.125em 0;
-      margin: 0.75em 0;
+      margin: 0.375em 0;
       > span {
         text-underline-offset: 0.175em;
         text-decoration-thickness: 2px;
@@ -119,27 +126,29 @@ const Footer = ({
       }
     `,
     button: css`
-      margin: 0.375em 0 calc(1em - 4px);
-      && > span {
-        padding: 0.125em 0;
-        border-top: 2px solid;
-        border-bottom: 2px solid;
-        text-decoration: none;
-      }
-      ${theme.buttonColorsArray.map(
-        (color, i, array) => css`
-          &:nth-of-type(${array.length}n + ${i}) {
-            > span {
-              border-color: ${color};
-            }
-            @media (hover: hover) {
-              &:hover {
-                color: ${color};
+      && {
+        margin: 0.375em 0 calc(0.625em - 4px);
+        > span {
+          padding: 0.125em 0;
+          border-top: 2px solid;
+          border-bottom: 2px solid;
+          text-decoration: none;
+        }
+        ${theme.buttonColorsArray.map(
+          (color, i, array) => css`
+            div:nth-of-type(${array.length}n + ${i}) > & {
+              > span {
+                border-color: ${color};
+              }
+              @media (hover: hover) {
+                &:hover {
+                  color: ${color};
+                }
               }
             }
-          }
-        `
-      )}
+          `
+        )}
+      }
     `,
   }
   return (
@@ -152,32 +161,38 @@ const Footer = ({
         fill="#fff"
       />
       <div css={styles.meta}>
-        <a
-          css={styles.link}
-          href={`tel:${meta.phone.replace(/\D/, '')}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span>{meta.phone}</span>
-        </a>
-        <a
-          css={styles.link}
-          href={`mailto:${meta.email}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span>{meta.email}</span>
-        </a>
-        <a
-          css={styles.link}
-          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-            meta.address
-          )}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span>{parse(meta.address.replace('\n', '<br />'))}</span>
-        </a>
+        <div>
+          <a
+            css={styles.link}
+            href={`tel:${meta.phone.replace(/\D/, '')}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>{meta.phone}</span>
+          </a>
+        </div>
+        <div>
+          <a
+            css={styles.link}
+            href={`mailto:${meta.email}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>{meta.email}</span>
+          </a>
+        </div>
+        <div>
+          <a
+            css={styles.link}
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+              meta.address
+            )}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>{parse(meta.address.replace('\n', '<br />'))}</span>
+          </a>
+        </div>
         <div css={styles.socials}>
           {meta.socials.map((social, i) => (
             <SocialLink
@@ -197,11 +212,12 @@ const Footer = ({
           </div>
         ))}
         {buttons.map((button, i) => (
-          <DatoLink
-            data={button}
-            key={i}
-            css={[styles.link, styles.button]}
-          />
+          <div key={i}>
+            <DatoLink
+              data={button}
+              css={[styles.link, styles.button]}
+            />
+          </div>
         ))}
       </nav>
     </footer>
