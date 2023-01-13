@@ -213,6 +213,21 @@ const BlackbaudForm = ({
               color: #fff;
               border: 1px solid ${readableHighlight};
             }
+            .BBFormGiftOtherAmount {
+              min-width: 12ch;
+              margin: -0.375em;
+              border: 1px solid transparent;
+              background: transparent;
+              color: #fff;
+              font-size: var(--fs-18);
+              padding: 0.5em;
+              &:focus {
+                box-shadow: none;
+              }
+              &::placeholder {
+                color: #ffffff88;
+              }
+            }
             .BBFormFieldLabel {
               font-size: inherit;
               line-height: 1.25;
