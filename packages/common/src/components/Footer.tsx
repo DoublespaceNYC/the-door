@@ -1,16 +1,25 @@
 import { css } from '@emotion/react'
 import { useTheme } from '@emotion/react'
+import { Document } from 'datocms-structured-text-utils'
 import parse from 'html-react-parser'
 import { FC, HTMLAttributes } from 'react'
 
 import { baseGrid, mq } from '../theme/mixins'
 import { LogoProps } from '../types'
 import DatoLink, { IDatoLink } from './DatoLink'
+import { IExternalLink } from './ExternalLink'
+import FooterCTA from './Footer__CTA'
+import { IFormLightboxLink } from './Form__Lightbox'
+import { IInternalLink } from './InternalLink'
 import { ITheme } from './Layout'
 import SocialLink, { ISocialLink } from './SocialLink'
 
 export interface FooterProps extends HTMLAttributes<HTMLElement> {
   logo: FC<LogoProps>
+  cta: {
+    value: Document
+  }
+  ctaButtons: (IFormLightboxLink | IInternalLink | IExternalLink)[]
   navItems: IDatoLink[]
   buttons: IDatoLink[]
   meta: {
@@ -23,6 +32,8 @@ export interface FooterProps extends HTMLAttributes<HTMLElement> {
 
 const Footer = ({
   logo,
+  cta,
+  ctaButtons,
   navItems,
   buttons,
   meta,
@@ -47,20 +58,34 @@ const Footer = ({
     `,
     logo: css`
       grid-column: 2 / span 3;
+      grid-row: 1 / 4;
       max-width: min(20rem, 100%);
       margin-bottom: 1em;
       margin-right: var(--gtr-m);
       ${mq().ms} {
         grid-column: 2 / span 5;
+        grid-row: 1 / 3;
       }
     `,
     meta: css`
+      grid-column: 5 / span 3;
+      grid-row: 1 / 4;
       > div {
         display: inline-block;
+        width: 100%;
       }
-      grid-column: 5 / span 3;
+      /* ${mq().ml} {
+        grid-column: span 5 / span 4;
+      } */
       ${mq().ms} {
-        grid-column: 2 / span 6;
+        grid-column: span 6 / -2;
+        grid-row: auto;
+      }
+      ${mq().s} {
+        grid-column: 2 / -2;
+        column-count: 2;
+        column-gap: 1em;
+        margin-top: 1.5em;
       }
     `,
     socials: css`
@@ -99,12 +124,14 @@ const Footer = ({
         }
       }
       ${mq().ml} {
-        grid-column: span 5 / -2;
-        column-count: 1;
+        grid-column: span 9 / -2;
+        margin-top: 1.5em;
       }
       ${mq().ms} {
-        grid-row: 1 / 3;
-        grid-column: span 6 / -2;
+        grid-column: 2 / -2;
+      }
+      ${mq().s} {
+        column-count: 2;
       }
     `,
     link: css`
@@ -202,6 +229,10 @@ const Footer = ({
           ))}
         </div>
       </div>
+      <FooterCTA
+        cta={cta}
+        ctaButtons={ctaButtons}
+      />
       <nav css={styles.nav}>
         {navItems.map((navItem, i) => (
           <div key={i}>

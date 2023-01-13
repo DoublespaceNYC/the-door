@@ -7,6 +7,7 @@ import ServicesModule from './ServicesModule'
 const PageServices = (): JSX.Element => {
   const styles = {
     section: css`
+      width: 100vw;
       padding: var(--row-m) 0 var(--row-l);
       background: linear-gradient(
         to top right,

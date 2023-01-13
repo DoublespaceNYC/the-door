@@ -30,7 +30,10 @@ const Layout = ({
       MainNavProps,
       'navItems' | 'buttons' | 'modal' | 'breakpoint'
     >
-    footer: Pick<FooterProps, 'navItems' | 'buttons'> & {
+    footer: Pick<
+      FooterProps,
+      'navItems' | 'buttons' | 'cta' | 'ctaButtons'
+    > & {
       ctaBar: ICTABar
     }
     alert: Omit<AlertBarProps, 'colors'>
@@ -114,6 +117,20 @@ const Layout = ({
           breakpoint
         }
         footer: datoCmsFooter {
+          cta: footerCta {
+            value
+          }
+          ctaButtons: footerCtaButtons {
+            ... on DatoCmsInternalLink {
+              ...InternalLinkFragment
+            }
+            ... on DatoCmsExternalLink {
+              ...ExternalLinkFragment
+            }
+            ... on DatoCmsFormLightboxLink {
+              ...FormLightboxLinkFragment
+            }
+          }
           navItems: links {
             ...InternalLinkFragment
           }
@@ -201,6 +218,8 @@ const Layout = ({
       }}
       footer={{
         logo: Door50Logo,
+        cta: footer.cta,
+        ctaButtons: footer.ctaButtons,
         navItems: footer.navItems,
         buttons: footer.buttons,
         meta: meta,

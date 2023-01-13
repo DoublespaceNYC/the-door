@@ -159,6 +159,8 @@ const Layout = ({
           <CTABar data={ctaBar.data} />
           <Footer
             logo={footer.logo}
+            cta={footer.cta}
+            ctaButtons={footer.ctaButtons}
             navItems={footer.navItems}
             buttons={footer.buttons}
             meta={footer.meta}
