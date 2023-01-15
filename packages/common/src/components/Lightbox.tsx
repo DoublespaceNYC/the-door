@@ -101,17 +101,6 @@ const Lightbox = ({
 
   useEscKeyFunction(handleClose)
 
-  // const setColors = () => {
-  //   switch (theme) {
-  //     case 'The Door':
-  //       return {
-  //         bg: rgba(doorColors.navyDark, 0.9),
-  //         contentBg: doorColors.gray95,
-  //         buttonBg: doorColors.navy,
-  //       }
-  //   }
-  // }
-  // const colors = setColors()
   const styles = {
     background: css`
       position: fixed;
