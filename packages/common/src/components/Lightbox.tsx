@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import { useTheme } from '@emotion/react'
+import { globalHistory } from '@reach/router'
 import { rgba } from 'polished'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
@@ -72,7 +73,7 @@ const Lightbox = ({
 
   const transitionDuration = 300
 
-  const handleClosing = useCallback(() => {
+  const handleCloseTransition = useCallback(() => {
     setClosing(true)
     setTimeout(() => {
       setClosing(false)
@@ -84,9 +85,9 @@ const Lightbox = ({
     if (!closing && entry) {
       window.history.replaceState(null, '', entry.path)
       document.title = entry.title
-      handleClosing()
+      handleCloseTransition()
     }
-  }, [closing, entry, handleClosing])
+  }, [closing, entry, handleCloseTransition])
 
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
@@ -100,6 +101,14 @@ const Lightbox = ({
   }, [open])
 
   useEscKeyFunction(handleClose)
+
+  useEffect(() => {
+    globalHistory.listen(({ action }) => {
+      if (action === 'PUSH') {
+        handleCloseTransition()
+      }
+    })
+  }, [])
 
   const styles = {
     background: css`
