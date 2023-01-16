@@ -246,7 +246,7 @@ const NavLinkGroup = ({
       font-size: var(--fs-18);
       ${mq().s} {
         grid-row: auto;
-        padding: var(--row-m) var(--margin) var(--row-s);
+        padding: 0;
         z-index: 1;
       }
     `,
