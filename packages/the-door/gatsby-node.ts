@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 
-import { GatsbyNode, graphql } from 'gatsby'
+import { GatsbyNode } from 'gatsby'
 
 export const createPages: GatsbyNode['createPages'] = async ({
   actions,
