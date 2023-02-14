@@ -49,7 +49,7 @@ const AccordionItem = ({
         }
       case 'Light':
         return {
-          heading: [metaTheme.senary, metaTheme.tertiary],
+          heading: [metaTheme.quinary, metaTheme.tertiary],
           subheading: ['#666', metaTheme.tertiary],
           button: ['#666', metaTheme.tertiary],
           divider: rgba('#888', 0.5),
