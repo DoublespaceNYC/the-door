@@ -22,6 +22,7 @@ export const colors = {
   purpleDark: '#32245e',
   gray95: '#EEF4FA',
   gray92: '#DEEAF7',
+  gray85: '#d2d9e0',
   gray75: '#b6bfc9',
   gray66: '#9aa8b6',
   gray50: '#697f96',

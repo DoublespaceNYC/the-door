@@ -114,7 +114,9 @@ const DatoLink = ({
     case 'DatoCmsTertiaryLink':
       return (
         <LightboxLink
-          slugPrefix={`/${data.link.parentPage.slug}/`}
+          slugPrefix={
+            data.link.parentPage ? `/${data.link.parentPage.slug}/` : '/'
+          }
           link={data.linkText}
           content={data.link}
           highlightColor={highlightColor}

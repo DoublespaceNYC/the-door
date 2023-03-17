@@ -16,10 +16,10 @@ import SocialLink, { ISocialLink } from './SocialLink'
 
 export interface FooterProps extends HTMLAttributes<HTMLElement> {
   logo: FC<LogoProps>
-  cta: {
+  cta?: {
     value: Document
   }
-  ctaButtons: (IFormLightboxLink | IInternalLink | IExternalLink)[]
+  ctaButtons?: (IFormLightboxLink | IInternalLink | IExternalLink)[]
   navItems: IDatoLink[]
   buttons: IDatoLink[]
   meta: {
@@ -229,10 +229,12 @@ const Footer = ({
           ))}
         </div>
       </div>
-      <FooterCTA
-        cta={cta}
-        ctaButtons={ctaButtons}
-      />
+      {cta && ctaButtons && (
+        <FooterCTA
+          cta={cta}
+          ctaButtons={ctaButtons}
+        />
+      )}
       <nav css={styles.nav}>
         {navItems.map((navItem, i) => (
           <div key={i}>

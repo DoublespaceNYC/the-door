@@ -13,8 +13,8 @@ import useEventsQuery from '../hooks/useEventsQuery'
 import useNewsQuery from '../hooks/useNewsQuery'
 import usePartnersQuery from '../hooks/usePartnersQuery'
 import { colors } from '../theme/variables'
-import Door50Logo from './Door50Logo'
-import DoorLogo from './DoorLogo'
+import BSALogo from './BSALogo'
+import BSALogoStacked from './BSALogoStacked'
 
 interface Props {
   children: ReactElement
@@ -30,10 +30,7 @@ const Layout = ({
       MainNavProps,
       'navItems' | 'buttons' | 'modal' | 'breakpoint'
     >
-    footer: Pick<
-      FooterProps,
-      'navItems' | 'buttons' | 'cta' | 'ctaButtons'
-    > & {
+    footer: Pick<FooterProps, 'navItems' | 'buttons'> & {
       ctaBar: ICTABar
     }
     alert: Omit<AlertBarProps, 'colors'>
@@ -57,16 +54,6 @@ const Layout = ({
                 value
               }
               links {
-                ... on DatoCmsServicesGroupLink {
-                  __typename
-                  servicesGroup {
-                    title
-                    services {
-                      title
-                      slug
-                    }
-                  }
-                }
                 ... on DatoCmsInternalLink {
                   ...InternalLinkFragment
                 }
@@ -117,20 +104,6 @@ const Layout = ({
           breakpoint
         }
         footer: datoCmsFooter {
-          cta: footerCta {
-            value
-          }
-          ctaButtons: footerCtaButtons {
-            ... on DatoCmsInternalLink {
-              ...InternalLinkFragment
-            }
-            ... on DatoCmsExternalLink {
-              ...ExternalLinkFragment
-            }
-            ... on DatoCmsFormLightboxLink {
-              ...FormLightboxLinkFragment
-            }
-          }
           navItems: links {
             ...InternalLinkFragment
           }
@@ -210,16 +183,14 @@ const Layout = ({
       location={location}
       collapsed={collapsed}
       nav={{
-        logo: DoorLogo,
+        logo: BSALogo,
         navItems: nav.navItems,
         buttons: nav.buttons,
         modal: nav.modal,
         breakpoint: nav.breakpoint,
       }}
       footer={{
-        logo: Door50Logo,
-        cta: footer.cta,
-        ctaButtons: footer.ctaButtons,
+        logo: BSALogoStacked,
         navItems: footer.navItems,
         buttons: footer.buttons,
         meta: meta,
@@ -232,28 +203,28 @@ const Layout = ({
         data: footer.ctaBar,
       }}
       theme={{
-        themeName: 'The Door',
-        primary: colors.navy,
-        primaryDark: colors.navyDark,
-        secondary: colors.blue,
-        secondaryLight: colors.blueLight,
-        secondaryMid: colors.blueMid,
-        secondaryDark: colors.blueDark,
-        tertiary: colors.pink,
-        tertiaryLight: colors.pinkLight,
-        tertiaryDark: colors.pinkDark,
-        quaternary: colors.yellow,
-        quaternaryLight: colors.yellowLight,
-        quaternaryDark: colors.yellowDark,
-        quinary: colors.purple,
-        quinaryLight: colors.purpleLight,
-        quinaryDark: colors.purpleDark,
-        senary: colors.teal,
-        senaryLight: colors.tealLight,
-        senaryDark: colors.tealDark,
-        septenary: colors.green,
-        septenaryLight: colors.greenLight,
-        septenaryDark: colors.greenDark,
+        themeName: 'BSA',
+        primary: colors.bsaBlue,
+        primaryDark: colors.bsaBlueDark,
+        secondary: colors.bsaGold,
+        secondaryLight: colors.bsaGoldLight,
+        secondaryMid: colors.bsaGoldMid,
+        secondaryDark: colors.bsaGoldDark,
+        tertiary: colors.bsaBlue,
+        tertiaryLight: colors.bsaBlueLight,
+        tertiaryDark: colors.bsaBlueDark,
+        quaternary: colors.bsaGold,
+        quaternaryLight: colors.bsaGoldLight,
+        quaternaryDark: colors.bsaGoldDark,
+        quinary: colors.bsaBlue,
+        quinaryLight: colors.bsaBlueLight,
+        quinaryDark: colors.bsaBlueDark,
+        senary: colors.bsaGold,
+        senaryLight: colors.bsaGoldLight,
+        senaryDark: colors.bsaGoldDark,
+        septenary: colors.bsaBlue,
+        septenaryLight: colors.bsaBlueLight,
+        septenaryDark: colors.bsaBlueDark,
         gray95: colors.gray95,
         gray92: colors.gray92,
         gray85: colors.gray85,
@@ -261,13 +232,8 @@ const Layout = ({
         gray66: colors.gray66,
         gray50: colors.gray50,
         gray40: colors.gray40,
-        contentColorsArray: [
-          colors.purple,
-          colors.pink,
-          colors.teal,
-          colors.green,
-        ],
-        buttonColorsArray: [colors.pink, colors.green],
+        contentColorsArray: [colors.bsaBlue, colors.bsaGold],
+        buttonColorsArray: [colors.bsaGold],
       }}
     >
       {children}

@@ -366,7 +366,7 @@ const MainNav = ({
                   theme.buttonColorsArray[i % theme.buttonColorsArray.length]
                 }
                 modal={
-                  modal[0].highlightedLinkNumber === i + 1
+                  modal[0]?.highlightedLinkNumber === i + 1
                     ? modal[0]
                     : undefined
                 }

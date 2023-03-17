@@ -2,11 +2,12 @@
   "private": true,
   "workspaces": [
     "packages/common",
-    "packages/the-door"
+    "packages/the-door",
+    "packages/bsa"
   ],
   "scripts": {
     "door": "npm run -w packages/the-door",
-    "common": "npm run -w packages/the-door",
+    "bsa": "npm run -w packages/bsa",
     "format": "prettier --write \"packages/**/src/**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "lint": "npx eslint \"packages/**/src/**/*.{js,jsx,ts,tsx}\""
   }

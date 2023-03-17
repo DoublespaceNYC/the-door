@@ -48,6 +48,7 @@ export interface ITheme extends Theme {
 
   gray95: string
   gray92: string
+  gray85: string
   gray75: string
   gray66: string
   gray50: string

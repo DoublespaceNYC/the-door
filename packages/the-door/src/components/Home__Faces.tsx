@@ -13,7 +13,7 @@ import { rgba } from 'polished'
 import { StructuredText } from 'react-datocms'
 
 import { colors } from '../theme/variables'
-import FacesThumbnail from './HomeFaces__Thumbnail'
+import FacesThumbnail from './Home__Faces__Thumbnail'
 
 type Props = {
   heading: string

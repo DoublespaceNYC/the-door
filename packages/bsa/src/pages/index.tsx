@@ -10,11 +10,11 @@ import { IStructuredText } from '@the-door/common/src/types'
 import { PageProps, graphql } from 'gatsby'
 import { Fragment, useEffect, useState } from 'react'
 
-import HomeFaces from '../components/Home__Faces'
 import HomeHero from '../components/Home__Hero'
-import HomeImpact from '../components/Home__Impact'
+import HomeResults from '../components/Home__Results'
 import HomeServices from '../components/Home__Services'
 import HomeWelcome from '../components/Home__Welcome'
+import HomeWhyBSA from '../components/Home__WhyBSA'
 import Seo from '../components/Seo'
 
 type DataProps = {
@@ -37,21 +37,14 @@ type DataProps = {
     welcomeImage: IGatsbyImageFocused
     servicesHeading: string
     servicesBody: IStructuredText
-    bsaHeading: string
-    bsaBody: IStructuredText
-    bsaLink: [IDatoLink]
-    bsaImage: IGatsbyImageFocused
-    impactHeading: string
-    impactBody: IStructuredText
-    impactLink: IDatoLink[]
-    impactStats: {
-      number: string
-      text: string
-    }[]
-    impactCta: string
-    impactCtaLink: [IDatoLink]
-    facesHeading: string
-    facesBody: IStructuredText
+    whyBsaHeading: string
+    whyBsaBody: IStructuredText
+    whyBsaCta: IDatoLink[]
+    whyBsaImage: IGatsbyImageFocused
+    resultsHeading: string
+    resultsBody: IStructuredText
+    resultsCta: IDatoLink[]
+    resultsImage: IGatsbyImageFocused
     latestHeading: string
     featuredArticle: IInternalArticle
     latestLink: [IInternalLink]
@@ -84,22 +77,18 @@ const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
       <HomeServices
         heading={home.servicesHeading}
         body={home.servicesBody}
-        bsaHeading={home.bsaHeading}
-        bsaBody={home.bsaBody}
-        bsaLink={home.bsaLink[0]}
-        bsaImage={home.bsaImage}
       />
-      <HomeImpact
-        heading={home.impactHeading}
-        body={home.impactBody}
-        link={home.impactLink[0]}
-        stats={home.impactStats}
-        cta={home.impactCta}
-        ctaLink={home.impactCtaLink[0]}
+      <HomeWhyBSA
+        heading={home.whyBsaHeading}
+        body={home.whyBsaBody}
+        cta={home.whyBsaCta}
+        image={home.whyBsaImage}
       />
-      <HomeFaces
-        heading={home.facesHeading}
-        body={home.facesBody}
+      <HomeResults
+        heading={home.resultsHeading}
+        body={home.resultsBody}
+        cta={home.resultsCta}
+        image={home.resultsImage}
       />
       <HomeLatest
         heading={home.latestHeading}
@@ -113,14 +102,14 @@ const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
 
 export const Head = (): JSX.Element => (
   <Seo
-    title={`The Door`}
+    title="Broome Street Academy"
     hideSuffix
   />
 )
 
 export const data = graphql`
   query {
-    home: datoCmsDoorHome {
+    home: datoCmsHomePage {
       heroHeading
       heroCtaText
       heroCtaLink {
@@ -166,60 +155,49 @@ export const data = graphql`
             crop: "focalpoint"
           }
         )
-        sizes {
-          aspectRatio
-        }
-        alt
-        focalPoint {
-          x
-          y
-        }
+        ...ImageFocalData
       }
       servicesHeading
       servicesBody {
         value
       }
-      bsaHeading
-      bsaBody {
+      whyBsaHeading
+      whyBsaBody {
         value
       }
-      bsaLink {
-        ...ExternalLinkFragment
-      }
-      bsaImage {
-        gatsbyImageData(width: 1280, imgixParams: { q: 60 })
-        sizes {
-          aspectRatio
-        }
-        focalPoint {
-          x
-          y
-        }
-        alt
-      }
-      impactHeading
-      impactBody {
-        value
-      }
-      impactLink {
+      whyBsaCta {
         ...InternalLinkFragment
       }
-      impactStats {
-        number
-        text
+      whyBsaImage {
+        gatsbyImageData(
+          width: 960
+          imgixParams: {
+            q: 65
+            ar: "4:5"
+            fit: "crop"
+            crop: "focalpoint"
+          }
+        )
+        ...ImageFocalData
       }
-      impactCta
-      impactCtaLink {
-        ... on DatoCmsExternalLink {
-          ...ExternalLinkFragment
-        }
-        ... on DatoCmsInternalLink {
-          ...InternalLinkFragment
-        }
-      }
-      facesHeading
-      facesBody {
+      resultsHeading
+      resultsBody {
         value
+      }
+      resultsCta {
+        ...TertiaryLinkFragment
+      }
+      resultsImage {
+        gatsbyImageData(
+          width: 960
+          imgixParams: {
+            q: 65
+            ar: "4:5"
+            fit: "crop"
+            crop: "focalpoint"
+          }
+        )
+        ...ImageFocalData
       }
       latestHeading
       featuredArticle {

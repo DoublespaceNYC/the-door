@@ -1,0 +1,17 @@
+export const colors = {
+  bsaBlueLighter: '#5961C0',
+  bsaBlueLight: '#3740a3',
+  bsaBlue: '#2C3384',
+  bsaBlueDark: '#070E59',
+  bsaGoldLight: '#ffcd1b',
+  bsaGold: '#FDA414',
+  bsaGoldMid: '#F29600',
+  bsaGoldDark: '#ff8a00',
+  gray95: '#F1F2F9',
+  gray92: '#e2e5f3',
+  gray85: '#cdd1e5',
+  gray75: '#aeb3d1',
+  gray66: '#959bbc',
+  gray50: '#6c7193',
+  gray40: '#575b75',
+}

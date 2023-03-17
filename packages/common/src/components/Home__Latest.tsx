@@ -40,13 +40,24 @@ const HomeLatest = ({
 
   const theme = useTheme() as ITheme
   const setColors = () => {
+    const defaultColors = {
+      heading: theme.quaternary,
+      pageLink: [theme.primary, theme.quaternary],
+      bg: theme.quaternaryDark,
+    }
     switch (theme.themeName) {
       case 'The Door':
         return {
+          ...defaultColors,
           bg: theme.quinaryDark,
-          heading: theme.quaternary,
-          pageLink: [theme.primary, theme.quaternary],
         }
+      case 'BSA':
+        return {
+          ...defaultColors,
+          bg: theme.gray85,
+        }
+      default:
+        return defaultColors
     }
   }
   const colors = setColors()
@@ -68,7 +79,7 @@ const HomeLatest = ({
         content: '';
         ${absoluteFill};
         max-width: 87.5vw;
-        background: linear-gradient(to bottom right, #fff, #dbeaf5);
+        background: linear-gradient(to bottom right, #fff, ${theme.gray92});
         z-index: 0;
       }
       &::before {

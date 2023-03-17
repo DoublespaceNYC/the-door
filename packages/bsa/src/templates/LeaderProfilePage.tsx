@@ -1,0 +1,51 @@
+import LeaderProfile, {
+  ILeader,
+} from '@the-door/common/src/components/Leader__Profile'
+import { renderDescription } from '@the-door/common/src/utils'
+import { HeadProps, PageProps, graphql } from 'gatsby'
+import { Fragment } from 'react'
+
+import Seo from '../components/Seo'
+
+interface QueryProps {
+  leader: ILeader
+}
+
+interface ContextProps {
+  id: string
+}
+
+const LeaderProfilePage = ({
+  data,
+}: PageProps<QueryProps, ContextProps>): JSX.Element => {
+  return (
+    <Fragment>
+      <LeaderProfile
+        data={data.leader}
+        layout="Page"
+      />
+    </Fragment>
+  )
+}
+
+export const Head = ({
+  data: {
+    leader: { name, title, seo, bio, headshot },
+  },
+}: HeadProps<QueryProps>): JSX.Element => (
+  <Seo
+    title={seo?.title || `${name}, ${title}`}
+    description={seo?.description || renderDescription(bio)}
+    imageUrl={seo?.image?.url || headshot.url}
+  />
+)
+
+export const query = graphql`
+  query ($id: String!) {
+    leader: datoCmsLeader(id: { eq: $id }) {
+      ...LeaderFragment
+    }
+  }
+`
+
+export default LeaderProfilePage
