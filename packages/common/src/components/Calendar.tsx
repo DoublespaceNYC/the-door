@@ -47,12 +47,15 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
           'Off Campus',
         ]
       case 'BSA':
-        return []
+        return ['All Locations', 'Broome Street Academy', 'Off Campus']
     }
   }
   const locations = setLocations()
 
-  const readableHighlight = useReadableColor(theme.secondary, theme.gray95)
+  const readableHighlight = useReadableColor(
+    theme.themeName === 'The Door' ? theme.secondary : theme.primary,
+    theme.gray95
+  )
   const tags = useMemo(() => {
     const tagArray = events
       ?.map(event => event.tags)
@@ -446,7 +449,7 @@ const Calendar = ({ title, events }: Props): JSX.Element => {
           </button>
         )}
         <div ref={node => setFiltersRef(node)}>
-          {locations && (
+          {locations.length > 0 && (
             <div css={styles.filterGroup}>
               {locations.map((location, i) => (
                 <button

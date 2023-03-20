@@ -1,11 +1,5 @@
 import { css } from '@emotion/react'
 import AnimateIn from '@the-door/common/src/components/AnimateIn'
-import DatoLink, {
-  IDatoLink,
-} from '@the-door/common/src/components/DatoLink'
-import GatsbyImageFocused, {
-  IGatsbyImageFocused,
-} from '@the-door/common/src/components/GatsbyImageFocused'
 import {
   absoluteFill,
   baseGrid,
