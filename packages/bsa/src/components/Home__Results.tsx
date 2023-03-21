@@ -41,6 +41,9 @@ const HomeResults = ({
         ${colors.gray85}
       );
       padding-bottom: var(--row-l);
+      ${mq().s} {
+        padding-bottom: var(--row-m);
+      }
     `,
     decoration: css`
       position: absolute;
@@ -49,6 +52,15 @@ const HomeResults = ({
       grid-column: 1 / span 7;
       grid-row: 2 / 5;
       background: ${colors.gray85};
+      ${mq().ms} {
+        height: calc(100% - 2em);
+        top: 2em;
+      }
+      ${mq().ms} {
+        grid-row: 3 / 5;
+        height: calc(100% + 2em);
+        top: -2em;
+      }
     `,
     heading: css`
       position: relative;
@@ -59,9 +71,9 @@ const HomeResults = ({
       margin-top: var(--row-l);
       margin-bottom: 0.125em;
       margin-left: var(--gtr-s);
-      ${mq().m} {
+      ${mq().ms} {
         grid-column: 2 / -2;
-        grid-row: 2 / 4;
+        margin-bottom: 0.333em;
       }
     `,
     body: css`
@@ -74,8 +86,9 @@ const HomeResults = ({
       max-width: 50ch;
       p {
         &:first-of-type {
-          display: flex;
           mark {
+            display: block;
+            float: left;
             font-size: 300%;
             font-weight: 700;
             color: inherit;
@@ -103,8 +116,9 @@ const HomeResults = ({
           }
         }
       }
-      ${mq().m} {
+      ${mq().s} {
         grid-column: 2 / -2;
+        margin-bottom: 3em;
       }
     `,
     cta: css`
@@ -123,6 +137,17 @@ const HomeResults = ({
       grid-column: 2 / span 6;
       grid-row: 1 / 4;
       margin: var(--row-m) 0;
+      max-height: 75vw;
+      ${mq().ms} {
+        grid-row: 2 / 4;
+        margin: 0;
+      }
+      ${mq().s} {
+        grid-row: 3 / 4;
+        grid-column: 4 / span 10;
+        height: 90vw;
+        max-height: none;
+      }
     `,
     imageInner: css`
       ${absoluteFill}

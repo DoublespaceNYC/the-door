@@ -56,9 +56,8 @@ const HomeWhyBSA = ({
       line-height: 1;
       margin-top: var(--row-l);
       margin-bottom: 0.333em;
-      ${mq().m} {
+      ${mq().ms} {
         grid-column: 2 / -2;
-        grid-row: 2 / 4;
       }
     `,
     body: css`
@@ -88,7 +87,7 @@ const HomeWhyBSA = ({
           }
         }
       }
-      ${mq().m} {
+      ${mq().ms} {
         grid-column: 2 / -2;
       }
     `,
@@ -117,6 +116,10 @@ const HomeWhyBSA = ({
       grid-column: span 6 / -2;
       grid-row: 1 / 4;
       margin: var(--row-m) 0;
+      max-height: 75vw;
+      ${mq().ms} {
+        display: none;
+      }
     `,
     imageInner: css`
       ${absoluteFill}

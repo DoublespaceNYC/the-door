@@ -33,8 +33,8 @@ const ServicesModule = ({ bgColor, ...props }: Props): JSX.Element => {
       grid-gap: 0.75rem;
       grid-template-columns: repeat(${services.nodes.length}, 1fr);
       padding: 0 var(--margin);
-      min-width: 100%;
-      box-sizing: border-box;
+      /* min-width: 100%;
+      box-sizing: border-box; */
     `,
     scrollArea: css`
       scroll-padding-left: var(--margin);

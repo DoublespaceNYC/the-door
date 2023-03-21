@@ -66,6 +66,15 @@ const Footer = ({
         grid-column: 2 / span 5;
         grid-row: 1 / 3;
       }
+      ${mq().s} {
+        ${!cta &&
+        !ctaButtons &&
+        css`
+          max-width: min(12rem, 100%);
+          grid-column: 2 / -2;
+          justify-self: center;
+        `}
+      }
     `,
     meta: css`
       grid-column: 5 / span 3;
@@ -146,6 +155,11 @@ const Footer = ({
         text-underline-offset: 0.175em;
         text-decoration-thickness: 2px;
       }
+      &[data-type='email'] {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       @media (hover: hover) {
         &:hover > span {
           text-decoration-line: underline;
@@ -204,6 +218,7 @@ const Footer = ({
             href={`mailto:${meta.email}`}
             target="_blank"
             rel="noreferrer"
+            data-type="email"
           >
             <span>{meta.email}</span>
           </a>
