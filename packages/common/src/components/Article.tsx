@@ -71,6 +71,7 @@ const Article = ({
       css`
         --grid-w: 50vw;
       `}
+      overflow: hidden;
     `,
     hero: css`
       grid-column: 1 / -1;
