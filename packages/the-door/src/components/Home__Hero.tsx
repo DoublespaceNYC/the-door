@@ -96,7 +96,7 @@ const HomeHero = ({
         font-size: var(--fs-108);
         margin-top: 0;
         margin-bottom: 0.167em;
-        max-width: 15ch;
+        max-width: 14ch;
       }
       h2 {
         font-size: var(--fs-24);

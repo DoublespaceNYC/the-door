@@ -102,7 +102,7 @@ const HomeWelcome = ({
       position: relative;
       grid-column: 2 / span 6;
       grid-row: 3 / 4;
-      max-width: 10ch;
+      max-width: 8ch;
       margin-top: var(--row-m);
       font-size: var(--fs-108);
       line-height: 1;
