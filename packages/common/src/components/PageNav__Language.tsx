@@ -6,7 +6,7 @@ import { HiOutlineGlobe } from 'react-icons/hi'
 import DropdownArrow from './DropdownArrow'
 import { ITheme } from './Layout'
 
-export type ILocale = 'en' | 'es' | 'fr'
+export type ILocale = 'en' | 'es' | 'fr' | 'zh'
 
 export type ISlugLocale = {
   locale: ILocale

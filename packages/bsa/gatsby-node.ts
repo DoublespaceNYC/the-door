@@ -108,7 +108,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
     id: string
     slug: string
   }
-  type Locale = 'en' | 'es' | 'fr'
+  type Locale = 'en' | 'es' | 'fr' | 'zh'
   type LocalesPageNode = {
     id: string
     _allSlugLocales: {
