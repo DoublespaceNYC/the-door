@@ -95,7 +95,7 @@ const HomeServices = ({
       position: relative;
       line-height: 1.5;
       margin-top: var(--gtr-s);
-      max-width: 55ch;
+      max-width: 60ch;
       margin-bottom: var(--row-m);
       p:last-of-type {
         margin-bottom: 0rem;
