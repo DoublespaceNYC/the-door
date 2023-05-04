@@ -69,6 +69,12 @@ export const createPages: GatsbyNode['createPages'] = async ({
             ... on DatoCmsInteriorPage {
               slug
             }
+            ... on DatoCmsMembershipPage {
+              slug
+            }
+            ... on DatoCmsContactPage {
+              slug
+            }
           }
         }
       }
