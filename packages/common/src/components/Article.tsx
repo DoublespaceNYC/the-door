@@ -169,6 +169,10 @@ const Article = ({
       > h2 + h3 {
         margin-top: 0.75em;
       }
+      > ul + h3,
+      > ol + h3 {
+        margin-top: 0;
+      }
       > h4 {
         font-size: var(--fs-16);
         font-family: var(--body-font);
@@ -195,10 +199,12 @@ const Article = ({
         /* first-child */
         margin-top: 1.5em;
       }
-      > *:not(style) + p,
+      > *:not(style) + p {
+        margin-top: 0.5em;
+      }
       > *:not(style) + ul,
       > *:not(style) + ol {
-        margin-top: 0.5em;
+        margin-top: 0;
       }
       > *:last-child {
         margin-bottom: 0;
