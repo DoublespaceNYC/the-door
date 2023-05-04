@@ -234,7 +234,7 @@ export const data = graphql`
       }
       slug
     }
-    stories: allDatoCmsFacesStory {
+    stories: allDatoCmsFacesStory(sort: { position: ASC }) {
       nodes {
         ...FacesStoryFragment
       }

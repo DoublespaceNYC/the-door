@@ -28,7 +28,7 @@ const HomeFaces = ({ heading, body }: Props): JSX.Element => {
   }
   const { stories } = useStaticQuery<QueryProps>(graphql`
     query {
-      stories: allDatoCmsFacesStory {
+      stories: allDatoCmsFacesStory(sort: { position: ASC }) {
         nodes {
           ...FacesStoryFragment
         }
