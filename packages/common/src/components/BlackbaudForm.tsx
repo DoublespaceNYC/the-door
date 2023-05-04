@@ -311,7 +311,7 @@ const BlackbaudForm = ({
         padding: 1em;
         border-radius: 0.5em;
       }
-      .grecaptcha-batch {
+      .grecaptcha-badge {
         position: absolute !important;
       }
     }
