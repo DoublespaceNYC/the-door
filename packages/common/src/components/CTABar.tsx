@@ -6,7 +6,7 @@ import {
 } from 'datocms-structured-text-utils'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 
-import { mq } from '../theme/mixins'
+import { buttonStyle, mq } from '../theme/mixins'
 import DatoLink, { isDatoLink } from './DatoLink'
 import { IExternalLink } from './ExternalLink'
 import Form, { IFormEmbed } from './Form'
@@ -82,6 +82,19 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
       font-size: var(--fs-30);
       color: ${theme.secondaryLight};
     `,
+    button: css`
+      ${buttonStyle}
+      background-color: #fff;
+      color: ${theme.tertiary};
+      font-size: 125%;
+      border-radius: 0.2em;
+      @media (hover: hover) {
+        &:hover {
+          background: ${theme.tertiary};
+          color: #fff;
+        }
+      }
+    `,
   }
   return (
     <section css={styles.section}>
@@ -102,7 +115,12 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
             )
           }
           if (isDatoLink(record)) {
-            return <DatoLink data={record} />
+            return (
+              <DatoLink
+                data={record}
+                css={styles.button}
+              />
+            )
           } else return null
         }}
         customNodeRules={[
