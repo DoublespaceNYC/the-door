@@ -16,7 +16,7 @@ import BlackbaudForm, { IBlackbaudForm } from './BlackbaudForm'
 import MediaCarousel, { IMediaCarousel } from './ContentCarousel__Media'
 import Form, { IForm } from './Form'
 import { ITheme } from './Layout'
-import MediaBlock, { IMediaBlock } from './MediaBlock'
+import ImageBlock, { IImageBlock } from './ImageBlock'
 
 interface IHeroImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   heroImageData: IGatsbyImageData
@@ -33,7 +33,7 @@ interface Props extends HTMLAttributes<HTMLElement> {
   }
   body: {
     value: Document
-    blocks?: (IMediaBlock | IMediaCarousel)[]
+    blocks?: (IImageBlock | IMediaCarousel)[]
   }
   form?: IForm | IBlackbaudForm
   highlightColor?: string
@@ -280,9 +280,9 @@ const Article = ({
             data={body}
             renderBlock={({ record }) => {
               switch (record.__typename) {
-                case 'DatoCmsMediaBlock':
+                case 'DatoCmsImageBlock':
                   return (
-                    <MediaBlock
+                    <ImageBlock
                       css={styles.mediaBlock}
                       data={record}
                       highlightColor={highlightColor}

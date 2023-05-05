@@ -12,7 +12,7 @@ import { ISEO } from '../types'
 import Article from './Article'
 import { IMediaCarousel } from './ContentCarousel__Media'
 import { ITheme } from './Layout'
-import { IMediaBlock } from './MediaBlock'
+import { IImageBlock } from './ImageBlock'
 
 interface IArticleImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   thumbnailImageData: IGatsbyImageData
@@ -33,7 +33,7 @@ export interface IInternalArticle extends Record {
   lede: IStructuredText
   body: {
     value: Document
-    blocks?: (IMediaBlock | IMediaCarousel)[]
+    blocks?: (IImageBlock | IMediaCarousel)[]
   }
   inLatest: boolean
   publicationDate: string

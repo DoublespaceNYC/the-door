@@ -5,17 +5,18 @@ import { darken } from 'polished'
 import { HTMLAttributes } from 'react'
 
 import { widthInCols } from '../theme/mixins'
+import ImageBlock, { IImageBlock } from './ImageBlock'
 import { ITheme } from './Layout'
-import MediaBlock, { IMediaBlock } from './MediaBlock'
 import ScrollSlider from './ScrollSlider'
+import VideoBlock, { IVideoBlock } from './VideoBlock'
 
 export interface IMediaCarousel extends Record {
   __typename: 'DatoCmsMediaCarousel'
-  media: IMediaBlock[]
+  media: (IImageBlock | IVideoBlock)[]
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  data: IMediaBlock[]
+  data: (IImageBlock | IVideoBlock)[]
   highlightColor?: string
   layout: 'Page' | 'Lightbox' | 'Calendar'
 }
@@ -80,15 +81,30 @@ const MediaCarousel = ({
       }}
       {...props}
     >
-      {data.map((block, i) => (
-        <MediaBlock
-          layout={layout}
-          data={block}
-          highlightColor={highlightColor}
-          css={styles.block}
-          key={i}
-        />
-      ))}
+      {data.map((block, i) => {
+        switch (block.__typename) {
+          case 'DatoCmsImageBlock':
+            return (
+              <ImageBlock
+                layout={layout}
+                data={block}
+                highlightColor={highlightColor}
+                css={styles.block}
+                key={i}
+              />
+            )
+          case 'DatoCmsVideoBlock':
+            return (
+              <VideoBlock
+                layout={layout}
+                data={block}
+                highlightColor={highlightColor}
+                css={styles.block}
+                key={i}
+              />
+            )
+        }
+      })}
     </ScrollSlider>
   )
 }

@@ -8,14 +8,14 @@ const useNewsQuery = () => {
     useStaticQuery<QueryProps>(graphql`
       query {
         allInternalArticles: allDatoCmsInternalArticle(
-          sort: { publicationDate: ASC }
+          sort: { publicationDate: DESC }
         ) {
           nodes {
             ...InternalArticleFragment
           }
         }
         allExternalArticles: allDatoCmsExternalArticle(
-          sort: { publicationDate: ASC }
+          sort: { publicationDate: DESC }
         ) {
           nodes {
             ...ExternalArticleFragment

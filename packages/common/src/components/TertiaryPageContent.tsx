@@ -14,7 +14,7 @@ import { ISEO } from '../types'
 import Article from './Article'
 import { IMediaCarousel } from './ContentCarousel__Media'
 import { IGatsbyImageFocused } from './GatsbyImageFocused'
-import { IMediaBlock } from './MediaBlock'
+import { IImageBlock } from './ImageBlock'
 
 interface IArticleImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   heroImageData: IGatsbyImageData
@@ -28,7 +28,7 @@ export interface ITertiaryPage extends Record {
   lede: IStructuredText
   body: {
     value: Document
-    blocks?: (IMediaBlock | IMediaCarousel)[]
+    blocks?: (IImageBlock | IMediaCarousel)[]
   }
   parentPage: {
     slug: string

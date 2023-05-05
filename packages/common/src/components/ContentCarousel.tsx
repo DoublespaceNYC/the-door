@@ -6,8 +6,9 @@ import LinksCarousel from './ContentCarousel__Links'
 import { ICarouselLink } from './ContentCarousel__Links__Block'
 import MediaCarousel from './ContentCarousel__Media'
 import NewsEventsCarousel from './ContentCarousel__NewsEvents'
-import { IMediaBlock } from './MediaBlock'
+import { IImageBlock } from './ImageBlock'
 import PartnersGrid from './PartnersGrid'
+import { IVideoBlock } from './VideoBlock'
 
 export interface ICarousel extends Record {
   __typename: 'DatoCmsCarousel'
@@ -16,7 +17,7 @@ export interface ICarousel extends Record {
     name: string
   }[]
   links: ICarouselLink[]
-  media: IMediaBlock[]
+  media: (IImageBlock | IVideoBlock)[]
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {

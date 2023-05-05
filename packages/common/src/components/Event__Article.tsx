@@ -6,7 +6,7 @@ import { ISEO } from '../types'
 import { formateDateTimeRange } from '../utils'
 import Article from './Article'
 import { IMediaCarousel } from './ContentCarousel__Media'
-import { IMediaBlock } from './MediaBlock'
+import { IImageBlock } from './ImageBlock'
 
 export interface IEvent extends Record {
   __typename: 'DatoCmsEvent'
@@ -20,7 +20,7 @@ export interface IEvent extends Record {
   seo?: ISEO
   body: {
     value: Document
-    blocks: (IMediaBlock | IMediaCarousel)[]
+    blocks: (IImageBlock | IMediaCarousel)[]
   }
 }
 
@@ -103,8 +103,8 @@ export const EventFragments = () => graphql`
     body {
       value
       blocks {
-        ... on DatoCmsMediaBlock {
-          ...MediaBlockFragment
+        ... on DatoCmsImageBlock {
+          ...ImageBlockFragment
         }
         ... on DatoCmsMediaCarousel {
           ...MediaCarouselFragment

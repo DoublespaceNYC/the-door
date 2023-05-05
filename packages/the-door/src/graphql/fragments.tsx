@@ -32,12 +32,6 @@ export const Fragments = graphql`
       ... on DatoCmsTheLatestPage {
         slug
       }
-      ... on DatoCmsImpactPage {
-        slug
-      }
-      ... on DatoCmsFacesPage {
-        slug
-      }
       ... on DatoCmsCalendarPage {
         slug
       }
@@ -157,8 +151,11 @@ export const Fragments = graphql`
     body {
       value
       blocks {
-        ... on DatoCmsMediaBlock {
-          ...MediaBlockFragment
+        ... on DatoCmsImageBlock {
+          ...ImageBlockFragment
+        }
+        ... on DatoCmsVideoBlock {
+          ...VideoBlockFragment
         }
         ... on DatoCmsMediaCarousel {
           ...MediaCarouselFragment
@@ -216,8 +213,11 @@ export const Fragments = graphql`
     body {
       value
       blocks {
-        ... on DatoCmsMediaBlock {
-          ...MediaBlockFragment
+        ... on DatoCmsImageBlock {
+          ...ImageBlockFragment
+        }
+        ... on DatoCmsVideoBlock {
+          ...VideoBlockFragment
         }
         ... on DatoCmsMediaCarousel {
           ...MediaCarouselFragment
@@ -346,31 +346,39 @@ export const Fragments = graphql`
     }
     url
   }
-  fragment MediaBlockFragment on DatoCmsMediaBlock {
+  fragment ImageBlockFragment on DatoCmsImageBlock {
     id: originalId
     __typename
     caption {
       value
     }
-    asset {
+    image {
       gatsbyImageData(
         width: 1280
         imgixParams: { q: 60, fit: "crop", crop: "focalpoint" }
       )
       ...ImageFocalData
-      video {
-        streamingUrl
-        thumbnailUrl
-      }
     }
   }
-  fragment CarouselMediaBlockFragment on DatoCmsMediaBlock {
+  fragment VideoBlockFragment on DatoCmsVideoBlock {
     id: originalId
     __typename
     caption {
       value
     }
-    asset {
+    video {
+      url
+      width
+      height
+    }
+  }
+  fragment CarouselImageBlockFragment on DatoCmsImageBlock {
+    id: originalId
+    __typename
+    caption {
+      value
+    }
+    image {
       gatsbyImageData(
         width: 960
         imgixParams: {
@@ -381,17 +389,13 @@ export const Fragments = graphql`
         }
       )
       ...ImageFocalData
-      video {
-        streamingUrl
-        thumbnailUrl
-      }
     }
   }
   fragment MediaCarouselFragment on DatoCmsMediaCarousel {
     id: originalId
     __typename
     media {
-      ...CarouselMediaBlockFragment
+      ...CarouselImageBlockFragment
     }
   }
   fragment CarouselFragment on DatoCmsCarousel {
@@ -405,7 +409,12 @@ export const Fragments = graphql`
       ...CarouselLinkFragment
     }
     media {
-      ...CarouselMediaBlockFragment
+      ... on DatoCmsImageBlock {
+        ...CarouselImageBlockFragment
+      }
+      ... on DatoCmsVideoBlock {
+        ...VideoBlockFragment
+      }
     }
   }
   fragment ContentBlockFragment on DatoCmsContentBlock {
@@ -724,8 +733,11 @@ export const Fragments = graphql`
     body {
       value
       blocks {
-        ... on DatoCmsMediaBlock {
-          ...MediaBlockFragment
+        ... on DatoCmsImageBlock {
+          ...ImageBlockFragment
+        }
+        ... on DatoCmsVideoBlock {
+          ...VideoBlockFragment
         }
         ... on DatoCmsMediaCarousel {
           ...MediaCarouselFragment

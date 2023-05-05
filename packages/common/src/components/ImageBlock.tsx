@@ -13,28 +13,20 @@ import { useInView } from 'react-intersection-observer'
 import { mq } from '../theme/mixins'
 import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
 import { ITheme } from './Layout'
-import VideoStreamPlayer from './VideoStreamPlayer'
 
-interface IVideoMedia {
-  isImage: false
-  video: {
-    streamingUrl: string
-    thumbnailUrl?: string
-  }
-}
-export interface IMediaBlock extends Record {
-  __typename: 'DatoCmsMediaBlock'
+export interface IImageBlock extends Record {
+  __typename: 'DatoCmsImageBlock'
   caption: IStructuredText
-  asset: IVideoMedia | IGatsbyImageFocused
+  image: IGatsbyImageFocused
 }
 interface Props extends HTMLAttributes<HTMLElement> {
-  data: IMediaBlock
+  data: IImageBlock
   highlightColor?: string
   layout: 'Page' | 'Lightbox' | 'Calendar'
 }
 
-const MediaBlock = ({
-  data: { asset, caption },
+const ImageBlock = ({
+  data: { image, caption },
   highlightColor,
   layout,
 
@@ -156,24 +148,14 @@ const MediaBlock = ({
       ref={ref}
       {...props}
     >
-      {asset.isImage ? (
-        <GatsbyImageFocused
-          css={[styles.media]}
-          image={asset.gatsbyImageData}
-          alt={asset.alt || render(caption.value) || ''}
-          focalPoint={asset.focalPoint}
-          aspectRatio={3 / 2}
-          originalAspectRatio={asset.sizes.aspectRatio}
-        />
-      ) : (
-        <VideoStreamPlayer
-          css={[styles.media]}
-          src={asset.video.streamingUrl}
-          thumbnail={asset.video.thumbnailUrl}
-          playing={!inView ? false : undefined}
-          controls
-        />
-      )}
+      <GatsbyImageFocused
+        css={[styles.media]}
+        image={image.gatsbyImageData}
+        alt={image.alt || render(caption.value) || ''}
+        focalPoint={image.focalPoint}
+        aspectRatio={3 / 2}
+        originalAspectRatio={image.sizes.aspectRatio}
+      />
       <figcaption css={styles.caption}>
         <div>
           <div>
@@ -185,4 +167,4 @@ const MediaBlock = ({
   )
 }
 
-export default MediaBlock
+export default ImageBlock

@@ -3,9 +3,7 @@ import { IGatsbyImageData } from 'gatsby-plugin-image'
 
 import { ISEO } from '../types'
 import Article from './Article'
-import { IMediaCarousel } from './ContentCarousel__Media'
 import { IGatsbyImageFocused } from './GatsbyImageFocused'
-import { IMediaBlock } from './MediaBlock'
 
 interface IStoryImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   carouselImageData: IGatsbyImageData
@@ -21,7 +19,6 @@ export interface IFacesStory {
   ctaText: string
   body: {
     value: Document
-    blocks?: (IMediaBlock | IMediaCarousel)[]
   }
   slug: string
   seo: ISEO
