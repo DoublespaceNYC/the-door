@@ -95,7 +95,7 @@ const LeaderThumbnail = ({
           <Subheading css={styles.subheading}>{data.title}</Subheading>
         </div>
       }
-      content={data}
+      data={data}
     />
   )
 }

@@ -86,7 +86,7 @@ const DatoLink = ({
         <LightboxLink
           slugPrefix="/forms/"
           link={data.linkText}
-          content={data.link}
+          data={data.link}
           highlightColor={highlightColor}
           {...props}
         />
@@ -96,7 +96,7 @@ const DatoLink = ({
         <LightboxLink
           slugPrefix="/articles/"
           link={data.linkText}
-          content={data.link}
+          data={data.link}
           highlightColor={highlightColor}
           {...props}
         />
@@ -106,7 +106,7 @@ const DatoLink = ({
         <LightboxLink
           slugPrefix="/events/"
           link={data.linkText}
-          content={data.link}
+          data={data.link}
           highlightColor={highlightColor}
           {...props}
         />
@@ -115,10 +115,10 @@ const DatoLink = ({
       return (
         <LightboxLink
           slugPrefix={
-            data.link.parentPage ? `/${data.link.parentPage.slug}/` : '/'
+            data.link.parentPage ? `/${data.link.parentPage.slug}/` : null
           }
           link={data.linkText}
-          content={data.link}
+          data={data.link}
           highlightColor={highlightColor}
           {...props}
         />

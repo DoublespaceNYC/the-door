@@ -24,11 +24,11 @@ export interface ICornerPopup {
 }
 
 type Props = {
-  content: ICornerPopup
+  data: ICornerPopup
   triggerCss?: CSSInterpolation
 }
 
-const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
+const CornerPopup = ({ data, triggerCss }: Props): JSX.Element => {
   const isBrowser = typeof window !== `undefined`
   const portalTarget = isBrowser && document.getElementById('popup-container')
   const { inView, ref } = useInView({
@@ -57,7 +57,7 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
       filter: drop-shadow(0 0.167rem 0.333rem #00000033);
       pointer-events: none;
     `,
-    content: css`
+    data: css`
       background: #fff;
       color: #444;
       font-size: var(--fs-15);
@@ -89,7 +89,7 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
     `,
     cta: css`
       display: block;
-      width: fit-content;
+      width: fit-data;
       font-family: var(--display-font);
       font-size: var(--fs-16);
       line-height: 1;
@@ -138,10 +138,10 @@ const CornerPopup = ({ content, triggerCss }: Props): JSX.Element => {
       {portalTarget &&
         createPortal(
           <div css={styles.container}>
-            <div css={styles.content}>
-              <h2>{content.heading}</h2>
+            <div css={styles.data}>
+              <h2>{data.heading}</h2>
               <StructuredText
-                data={content.body}
+                data={data.body}
                 renderBlock={({ record }) => {
                   if (isDatoLink(record)) {
                     return (

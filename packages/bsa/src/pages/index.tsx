@@ -73,7 +73,7 @@ const IndexPage = ({ data: { home } }: PageProps<DataProps>) => {
         links={home.welcomeLinks}
         image={home.welcomeImage}
       />
-      {showPopup && <CornerPopup content={home.popup[0]} />}
+      {showPopup && <CornerPopup data={home.popup[0]} />}
       <HomeServices
         heading={home.servicesHeading}
         body={home.servicesBody}

@@ -187,7 +187,7 @@ const FacesPage = ({
               <LightboxLink
                 slugPrefix={page.slug}
                 link={story.ctaText}
-                content={story}
+                data={story}
                 highlightColor={getStoryColors(i)[0]}
               />
             </div>

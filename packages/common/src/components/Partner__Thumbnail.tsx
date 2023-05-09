@@ -66,7 +66,7 @@ const PartnerThumbnail = ({ data, ...props }: Props): JSX.Element => {
         </Fragment>
       }
       {...props}
-      content={data}
+      data={data}
     />
   )
 }

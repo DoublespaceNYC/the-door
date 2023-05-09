@@ -62,7 +62,7 @@ const EventThumbnail = ({
     <LightboxLink
       css={styles.container}
       slugPrefix="/events/"
-      content={event}
+      data={event}
       highlightColor={highlightColor}
       link={
         <EventThumbnailInnards

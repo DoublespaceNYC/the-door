@@ -11,14 +11,14 @@ import { ILightboxContent } from './Lightbox__Content'
 
 interface Props extends HTMLAttributes<HTMLAnchorElement> {
   link: ReactNode | string
-  content: ILightboxContent
-  slugPrefix?: string
+  data: ILightboxContent
+  slugPrefix?: string | null
   pageTitle?: string
   highlightColor?: string
 }
 
 const LightboxLink = ({
-  content,
+  data,
   link,
   slugPrefix,
   pageTitle,
@@ -41,7 +41,7 @@ const LightboxLink = ({
       setOpen(true)
     }, 10)
   }
-  const slug = `/${slugPrefix || ''}/${content.slug}/`.replace(/\/{2,}/g, '/')
+  const slug = `/${slugPrefix || ''}/${data.slug}/`.replace(/\/{2,}/g, '/')
   return (
     <Fragment>
       <a
@@ -53,14 +53,14 @@ const LightboxLink = ({
         {link}
       </a>
       <Lightbox
-        data={content}
+        data={data}
         open={open}
         onClose={() => setOpen(false)}
         entry={entry}
         slug={slug}
         pageTitle={pageTitle}
         layout={
-          content.__typename === 'DatoCmsFormLightbox' ? 'Centered' : 'Full'
+          data.__typename === 'DatoCmsFormLightbox' ? 'Centered' : 'Full'
         }
         highlightColor={highlightColor}
       />

@@ -130,7 +130,7 @@ const FacesThumbnail = ({ story }: Props): JSX.Element => {
           <LightboxLink
             slugPrefix={slug}
             link={story.ctaText}
-            content={story}
+            data={story}
             highlightColor={colors.purple}
             css={styles.cta}
           />

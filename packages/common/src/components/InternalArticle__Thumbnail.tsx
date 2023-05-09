@@ -19,7 +19,7 @@ const InternalArticleThumbnail = ({
   return (
     <LightboxLink
       slugPrefix="/articles/"
-      content={article}
+      data={article}
       link={
         <ArticleThumbnail
           article={article}
