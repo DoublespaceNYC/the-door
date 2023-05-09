@@ -1,2 +1,5 @@
 [[plugins]]
   package = "@netlify/plugin-gatsby"
+  
+[build]
+  ignore = "exit 0"
