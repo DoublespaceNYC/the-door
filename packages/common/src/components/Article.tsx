@@ -15,8 +15,9 @@ import { renderDescription } from '../utils'
 import BlackbaudForm, { IBlackbaudForm } from './BlackbaudForm'
 import MediaCarousel, { IMediaCarousel } from './ContentCarousel__Media'
 import Form, { IForm } from './Form'
-import { ITheme } from './Layout'
 import ImageBlock, { IImageBlock } from './ImageBlock'
+import { ITheme } from './Layout'
+import VideoBlock, { IVideoBlock } from './VideoBlock'
 
 interface IHeroImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   heroImageData: IGatsbyImageData
@@ -33,7 +34,7 @@ interface Props extends HTMLAttributes<HTMLElement> {
   }
   body: {
     value: Document
-    blocks?: (IImageBlock | IMediaCarousel)[]
+    blocks?: (IImageBlock | IVideoBlock | IMediaCarousel)[]
   }
   form?: IForm | IBlackbaudForm
   highlightColor?: string
@@ -283,6 +284,15 @@ const Article = ({
                 case 'DatoCmsImageBlock':
                   return (
                     <ImageBlock
+                      css={styles.mediaBlock}
+                      data={record}
+                      highlightColor={highlightColor}
+                      layout={layout}
+                    />
+                  )
+                case 'DatoCmsVideoBlock':
+                  return (
+                    <VideoBlock
                       css={styles.mediaBlock}
                       data={record}
                       highlightColor={highlightColor}
