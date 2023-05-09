@@ -196,6 +196,7 @@ const BlackbaudForm = ({
             display: flex;
             flex-wrap: wrap;
             color: inherit;
+            width: 100%;
             margin: 0 0 1em;
             .BBFormRadioLabelGivingLevel {
               font-size: var(--fs-21);
@@ -262,23 +263,23 @@ const BlackbaudForm = ({
               overflow: hidden;
               position: absolute;
             }
-            input[type='submit'].BBFormSubmitbutton {
-              font-size: var(--fs-24);
-              font-family: var(--display-font);
-              text-transform: uppercase;
-              letter-spacing: 0.05em;
-              filter: none;
-              background: ${readableHighlight};
-              box-shadow: none;
-              border-radius: 0;
-              padding: 0.5em 0.75em;
-              transition: background-color 300ms ease;
-              @media (hover: hover) {
-                &:hover {
-                  opacity: 1;
-                  background: ${readableHighlight &&
-                  darken(0.1, readableHighlight)};
-                }
+          }
+          input[type='submit'].BBFormSubmitbutton {
+            font-size: var(--fs-24);
+            font-family: var(--display-font);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            filter: none;
+            background: ${readableHighlight};
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0.5em 0.75em;
+            transition: background-color 300ms ease;
+            @media (hover: hover) {
+              &:hover {
+                opacity: 1;
+                background: ${readableHighlight &&
+                darken(0.1, readableHighlight)};
               }
             }
           }

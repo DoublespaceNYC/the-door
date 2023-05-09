@@ -13,8 +13,8 @@ import useEventsQuery from '../hooks/useEventsQuery'
 import useNewsQuery from '../hooks/useNewsQuery'
 import usePartnersQuery from '../hooks/usePartnersQuery'
 import { colors } from '../theme/variables'
-import Door50Logo from './Door50Logo'
 import DoorLogo from './DoorLogo'
+import DoorLogoStacked from './DoorLogoStacked'
 
 interface Props {
   children: ReactElement
@@ -217,7 +217,7 @@ const Layout = ({
         breakpoint: nav.breakpoint,
       }}
       footer={{
-        logo: Door50Logo,
+        logo: DoorLogoStacked,
         cta: footer.cta,
         ctaButtons: footer.ctaButtons,
         navItems: footer.navItems,
