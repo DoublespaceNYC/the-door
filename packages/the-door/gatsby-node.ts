@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 
 import { GatsbyNode } from 'gatsby'
+import { createRemoteFileNode } from 'gatsby-source-filesystem'
 
 export const createPages: GatsbyNode['createPages'] = async ({
   actions,
@@ -325,25 +326,59 @@ export const createPages: GatsbyNode['createPages'] = async ({
   })
 }
 
+export const onCreateNode: GatsbyNode['onCreateNode'] = async ({
+  node,
+  actions: { createNode, createNodeField },
+  createNodeId,
+  getCache,
+}) => {
+  // For all DatoCmsAsset nodes that have document format, call createRemoteFileNode
+  if (node.internal.type === 'DatoCmsAsset') {
+    const { attributes: assetNode } = node.entityPayload as Node & {
+      attributes: { format: string; url: string }
+    }
+    const shouldCreateRemoteFileNode = () => {
+      switch (assetNode.format) {
+        case 'pdf':
+        case 'doc':
+        case 'docx':
+          return true
+        default:
+          return false
+      }
+    }
+    if (shouldCreateRemoteFileNode()) {
+      const fileNode = await createRemoteFileNode({
+        url: assetNode.url, // string that points to the URL of the image
+        parentNodeId: node.id, // id of the parent node of the fileNode you are going to create
+        createNode, // helper function in gatsby-node to generate the node
+        createNodeId, // helper function in gatsby-node to generate the node id
+        getCache,
+      })
+      // if the file was created, extend the node with "localFile"
+      if (fileNode) {
+        createNodeField({ node, name: 'localFileId', value: fileNode.id })
+        // console.log(fileNode)
+      }
+    }
+  }
+}
+
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
+  ({ actions: { createTypes } }) => {
+    createTypes(`
+    type DatoCmsEvent implements Node {
+      isUpcoming: Boolean!
+    }
+    type DatoCmsFileField implements Node {
+      localFileId: String
+    }
+  `)
+  }
+
 export const createResolvers: GatsbyNode['createResolvers'] = async ({
   createResolvers,
 }) => {
-  // const convertTZ = (date: Date, tzString: string) => {
-  //   return new Date(
-  //     (typeof date === 'string' ? new Date(date) : date).toLocaleString(
-  //       'en-US',
-  //       { timeZone: tzString }
-  //     )
-  //   )
-  // }
-  // const newDate = new Date()
-  // const today = convertTZ(newDate, 'America/New_York')
-  // today.setHours(0, 0, 0, 0)
-
-  //     "siteBuildMetadata": {
-  //   "buildTime": "2023-01-09T18:58:13.000Z"
-  // }
-
   createResolvers({
     DatoCmsEvent: {
       isUpcoming: {
@@ -358,21 +393,24 @@ export const createResolvers: GatsbyNode['createResolvers'] = async ({
           const { start_date_time, end_date_time } =
             source.entityPayload.attributes
           const cutoff = new Date(end_date_time || start_date_time)
-          console.log(
-            `${source.entityPayload.attributes.slug}: ${cutoff} > ${today}? ${cutoff > today}`
-          )
+          // console.log(
+          //   `${source.entityPayload.attributes.slug}: ${cutoff} > ${today}? ${cutoff > today}`
+          // )
           return cutoff > today
+        },
+      },
+    },
+    DatoCmsFileField: {
+      localFileId: {
+        type: `String`,
+        resolve: async (source, args, context, info) => {
+          // // console.log(source.fields)
+          // const node = await context.nodeModel.findOne({ type: 'File', query: { filter: { id: { eq: source.fields?.localFileId } } } })
+          // console.log(node)
+          return source.fields?.localFileId
         },
       },
     },
   })
 }
 
-export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
-  ({ actions: { createTypes } }) => {
-    createTypes(`
-    type DatoCmsEvent implements Node {
-      isUpcoming: Boolean!
-    }
-  `)
-  }

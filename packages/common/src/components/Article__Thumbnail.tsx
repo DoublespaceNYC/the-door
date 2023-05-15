@@ -5,16 +5,18 @@ import { Fragment, HTMLAttributes } from 'react'
 
 import useReadableColor from '../hooks/useReadableColor'
 import { mq } from '../theme/mixins'
+import DocumentIcon from './DocumentIcon'
 import { IExternalArticle } from './ExternalArticle'
 import ExternalLinkIcon from './ExternalLinkIcon'
 import GatsbyImageFocused from './GatsbyImageFocused'
 import { IInternalArticle } from './InternalArticle'
 import { ITheme } from './Layout'
+import { IPdfArticle } from './PdfArticle'
 
 export type IArticleThumbnailLayout = 'Featured' | 'Grid' | 'Carousel'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  article: IInternalArticle | IExternalArticle
+  article: IInternalArticle | IExternalArticle | IPdfArticle
   layout: IArticleThumbnailLayout
   highlightColor?: string
 }
@@ -148,13 +150,20 @@ const ArticleThumbnail = ({
         <h3>{article.title}</h3>
         <div css={styles.details}>
           <h4>
-            {article.__typename === 'DatoCmsInternalArticle' &&
+            {(article.__typename === 'DatoCmsInternalArticle' ||
+              article.__typename === 'DatoCmsPdfArticle') &&
               article.category.name}
             {article.__typename === 'DatoCmsExternalArticle' && (
               <Fragment>
                 {article.publication}
                 &#8196;
                 <ExternalLinkIcon css={styles.icon} />
+              </Fragment>
+            )}
+            {article.__typename === 'DatoCmsPdfArticle' && (
+              <Fragment>
+                &#8196;
+                <DocumentIcon css={styles.icon} />
               </Fragment>
             )}
           </h4>
@@ -168,7 +177,9 @@ const ArticleThumbnail = ({
             })}
           </h4>
         </div>
-        {featured && <p css={styles.excerpt}>{article.excerpt}</p>}
+        {featured && article.__typename === 'DatoCmsInternalArticle' && (
+          <p css={styles.excerpt}>{article.excerpt}</p>
+        )}
       </div>
     </div>
   )

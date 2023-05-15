@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 
 import { GatsbyNode } from 'gatsby'
+import { createRemoteFileNode } from 'gatsby-source-filesystem'
 
 export const createPages: GatsbyNode['createPages'] = async ({
   actions,
@@ -289,10 +290,46 @@ export const createPages: GatsbyNode['createPages'] = async ({
   })
 }
 
+export const onCreateNode: GatsbyNode['onCreateNode'] = async ({
+  node,
+  actions: { createNode, createNodeField },
+  createNodeId,
+  getCache,
+}) => {
+  // For all DatoCmsAsset nodes that have document format, call createRemoteFileNode
+  if (node.internal.type === 'DatoCmsAsset') {
+    const { attributes: assetNode } = node.entityPayload as Node & {
+      attributes: { format: string; url: string }
+    }
+    const shouldCreateRemoteFileNode = () => {
+      switch (assetNode.format) {
+        case 'pdf':
+        case 'doc':
+        case 'docx':
+          return true
+        default:
+          return false
+      }
+    }
+    if (shouldCreateRemoteFileNode()) {
+      const fileNode = await createRemoteFileNode({
+        url: assetNode.url, // string that points to the URL of the image
+        parentNodeId: node.id, // id of the parent node of the fileNode you are going to create
+        createNode, // helper function in gatsby-node to generate the node
+        createNodeId, // helper function in gatsby-node to generate the node id
+        getCache,
+      })
+      // if the file was created, extend the node with "localFile"
+      if (fileNode) {
+        createNodeField({ node, name: 'localFile', value: fileNode.id })
+      }
+    }
+  }
+}
+
 export const createResolvers: GatsbyNode['createResolvers'] = async ({
   createResolvers,
 }) => {
-
   createResolvers({
     DatoCmsEvent: {
       isUpcoming: {
@@ -307,10 +344,18 @@ export const createResolvers: GatsbyNode['createResolvers'] = async ({
           const { start_date_time, end_date_time } =
             source.entityPayload.attributes
           const cutoff = new Date(end_date_time || start_date_time)
-          console.log(
-            `${source.entityPayload.attributes.slug}: ${cutoff} > ${today}? ${cutoff > today}`
-          )
+          // console.log(
+          //   `${source.entityPayload.attributes.slug}: ${cutoff} > ${today}? ${cutoff > today}`
+          // )
           return cutoff > today
+        },
+      },
+    },
+    DatoCmsFileField: {
+      localFileId: {
+        type: `String`,
+        resolve: async (source, args, context, info) => {
+          return source.fields?.localFile || null
         },
       },
     },
@@ -322,6 +367,9 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
     createTypes(`
     type DatoCmsEvent implements Node {
       isUpcoming: Boolean!
+    }
+    type DatoCmsFileField implements Node {
+      localFileId: String
     }
   `)
   }

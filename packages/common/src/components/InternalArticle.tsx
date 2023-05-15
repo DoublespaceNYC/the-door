@@ -11,8 +11,8 @@ import { IGatsbyImageFocused } from '../components/GatsbyImageFocused'
 import { ISEO } from '../types'
 import Article from './Article'
 import { IMediaCarousel } from './ContentCarousel__Media'
-import { ITheme } from './Layout'
 import { IImageBlock } from './ImageBlock'
+import { ITheme } from './Layout'
 
 interface IArticleImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   thumbnailImageData: IGatsbyImageData
@@ -22,7 +22,7 @@ interface IArticleImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
 export interface IInternalArticle extends Record {
   __typename: 'DatoCmsInternalArticle'
   title: string
-  excerpt: string
+  excerpt: string | null
   heroImage: IArticleImage
   category: {
     name: string

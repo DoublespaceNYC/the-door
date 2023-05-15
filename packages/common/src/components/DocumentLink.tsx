@@ -2,12 +2,14 @@ import { Record } from 'datocms-structured-text-utils'
 import { graphql } from 'gatsby'
 import { Fragment, HTMLAttributes } from 'react'
 
+import useLocalFileUrl from '../hooks/useLocalFileUrl'
 import DocumentIcon from './DocumentIcon'
 
 export interface IDocumentLink extends Record {
   __typename: 'DatoCmsDocumentLink'
   linkText: string
   document: {
+    localFileId: string
     url: string
   }
 }
@@ -18,10 +20,12 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
 }
 
 const DocumentLink = ({ data, icon, ...props }: Props): JSX.Element => {
+  const localFileUrl = useLocalFileUrl(data.document.localFileId)
   return (
     <a
-      href={data.document.url}
-      download
+      href={localFileUrl || data.document.url}
+      target="_blank"
+      rel="noreferrer"
       {...props}
     >
       <span>
@@ -45,6 +49,7 @@ export const DocumentLinkFragment = () => graphql`
     __typename
     linkText
     document {
+      localFileId
       url
     }
   }

@@ -9,6 +9,7 @@ import useQueryContext from '@the-door/common/src/context/QueryContext'
 import { PageProps, graphql, useStaticQuery } from 'gatsby'
 import { ReactElement, useEffect } from 'react'
 
+import useDocsQuery from '../hooks/useDocsQuery'
 import useEventsQuery from '../hooks/useEventsQuery'
 import useNewsQuery from '../hooks/useNewsQuery'
 import usePartnersQuery from '../hooks/usePartnersQuery'
@@ -190,19 +191,24 @@ const Layout = ({
 
   const { allEvents } = useEventsQuery()
   const { allPartners } = usePartnersQuery()
-  const { setAllNews, setAllEvents, setAllPartners } = useQueryContext()
+  const { setAllNews, setAllEvents, setAllPartners, setAllDocs } =
+    useQueryContext()
   const { collapsed } = useLayoutContext()
+  const { allDocs } = useDocsQuery()
   useEffect(() => {
     setAllNews(allNews)
     setAllEvents(allEvents)
     setAllPartners(allPartners)
+    setAllDocs(allDocs)
   }, [
     setAllNews,
     setAllEvents,
     setAllPartners,
+    setAllDocs,
     allNews,
     allEvents,
     allPartners,
+    allDocs,
   ])
 
   return (

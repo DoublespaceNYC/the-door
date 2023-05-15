@@ -68,6 +68,7 @@ export const Fragments = graphql`
     __typename
     linkText
     document {
+      localFileId
       url
     }
   }
@@ -175,6 +176,54 @@ export const Fragments = graphql`
     linkText
     link {
       ...InternalArticleFragment
+    }
+  }
+  fragment PdfArticleFragment on DatoCmsPdfArticle {
+    id: originalId
+    __typename
+    title
+    pdf {
+      url
+      localFileId
+    }
+    heroImage {
+      thumbnailImageData: gatsbyImageData(
+        width: 600
+        imgixParams: {
+          q: 50
+          ar: "16:9"
+          fit: "crop"
+          crop: "focalpoint"
+        }
+      )
+      heroImageData: gatsbyImageData(
+        layout: FULL_WIDTH
+        imgixParams: {
+          q: 65
+          ar: "8:3"
+          fit: "crop"
+          crop: "focalpoint"
+        }
+      )
+      ...ImageFocalData
+    }
+    category {
+      name
+      pluralName
+      position
+    }
+    tags {
+      name
+    }
+    inLatest
+    publicationDate
+  }
+  fragment PdfArticleLinkFragment on DatoCmsPdfArticleLink {
+    __typename
+    id: originalId
+    linkText
+    link {
+      ...PdfArticleFragment
     }
   }
   fragment ExternalArticleFragment on DatoCmsExternalArticle {
@@ -291,6 +340,9 @@ export const Fragments = graphql`
             ... on DatoCmsInternalArticleLink {
               ...InternalArticleLinkFragment
             }
+            ... on DatoCmsPdfArticleLink {
+              ...PdfArticleLinkFragment
+            }
             ... on DatoCmsEventLink {
               ...EventLinkFragment
             }
@@ -317,6 +369,9 @@ export const Fragments = graphql`
             }
             ... on DatoCmsInternalArticleLink {
               ...InternalArticleLinkFragment
+            }
+            ... on DatoCmsPdfArticleLink {
+              ...PdfArticleLinkFragment
             }
             ... on DatoCmsEventLink {
               ...EventLinkFragment

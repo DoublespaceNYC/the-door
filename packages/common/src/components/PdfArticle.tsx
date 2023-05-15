@@ -7,13 +7,20 @@ interface IArticleImage extends Omit<IGatsbyImageFocused, 'gatsbyImageData'> {
   thumbnailImageData: IGatsbyImageData
 }
 
-export interface IExternalArticle extends Record {
-  __typename: 'DatoCmsExternalArticle'
+export interface IPdfArticle extends Record {
+  __typename: 'DatoCmsPdfArticle'
   title: string
-  heroImage: IArticleImage
-  url: string
-  publication: string
-  tags: { name: string }[]
   inLatest: boolean
   publicationDate: string
+  pdf: {
+    url: string
+    localFileId: string
+  }
+  category: {
+    name: string
+    pluralName: string
+    position: number
+  }
+  tags: { name: string }[]
+  heroImage: IArticleImage
 }

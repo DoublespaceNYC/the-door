@@ -12,6 +12,7 @@ import ExternalArticleThumbnail from './ExternalArticle__Thumbnail'
 import InternalArticleThumbnail from './InternalArticle__Thumbnail'
 import { IInternalLink } from './InternalLink'
 import { ITheme } from './Layout'
+import PdfArticleThumbnail from './PdfArticle__Thumbnail'
 
 type Props = {
   heading: string
@@ -186,6 +187,15 @@ const HomeLatest = ({
             if (article.__typename === 'DatoCmsExternalArticle') {
               return (
                 <ExternalArticleThumbnail
+                  key={i}
+                  layout="Grid"
+                  article={article}
+                />
+              )
+            }
+            if (article.__typename === 'DatoCmsPdfArticle') {
+              return (
+                <PdfArticleThumbnail
                   key={i}
                   layout="Grid"
                   article={article}
