@@ -156,6 +156,7 @@ const NavButton = ({
       <DatoLink
         data={button}
         css={[styles.button, buttonCss]}
+        onClick={() => modal && setOpen(false)}
       />
       {modal && (
         <div css={styles.modal}>
