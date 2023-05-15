@@ -31,32 +31,29 @@ const LatestPage = ({
   Record<string, never>,
   { filter: string }
 >): JSX.Element => {
-  const { allNews, allInternalArticles, allExternalArticles } =
-    useNewsQuery()
+  const { allNews, allExternalArticles } = useNewsQuery()
+
   const categories = useMemo(() => {
-    const catArray = allInternalArticles.reduce<string[]>(
-      (acc, val) => {
-        if (!acc.includes(val.category.pluralName)) {
-          acc.splice(
-            val.category.position - 1,
-            0,
-            val.category.pluralName
-          )
-        }
-        return acc
-      },
-      []
-    )
+    const catArray = allNews.reduce<string[]>((acc, val) => {
+      if (
+        (val.__typename === 'DatoCmsInternalArticle' ||
+          val.__typename === 'DatoCmsPdfArticle') &&
+        !acc.includes(val.category.pluralName)
+      ) {
+        acc.splice(
+          val.category.position - 1,
+          0,
+          val.category.pluralName
+        )
+      }
+      return acc
+    }, [])
     return [
       page.allArticlesFilter,
       ...catArray,
       page.externalArticlesFilter,
     ]
-  }, [
-    page.allArticlesFilter,
-    page.externalArticlesFilter,
-    allInternalArticles,
-  ])
+  }, [page.allArticlesFilter, page.externalArticlesFilter])
   const [filter, setFilter] = useState<string | null>(null)
   const filteredArticles = useMemo(() => {
     switch (filter) {
@@ -65,9 +62,12 @@ const LatestPage = ({
       case page.externalArticlesFilter:
         return allExternalArticles.filter(article => article.inLatest)
       default:
-        return allInternalArticles.filter(
+        return allNews.filter(
           article =>
-            article.inLatest && article.category.pluralName === filter
+            article.inLatest &&
+            (article.__typename === 'DatoCmsInternalArticle' ||
+              article.__typename === 'DatoCmsPdfArticle') &&
+            article.category.pluralName === filter
         )
     }
   }, [
@@ -76,7 +76,6 @@ const LatestPage = ({
     page.externalArticlesFilter,
     allNews,
     allExternalArticles,
-    allInternalArticles,
   ])
 
   const styles = {
