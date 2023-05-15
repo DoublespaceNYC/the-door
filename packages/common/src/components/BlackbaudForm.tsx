@@ -177,6 +177,10 @@ const BlackbaudForm = ({
               font-size: inherit;
             }
           }
+          .BBFormSubSectionHeading {
+            font-size: var(--fs-18);
+            color: #333;
+          }
           &.BBDFormSectionComments {
             margin-top: -3em;
             .BBFormFieldContainer {
@@ -275,6 +279,8 @@ const BlackbaudForm = ({
             border-radius: 0;
             padding: 0.5em 0.75em;
             transition: background-color 300ms ease;
+            color: #fff;
+            border: none;
             @media (hover: hover) {
               &:hover {
                 opacity: 1;
