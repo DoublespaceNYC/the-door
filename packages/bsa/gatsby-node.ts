@@ -321,11 +321,24 @@ export const onCreateNode: GatsbyNode['onCreateNode'] = async ({
       })
       // if the file was created, extend the node with "localFile"
       if (fileNode) {
-        createNodeField({ node, name: 'localFile', value: fileNode.id })
+        createNodeField({ node, name: 'localFileId', value: fileNode.id })
+        // console.log(fileNode)
       }
     }
   }
 }
+
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
+  ({ actions: { createTypes } }) => {
+    createTypes(`
+    type DatoCmsEvent implements Node {
+      isUpcoming: Boolean!
+    }
+    type DatoCmsFileField implements Node {
+      localFileId: String
+    }
+  `)
+  }
 
 export const createResolvers: GatsbyNode['createResolvers'] = async ({
   createResolvers,
@@ -355,21 +368,13 @@ export const createResolvers: GatsbyNode['createResolvers'] = async ({
       localFileId: {
         type: `String`,
         resolve: async (source, args, context, info) => {
-          return source.fields?.localFile || null
+          // // console.log(source.fields)
+          // const node = await context.nodeModel.findOne({ type: 'File', query: { filter: { id: { eq: source.fields?.localFileId } } } })
+          // console.log(node)
+          return source.fields?.localFileId
         },
       },
     },
   })
 }
 
-export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
-  ({ actions: { createTypes } }) => {
-    createTypes(`
-    type DatoCmsEvent implements Node {
-      isUpcoming: Boolean!
-    }
-    type DatoCmsFileField implements Node {
-      localFileId: String
-    }
-  `)
-  }
