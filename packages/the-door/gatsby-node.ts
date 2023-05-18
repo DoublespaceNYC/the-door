@@ -370,9 +370,6 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
     type DatoCmsEvent implements Node {
       isUpcoming: Boolean!
     }
-    type DatoCmsFileField implements Node {
-      localFileId: String
-    }
   `)
   }
 
@@ -404,9 +401,6 @@ export const createResolvers: GatsbyNode['createResolvers'] = async ({
       localFileId: {
         type: `String`,
         resolve: async (source, args, context, info) => {
-          // // console.log(source.fields)
-          // const node = await context.nodeModel.findOne({ type: 'File', query: { filter: { id: { eq: source.fields?.localFileId } } } })
-          // console.log(node)
           return source.fields?.localFileId
         },
       },

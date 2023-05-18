@@ -53,7 +53,7 @@ const LatestPage = ({
       ...catArray,
       page.externalArticlesFilter,
     ]
-  }, [page.allArticlesFilter, page.externalArticlesFilter])
+  }, [allNews, page.allArticlesFilter, page.externalArticlesFilter])
   const [filter, setFilter] = useState<string | null>(null)
   const filteredArticles = useMemo(() => {
     switch (filter) {
