@@ -64,25 +64,15 @@ const MainNav = ({
     }
   }, [windowWidth, breakpoint])
 
-  const [activeNavGroup, setActiveNavGroup] = useState<number | null>(null)
-
-  const { open: navOpen, setOpen: setNavOpen } = useNavMenuContext()
-
-  useEffect(() => {
-    if (activeNavGroup !== null || burgerOpen) {
-      setNavOpen(true)
-    } else {
-      setNavOpen(false)
-    }
-  }, [activeNavGroup, burgerOpen, setNavOpen])
+  const { activeNavIndex, setActiveNavIndex } = useNavMenuContext()
 
   useEscKeyFunction(() => {
-    setActiveNavGroup(null)
+    setActiveNavIndex(null)
     setBurgerOpen(false)
   })
 
   const handleLinkClick = () => {
-    setActiveNavGroup(null)
+    setActiveNavIndex(null)
     setBurgerOpen(false)
   }
 
@@ -195,7 +185,7 @@ const MainNav = ({
           opacity: 1;
           transition: transform 300ms ease-out, filter 1000ms ease;
         `}
-        ${activeNavGroup !== null &&
+        ${activeNavIndex !== null &&
         css`
           filter: brightness(0.5);
         `}
@@ -271,7 +261,7 @@ const MainNav = ({
       top: 0;
       pointer-events: none;
       overflow: hidden;
-      ${navOpen &&
+      ${activeNavIndex !== null &&
       css`
         pointer-events: all;
       `}
@@ -314,12 +304,12 @@ const MainNav = ({
                         return (
                           <NavLinkGroup
                             data={navItem}
-                            onOpen={() => setActiveNavGroup(i)}
+                            onOpen={() => setActiveNavIndex(i)}
                             onClose={() => {
-                              setActiveNavGroup(null)
+                              setActiveNavIndex(null)
                             }}
                             onCloseAll={handleLinkClick}
-                            open={activeNavGroup === i}
+                            open={activeNavIndex === i}
                             buttonCss={[styles.navItem, styles.navLink]}
                             portalTarget={dropdownContainerRef.current}
                             breakpoint={breakpoint}
@@ -380,7 +370,7 @@ const MainNav = ({
             onClick={() => {
               if (burgerOpen) {
                 setBurgerOpen(false)
-                setActiveNavGroup(null)
+                setActiveNavIndex(null)
               } else {
                 setBurgerOpen(true)
               }
@@ -392,7 +382,7 @@ const MainNav = ({
           />
         </nav>
       </div>
-      {navOpen && <ScrollToggle />}
+      {activeNavIndex !== null && <ScrollToggle />}
       <Global
         styles={css`
           :root {

@@ -8,8 +8,8 @@ import {
 } from 'react'
 
 interface IContext {
-  open: boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
+  activeNavIndex: number | null
+  setActiveNavIndex: Dispatch<SetStateAction<number | null>>
 }
 
 const NavMenuContext = createContext<IContext | undefined>(undefined)
@@ -23,12 +23,12 @@ export const NavMenuContextProvider = ({
 }: {
   children: ReactNode
 }) => {
-  const [open, setOpen] = useState(false)
+  const [activeNavIndex, setActiveNavIndex] = useState<number | null>(null)
   return (
     <NavMenuContext.Provider
       value={{
-        open,
-        setOpen: value => setOpen(value),
+        activeNavIndex,
+        setActiveNavIndex: value => setActiveNavIndex(value),
       }}
     >
       {children}

@@ -36,7 +36,7 @@ const NavButton = ({
   const wrapWidth = useElementWidth(modal ? wrapRef : null)
 
   const { open, setOpen } = useNavButtonModalContext()
-  const { open: navOpen } = useNavMenuContext()
+  const { activeNavIndex, setActiveNavIndex } = useNavMenuContext()
   const { open: lightboxOpen } = useLightboxContext()
 
   const [loaded, setLoaded] = useState(false)
@@ -114,7 +114,7 @@ const NavButton = ({
         transform: translate3d(0, 100%, 0);
         transition: all 500ms ease;
       `}
-      ${(!open || !loaded || navOpen || lightboxOpen) &&
+      ${(!open || !loaded || activeNavIndex !== null || lightboxOpen) &&
       css`
         pointer-events: none;
         opacity: 0;
@@ -156,7 +156,12 @@ const NavButton = ({
       <DatoLink
         data={button}
         css={[styles.button, buttonCss]}
-        onClick={() => modal && setOpen(false)}
+        onClick={() => {
+          if (modal) {
+            setOpen(false)
+          }
+          setActiveNavIndex(null)
+        }}
       />
       {modal && (
         <div css={styles.modal}>
