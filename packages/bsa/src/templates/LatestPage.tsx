@@ -4,6 +4,7 @@ import { IGatsbyImageFocused } from '@the-door/common/src/components/GatsbyImage
 import InternalArticleThumbnail from '@the-door/common/src/components/InternalArticle__Thumbnail'
 import PageFilter from '@the-door/common/src/components/PageFilter'
 import PageHero from '@the-door/common/src/components/PageHero'
+import PdfArticleThumbnail from '@the-door/common/src/components/PdfArticle__Thumbnail'
 import { mq } from '@the-door/common/src/theme/mixins'
 import { ISEO } from '@the-door/common/src/types'
 import { HeadProps, PageProps, graphql } from 'gatsby'
@@ -127,6 +128,15 @@ const LatestPage = ({
                 key={i}
                 layout="Carousel"
                 highlightColor={colors.bsaGoldMid}
+                article={article}
+              />
+            )
+          }
+          if (article.__typename === 'DatoCmsPdfArticle') {
+            return (
+              <PdfArticleThumbnail
+                key={i}
+                layout="Grid"
                 article={article}
               />
             )
