@@ -52,7 +52,8 @@ const HomeHero = ({
       background: ${colors.navyDark};
     `,
     video: css`
-      ${absoluteFill}
+      ${absoluteFill};
+      background: ${colors.navyDark};
       height: calc(100% + 2px);
       top: -1px;
       bottom: -1px;
@@ -120,6 +121,7 @@ const HomeHero = ({
       }
     `,
   }
+  console.log(`inView: ${videoInView}`)
   return (
     <section
       css={styles.section}

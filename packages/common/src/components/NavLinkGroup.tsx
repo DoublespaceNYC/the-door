@@ -254,6 +254,8 @@ const NavLinkGroup = ({
       padding: var(--row-l) var(--margin);
       grid-column: 1 / 2;
       grid-row: 1 / 2;
+      z-index: 3;
+      position: relative;
       h2 {
         position: relative;
         font-size: var(--fs-108);

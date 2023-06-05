@@ -46,8 +46,7 @@ const VideoStreamPlayer = ({
 
   // To hide annoying play button when in lower power mode we have to
   // manually try to autoplay the video and catch the NotAllowedError
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
-  const handleLoadedData = useCallback(() => {
+  const triggerAutoPlay = useCallback(() => {
     if (autoPlay) {
       videoRef.current
         ?.play()
@@ -55,15 +54,8 @@ const VideoStreamPlayer = ({
         .catch(err => {
           console.log(err)
         })
-      // timeoutRef.current = setTimeout(() => {
-      // }, 500)
     }
   }, [autoPlay])
-  useEffect(() => {
-    return () => {
-      clearTimeout(timeoutRef.current)
-    }
-  }, [])
 
   // Prevents returning an empty promise
   const hasPaused = useRef(false)
@@ -93,7 +85,10 @@ const VideoStreamPlayer = ({
     <video
       ref={videoRef}
       poster={thumbnail}
-      onLoadedData={handleLoadedData}
+      // iOS does not load data without autoplay, so preload metadata to fire event
+      preload={autoPlay ? 'metadata' : undefined}
+      onLoadedMetadata={triggerAutoPlay}
+      // autoPlay={autoPlay}
       {...props}
     >
       {/* In the future, add subtitle support */}
