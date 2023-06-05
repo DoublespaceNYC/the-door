@@ -50,6 +50,11 @@ const HomeHero = ({
       box-sizing: border-box;
       color: ${colors.navy};
       background: ${colors.navyDark};
+      ${mq().s} {
+        min-height: calc(85vh - var(--nav-height) - var(--row-m));
+        padding: var(--row-ll) 0 var(--row-ll);
+        align-items: flex-end;
+      }
     `,
     video: css`
       ${absoluteFill};
@@ -98,6 +103,9 @@ const HomeHero = ({
         margin-top: 0;
         margin-bottom: 0.167em;
         max-width: 14ch;
+        ${mq().s} {
+          font-size: var(--fs-84);
+        }
       }
       h2 {
         font-size: var(--fs-24);
