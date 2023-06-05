@@ -59,9 +59,7 @@ const LightboxLink = ({
         entry={entry}
         slug={slug}
         pageTitle={pageTitle}
-        layout={
-          data.__typename === 'DatoCmsFormLightbox' ? 'Centered' : 'Full'
-        }
+        layout={data.__typename === 'DatoCmsFormLightbox' ? 'Centered' : 'Full'}
         highlightColor={highlightColor}
       />
     </Fragment>

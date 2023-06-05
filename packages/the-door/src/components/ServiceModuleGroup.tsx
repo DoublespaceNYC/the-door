@@ -6,7 +6,7 @@ import GatsbyImageFocused, {
 import { useElementHeight } from '@the-door/common/src/hooks/useElementRect'
 import { absoluteFill, mq } from '@the-door/common/src/theme/mixins'
 import { Link } from 'gatsby'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 export interface IServicesGroup {
   id: string
@@ -30,7 +30,7 @@ const ServiceModuleGroup = ({
 }: Props): JSX.Element => {
   const [listRef, setListRef] = useState<HTMLDivElement | null>(null)
   const listHeight = useElementHeight(listRef) || 0
-
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
   const styles = {
     serviceGroup: css`
       position: relative;
@@ -69,16 +69,11 @@ const ServiceModuleGroup = ({
         opacity: 0.75;
         z-index: 2;
         transition: opacity 750ms ease;
-        @media (hover: none) {
-          button:focus > &,
-          button:focus-within > & {
-            opacity: 1;
-          }
-        }
-        @media (hover: hover) {
-          button:hover > & {
-            opacity: 1;
-          }
+
+        button:focus > &,
+        button:focus-within > &,
+        button:hover > & {
+          opacity: 1;
         }
       }
       &::after {
@@ -89,32 +84,21 @@ const ServiceModuleGroup = ({
         mix-blend-mode: overlay;
         opacity: 0;
         transition: opacity 750ms ease;
-        @media (hover: none) {
-          button:focus > &,
-          button:focus-within > & {
-            opacity: 1;
-          }
-        }
-        @media (hover: hover) {
-          button:hover > & {
-            opacity: 1;
-          }
+        button:focus > &,
+        button:focus-within > &,
+        button:hover > & {
+          opacity: 1;
         }
       }
     `,
     image: css`
       ${absoluteFill}
       transition: filter 750ms ease;
-      @media (hover: none) {
-        button:focus > div > &,
-        button:focus-within > div > & {
-          filter: saturate(0) contrast(0.75);
-        }
-      }
-      @media (hover: hover) {
-        button:hover > div > & {
-          filter: saturate(0) contrast(0.75);
-        }
+
+      button:focus > div > &,
+      button:focus-within > div > &,
+      button:hover > div > & {
+        filter: saturate(0) contrast(0.75);
       }
     `,
     servicesList: css`
@@ -125,23 +109,13 @@ const ServiceModuleGroup = ({
       transition: all ${300 + Math.round(0.5 * listHeight)}ms ease-out;
       height: 0;
       margin: 0.5em 0 6rem;
-      @media (hover: none) {
-        button:focus > &,
-        button:focus-within > & {
-          height: ${listHeight}px;
-          margin-bottom: 1rem;
-          ${mq().m} {
-            margin-bottom: 0;
-          }
-        }
-      }
-      @media (hover: hover) {
-        button:hover > & {
-          height: ${listHeight}px;
-          margin-bottom: 1rem;
-          ${mq().m} {
-            margin-bottom: 0;
-          }
+      button:focus > &,
+      button:focus-within > &,
+      button:hover > & {
+        height: ${listHeight}px;
+        margin-bottom: 1rem;
+        ${mq().m} {
+          margin-bottom: 0;
         }
       }
     `,
@@ -179,6 +153,10 @@ const ServiceModuleGroup = ({
     <button
       css={styles.serviceGroup}
       aria-label={`show ${serviceGroup.title} links`}
+      ref={buttonRef}
+      onClick={() => {
+        buttonRef.current?.focus()
+      }}
     >
       <GatsbyImageFocused
         css={styles.imageWrap}

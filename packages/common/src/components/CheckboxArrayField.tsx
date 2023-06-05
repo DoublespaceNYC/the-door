@@ -79,6 +79,7 @@ const CheckboxArrayField = ({
   return (
     <fieldset
       name={name}
+      id={name}
       css={[fieldStyles.container, fieldStyles.inputBase, styles.container]}
     >
       <div>
