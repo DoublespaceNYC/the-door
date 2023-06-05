@@ -82,6 +82,13 @@ const CheckboxArrayField = ({
       id={name}
       css={[fieldStyles.container, fieldStyles.inputBase, styles.container]}
     >
+      <label
+        htmlFor={name}
+        aria-hidden
+        hidden
+      >
+        {label}
+      </label>
       <div>
         <legend css={[fieldStyles.label, styles.label]}>{label}</legend>
       </div>
