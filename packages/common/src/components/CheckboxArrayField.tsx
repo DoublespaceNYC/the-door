@@ -82,13 +82,12 @@ const CheckboxArrayField = ({
       id={name}
       css={[fieldStyles.container, fieldStyles.inputBase, styles.container]}
     >
-      <label
-        htmlFor={name}
+      {/* Trying to get Netlify to recognize the proper field name */}
+      <input
+        type="hidden"
+        name={name}
         aria-hidden
-        hidden
-      >
-        {label}
-      </label>
+      />
       <div>
         <legend css={[fieldStyles.label, styles.label]}>{label}</legend>
       </div>
