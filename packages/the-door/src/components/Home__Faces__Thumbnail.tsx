@@ -33,7 +33,7 @@ const FacesThumbnail = ({ story }: Props): JSX.Element => {
       display: grid;
       grid-template-columns: 1fr;
       ${mq().m} {
-        grid-template-rows: auto var(--row-m) auto;
+        grid-template-rows: auto var(--row-m) 1fr;
       }
     `,
     text: css`
@@ -52,6 +52,8 @@ const FacesThumbnail = ({ story }: Props): JSX.Element => {
       ${mq().m} {
         grid-row: 2 / 4;
         max-width: calc(100% - var(--gtr-m));
+        /* height: 100%; */
+        align-self:flex-start;
       }
       h3 {
         font-size: var(--fs-48);

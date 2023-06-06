@@ -77,41 +77,6 @@ export const Fragments = graphql`
     __typename
     linkText
   }
-  fragment FacesStoryFragment on DatoCmsFacesStory {
-    id: originalId
-    __typename
-    title
-    image {
-      carouselImageData: gatsbyImageData(
-        width: 960
-        imgixParams: {
-          q: 50
-          ar: "3:2"
-          fit: "crop"
-          crop: "focalpoint"
-        }
-      )
-      heroImageData: gatsbyImageData(
-        layout: FULL_WIDTH
-        imgixParams: {
-          q: 65
-          ar: "8:3"
-          fit: "crop"
-          crop: "focalpoint"
-        }
-      )
-      ...ImageFocalData
-    }
-    excerpt
-    ctaText
-    body {
-      value
-    }
-    seo {
-      ...SEOFragment
-    }
-    slug
-  }
   fragment InternalArticleFragment on DatoCmsInternalArticle {
     id: originalId
     __typename
