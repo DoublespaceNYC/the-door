@@ -572,8 +572,6 @@ export const Fragments = graphql`
     __typename
     id: originalId
     label
-    minDate
-    maxDate
     required
     width
   }

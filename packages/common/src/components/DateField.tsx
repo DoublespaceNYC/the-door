@@ -9,8 +9,8 @@ import { IFieldStyles } from './Form'
 export interface IDateField extends Record {
   __typename: 'DatoCmsDateField'
   label: string
-  minDate: string
-  maxDate: string
+  // minDate: string
+  // maxDate: string
   required: boolean
   width: 'Full' | 'Half' | 'Third' | 'Quarter'
 }
@@ -22,7 +22,7 @@ type FieldProps = {
 }
 
 const DateField = ({
-  data: { label, minDate, maxDate, required, width },
+  data: { label, required, width },
   onChange,
   fieldStyles,
 }: FieldProps): JSX.Element => {
@@ -63,6 +63,9 @@ const DateField = ({
     `,
     dateInput: css`
       color: ${value.length === 0 && !shrink && 'transparent'};
+      ::-webkit-date-and-time-value {
+        text-align: left;
+      }
     `,
   }
   return (
@@ -88,8 +91,6 @@ const DateField = ({
           onChange={handleChangeText}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          min={minDate}
-          max={maxDate}
         />
       </div>
     </div>
