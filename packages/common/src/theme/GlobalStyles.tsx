@@ -31,7 +31,8 @@ const GlobalStyles = () => {
 
       /* Font Sizes */
       --fs-144: calc(4rem + 6.667vw);
-      --fs-108: calc(4rem + 4.167vw);
+      /* --fs-108: calc(4rem + 4.167vw); */
+      --fs-108: calc(4rem + 4vw);
       --fs-84: calc(3.875rem + 2.6vw);
       --fs-72: calc(3.3125rem + 2.2375vw);
       --fs-60: max(3rem, 2.75rem + 1.875vw);

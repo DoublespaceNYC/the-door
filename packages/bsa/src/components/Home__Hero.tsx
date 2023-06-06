@@ -45,10 +45,18 @@ const HomeHero = ({
     section: css`
       ${baseGrid}
       grid-template-rows: 1fr auto;
-      min-height: 50vw;
-      padding: calc(var(--row-ll) * 2) 0 var(--row-ll);
+      min-height: max(
+        50vw,
+        calc(100vh - var(--nav-height) - var(--row-s))
+      );
+      padding: calc(var(--row-ll) * 2) 0 calc(var(--row-m) + 2em);
       box-sizing: border-box;
       background: ${colors.bsaBlueDark};
+      ${mq().s} {
+        min-height: calc(85vh - var(--nav-height) - var(--row-m));
+        padding: var(--row-ll) 0 var(--row-ll);
+        align-items: flex-end;
+      }
     `,
     video: css`
       ${absoluteFill}
@@ -60,11 +68,9 @@ const HomeHero = ({
       animation: ${animateIn} 1000ms ${bezier.easeOut} forwards 300ms;
     `,
     text: css`
-      grid-column: 3 / -3;
+      grid-column: 2 / -2;
       justify-self: flex-start;
-      ${mq().m} {
-        grid-column: 2 / -2;
-      }
+      align-self: flex-end;
       h1,
       h2 {
         line-height: 1.125;
@@ -91,7 +97,7 @@ const HomeHero = ({
         }
       }
       h1 {
-        font-size: var(--fs-108);
+        font-size: calc(var(--fs-108) * 1.125);
         margin-top: 0;
         margin-bottom: 0.167em;
         max-width: 15ch;
