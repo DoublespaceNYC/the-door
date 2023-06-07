@@ -47,13 +47,13 @@ const HomeHero = ({
       grid-template-rows: 1fr auto;
       min-height: max(
         50vw,
-        calc(100vh - var(--nav-height) - var(--row-s))
+        calc(100vh - 1.5 * var(--fs-48) - var(--row-s))
       );
       padding: calc(var(--row-ll) * 2) 0 calc(var(--row-m) + 2em);
       box-sizing: border-box;
       background: ${colors.bsaBlueDark};
       ${mq().s} {
-        min-height: calc(85vh - var(--nav-height) - var(--row-m));
+        min-height: calc(85vh - 1.5 * var(--fs-48) - var(--row-m));
         padding: var(--row-ll) 0 var(--row-ll);
         align-items: flex-end;
       }
