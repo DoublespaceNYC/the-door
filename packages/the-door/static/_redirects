@@ -2,15 +2,25 @@ https://door.org/*                      https://www.door.org/:splat       301!
 
 /programs-services                      /program-registration
 /programs-services/*                    /:splat
+/programs-services/job-internships      /jobs-internships
 /programs-services/bronx-youth-center   /locations/bronx-youth-center
+/bronx-youth-center/                    /locations/bronx-youth-center
+/programs-services/lgbtq                /counseling
+/hse                                    /high-school-equivalency
+/food-nutrition                         /food-nutrition-services
+/health                                 /health-services
 /contact                                /contact-us
 /legal-services-center                  /legal-services
-/about-door                             /about
+/about-door/*                           /about
 /mission                                /about
-/our-history                            /about
+/our-history/*                          /about
 /what-we-do                             /about
+/about-door/visit-outreach              /visit-and-outreach
 /staff-board                            /leadership-board
 /staff-alumni                           /leadership-board
 /visit-outreach                         /visit-and-outreach
 /news                                   /the-latest
+/financials                             /annual-reports-financials
+/category/*                             /
+
 
