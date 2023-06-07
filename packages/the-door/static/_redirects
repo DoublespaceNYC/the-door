@@ -1,4 +1,4 @@
-https://door.org/*                      https://www.door.org/:splat       301!
+<!-- https://door.org/*                      https://www.door.org/:splat       301! -->
 
 /programs-services                      /program-registration
 /programs-services/*                    /:splat
