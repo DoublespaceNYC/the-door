@@ -337,6 +337,7 @@ const MainNav = ({
                             ]
                           }
                           key={i}
+                          onClick={handleLinkClick}
                         />
                       ))}
                   </div>
@@ -361,6 +362,7 @@ const MainNav = ({
                     : undefined
                 }
                 key={i}
+                onClick={handleLinkClick}
               />
             ))}
           </div>

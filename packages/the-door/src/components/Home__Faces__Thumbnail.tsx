@@ -53,7 +53,7 @@ const FacesThumbnail = ({ story }: Props): JSX.Element => {
         grid-row: 2 / 4;
         max-width: calc(100% - var(--gtr-m));
         /* height: 100%; */
-        align-self:flex-start;
+        align-self: flex-start;
       }
       h3 {
         font-size: var(--fs-48);
