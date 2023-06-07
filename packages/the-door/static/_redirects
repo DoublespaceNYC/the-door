@@ -1,0 +1,16 @@
+https://door.org/*                      https://www.door.org/:splat       301!
+
+/programs-services                      /program-registration
+/programs-services/*                    /:splat
+/programs-services/bronx-youth-center   /locations/bronx-youth-center
+/contact                                /contact-us
+/legal-services-center                  /legal-services
+/about-door                             /about
+/mission                                /about
+/our-history                            /about
+/what-we-do                             /about
+/staff-board                            /leadership-board
+/staff-alumni                           /leadership-board
+/visit-outreach                         /visit-and-outreach
+/news                                   /the-latest
+
