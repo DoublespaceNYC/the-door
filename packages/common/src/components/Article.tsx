@@ -77,10 +77,15 @@ const Article = ({
     hero: css`
       grid-column: 1 / -1;
       margin-bottom: var(--row-s);
-      min-height: 18em;
       ${aspectRatio(8 / 3)}
       > [data-gatsby-image-wrapper] {
         height: 100%;
+      }
+      ${mq().ml} {
+        ${aspectRatio(12 / 6)}
+      }
+      ${mq().ms} {
+        ${aspectRatio(16 / 9)}
       }
     `,
     title: css`
