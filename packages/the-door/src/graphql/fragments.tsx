@@ -99,9 +99,10 @@ export const Fragments = graphql`
       )
       heroImageData: gatsbyImageData(
         layout: FULL_WIDTH
+        width: 1440
         imgixParams: {
           q: 65
-          ar: "8:3"
+          ar: "16:9"
           fit: "crop"
           crop: "focalpoint"
         }
@@ -135,9 +136,10 @@ export const Fragments = graphql`
       )
       heroImageData: gatsbyImageData(
         layout: FULL_WIDTH
+        width: 1440
         imgixParams: {
           q: 65
-          ar: "8:3"
+          ar: "16:9"
           fit: "crop"
           crop: "focalpoint"
         }
@@ -196,9 +198,10 @@ export const Fragments = graphql`
       )
       heroImageData: gatsbyImageData(
         layout: FULL_WIDTH
+        width: 1440
         imgixParams: {
           q: 65
-          ar: "8:3"
+          ar: "16:9"
           fit: "crop"
           crop: "focalpoint"
         }
@@ -777,9 +780,10 @@ export const Fragments = graphql`
     heroImage {
       heroImageData: gatsbyImageData(
         layout: FULL_WIDTH
+        width: 1440
         imgixParams: {
           q: 65
-          ar: "8:3"
+          ar: "16:9"
           fit: "crop"
           crop: "focalpoint"
         }
