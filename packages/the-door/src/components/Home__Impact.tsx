@@ -80,7 +80,8 @@ const HomeImpact = ({
       text-align: center;
       background: ${colors.green};
       padding: 0 var(--gtr-m);
-      align-items: center;
+      /* align-items: center; */
+      align-items: flex-start;
       ${mq().ms} {
         grid-template-columns: repeat(2, 1fr);
         padding-bottom: 2rem;
@@ -95,12 +96,14 @@ const HomeImpact = ({
         &:nth-of-type(1) {
           grid-row: 1 / 2;
           margin-top: 0.125em;
-          font-size: ${133 - 10 * length}%;
+          /* font-size: ${133 - 10 * length}%; */
+          font-size: 90%;
           align-self: flex-end;
         }
         &:nth-of-type(2) {
           grid-row: 2 / 3;
-          font-size: 25%;
+          /* font-size: 25%; */
+          font-size: 22.5%;
           max-width: 15ch;
           margin-bottom: 1em;
           align-self: flex-start;
@@ -111,7 +114,8 @@ const HomeImpact = ({
           &:nth-of-type(1) {
             grid-row: auto;
             margin-top: 0.125em;
-            font-size: ${200 - 10 * length}%;
+            /* font-size: ${200 - 10 * length}%; */
+            font-size: 150%;
             align-self: center;
           }
           &:nth-of-type(2) {
@@ -123,6 +127,10 @@ const HomeImpact = ({
           }
         }
       }
+    `,
+    statInner: css`
+      display: grid;
+      justify-items: center;
     `,
     cta: css`
       grid-column: 2 / -2;
@@ -209,6 +217,7 @@ const HomeImpact = ({
             delay={i * 200 + 100}
             key={i}
             css={styles.stat(stat.number.length)}
+            innerCss={styles.statInner}
           >
             <span>{stat.number}</span>
             <span>{stat.text}</span>

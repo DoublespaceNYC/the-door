@@ -10,7 +10,7 @@ import GatsbyImageFocused, {
   IGatsbyImageFocused,
 } from '../components/GatsbyImageFocused'
 import useReadableColor from '../hooks/useReadableColor'
-import { baseGrid, mq } from '../theme/mixins'
+import { aspectRatio, baseGrid, mq } from '../theme/mixins'
 import { renderDescription } from '../utils'
 import BlackbaudForm, { IBlackbaudForm } from './BlackbaudForm'
 import MediaCarousel, { IMediaCarousel } from './ContentCarousel__Media'
@@ -78,8 +78,9 @@ const Article = ({
       grid-column: 1 / -1;
       margin-bottom: var(--row-s);
       min-height: 18em;
+      ${aspectRatio(8 / 3)}
       > [data-gatsby-image-wrapper] {
-        min-height: 100%;
+        height: 100%;
       }
     `,
     title: css`
@@ -264,7 +265,7 @@ const Article = ({
           alt={heroImage.alt}
           focalPoint={heroImage.focalPoint}
           originalAspectRatio={heroImage.sizes.aspectRatio}
-          aspectRatio={8 / 3}
+          aspectRatio={16 / 9}
         />
       )}
       {eyebrow && <div css={styles.eyebrow}>{eyebrow}</div>}
@@ -275,7 +276,7 @@ const Article = ({
           <StructuredText data={lede} />
         </div>
       )}
-      {body.value && (
+      {/* {body.value && (
         <div css={styles.body}>
           <StructuredText
             data={body}
@@ -314,7 +315,7 @@ const Article = ({
             }}
           />
         </div>
-      )}
+      )} */}
       {form?.__typename === 'DatoCmsForm' ? (
         <Form
           data={form}

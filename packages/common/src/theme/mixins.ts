@@ -111,3 +111,18 @@ export const inputWidth = (width: 'Full' | 'Half' | 'Third' | 'Quarter') => {
       `
   }
 }
+export const aspectRatio = (ar: number) => css`
+  aspect-ratio: ${ar};
+  @supports not (aspect-ratio: ${ar}) {
+    &::before {
+      content: '';
+      float: left;
+      padding-top: calc((${ar}) * 100%);
+    }
+    &::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
+`
