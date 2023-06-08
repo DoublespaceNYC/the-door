@@ -276,7 +276,7 @@ const Article = ({
           <StructuredText data={lede} />
         </div>
       )}
-      {/* {body.value && (
+      {body.value && (
         <div css={styles.body}>
           <StructuredText
             data={body}
@@ -315,7 +315,7 @@ const Article = ({
             }}
           />
         </div>
-      )} */}
+      )}
       {form?.__typename === 'DatoCmsForm' ? (
         <Form
           data={form}
