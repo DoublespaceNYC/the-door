@@ -1,6 +1,6 @@
 import { css, useTheme } from '@emotion/react'
 import { Document, isParagraph } from 'datocms-structured-text-utils'
-import { darken, lighten } from 'polished'
+import { lighten } from 'polished'
 import { ComponentProps } from 'react'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 

@@ -1,4 +1,3 @@
-import { GatsbyGraphQLType } from 'gatsby'
 import {
   Dispatch,
   ReactNode,

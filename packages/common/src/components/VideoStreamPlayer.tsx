@@ -1,7 +1,5 @@
-import { css } from '@emotion/react'
 import Hls from 'hls.js'
-import { VideoHTMLAttributes, useCallback } from 'react'
-import { useEffect, useRef } from 'react'
+import { VideoHTMLAttributes, useCallback, useEffect, useRef } from 'react'
 
 interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
   src: string
@@ -50,7 +48,7 @@ const VideoStreamPlayer = ({
     if (autoPlay) {
       videoRef.current
         ?.play()
-        .then(() => {})
+        .then()
         .catch(err => {
           console.log(err)
         })

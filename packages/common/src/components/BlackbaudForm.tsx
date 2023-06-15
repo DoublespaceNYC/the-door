@@ -173,7 +173,7 @@ const BlackbaudForm = ({
       window._MongoServerUrlBase = undefined
       window._MongoServerUrl = undefined
     }
-  }, [formId])
+  }, [formId, bboxVersion])
 
   const v2Suffix = bboxVersion === '2.0' ? '-' + formId : ''
 
