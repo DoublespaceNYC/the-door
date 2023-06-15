@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { css, useTheme } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { darken } from 'polished'
@@ -23,12 +21,13 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 declare global {
   interface Window {
     bb$: any
+    bboxApi: any
     bbCheckout2_0: any
     bbFormToggleGivingLevels: any
     bbox: any
     bboxInit: any
     bboxInit2: any
-    bboxApi: any
+    bboxInit2hasRun: any
 
     _bboxDefine: any
 
@@ -137,12 +136,13 @@ const BlackbaudForm = ({
 
       // Clean up variables
       window.bb$ = undefined
+      window.bboxApi = undefined
       window.bbCheckout2_0 = undefined
       window.bbFormToggleGivingLevels = undefined
       window.bbox = undefined
       window.bboxInit = undefined
       window.bboxInit2 = undefined
-      window.bboxApi = undefined
+      window.bboxInit2hasRun = undefined
       window._bboxDefine = undefined
       window.BBOX = undefined
       window.BBOXBillingSection = undefined
@@ -173,18 +173,6 @@ const BlackbaudForm = ({
       window._MongoServerUrl = undefined
     }
   }, [formId])
-
-  // useEffect(() => {
-  //   window.bboxInit2 = [
-  //     () => {
-  //       window.bboxApi.showForm(formId)
-  //     },
-  //   ]
-  //   const script = document.createElement('script')
-  //   script.async = true
-  //   script.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-2.0-min.js'
-  //   document.head.appendChild(script)
-  // }, [formId])
 
   const style = css`
     width: 100%;
