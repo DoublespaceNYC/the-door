@@ -74,6 +74,9 @@ const Layout = ({
                 ... on DatoCmsInternalLinkFiltered {
                   ...InternalLinkFilteredFragment
                 }
+                ... on DatoCmsExternalLink {
+                  ...ExternalLinkFragment
+                }
               }
               backgroundImage {
                 gatsbyImageData(

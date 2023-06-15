@@ -11,6 +11,7 @@ import { useWindowWidth } from '../hooks/useWindowDimensions'
 import { absoluteFill, mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 import DatoLink from './DatoLink'
+import { IExternalLink } from './ExternalLink'
 import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
 import { IInternalLink } from './InternalLink'
 import { IInternalLinkFiltered } from './InternalLinkFiltered'
@@ -32,7 +33,12 @@ export interface ILinkGroup {
   linkText: string
   title: string
   description: IStructuredText
-  links: (IInternalLink | IInternalLinkFiltered | IServicesGroupLink)[]
+  links: (
+    | IInternalLink
+    | IInternalLinkFiltered
+    | IServicesGroupLink
+    | IExternalLink
+  )[]
   backgroundImage: IGatsbyImageFocused
 }
 
