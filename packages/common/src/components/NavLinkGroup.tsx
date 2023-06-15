@@ -296,6 +296,13 @@ const NavLinkGroup = ({
         opacity: 0.5;
       }
     `,
+    link: css`
+      && svg {
+        font-size: 100%;
+        top: 0.275em;
+        margin-left: 0.1em;
+      }
+    `,
   }
   return (
     <Fragment>
@@ -369,6 +376,7 @@ const NavLinkGroup = ({
                             data={link}
                             tabIndex={open ? 0 : -1}
                             onClick={onCloseAll}
+                            css={styles.link}
                           />
                         </li>
                       )
