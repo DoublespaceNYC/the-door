@@ -1,3 +1,4 @@
+https://the-door-site.netlify.app/*     https://www.door.org/:splat       301!
 https://door.org/*                      https://www.door.org/:splat       301!
 
 /programs-services                      /program-registration
