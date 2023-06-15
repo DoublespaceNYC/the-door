@@ -179,7 +179,7 @@ const BlackbaudForm = ({
     display: flex;
     justify-content: center;
     align-items: center;
-    #mongo-form {
+    #mongo-form${bboxVersion === '2.0' && '-' + formId} {
       margin-top: 1em;
       width: 100%;
       .BBFormContainer[data-bbox-part-id='${formId}'] {
