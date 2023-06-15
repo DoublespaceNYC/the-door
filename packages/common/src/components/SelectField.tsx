@@ -127,8 +127,12 @@ const SelectField = ({
       &:-webkit-autofill:active {
         -webkit-text-fill-color: transparent !important;
       }
-      option:not(:disabled) {
+      option {
         color: var(--text-color);
+        &:disabled {
+          color: var(--text-color);
+          opacity: 0.67;
+        }
       }
     `,
     inputValue: css`
