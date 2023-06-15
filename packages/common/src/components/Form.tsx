@@ -489,12 +489,13 @@ const Form = ({
       `}
     `,
     input: css`
+      --text-color: ${colors.text};
       box-sizing: border-box;
       border: none;
       padding: 1.5em 1em 0.5em;
       line-height: 1.333;
       width: 100%;
-      color: ${colors.text};
+      color: var(--text-color);
       background-color: transparent;
       /* hide text in webkit */
       &:-webkit-autofill,
@@ -503,7 +504,7 @@ const Form = ({
       &:-webkit-autofill:active {
         -webkit-text-fill-color: ${colors.text} !important;
         box-shadow: 0 0 0 10em ${colors.fill} inset !important;
-        caret-color: ${colors.text} !important;
+        caret-color: var(--text-color) !important;
       }
     `,
     label: css`

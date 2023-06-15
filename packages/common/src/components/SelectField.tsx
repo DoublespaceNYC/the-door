@@ -127,6 +127,9 @@ const SelectField = ({
       &:-webkit-autofill:active {
         -webkit-text-fill-color: transparent !important;
       }
+      option:not(:disabled) {
+        color: var(--text-color);
+      }
     `,
     inputValue: css`
       position: absolute;
