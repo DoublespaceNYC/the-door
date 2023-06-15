@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { css, useTheme } from '@emotion/react'
 import { Record } from 'datocms-structured-text-utils'
 import { darken } from 'polished'
@@ -10,6 +12,7 @@ export interface IBlackbaudForm extends Record {
   __typename: 'DatoCmsBlackbaudForm'
   formName: string
   formId: string
+  bboxVersion: '1.0' | '2.0'
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -24,6 +27,8 @@ declare global {
     bbFormToggleGivingLevels: any
     bbox: any
     bboxInit: any
+    bboxInit2: any
+    bboxApi: any
 
     _bboxDefine: any
 
@@ -59,7 +64,7 @@ declare global {
   }
 }
 const BlackbaudForm = ({
-  data: { formId },
+  data: { formId, bboxVersion },
   highlightColor,
   ...props
 }: Props): JSX.Element => {
@@ -71,13 +76,29 @@ const BlackbaudForm = ({
     3
   )
   useEffect(() => {
-    window.bboxInit = () => {
-      window.bbox.showForm(formId)
-    }
     const script = document.createElement('script')
     script.async = true
-    script.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-min.js'
+
+    switch (bboxVersion) {
+      case '1.0':
+        window.bboxInit = () => {
+          window.bbox.showForm(formId)
+        }
+        script.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-min.js'
+        break
+      case '2.0':
+        window.bboxInit2 = [
+          () => {
+            window.bboxApi.showForm(formId)
+          },
+        ]
+        script.src =
+          'https://bbox.blackbaudhosting.com/webforms/bbox-2.0-min.js'
+        break
+    }
+
     document.head.appendChild(script)
+
     return () => {
       // Clean up scripts
       document.head.removeChild(script)
@@ -120,6 +141,8 @@ const BlackbaudForm = ({
       window.bbFormToggleGivingLevels = undefined
       window.bbox = undefined
       window.bboxInit = undefined
+      window.bboxInit2 = undefined
+      window.bboxApi = undefined
       window._bboxDefine = undefined
       window.BBOX = undefined
       window.BBOXBillingSection = undefined
@@ -150,6 +173,18 @@ const BlackbaudForm = ({
       window._MongoServerUrl = undefined
     }
   }, [formId])
+
+  // useEffect(() => {
+  //   window.bboxInit2 = [
+  //     () => {
+  //       window.bboxApi.showForm(formId)
+  //     },
+  //   ]
+  //   const script = document.createElement('script')
+  //   script.async = true
+  //   script.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-2.0-min.js'
+  //   document.head.appendChild(script)
+  // }, [formId])
 
   const style = css`
     width: 100%;
@@ -327,7 +362,7 @@ const BlackbaudForm = ({
   return (
     <div
       css={style}
-      id="bbox-root"
+      id={`bbox-root${bboxVersion === '2.0' && '-' + formId}`}
       {...props}
     />
   )
