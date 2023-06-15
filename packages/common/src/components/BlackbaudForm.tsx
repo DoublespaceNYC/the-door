@@ -67,6 +67,7 @@ const BlackbaudForm = ({
   highlightColor,
   ...props
 }: Props): JSX.Element => {
+  console.log(formId)
   const theme = useTheme() as ITheme
 
   const readableHighlight = useReadableColor(
@@ -174,12 +175,14 @@ const BlackbaudForm = ({
     }
   }, [formId])
 
+  const v2Suffix = bboxVersion === '2.0' ? '-' + formId : ''
+
   const style = css`
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    #mongo-form${bboxVersion === '2.0' && '-' + formId} {
+    #mongo-form${v2Suffix} {
       margin-top: 1em;
       width: 100%;
       .BBFormContainer[data-bbox-part-id='${formId}'] {
@@ -350,7 +353,7 @@ const BlackbaudForm = ({
   return (
     <div
       css={style}
-      id={`bbox-root${bboxVersion === '2.0' && '-' + formId}`}
+      id={`bbox-root${v2Suffix}`}
       {...props}
     />
   )
