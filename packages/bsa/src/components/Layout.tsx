@@ -109,7 +109,12 @@ const Layout = ({
         }
         footer: datoCmsFooter {
           navItems: links {
-            ...InternalLinkFragment
+            ... on DatoCmsInternalLink {
+              ...InternalLinkFragment
+            }
+            ... on DatoCmsExternalLink {
+              ...ExternalLinkFragment
+            }
           }
           buttons: highlightedLinks {
             ...InternalLinkFragment

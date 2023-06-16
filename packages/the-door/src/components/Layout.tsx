@@ -136,7 +136,12 @@ const Layout = ({
             }
           }
           navItems: links {
-            ...InternalLinkFragment
+            ... on DatoCmsInternalLink {
+              ...InternalLinkFragment
+            }
+            ... on DatoCmsExternalLink {
+              ...ExternalLinkFragment
+            }
           }
           buttons: highlightedLinks {
             ...InternalLinkFragment
