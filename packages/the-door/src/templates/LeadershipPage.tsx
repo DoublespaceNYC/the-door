@@ -297,7 +297,9 @@ const LeadershipPage = ({
         </section>
       </section>
       <section css={styles.advisorySection}>
-        <Anchor id={advisoryAnchor[0].linkText} />
+        {advisoryAnchor[0] && (
+          <Anchor id={advisoryAnchor[0].linkText} />
+        )}
         <h2>{advisoryHeading}</h2>
         <div>
           {advisory.nodes.map((member, i) => (
