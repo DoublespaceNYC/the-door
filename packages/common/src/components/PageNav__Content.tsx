@@ -30,25 +30,30 @@ const PageNavContent = forwardRef<HTMLDivElement, Props>((props, ref) => {
       }
     `,
   }
-
-  return (
-    <div
-      ref={ref}
-      css={styles.container}
-      {...additionalProps}
-    >
-      {links.map((link, i) => (
-        <AnchorLink
-          id={link.linkText}
-          key={i}
-          css={styles.anchorLink}
-          onClick={onAnchorClick}
-        >
-          {link.linkText}
-        </AnchorLink>
-      ))}
-    </div>
-  )
+  if (links) {
+    return (
+      <div
+        ref={ref}
+        css={styles.container}
+        {...additionalProps}
+      >
+        {links.map((link, i) => {
+          if (link && link.linkText) {
+            return (
+              <AnchorLink
+                id={link.linkText}
+                key={i}
+                css={styles.anchorLink}
+                onClick={onAnchorClick}
+              >
+                {link.linkText}
+              </AnchorLink>
+            )
+          }
+        })}
+      </div>
+    )
+  } else return null
 })
 
 PageNavContent.displayName = 'PageNavContent'

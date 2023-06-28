@@ -230,7 +230,11 @@ const LeadershipPage = ({
         image={heroImage}
       />
       <PageNav
-        links={[leadershipAnchor[0], boardAnchor[0], advisoryAnchor[0]]}
+        links={[
+          leadershipAnchor[0] || undefined,
+          boardAnchor[0] || undefined,
+          advisoryAnchor[0] || undefined,
+        ]}
       />
       <PageIntro intro={intro} />
       <section css={styles.leadership}>
