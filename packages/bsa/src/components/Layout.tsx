@@ -6,6 +6,7 @@ import { MainNavProps } from '@the-door/common/src/components/MainNav'
 import { ISocialLink } from '@the-door/common/src/components/SocialLink'
 import useLayoutContext from '@the-door/common/src/context/LayoutContext'
 import useQueryContext from '@the-door/common/src/context/QueryContext'
+import { StructuredText as IStructuredText } from 'datocms-structured-text-utils'
 import { PageProps, graphql, useStaticQuery } from 'gatsby'
 import { ReactElement, useEffect } from 'react'
 
@@ -21,7 +22,6 @@ interface Props {
   children: ReactElement
   pageProps: PageProps
 }
-
 const Layout = ({
   children,
   pageProps: { location },
@@ -33,6 +33,7 @@ const Layout = ({
     >
     footer: Pick<FooterProps, 'navItems' | 'buttons'> & {
       ctaBar: ICTABar
+      legalText: IStructuredText
     }
     alert: Omit<AlertBarProps, 'colors'>
     meta: {
@@ -136,6 +137,9 @@ const Layout = ({
               }
             }
           }
+          legalText {
+            value
+          }
         }
         meta: datoCmsMetaContent {
           phone
@@ -208,6 +212,7 @@ const Layout = ({
         navItems: footer.navItems,
         buttons: footer.buttons,
         meta: meta,
+        legalText: footer.legalText,
       }}
       alert={{
         showAlert: alert.showAlert,

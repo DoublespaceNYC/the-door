@@ -1,8 +1,10 @@
 import { css } from '@emotion/react'
 import { useTheme } from '@emotion/react'
-import { Document } from 'datocms-structured-text-utils'
+import { Document, isLink } from 'datocms-structured-text-utils'
+import { StructuredText as IStructuredText } from 'datocms-structured-text-utils'
 import parse from 'html-react-parser'
 import { FC, HTMLAttributes } from 'react'
+import { StructuredText, renderNodeRule } from 'react-datocms/structured-text'
 
 import { baseGrid, mq } from '../theme/mixins'
 import { LogoProps } from '../types'
@@ -28,8 +30,8 @@ export interface FooterProps extends HTMLAttributes<HTMLElement> {
     address: string
     socials: ISocialLink[]
   }
+  legalText: IStructuredText
 }
-
 const Footer = ({
   logo,
   cta,
@@ -37,6 +39,7 @@ const Footer = ({
   navItems,
   buttons,
   meta,
+  legalText,
   ...props
 }: FooterProps): JSX.Element => {
   const Logo = logo
@@ -47,7 +50,7 @@ const Footer = ({
       ${baseGrid}
       background: ${theme.primary};
       color: #fff;
-      padding: var(--row-m) 0;
+      padding: var(--row-m) 0 0;
       font-size: var(--fs-21);
       font-family: var(--display-font);
       text-transform: uppercase;
@@ -191,6 +194,29 @@ const Footer = ({
         )}
       }
     `,
+    legalText: css`
+      grid-column: 2 / -2;
+      font-family: var(--body-font);
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: var(--fs-15);
+      text-align: center;
+      max-width: 102ch;
+      justify-self: center;
+      margin-top: calc(var(--row-m) - 2em);
+      margin-bottom: 2em;
+      font-weight: 300;
+      color: #ffffffcc;
+      a {
+        display: inline-block;
+        color: inherit;
+        @media (hover: hover) {
+          &:hover {
+            color: #fff;
+          }
+        }
+      }
+    `,
   }
   return (
     <footer
@@ -268,6 +294,33 @@ const Footer = ({
           </div>
         ))}
       </nav>
+      <div css={styles.legalText}>
+        <StructuredText
+          data={legalText}
+          customNodeRules={[
+            renderNodeRule(isLink, ({ node, key, children }) => {
+              const metaProps = node.meta?.reduce(
+                (a, v) => ({
+                  ...a,
+                  [v.id]: v.value,
+                }),
+                {}
+              )
+              return (
+                <a
+                  href={node.url}
+                  key={key}
+                  target="_blank"
+                  rel="noreferrer"
+                  {...metaProps}
+                >
+                  {children}
+                </a>
+              )
+            }),
+          ]}
+        />
+      </div>
     </footer>
   )
 }

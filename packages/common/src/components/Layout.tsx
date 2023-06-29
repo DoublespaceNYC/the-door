@@ -165,6 +165,7 @@ const Layout = ({
             navItems={footer.navItems}
             buttons={footer.buttons}
             meta={footer.meta}
+            legalText={footer.legalText}
           />
         </Fragment>
       )}
