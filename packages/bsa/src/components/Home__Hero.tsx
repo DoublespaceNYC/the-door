@@ -100,10 +100,13 @@ const HomeHero = ({
         font-size: calc(var(--fs-108) * 1.125);
         margin-top: 0;
         margin-bottom: 0.167em;
-        max-width: 15ch;
+        max-width: 18ch;
         color: #fff;
         > span::before {
           background: ${colors.bsaGold};
+        }
+        ${mq().ms}{
+          font-size: var(--fs-84);
         }
       }
       h2 {

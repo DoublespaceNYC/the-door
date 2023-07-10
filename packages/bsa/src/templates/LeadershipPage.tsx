@@ -300,20 +300,22 @@ const LeadershipPage = ({
           </div>
         </section>
       </section>
-      <section css={styles.advisorySection}>
-        {advisoryAnchor[0] && (
-          <Anchor id={advisoryAnchor[0].linkText} />
-        )}
-        <h2>{advisoryHeading}</h2>
-        <div>
-          {advisory.nodes.map((member, i) => (
-            <AdvisoryMember
-              key={i}
-              data={member}
-            />
-          ))}
-        </div>
-      </section>
+      {advisory.nodes.length > 0 && (
+        <section css={styles.advisorySection}>
+          {advisoryAnchor[0] && (
+            <Anchor id={advisoryAnchor[0].linkText} />
+          )}
+          <h2>{advisoryHeading}</h2>
+          <div>
+            {advisory.nodes.map((member, i) => (
+              <AdvisoryMember
+                key={i}
+                data={member}
+              />
+            ))}
+          </div>
+        </section>
+      )}
     </Fragment>
   )
 }

@@ -99,7 +99,12 @@ const Layout = ({
             }
           }
           buttons: highlightedLinks {
-            ...InternalLinkFragment
+            ... on DatoCmsInternalLink {
+              ...InternalLinkFragment
+            }
+            ... on DatoCmsExternalLink {
+              ...ExternalLinkFragment
+            }
           }
           modal: highlightModal {
             modalHeading
@@ -118,7 +123,12 @@ const Layout = ({
             }
           }
           buttons: highlightedLinks {
-            ...InternalLinkFragment
+            ... on DatoCmsInternalLink {
+              ...InternalLinkFragment
+            }
+            ... on DatoCmsExternalLink {
+              ...ExternalLinkFragment
+            }
           }
           ctaBar {
             value

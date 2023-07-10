@@ -11,6 +11,7 @@ import useReadableColor from '../hooks/useReadableColor'
 import { absoluteFill, mq } from '../theme/mixins'
 import DatoLink from './DatoLink'
 import { IInternalLink } from './InternalLink'
+import { IExternalLink } from './ExternalLink'
 
 export interface IHighlightedLinkModal {
   modalHeading: string
@@ -19,7 +20,7 @@ export interface IHighlightedLinkModal {
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  button: IInternalLink
+  button: IInternalLink | IExternalLink
   color: string
   modal?: IHighlightedLinkModal
   buttonCss?: CSSInterpolation

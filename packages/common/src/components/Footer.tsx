@@ -158,6 +158,9 @@ const Footer = ({
         text-underline-offset: 0.175em;
         text-decoration-thickness: 2px;
       }
+      svg {
+        font-size: 110%;
+      }
       &[data-type='email'] {
         white-space: nowrap;
         overflow: hidden;
