@@ -358,7 +358,7 @@ const ContentBlock = ({
                               : styles.textBlockLink
                           }
                           highlightColor={highlightColor}
-                          icon={false}
+                          icon={record.__typename === 'DatoCmsTextBlockLink'}
                         />
                       )
                     } else return null
