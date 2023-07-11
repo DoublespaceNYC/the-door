@@ -193,6 +193,7 @@ const ContentBlock = ({
         margin: 0.75em 0 0.333em;
         color: #444;
       }
+      > a + h3,
       > p + h3,
       > ul + h3,
       > ol + h3 {
@@ -222,13 +223,12 @@ const ContentBlock = ({
         margin-top: 1em;
       }
       p {
-        line-height: 1.75;
-        margin: 0.5em 0;
-      }
-      p {
         margin: 0.5em 0;
         line-height: 1.75;
         max-width: 90ch;
+      }
+      > a + p {
+        margin-top: 2em;
       }
       a {
         color: ${readableColor};
@@ -300,15 +300,17 @@ const ContentBlock = ({
       `}
     `,
     textBlockLink: css`
-      ${linkStyle}
-      display: block;
-      max-width: fit-content;
+      && {
+        ${linkStyle}
+        display: block;
+        max-width: fit-content;
+      }
     `,
     textBlockButton: css`
       && {
         ${buttonStyle}
         font-size: var(--fs-21);
-        margin: 0.75em 0 1em;
+        margin: 0.75em 0;
         background: ${readableColor};
         color: #fff;
         @media (hover: hover) {
