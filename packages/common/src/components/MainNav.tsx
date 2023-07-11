@@ -348,23 +348,25 @@ const MainNav = ({
               )}
           </div>
           <div css={styles.navButtonsGroup}>
-            {buttons.map((button, i) => (
-              <NavButton
-                css={i + 1 === buttons.length && styles.lastButton}
-                buttonCss={[styles.navItem]}
-                button={button}
-                color={
-                  theme.buttonColorsArray[i % theme.buttonColorsArray.length]
-                }
-                modal={
-                  modal[0]?.highlightedLinkNumber === i + 1
-                    ? modal[0]
-                    : undefined
-                }
-                key={i}
-                onClick={handleLinkClick}
-              />
-            ))}
+            {(theme.themeName === 'The Door' ||
+              (windowWidth && windowWidth >= breakpoint)) &&
+              buttons.map((button, i) => (
+                <NavButton
+                  css={i + 1 === buttons.length && styles.lastButton}
+                  buttonCss={[styles.navItem]}
+                  button={button}
+                  color={
+                    theme.buttonColorsArray[i % theme.buttonColorsArray.length]
+                  }
+                  modal={
+                    modal[0]?.highlightedLinkNumber === i + 1
+                      ? modal[0]
+                      : undefined
+                  }
+                  key={i}
+                  onClick={handleLinkClick}
+                />
+              ))}
           </div>
           <NavBurger
             open={burgerOpen}
