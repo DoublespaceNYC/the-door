@@ -249,7 +249,9 @@ const Footer = ({
             rel="noreferrer"
             data-type="email"
           >
-            <span>{meta.email}</span>
+            <span>
+              {theme.themeName === 'The Door' ? meta.email : 'Email Us'}
+            </span>
           </a>
         </div>
         <div>
