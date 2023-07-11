@@ -301,6 +301,8 @@ const ContentBlock = ({
     `,
     textBlockLink: css`
       ${linkStyle}
+      display: block;
+      max-width: fit-content;
     `,
     textBlockButton: css`
       && {
