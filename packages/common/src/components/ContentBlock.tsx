@@ -354,6 +354,7 @@ const ContentBlock = ({
                               : styles.textBlockLink
                           }
                           highlightColor={highlightColor}
+                          icon={false}
                         />
                       )
                     } else return null

@@ -226,6 +226,7 @@ const PageNav = ({
         <DatoLink
           data={button}
           css={styles.ctaButton}
+          icon={false}
         />
       )}
       {links.length > 0 && button && <div css={styles.divider} />}

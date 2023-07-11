@@ -9,9 +9,8 @@ export const mq = (minMax: 'min' | 'max' = 'max') => {
   const mqArray = Object.keys(breakpoints) as Array<keyof breakpoints>
 
   mqArray.forEach(key => {
-    mqObject[key] = `@media (${minMax}-width: ${
-      breakpoints[key] + (minMax === 'min' ? 1 : 0)
-    }px)`
+    mqObject[key] = `@media (${minMax}-width: ${breakpoints[key] + (minMax === 'min' ? 1 : 0)
+      }px)`
   })
 
   return mqObject
@@ -69,7 +68,7 @@ export const buttonStyle = css`
   line-height: 1;
   letter-spacing: 0.05em;
   text-decoration: none;
-  padding: 0.5em 0.75em;
+  padding: 0.5em 0.75em;  
 `
 export const animateIn = keyframes`
   to {
