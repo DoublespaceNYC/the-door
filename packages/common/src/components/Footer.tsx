@@ -157,9 +157,9 @@ const Footer = ({
       > span {
         text-underline-offset: 0.175em;
         text-decoration-thickness: 2px;
-      }
-      svg {
-        font-size: 110%;
+        svg {
+          font-size: 110%;
+        }
       }
       &[data-type='email'] {
         white-space: nowrap;
