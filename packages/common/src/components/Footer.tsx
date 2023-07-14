@@ -295,6 +295,7 @@ const Footer = ({
             <DatoLink
               data={button}
               css={[styles.link, styles.button]}
+              icon={false}
             />
           </div>
         ))}
