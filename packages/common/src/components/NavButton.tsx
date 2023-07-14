@@ -10,8 +10,8 @@ import { useEscKeyFunction } from '../hooks/useEscKeyFunction'
 import useReadableColor from '../hooks/useReadableColor'
 import { absoluteFill, mq } from '../theme/mixins'
 import DatoLink from './DatoLink'
-import { IInternalLink } from './InternalLink'
 import { IExternalLink } from './ExternalLink'
+import { IInternalLink } from './InternalLink'
 
 export interface IHighlightedLinkModal {
   modalHeading: string
@@ -163,6 +163,7 @@ const NavButton = ({
           }
           setActiveNavIndex(null)
         }}
+        icon={false}
       />
       {modal && (
         <div css={styles.modal}>
