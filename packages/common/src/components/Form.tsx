@@ -42,9 +42,9 @@ export interface IForm extends Record {
   formFields: IFormField[]
   submitButtonText: string
   successMessage: IStructuredText
-  recipients: {
-    email: string
-  }[]
+  // recipients: {
+  //   email: string
+  // }[]
   conditionalFields: string | null
 }
 
@@ -82,7 +82,7 @@ const Form = ({
     successMessage,
     formFields,
     conditionalFields,
-    recipients,
+    // recipients,
   },
   formType = 'Netlify',
   listId,
@@ -250,10 +250,10 @@ const Form = ({
           body: encode({
             'form-name': formName,
             ...sanitizedData,
-            recipients:
-              recipients.length > 0
-                ? recipients.map(recipient => recipient.email).join(', ')
-                : null,
+            // recipients:
+            //   recipients.length > 0
+            //     ? recipients.map(recipient => recipient.email).join(', ')
+            //     : null,
           }),
         })
       }
@@ -265,7 +265,7 @@ const Form = ({
         })
       }
     },
-    [formType, listId, formFieldsArray, conditionalFields, recipients]
+    [formType, listId, formFieldsArray, conditionalFields]
   )
 
   const metaTheme = useTheme() as ITheme
@@ -695,13 +695,13 @@ const Form = ({
               )
             }
           })}
-          {recipients.length > 0 && (
+          {/* {recipients.length > 0 && (
             <input
               type="hidden"
               name="recipients"
               aria-hidden
             />
-          )}
+          )} */}
           <div css={styles.buttonWrap}>
             <div css={styles.button}>
               <span>{submitButtonText}</span>
