@@ -15,7 +15,7 @@ interface ContextProps {
   id: string
 }
 
-const FormPage = ({
+const FormLightboxPage = ({
   data,
 }: PageProps<QueryProps, ContextProps>): JSX.Element => {
   return (
@@ -48,4 +48,4 @@ export const query = graphql`
   }
 `
 
-export default FormPage
+export default FormLightboxPage

@@ -191,6 +191,11 @@ export const createPages: GatsbyNode['createPages'] = async ({
   const localePrefix = (locale: string) =>
     locale === 'en' ? '' : '/' + locale
 
+  createPage({
+    path: `/forms-detection/`,
+    component: resolve(`./src/templates/ConditionalFormsPage.tsx`),
+  })
+
   data?.allDatoCmsService.nodes.forEach(node => {
     node._allSlugLocales.forEach(slugLocale => {
       createPage({
@@ -224,7 +229,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
   data?.allDatoCmsFormLightbox.nodes.forEach(node => {
     createPage({
       path: `/forms/${node.slug}/`,
-      component: resolve(`./src/templates/FormPage.tsx`),
+      component: resolve(`./src/templates/FormLightboxPage.tsx`),
       context: {
         id: node.id,
       },
@@ -319,10 +324,6 @@ export const createPages: GatsbyNode['createPages'] = async ({
         locale: slugLocale.locale,
       },
     })
-  })
-  createPage({
-    path: `/forms-detection/`,
-    component: resolve(`./src/templates/ConditionalFormsPage.tsx`),
   })
 }
 
