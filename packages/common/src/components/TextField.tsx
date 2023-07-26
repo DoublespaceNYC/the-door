@@ -136,11 +136,6 @@ const TextField = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           inputMode={fieldType === 'zip' ? 'numeric' : undefined}
-          pattern={
-            fieldType === 'zip'
-              ? '^(?(^00000(|-0000))|(d{5}(|-d{4})))$'
-              : undefined
-          }
         />
       </div>
     </div>
