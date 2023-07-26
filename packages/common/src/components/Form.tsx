@@ -211,6 +211,7 @@ const Form = ({
         body: string
       }) => {
         setSubmitting(true)
+        console.log(data.body)
         try {
           const response = await fetch(data.url, {
             method: data.method,
