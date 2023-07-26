@@ -617,13 +617,6 @@ const Form = ({
               />
             </Fragment>
           )}
-          {recipients.length > 0 && (
-            <input
-              type="hidden"
-              name="recipients"
-              aria-hidden
-            />
-          )}
           {formFieldsArray.map((field, i) => (
             <Fragment key={i}>
               {field.__typename === 'DatoCmsTextField' && (
@@ -702,6 +695,13 @@ const Form = ({
               )
             }
           })}
+          {recipients.length > 0 && (
+            <input
+              type="hidden"
+              name="recipients"
+              aria-hidden
+            />
+          )}
           <div css={styles.buttonWrap}>
             <div css={styles.button}>
               <span>{submitButtonText}</span>
