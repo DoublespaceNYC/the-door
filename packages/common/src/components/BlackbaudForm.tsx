@@ -67,7 +67,6 @@ const BlackbaudForm = ({
   highlightColor,
   ...props
 }: Props): JSX.Element => {
-  console.log(formId)
   const theme = useTheme() as ITheme
 
   const readableHighlight = useReadableColor(

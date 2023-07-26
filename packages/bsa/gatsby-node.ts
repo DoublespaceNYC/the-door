@@ -172,11 +172,6 @@ export const createPages: GatsbyNode['createPages'] = async ({
   const localePrefix = (locale: string) =>
     locale === 'en' ? '' : '/' + locale
 
-  createPage({
-    path: `/forms-detection/`,
-    component: resolve(`./src/templates/ConditionalFormsPage.tsx`),
-  })
-
   data?.allDatoCmsService.nodes.forEach(node => {
     node._allSlugLocales.forEach(slugLocale => {
       createPage({

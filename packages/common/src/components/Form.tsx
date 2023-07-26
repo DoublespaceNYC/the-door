@@ -73,7 +73,6 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   theme?: 'Light' | 'Dark'
   layout?: 'Page' | 'Lightbox'
   highlightColor?: string
-  showAllConditionalFields?: boolean
 }
 
 const Form = ({
@@ -92,7 +91,6 @@ const Form = ({
   theme = 'Light',
   highlightColor,
   layout,
-  showAllConditionalFields,
   ...props
 }: Props): JSX.Element => {
   const [formRef, setFormRef] = useState<HTMLFormElement | null>(null)
@@ -141,7 +139,7 @@ const Form = ({
     const conditionsJSON =
       conditionalFields && (JSON.parse(conditionalFields) as IConditionsJSON)
 
-    if (!showAllConditionalFields && conditionsJSON) {
+    if (conditionsJSON) {
       const getFieldFromLabel = (label: string) => {
         if (label === 'DIVIDER') {
           return {
@@ -178,18 +176,15 @@ const Form = ({
     } else {
       return formFields
     }
-  }, [
-    formFields,
-    conditionalFields,
-    formSelectFieldData,
-    showAllConditionalFields,
-  ])
+  }, [formFields, conditionalFields, formSelectFieldData])
+
+  const hiddenFormFieldsArray = useMemo(() => {
+    const activeFormFieldIds = formFieldsArray.map(field => field.id)
+    return formFields.filter(field => !activeFormFieldIds.includes(field.id))
+  }, [formFieldsArray, formFields])
 
   const handleSubmit = useCallback(
     (formData: { [key: string]: string }, formName: string) => {
-      if (showAllConditionalFields) {
-        return null
-      }
       const conditionsJSON = conditionalFields && JSON.parse(conditionalFields)
       const sanitizedData = conditionsJSON ? {} : formData
       if (conditionsJSON) {
@@ -270,14 +265,7 @@ const Form = ({
         })
       }
     },
-    [
-      formType,
-      listId,
-      formFieldsArray,
-      conditionalFields,
-      recipients,
-      showAllConditionalFields,
-    ]
+    [formType, listId, formFieldsArray, conditionalFields, recipients]
   )
 
   const metaTheme = useTheme() as ITheme
@@ -702,6 +690,18 @@ const Form = ({
               )}
             </Fragment>
           ))}
+          {hiddenFormFieldsArray.map((field, i) => {
+            if (field.__typename !== 'DatoCmsFormDivider') {
+              return (
+                <input
+                  type="hidden"
+                  name={toSlug(field.label)}
+                  aria-hidden
+                  key={i}
+                />
+              )
+            }
+          })}
           <div css={styles.buttonWrap}>
             <div css={styles.button}>
               <span>{submitButtonText}</span>
@@ -710,7 +710,6 @@ const Form = ({
                 type="submit"
                 aria-label={submitButtonText}
                 value=""
-                disabled={showAllConditionalFields}
               />
             </div>
           </div>

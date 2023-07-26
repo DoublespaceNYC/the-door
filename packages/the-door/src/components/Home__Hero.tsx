@@ -130,7 +130,6 @@ const HomeHero = ({
       }
     `,
   }
-  console.log(`inView: ${videoInView}`)
   return (
     <section
       css={styles.section}
