@@ -1,4 +1,5 @@
 import { Document } from 'datocms-structured-text-utils'
+import { IGatsbyImageData } from 'gatsby-plugin-image'
 
 export interface IBoardMember {
   id: string
@@ -9,6 +10,12 @@ export interface IBoardMember {
   bio?: {
     value: Document
   }
+  image:
+    | {
+        gatsbyImageData: IGatsbyImageData
+      }
+    | null
+    | undefined
 }
 
 // interface Props {

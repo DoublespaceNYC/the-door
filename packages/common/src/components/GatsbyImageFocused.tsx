@@ -44,32 +44,6 @@ const GatsbyImageFocused = ({
   const { width, height } = useElementRect(ref)
   const containerAR = (width && height && width / height) || 0
 
-  // const trueFP = useMemo(() => {
-  //   if (originalAspectRatio) {
-  //     const ratioX = aspectRatio / originalAspectRatio
-  //     const ratioY = originalAspectRatio / aspectRatio
-  //     const getFP = (ratio: number, fp: number) => {
-  //       if (ratio > 1) {
-  //         if (fp < ratio / 2) {
-  //           return (fp - 1 + ratio) / ratio
-  //         } else if (fp > ratio / 2) {
-  //           return fp / ratio
-  //         } else {
-  //           return 0.5
-  //         }
-  //       } else {
-  //         return fp
-  //       }
-  //     }
-  //     return {
-  //       x: getFP(ratioX, focalPoint.x),
-  //       y: getFP(ratioY, focalPoint.y),
-  //     }
-  //   } else {
-  //     return focalPoint
-  //   }
-  // }, [focalPoint, aspectRatio, originalAspectRatio])
-
   const trueFP = useMemo(() => {
     if (aspectRatio && originalAspectRatio) {
       const getFP = (ratio: number, fp: number) => {

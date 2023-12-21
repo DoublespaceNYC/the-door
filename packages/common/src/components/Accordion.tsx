@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { IGatsbyImageData } from 'gatsby-plugin-image'
 import { rgba } from 'polished'
 import { HTMLAttributes, ReactNode, useState } from 'react'
 
@@ -8,6 +9,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   items: {
     heading: string
     subheading?: string
+    image?: IGatsbyImageData
     contents: ReactNode
   }[]
   headingLevel?: number
@@ -57,6 +59,7 @@ const Accordion = ({
           heading={item.heading}
           subheading={item.subheading}
           headingLevel={headingLevel}
+          image={item.image}
           key={i}
           onClick={() => handleClick(i)}
           open={openItems.includes(i)}

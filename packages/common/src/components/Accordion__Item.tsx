@@ -1,15 +1,17 @@
 import { css } from '@emotion/react'
 import { useTheme } from '@emotion/react'
+import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 import { rgba } from 'polished'
 import { ElementType, HTMLAttributes, ReactNode, useState } from 'react'
 
 import { useElementHeight } from '../hooks/useElementRect'
-import { mq } from '../theme/mixins'
+import { bezier, mq } from '../theme/mixins'
 import { ITheme } from './Layout'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   heading: string
   subheading?: string
+  image?: IGatsbyImageData
   children: ReactNode
   headingLevel?: number
   open: boolean
@@ -21,6 +23,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 const AccordionItem = ({
   heading,
   subheading,
+  image,
   children,
   headingLevel = 3,
   open = false,
@@ -64,7 +67,6 @@ const AccordionItem = ({
     button: css`
       width: 100%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
       border-top: 2px solid ${colors.divider};
       border-bottom: 1px solid ${open ? colors.subdivider : 'transparent'};
@@ -113,6 +115,22 @@ const AccordionItem = ({
           transform: scale3d(1.25, 1.25, 1);
         }
       }
+    `,
+    imageWrapper: css`
+      margin: 1em 2em 1em 0;
+      overflow: hidden;
+    `,
+    image: css`
+      width: max(var(--fs-144), 10rem);
+      transition: transform 300ms ${bezier.easeOut};
+      @media (hover: hover) {
+        button:hover & {
+          transform: scale3d(1.05, 1.05, 1);
+        }
+      }
+    `,
+    headingArea: css`
+      flex: 1;
     `,
     heading: css`
       color: ${colors.heading[0]};
@@ -188,7 +206,16 @@ const AccordionItem = ({
         css={styles.button}
         aria-label="close accordion"
       >
-        <div>
+        {image && (
+          <div css={styles.imageWrapper}>
+            <GatsbyImage
+              css={styles.image}
+              image={image}
+              alt={heading}
+            />
+          </div>
+        )}
+        <div css={styles.headingArea}>
           <Heading css={styles.heading}>{heading}</Heading>
           {subheading && (
             <Subheading css={styles.subheading}>{subheading}</Subheading>
