@@ -39,18 +39,18 @@ const LeaderThumbnail = ({
       }
     `,
     heading: css`
-      font-size: var(--fs-24);
+      font-size: var(--fs-21);
       font-family: var(--body-font);
       margin: 0.5em 1.5rem 0.25em;
       text-align: center;
       color: ${highlightColor};
       ${mq().s} {
-        font-size: var(--fs-21);
+        font-size: var(--fs-18);
         margin: 0.5em 1rem 0.25em;
       }
     `,
     subheading: css`
-      font-size: var(--fs-16);
+      font-size: var(--fs-15);
       font-family: var(--body-font);
       margin: 0 1.5rem 1.5em;
       text-align: center;

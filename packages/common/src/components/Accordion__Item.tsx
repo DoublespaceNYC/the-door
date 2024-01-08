@@ -121,8 +121,11 @@ const AccordionItem = ({
       overflow: hidden;
     `,
     image: css`
-      width: max(1.5 * var(--fs-144), 10rem);
+      width: max(1.25 * var(--fs-144), 10rem);
       transition: transform 300ms ${bezier.easeOut};
+      ${mq().s} {
+        width: max(6rem, 27.5vw);
+      }
       @media (hover: hover) {
         button:hover & {
           transform: scale3d(1.05, 1.05, 1);
