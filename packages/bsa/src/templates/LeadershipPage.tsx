@@ -263,6 +263,7 @@ const LeadershipPage = ({
             items={boardOfficers.nodes.map(member => ({
               heading: member.name,
               subheading: member.title,
+              image: member.image?.gatsbyImageData,
               contents: (
                 <div css={styles.boardBio}>
                   <StructuredText data={member.bio} />
@@ -280,6 +281,7 @@ const LeadershipPage = ({
             items={boardDirectors.nodes.map(member => ({
               heading: member.name,
               subheading: member.title,
+              image: member.image?.gatsbyImageData,
               contents: (
                 <div css={styles.boardBio}>
                   <StructuredText data={member.bio} />

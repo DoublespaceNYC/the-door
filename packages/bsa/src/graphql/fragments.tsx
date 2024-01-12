@@ -705,6 +705,12 @@ export const Fragments = graphql`
     bio {
       value
     }
+    image {
+      gatsbyImageData(
+        width: 360
+        imgixParams: { ar: "1:1", crop: "focalpoint", fit: "crop" }
+      )
+    }
   }
   fragment AdvisoryMemberFragment on DatoCmsAdvisoryMember {
     id: originalId
