@@ -125,12 +125,15 @@ const LeadershipPage = ({
       grid-column: 2 / -2;
       margin-top: var(--row-s);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       grid-gap: var(--gtr-m);
-      ${mq().ml} {
+      ${mq().ls} {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      ${mq().m} {
         grid-template-columns: repeat(3, 1fr);
       }
-      ${mq().ms} {
+      ${mq().s} {
         grid-template-columns: repeat(2, 1fr);
       }
       > a {
