@@ -302,6 +302,7 @@ export const onCreateNode: GatsbyNode['onCreateNode'] = async ({
         case 'pdf':
         case 'doc':
         case 'docx':
+        case 'zip':
           return true
         default:
           return false
