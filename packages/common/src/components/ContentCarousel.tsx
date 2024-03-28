@@ -9,6 +9,7 @@ import NewsEventsCarousel from './ContentCarousel__NewsEvents'
 import { IImageBlock } from './ImageBlock'
 import PartnersGrid from './PartnersGrid'
 import { IVideoBlock } from './VideoBlock'
+import { IPartner } from './Partner__Article'
 
 export interface ICarousel extends Record {
   __typename: 'DatoCmsCarousel'
@@ -18,6 +19,7 @@ export interface ICarousel extends Record {
   }[]
   links: ICarouselLink[]
   media: (IImageBlock | IVideoBlock)[]
+  partners: IPartner[]
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -27,7 +29,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const ContentCarousel = ({
-  data: { contentType, tags, links, media },
+  data: { contentType, tags, links, media, partners },
   highlightColor,
   orientation,
   ...props
@@ -72,6 +74,7 @@ const ContentCarousel = ({
       return (
         <PartnersGrid
           highlightColor={highlightColor}
+          data={partners}
           {...props}
         />
       )

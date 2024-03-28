@@ -438,6 +438,9 @@ export const Fragments = graphql`
         ...VideoBlockFragment
       }
     }
+    partners {
+      ...PartnerFragment
+    }
   }
   fragment ContentBlockFragment on DatoCmsContentBlock {
     id: originalId
