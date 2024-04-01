@@ -48,7 +48,7 @@ const MainNav = ({
   const { open: lightboxOpen } = useLightboxContext()
   const scrolled = !inView || lightboxOpen
 
-  const windowWidth = useWindowWidth()
+  const windowWidth = useWindowWidth() || Infinity
 
   const [navRef, setNavRef] = useState<HTMLElement | null>(null)
   const navHeight = useElementHeight(navRef)
@@ -293,8 +293,7 @@ const MainNav = ({
             css={styles.navItemsGroup}
             ref={navItemsGroupRef}
           >
-            {windowWidth &&
-              dropdownContainerRef.current &&
+            {dropdownContainerRef.current &&
               navItemsGroupRef.current &&
               createPortal(
                 <nav css={styles.navItemsGroupConditional}>
@@ -325,8 +324,7 @@ const MainNav = ({
                           />
                         )
                     })}
-                    {windowWidth &&
-                      windowWidth <= breakpoint &&
+                    {windowWidth <= breakpoint &&
                       buttons.map((button, i) => (
                         <NavButton
                           buttonCss={styles.navItem}
