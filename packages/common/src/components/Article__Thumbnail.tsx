@@ -27,7 +27,7 @@ const ArticleThumbnail = ({
   highlightColor,
   ...props
 }: Props): JSX.Element => {
-  const date = new Date(article.publicationDate)
+  const date = new Date(article.publicationDate + 'T:00:00:00')
 
   const featured = layout === 'Featured'
   const grid = layout === 'Grid'

@@ -31,7 +31,7 @@ const ContentCarouselLinkThumbnail = ({
   highlightColor,
   ...props
 }: Props): JSX.Element => {
-  const date = link.date && new Date(link.date)
+  const date = link.date && new Date(link.date + 'T00:00:00')
   const theme = useTheme() as ITheme
 
   const styles = {
