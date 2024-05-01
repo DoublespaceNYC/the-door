@@ -52,7 +52,7 @@ const InternalArticle = ({
   layout,
   highlightColor,
 }: Props): JSX.Element => {
-  const date = new Date(publicationDate + "T:00:00:00")
+  const date = new Date(publicationDate + "T00:00:00")
   const theme = useTheme() as ITheme
 
   const styles = {

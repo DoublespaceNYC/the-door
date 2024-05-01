@@ -27,7 +27,7 @@ const ArticleThumbnail = ({
   highlightColor,
   ...props
 }: Props): JSX.Element => {
-  const date = new Date(article.publicationDate + 'T:00:00:00')
+  const date = new Date(article.publicationDate + 'T00:00:00')
 
   const featured = layout === 'Featured'
   const grid = layout === 'Grid'
@@ -132,6 +132,8 @@ const ArticleThumbnail = ({
       font-size: 90%;
     `,
   }
+  console.log(article.publicationDate)
+  console.log(date)
   return (
     <div
       css={styles.container}
