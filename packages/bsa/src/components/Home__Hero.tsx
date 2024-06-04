@@ -13,6 +13,7 @@ import {
 } from '@the-door/common/src/theme/mixins'
 import { Fragment } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { usePageVisibility } from 'react-page-visibility'
 
 import { colors } from '../theme/variables'
 
@@ -40,6 +41,8 @@ const HomeHero = ({
   const { ref: videoRef, inView: videoInView } = useInView({
     initialInView: true,
   })
+  const isVisible = usePageVisibility()
+  const isPlaying = isVisible && videoInView
 
   const styles = {
     section: css`
@@ -105,7 +108,7 @@ const HomeHero = ({
         > span::before {
           background: ${colors.bsaGold};
         }
-        ${mq().ms}{
+        ${mq().ms} {
           font-size: var(--fs-84);
         }
       }
@@ -148,7 +151,7 @@ const HomeHero = ({
         playsInline
         muted
         loop
-        playing={videoInView}
+        playing={isPlaying}
       />
       <AnimateIn
         css={styles.text}

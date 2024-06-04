@@ -10,5 +10,11 @@
     "bsa": "npm run -w packages/bsa",
     "format": "prettier --write \"packages/**/src/**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "lint": "npx eslint \"packages/**/src/**/*.{js,jsx,ts,tsx}\""
+  },
+  "dependencies": {
+    "react-page-visibility": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/react-page-visibility": "^6.4.4"
   }
 }

@@ -11,8 +11,9 @@ import {
   bezier,
   mq,
 } from '@the-door/common/src/theme/mixins'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { usePageVisibility } from 'react-page-visibility'
 
 import { colors } from '../theme/variables'
 
@@ -40,14 +41,8 @@ const HomeHero = ({
   const { ref: videoRef, inView: videoInView } = useInView({
     initialInView: true,
   })
-  const [isPlaying, setPlaying] = useState(videoInView)
-  useEffect(() => {
-    if (!document.hidden) {
-      setPlaying(videoInView)
-    } else {
-      setPlaying(false)
-    }
-  }, [videoInView])
+  const isVisible = usePageVisibility()
+  const isPlaying = isVisible && videoInView
 
   const styles = {
     section: css`
