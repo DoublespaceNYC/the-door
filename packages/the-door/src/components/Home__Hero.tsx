@@ -11,7 +11,7 @@ import {
   bezier,
   mq,
 } from '@the-door/common/src/theme/mixins'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import { colors } from '../theme/variables'
@@ -40,6 +40,14 @@ const HomeHero = ({
   const { ref: videoRef, inView: videoInView } = useInView({
     initialInView: true,
   })
+  const [isPlaying, setPlaying] = useState(videoInView)
+  useEffect(() => {
+    if (!document.hidden) {
+      setPlaying(videoInView)
+    } else {
+      setPlaying(false)
+    }
+  }, [videoInView])
 
   const styles = {
     section: css`
@@ -145,7 +153,7 @@ const HomeHero = ({
         playsInline
         muted
         loop
-        playing={videoInView}
+        playing={isPlaying}
       />
       <AnimateIn
         css={styles.text}
