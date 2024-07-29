@@ -234,7 +234,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
   })
   data?.allDatoCmsTertiaryPage.nodes.forEach(node => {
     createPage({
-      path: `/${node.parentPage?.slug + '/' || ''}${node.slug}/`,
+      path: `/${node.parentPage?.slug ? `${node.parentPage.slug}/` : ''}${node.slug}/`,
       component: resolve(`./src/templates/TertiaryPage.tsx`),
       context: {
         id: node.id,
