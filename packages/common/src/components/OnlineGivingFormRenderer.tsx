@@ -37,15 +37,15 @@ export const OnlineGivingFormRenderer = ({
   highlightColor,
   ...props
 }: Props) => {
-  const script = document.createElement('script')
-  script.async = true
-
   const interval = useRef(setInterval(() => {}))
 
   const [isReady1, setIsReady1] = useState(false)
   const [isReady2, setIsReady2] = useState(false)
 
   useLayoutEffect(() => {
+    const script = document.createElement('script')
+    script.async = true
+
     script.src =
       'https://sky.blackbaudcdn.net/static/donor-form-loader/2/main.js'
     document.head.appendChild(script)
