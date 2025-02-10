@@ -15,6 +15,7 @@ import { useElementRect } from '../hooks/useElementRect'
 import useReadableColor from '../hooks/useReadableColor'
 import { absoluteFill, animateIn, buttonStyle } from '../theme/mixins'
 import { toSlug } from '../utils'
+import type { IBlackbaudForm } from './BlackbaudForm'
 import CheckboxArrayField, { ICheckboxArrayField } from './CheckboxArrayField'
 import CheckboxField, { ICheckboxField } from './CheckboxField'
 import DateField, { IDateField } from './DateField'
@@ -51,7 +52,7 @@ export interface IForm extends Record {
 export interface IFormEmbed extends Record {
   __typename: 'DatoCmsFormEmbed'
   id: string
-  form: IForm
+  form: IForm | IBlackbaudForm
 }
 
 export interface IFieldStyles {

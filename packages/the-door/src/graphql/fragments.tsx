@@ -709,7 +709,12 @@ export const Fragments = graphql`
     __typename
     id: originalId
     form {
-      ...FormFragment
+      ... on DatoCmsForm {
+        ...FormFragment
+      }
+      ... on DatoCmsBlackbaudForm {
+        ...BlackbaudFormFragment
+      }
     }
   }
   fragment FormLightboxLinkFragment on DatoCmsFormLightboxLink {

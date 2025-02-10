@@ -102,17 +102,23 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
         data={data}
         renderBlock={({ record }) => {
           if (record.__typename === 'DatoCmsFormEmbed') {
-            return (
-              <Form
-                data={record.form}
-                formType="Netlify"
-                css={styles.form}
-                successCss={styles.formSuccess}
-                simpleSuccess
-                theme="Dark"
-                highlightColor={theme.secondary}
-              />
-            )
+            switch (record.form.__typename) {
+              case 'DatoCmsForm': {
+                return (
+                  <Form
+                    data={record.form}
+                    formType="Netlify"
+                    css={styles.form}
+                    successCss={styles.formSuccess}
+                    simpleSuccess
+                    theme="Dark"
+                    highlightColor={theme.secondary}
+                  />
+                )
+              }
+              default:
+                return null
+            }
           }
           if (isDatoLink(record)) {
             return (

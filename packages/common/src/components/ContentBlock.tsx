@@ -10,9 +10,12 @@ import useReadableColor from '../hooks/useReadableColor'
 import { baseGrid, buttonStyle, linkStyle, mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 import { Anchor, IAnchorLink } from './AnchorLink'
+import BlackbaudForm from './BlackbaudForm'
 import ContentBlockShape, { ShapeType } from './ContentBlock__Shape'
 import ContentCarousel, { ICarousel } from './ContentCarousel'
 import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
+import type { IFormEmbed } from './Form'
+import Form from './Form'
 import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
 import VectorGraphic, { IVectorGraphic } from './VectorGraphic'
 
@@ -27,7 +30,7 @@ interface ITextBlockButton extends Record {
 }
 
 interface IBody extends IStructuredText {
-  blocks?: (ITextBlockLink | ITextBlockButton)[]
+  blocks?: (ITextBlockLink | ITextBlockButton | IFormEmbed)[]
 }
 
 interface ITextBlock extends Record {
@@ -348,26 +351,48 @@ const ContentBlock = ({
                   key={i}
                   data={block.body}
                   renderBlock={({ record }) => {
-                    if (isDatoLink(record.link[0])) {
-                      return (
-                        <DatoLink
-                          data={record.link[0]}
-                          css={
-                            record.__typename === 'DatoCmsTextBlockButton'
-                              ? styles.textBlockButton
-                              : styles.textBlockLink
+                    switch (record.__typename) {
+                      case 'DatoCmsFormEmbed': {
+                        switch (record.form.__typename) {
+                          case 'DatoCmsBlackbaudForm': {
+                            return <BlackbaudForm data={record.form} />
                           }
-                          highlightColor={highlightColor}
-                          icon={record.__typename === 'DatoCmsTextBlockLink'}
-                        />
-                      )
-                    } else return null
+                          case 'DatoCmsForm': {
+                            return <Form data={record.form} />
+                          }
+                        }
+                      }
+                      default: {
+                        if (isDatoLink(record.link[0])) {
+                          return (
+                            <DatoLink
+                              data={record.link[0]}
+                              css={
+                                record.__typename === 'DatoCmsTextBlockButton'
+                                  ? styles.textBlockButton
+                                  : styles.textBlockLink
+                              }
+                              highlightColor={highlightColor}
+                              icon={
+                                record.__typename === 'DatoCmsTextBlockLink'
+                              }
+                            />
+                          )
+                        } else return null
+                      }
+                    }
                   }}
                   customMarkRules={[
-                    renderMarkRule('h1' || 'h2', ({ children, key }) => {
+                    renderMarkRule('h1', ({ children, key }) => {
                       return <h3 key={key}>{children}</h3>
                     }),
-                    renderMarkRule('h5' || 'h6', ({ children, key }) => {
+                    renderMarkRule('h2', ({ children, key }) => {
+                      return <h3 key={key}>{children}</h3>
+                    }),
+                    renderMarkRule('h5', ({ children, key }) => {
+                      return <h4 key={key}>{children}</h4>
+                    }),
+                    renderMarkRule('h6', ({ children, key }) => {
                       return <h4 key={key}>{children}</h4>
                     }),
                   ]}

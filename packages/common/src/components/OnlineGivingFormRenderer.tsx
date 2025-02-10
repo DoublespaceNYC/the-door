@@ -107,7 +107,9 @@ export const OnlineGivingFormRenderer = ({
   }, [formId, isReady1])
 
   const styles = {
-    form: css``,
+    form: css`
+      width: 100%;
+    `,
   }
 
   return (
