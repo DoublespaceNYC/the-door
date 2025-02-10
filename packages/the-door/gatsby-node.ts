@@ -377,7 +377,7 @@ export const createResolvers: GatsbyNode['createResolvers'] = async ({
     DatoCmsEvent: {
       isUpcoming: {
         type: `Boolean!`,
-        resolve: async (source, args, context, info) => {
+        resolve: async (source: any, args: any, context: any, info: any) => {
           const { buildTime } = await context.nodeModel.findOne({
             type: `SiteBuildMetadata`,
           })
@@ -397,7 +397,7 @@ export const createResolvers: GatsbyNode['createResolvers'] = async ({
     DatoCmsFileField: {
       localFileId: {
         type: `String`,
-        resolve: async (source, args, context, info) => {
+        resolve: async (source: any, args: any, context: any, info: any) => {
           return source.fields?.localFileId
         },
       },

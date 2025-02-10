@@ -132,8 +132,7 @@ const ArticleThumbnail = ({
       font-size: 90%;
     `,
   }
-  console.log(article.publicationDate)
-  console.log(date)
+  
   return (
     <div
       css={styles.container}
