@@ -48,7 +48,7 @@ export const OnlineGivingFormRenderer = ({
 
     script.src =
       'https://sky.blackbaudcdn.net/static/donor-form-loader/2/main.js'
-    document.head.appendChild(script)
+    document?.head.appendChild(script)
     if (!isReady2) {
       interval.current = setInterval(() => {
         if (window.BBDonorFormLoader) {
