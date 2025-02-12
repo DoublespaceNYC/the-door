@@ -345,9 +345,6 @@ export const Fragments = graphql`
             }
           }
         }
-        ... on DatoCmsFormEmbed {
-          ...FormEmbedFragment
-        }
       }
     }
   }
