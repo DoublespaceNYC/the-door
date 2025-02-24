@@ -15,7 +15,7 @@ import { ITheme } from './Layout'
 
 export interface IVideoBlock extends Record {
   __typename: 'DatoCmsVideoBlock'
-  caption: IStructuredText
+  caption: IStructuredText | null | undefined
   video: { url: string; width: number; height: number }
 }
 interface Props extends HTMLAttributes<HTMLElement> {
@@ -173,13 +173,15 @@ const VideoBlock = ({
           onEnded={() => setPlaying(false)}
         />
       </div>
-      <figcaption css={styles.caption}>
-        <div>
+      {caption && (
+        <figcaption css={styles.caption}>
           <div>
-            <StructuredText data={caption} />
+            <div>
+              <StructuredText data={caption} />
+            </div>
           </div>
-        </div>
-      </figcaption>
+        </figcaption>
+      )}
     </figure>
   )
 }

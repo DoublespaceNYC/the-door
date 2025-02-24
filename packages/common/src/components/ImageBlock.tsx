@@ -16,7 +16,7 @@ import { ITheme } from './Layout'
 
 export interface IImageBlock extends Record {
   __typename: 'DatoCmsImageBlock'
-  caption: IStructuredText
+  caption: IStructuredText | null | undefined
   image: IGatsbyImageFocused
 }
 interface Props extends HTMLAttributes<HTMLElement> {
@@ -151,18 +151,20 @@ const ImageBlock = ({
       <GatsbyImageFocused
         css={[styles.media]}
         image={image.gatsbyImageData}
-        alt={image.alt || render(caption.value) || ''}
+        alt={image.alt || render(caption?.value) || ''}
         focalPoint={image.focalPoint}
         aspectRatio={3 / 2}
         originalAspectRatio={image.sizes.aspectRatio}
       />
-      <figcaption css={styles.caption}>
-        <div>
+      {caption && (
+        <figcaption css={styles.caption}>
           <div>
-            <StructuredText data={caption} />
+            <div>
+              <StructuredText data={caption} />
+            </div>
           </div>
-        </div>
-      </figcaption>
+        </figcaption>
+      )}
     </figure>
   )
 }
