@@ -4,6 +4,7 @@ import { render } from 'datocms-structured-text-to-plain-text'
 import {
   StructuredText as IStructuredText,
   Record,
+  isEmptyDocument,
 } from 'datocms-structured-text-utils'
 import { darken, rgba } from 'polished'
 import { HTMLAttributes } from 'react'
@@ -156,7 +157,7 @@ const ImageBlock = ({
         aspectRatio={3 / 2}
         originalAspectRatio={image.sizes.aspectRatio}
       />
-      {caption && (
+      {!isEmptyDocument(caption) && (
         <figcaption css={styles.caption}>
           <div>
             <div>

@@ -3,6 +3,7 @@ import { useTheme } from '@emotion/react'
 import {
   StructuredText as IStructuredText,
   Record,
+  isEmptyDocument,
 } from 'datocms-structured-text-utils'
 import { darken, rgba } from 'polished'
 import { HTMLAttributes, useState } from 'react'
@@ -173,7 +174,7 @@ const VideoBlock = ({
           onEnded={() => setPlaying(false)}
         />
       </div>
-      {caption && (
+      {!isEmptyDocument(caption) && (
         <figcaption css={styles.caption}>
           <div>
             <div>
