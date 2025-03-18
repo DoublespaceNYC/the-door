@@ -134,7 +134,8 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-plugin-google-tagmanager",
       options: {
-        id: "G-86PJKS11B0",
+        id: "GTM-K8TZP8F7",
+        // id: "G-86PJKS11B0",
         includeInDevelopment: false,
         defaultDataLayer: { platform: "gatsby" },
         enableWebVitalsTracking: true,
