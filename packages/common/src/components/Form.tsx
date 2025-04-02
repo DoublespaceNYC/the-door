@@ -27,6 +27,12 @@ import SelectField, { ISelectField } from './SelectField'
 import SelectStateField, { ISelectStateField } from './SelectStateField'
 import TextField, { ITextField } from './TextField'
 
+declare global {
+  interface Window {
+    dataLayer: any[]
+  }
+}
+
 type IFormField =
   | ITextField
   | ISelectField
@@ -207,7 +213,6 @@ const Form = ({
         body: string
       }) => {
         setSubmitting(true)
-        console.log(data.body)
         try {
           const response = await fetch(data.url, {
             method: data.method,
@@ -218,6 +223,12 @@ const Form = ({
             setSubmitting(false)
           }
           if (response.ok) {
+            window.dataLayer = window.dataLayer || []
+            window.dataLayer.push({
+              event: 'button_click',
+              'button_name': `Form Submission: ${formName}`
+
+            })
             setSubmitted(true)
           } else {
             alert(
