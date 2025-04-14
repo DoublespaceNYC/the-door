@@ -2,14 +2,16 @@ import { Record } from 'datocms-structured-text-utils'
 import { HTMLAttributes } from 'react'
 
 import { BlackbaudFormRenderer } from './BlackbaudFormRenderer'
-import { OnlineGivingFormRenderer } from './OnlineGivingFormRenderer'
+import { OGDonationFormRenderer } from './OGDonationFormRenderer'
+import { OGRegistrationFormRenderer } from './OGRegistrationFormRenderer'
 
 export interface IBlackbaudForm extends Record {
   __typename: 'DatoCmsBlackbaudForm'
   formName: string
   formId: string
-  oGId: string
-  bboxVersion: '1.0' | '2.0' | 'Online Giving'
+  oGId?: string
+  envId?: string
+  bboxVersion: '1.0' | '2.0' | 'Online Giving Donation' | 'Online Giving Registration'
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -27,9 +29,16 @@ const BlackbaudForm = ({ data, ...props }: Props) => {
           {...props}
         />
       )
-    case 'Online Giving':
+    case 'Online Giving Donation':
       return (
-        <OnlineGivingFormRenderer
+        <OGDonationFormRenderer
+          data={data}
+          {...props}
+        />
+      )
+    case 'Online Giving Registration':
+      return (
+        <OGRegistrationFormRenderer
           data={data}
           {...props}
         />

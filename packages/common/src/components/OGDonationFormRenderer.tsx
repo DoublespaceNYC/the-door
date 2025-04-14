@@ -32,7 +32,7 @@ declare global {
   }
 }
 
-export const OnlineGivingFormRenderer = ({
+export const OGDonationFormRenderer = ({
   data: { formId, oGId },
   highlightColor,
   ...props
