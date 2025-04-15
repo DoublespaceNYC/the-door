@@ -16,19 +16,20 @@ type Props = ComponentProps<'div'> & {
 
 declare global {
   interface Window {
-    BBDonorFormLoader: any
-    Blackbaud_GetBlackoutDaysForRecurringDirectDebit: any
-    Blackbaud_Init: any
-    Blackbaud_Open: any
-    Blackbaud_OpenCardNotPresentForm: any
-    Blackbaud_OpenCardPresentForm: any
-    Blackbaud_OpenDirectDebitForm: any
-    Blackbaud_OpenPaymentForm: any
-    Blackbaud_OpenStoreCardForm: any
-    Blackbaud_OpenStoreDirectDebitForm: any
-    Blackbaud_OpenUpdateCardForm: any
-    Blackbaud_OpenUpdateDirectDebitForm: any
-    bbCheckout2_0: any
+    BBRegistrationFormLoader: any
+    iFrameResize: any
+    // Blackbaud_GetBlackoutDaysForRecurringDirectDebit: any
+    // Blackbaud_Init: any
+    // Blackbaud_Open: any
+    // Blackbaud_OpenCardNotPresentForm: any
+    // Blackbaud_OpenCardPresentForm: any
+    // Blackbaud_OpenDirectDebitForm: any
+    // Blackbaud_OpenPaymentForm: any
+    // Blackbaud_OpenStoreCardForm: any
+    // Blackbaud_OpenStoreDirectDebitForm: any
+    // Blackbaud_OpenUpdateCardForm: any
+    // Blackbaud_OpenUpdateDirectDebitForm: any
+    // bbCheckout2_0: any
   }
 }
 
@@ -42,58 +43,29 @@ export const OGRegistrationFormRenderer = ({
   const [isReady1, setIsReady1] = useState(false)
   const [isReady2, setIsReady2] = useState(false)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const script = document.createElement('script')
-    script.async = true
-
-    script.src =
-      'https://sky.blackbaudcdn.net/static/donor-form-loader/2/main.js'
+    // script.async = true
+    script.src = 'https://sky.blackbaudcdn.net/static/reg-form-loader/5/main.js'
     document.head.appendChild(script)
-    if (!isReady2) {
-      interval.current = setInterval(() => {
-        if (window.BBDonorFormLoader) {
-          setIsReady1(true)
-        }
-        if (window.Blackbaud_Init) {
-          setIsReady2(true)
-        }
-      }, 200)
-    } else {
-      clearInterval(interval.current)
-    }
+
+    window.BBDonorFormLoader
 
     return () => {
-      clearInterval(interval.current)
-
       // Clean up scripts
-      document.head.removeChild(script)
-      const UrlsForRemoval = ['payments.blackbaud.com']
-      const headScriptsArray = Array.from(
-        document.head.getElementsByTagName('script')
-      )
-      headScriptsArray.forEach(scriptElement => {
-        if (UrlsForRemoval.some(url => scriptElement.src.includes(url))) {
-          document.head.removeChild(scriptElement)
-        }
-      })
-
+      // document.head.removeChild(script)
+      // const UrlsForRemoval = ['payments.blackbaud.com']
+      // const headScriptsArray = Array.from(
+      //   document.head.getElementsByTagName('script')
+      // )
+      // headScriptsArray.forEach(scriptElement => {
+      //   if (UrlsForRemoval.some(url => scriptElement.src.includes(url))) {
+      //     document.head.removeChild(scriptElement)
+      //   }
+      // })
       // Clean up variables
-      window.BBDonorFormLoader = undefined
-      window.BBDonorFormLoader = undefined
-      window.Blackbaud_GetBlackoutDaysForRecurringDirectDebit = undefined
-      window.Blackbaud_Init = undefined
-      window.Blackbaud_Open = undefined
-      window.Blackbaud_OpenCardNotPresentForm = undefined
-      window.Blackbaud_OpenCardPresentForm = undefined
-      window.Blackbaud_OpenDirectDebitForm = undefined
-      window.Blackbaud_OpenPaymentForm = undefined
-      window.Blackbaud_OpenStoreCardForm = undefined
-      window.Blackbaud_OpenStoreDirectDebitForm = undefined
-      window.Blackbaud_OpenUpdateCardForm = undefined
-      window.Blackbaud_OpenUpdateDirectDebitForm = undefined
-      window.bbCheckout2_0 = undefined
     }
-  }, [formId, isReady2])
+  }, [formId])
 
   const styles = {
     form: css`
@@ -104,11 +76,18 @@ export const OGRegistrationFormRenderer = ({
   return (
     <div
       css={styles.form}
+      // data-blackbaud-registration-form
+      // data-blackbaud-registration-form-envid={envId}
+      // data-blackbaud-registration-form-id={formId}
+      // data-blackbaud-registration-form-zone="usa"
+      // data-blackbaud-registration-form-header-height="0"
+
       data-blackbaud-registration-form
-      data-blackbaud-registration-form-envid={envId}
-      data-blackbaud-registration-form-id={formId}
+      data-blackbaud-registration-form-envid="p-iuV2J0KtmEu0x4rOhoISFg"
+      data-blackbaud-registration-form-id="68e95cfa-a53a-4e70-b35b-fb9162213f73"
       data-blackbaud-registration-form-zone="usa"
       data-blackbaud-registration-form-header-height="0"
+      {...props}
     />
   )
 }

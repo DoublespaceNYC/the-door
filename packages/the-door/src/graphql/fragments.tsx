@@ -686,6 +686,7 @@ export const Fragments = graphql`
     formName
     formId
     oGId
+    envId
     bboxVersion
   }
   fragment FormLightboxFragment on DatoCmsFormLightbox {
