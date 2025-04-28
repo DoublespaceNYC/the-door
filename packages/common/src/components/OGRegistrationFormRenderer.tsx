@@ -1,11 +1,5 @@
 import { css } from '@emotion/react'
-import {
-  type ComponentProps,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react'
+import { type ComponentProps, useLayoutEffect, useRef, useState } from 'react'
 
 import type { IBlackbaudForm } from './BlackbaudForm'
 
@@ -58,7 +52,7 @@ export const OGRegistrationFormRenderer = ({
       window.BBEventRegistrationFormLoader = undefined
       window.iFrameResize = undefined
     }
-  }, [])
+  }, [isReady])
 
   const styles = {
     form: css`
