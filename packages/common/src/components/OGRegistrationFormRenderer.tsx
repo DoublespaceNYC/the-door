@@ -1,5 +1,11 @@
 import { css } from '@emotion/react'
-import { type ComponentProps, useLayoutEffect, useRef, useState } from 'react'
+import {
+  type ComponentProps,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 
 import type { IBlackbaudForm } from './BlackbaudForm'
 
@@ -20,37 +26,40 @@ export const OGRegistrationFormRenderer = ({
   highlightColor,
   ...props
 }: Props) => {
-  const interval = useRef(setInterval(() => {}))
-
-  const [isReady, setIsReady] = useState(false)
-
   useLayoutEffect(() => {
     const script = document.createElement('script')
     script.async = true
     script.src = 'https://sky.blackbaudcdn.net/static/reg-form-loader/5/main.js'
 
     document.head.appendChild(script)
-    interval.current = setInterval(() => {
-      if (!isReady) {
-        if (window.BBEventRegistrationFormLoader) {
-          setIsReady(true)
-          window.BBEventRegistrationFormLoader.newEventRegistrationForm(window)
-          clearInterval(interval.current)
-        }
-      } else {
-        clearInterval(interval.current)
-      }
-    }, 200)
 
     return () => {
-      clearInterval(interval.current)
-
       // Clean up scripts
       document.head.removeChild(script)
 
       // Clean up variables
       window.BBEventRegistrationFormLoader = undefined
       window.iFrameResize = undefined
+    }
+  }, [])
+
+  const interval = useRef(setInterval(() => {}))
+
+  const [isReady, setIsReady] = useState(false)
+  useEffect(() => {
+    if (!isReady) {
+      interval.current = setInterval(() => {
+        if (window.BBEventRegistrationFormLoader) {
+          setIsReady(true)
+          window.BBEventRegistrationFormLoader.newEventRegistrationForm(window)
+          clearInterval(interval.current)
+        }
+      }, 200)
+    } else {
+      clearInterval(interval.current)
+    }
+    return () => {
+      clearInterval(interval.current)
     }
   }, [isReady])
 
