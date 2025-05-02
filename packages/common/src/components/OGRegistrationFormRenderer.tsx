@@ -26,6 +26,8 @@ export const OGRegistrationFormRenderer = ({
   highlightColor,
   ...props
 }: Props) => {
+  const ref = useRef<HTMLDivElement>(null)
+
   useLayoutEffect(() => {
     const script = document.createElement('script')
     script.async = true
@@ -49,7 +51,8 @@ export const OGRegistrationFormRenderer = ({
   useEffect(() => {
     if (!isReady) {
       interval.current = setInterval(() => {
-        if (window.BBEventRegistrationFormLoader) {
+        const hasIframe = (ref.current?.childElementCount || 0) > 0
+        if (window.BBEventRegistrationFormLoader && !hasIframe) {
           setIsReady(true)
           window.BBEventRegistrationFormLoader.newEventRegistrationForm(window)
           clearInterval(interval.current)
@@ -77,6 +80,7 @@ export const OGRegistrationFormRenderer = ({
       data-blackbaud-registration-form-id={formId}
       data-blackbaud-registration-form-zone="usa"
       data-blackbaud-registration-form-header-height="0"
+      ref={ref}
       {...props}
     />
   )
