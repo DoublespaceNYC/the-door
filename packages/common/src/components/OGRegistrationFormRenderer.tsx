@@ -49,8 +49,8 @@ export const OGRegistrationFormRenderer = ({
 
   const [isReady, setIsReady] = useState(false)
   useEffect(() => {
-    if (!isReady) {
-      interval.current = setInterval(() => {
+    interval.current = setInterval(() => {
+      if (!isReady) {
         const hasIframe = (ref.current?.childElementCount || 0) > 0
         console.log('tick')
         console.log(window.BBEventRegistrationFormLoader)
@@ -63,10 +63,11 @@ export const OGRegistrationFormRenderer = ({
           setIsReady(true)
           clearInterval(interval.current)
         }
-      }, 200)
-    } else {
-      clearInterval(interval.current)
-    }
+      } else {
+        clearInterval(interval.current)
+      }
+    }, 500)
+
     return () => {
       clearInterval(interval.current)
     }
