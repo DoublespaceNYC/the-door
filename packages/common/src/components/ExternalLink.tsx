@@ -16,7 +16,12 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
   icon?: boolean
 }
 
-const ExternalLink = ({ data, icon, ...props }: Props): JSX.Element => {
+const ExternalLink = ({
+  data,
+  icon,
+  children,
+  ...props
+}: Props): JSX.Element => {
   return (
     <a
       href={data.url}
@@ -24,6 +29,7 @@ const ExternalLink = ({ data, icon, ...props }: Props): JSX.Element => {
       target="_blank"
       {...props}
     >
+      {children}
       <span>
         {data.linkText}
         {icon && (

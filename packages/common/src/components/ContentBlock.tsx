@@ -17,6 +17,7 @@ import DatoLink, { IDatoLink, isDatoLink } from './DatoLink'
 import type { IFormEmbed } from './Form'
 import Form from './Form'
 import GatsbyImageFocused, { IGatsbyImageFocused } from './GatsbyImageFocused'
+import { type IThumbnailLink, ThumbnailLink } from './ThumbnailLink'
 import VectorGraphic, { IVectorGraphic } from './VectorGraphic'
 
 interface ITextBlockLink extends Record {
@@ -30,7 +31,7 @@ interface ITextBlockButton extends Record {
 }
 
 interface IBody extends IStructuredText {
-  blocks?: (ITextBlockLink | ITextBlockButton | IFormEmbed)[]
+  blocks?: (ITextBlockLink | ITextBlockButton | IFormEmbed | IThumbnailLink)[]
 }
 
 interface ITextBlock extends Record {
@@ -351,6 +352,7 @@ const ContentBlock = ({
                   key={i}
                   data={block.body}
                   renderBlock={({ record }) => {
+                    console.log(record.__typename)
                     switch (record.__typename) {
                       case 'DatoCmsFormEmbed': {
                         switch (record.form.__typename) {
@@ -361,6 +363,9 @@ const ContentBlock = ({
                             return <Form data={record.form} />
                           }
                         }
+                      }
+                      case 'DatoCmsThumbnailLink': {
+                        return <ThumbnailLink data={record} />
                       }
                       default: {
                         if (isDatoLink(record.link[0])) {

@@ -19,7 +19,12 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
   icon?: boolean
 }
 
-const DocumentLink = ({ data, icon, ...props }: Props): JSX.Element => {
+const DocumentLink = ({
+  data,
+  icon,
+  children,
+  ...props
+}: Props): JSX.Element => {
   const localFileUrl = useLocalFileUrl(data.document.localFileId)
   return (
     <a
@@ -28,6 +33,7 @@ const DocumentLink = ({ data, icon, ...props }: Props): JSX.Element => {
       rel="noreferrer"
       {...props}
     >
+      {children}
       <span>
         {data.linkText}
         {icon && (

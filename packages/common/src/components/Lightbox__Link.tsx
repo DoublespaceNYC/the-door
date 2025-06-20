@@ -23,6 +23,7 @@ const LightboxLink = ({
   slugPrefix,
   pageTitle,
   highlightColor,
+  children,
   ...props
 }: Props): JSX.Element => {
   const [open, setOpen] = useState(false)
@@ -50,7 +51,8 @@ const LightboxLink = ({
         css={{ textDecoration: 'none' }}
         {...props}
       >
-        {link}
+        {children}
+        <span>{link}</span>
       </a>
       <Lightbox
         data={data}

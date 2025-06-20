@@ -390,6 +390,43 @@ export const Fragments = graphql`
         ... on DatoCmsFormEmbed {
           ...FormEmbedFragment
         }
+        ... on DatoCmsThumbnailLink {
+          ...ThumbnailLinkFragment
+        }
+      }
+    }
+  }
+  fragment ThumbnailLinkFragment on DatoCmsThumbnailLink {
+    id: originalId
+    __typename
+    image {
+      gatsbyImageData
+      alt
+    }
+    link {
+      ... on DatoCmsInternalLink {
+        ...InternalLinkFragment
+      }
+      ... on DatoCmsExternalLink {
+        ...ExternalLinkFragment
+      }
+      ... on DatoCmsFormLightboxLink {
+        ...FormLightboxLinkFragment
+      }
+      ... on DatoCmsDocumentLink {
+        ...DocumentLinkFragment
+      }
+      ... on DatoCmsTertiaryLink {
+        ...TertiaryLinkFragment
+      }
+      ... on DatoCmsInternalArticleLink {
+        ...InternalArticleLinkFragment
+      }
+      ... on DatoCmsPdfArticleLink {
+        ...PdfArticleLinkFragment
+      }
+      ... on DatoCmsEventLink {
+        ...EventLinkFragment
       }
     }
   }

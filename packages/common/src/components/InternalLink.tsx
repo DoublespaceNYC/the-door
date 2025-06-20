@@ -14,12 +14,13 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
   data: IInternalLink
 }
 
-const InternalLink = ({ data, ...props }: Props): JSX.Element => {
+const InternalLink = ({ data, children, ...props }: Props): JSX.Element => {
   return (
     <Link
       to={`/${data.link.slug}/`.replace(/\/{2,}/g, '/')}
       {...props}
     >
+      {children}
       <span>{data.linkText}</span>
     </Link>
   )
