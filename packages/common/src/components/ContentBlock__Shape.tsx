@@ -15,7 +15,12 @@ export const shapeArray = [
 type Props = {
   shape: ShapeType
   color: string
-  layout: 'No Image' | 'Narrow Image' | 'Medium Image' | 'Wide Image'
+  layout:
+    | 'No Image'
+    | 'Narrow Image'
+    | 'Medium Image'
+    | 'Wide Image'
+    | 'Thumbnail Link'
   orientation: 'left' | 'right'
 }
 

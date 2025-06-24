@@ -31,7 +31,7 @@ interface ITextBlockButton extends Record {
 }
 
 interface IBody extends IStructuredText {
-  blocks?: (ITextBlockLink | ITextBlockButton | IFormEmbed | IThumbnailLink)[]
+  blocks?: (ITextBlockLink | ITextBlockButton | IFormEmbed)[]
 }
 
 interface ITextBlock extends Record {
@@ -50,8 +50,14 @@ export interface IContentBlock extends Record {
   __typename: 'DatoCmsContentBlock'
   anchorLink: [IAnchorLink?]
   heading: string
-  layout: 'No Image' | 'Narrow Image' | 'Medium Image' | 'Wide Image'
+  layout:
+    | 'No Image'
+    | 'Narrow Image'
+    | 'Medium Image'
+    | 'Wide Image'
+    | 'Thumbnail Link'
   image: IContentBlockImage
+  thumbnailLink: IThumbnailLink[]
   content: (ITextBlock | ICarousel | IVectorGraphic)[]
 }
 
@@ -63,7 +69,7 @@ type Props = {
 }
 
 const ContentBlock = ({
-  block: { anchorLink, heading, image, content, layout },
+  block: { anchorLink, heading, image, content, layout, thumbnailLink },
   shape,
   highlightColor,
   orientation,
@@ -80,6 +86,7 @@ const ContentBlock = ({
           ms: 12,
         }
       case 'Narrow Image':
+      case 'Thumbnail Link':
         return {
           l: 7,
           m: 8,
@@ -97,6 +104,28 @@ const ContentBlock = ({
           m: 7,
           ms: 12,
         }
+    }
+  }
+  const getImage = () => {
+    const Image = ({ variant }: { variant: 'narrow' | 'medium' | 'wide' }) => (
+      <GatsbyImageFocused
+        image={image[variant]}
+        focalPoint={image.focalPoint}
+        aspectRatio={image.sizes.aspectRatio}
+        alt={image.alt || ''}
+      />
+    )
+    switch (layout) {
+      case 'No Image':
+        return
+      case 'Narrow Image':
+        return <Image variant="narrow" />
+      case 'Medium Image':
+        return <Image variant="narrow" />
+      case 'Wide Image':
+        return <Image variant="narrow" />
+      case 'Thumbnail Link':
+        return <ThumbnailLink data={thumbnailLink[0]} />
     }
   }
   const textSpan = setTextSpan()
@@ -263,6 +292,8 @@ const ContentBlock = ({
       }
     `,
     image: css`
+      --readable-color: ${darken(0.1, readableColor)};
+      --readable-color-hover: ${readableColor};
       grid-row: 1 / span ${contentRows + 4};
       position: relative;
       align-self: flex-start;
@@ -289,6 +320,9 @@ const ContentBlock = ({
         css`
           grid-column: 2 / -2;
         `}
+        ${layout === 'Thumbnail Link' && css`
+          grid-row: 4 / 5
+        `} 
       }
       ${layout === 'No Image' &&
       css`
@@ -363,9 +397,6 @@ const ContentBlock = ({
                             return <Form data={record.form} />
                           }
                         }
-                      }
-                      case 'DatoCmsThumbnailLink': {
-                        return <ThumbnailLink data={record} />
                       }
                       default: {
                         if (isDatoLink(record.link[0])) {
@@ -456,20 +487,7 @@ const ContentBlock = ({
         }
       })}
       <div css={styles.image}>
-        {layout !== 'No Image' && image && (
-          <GatsbyImageFocused
-            image={
-              layout === 'Narrow Image'
-                ? image.narrow
-                : layout === 'Medium Image'
-                ? image.medium
-                : image.wide
-            }
-            focalPoint={image.focalPoint}
-            aspectRatio={image.sizes.aspectRatio}
-            alt={image.alt || ''}
-          />
-        )}
+        {getImage()}
         <ContentBlockShape
           shape={shape}
           color={highlightColor}

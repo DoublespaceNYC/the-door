@@ -4,6 +4,7 @@ import { Link } from 'gatsby'
 import { GatsbyImage, type IGatsbyImageData } from 'gatsby-plugin-image'
 import type { HTMLAttributes } from 'react'
 
+import { mq } from '../theme/mixins'
 import type { IDatoLink } from './DatoLink'
 import DatoLink from './DatoLink'
 
@@ -14,29 +15,33 @@ export type IThumbnailLink = Record & {
 }
 
 interface Props extends HTMLAttributes<HTMLAnchorElement> {
-  data: IThumbnailLink
+  data: IThumbnailLink | undefined | null
 }
 
 export const ThumbnailLink = ({ data, ...props }: Props) => {
   const styles = {
     link: css`
-      margin-right: 1em;
-      margin-top: 2em;
-      margin-bottom: 2em;
-      width: 36rem;
-      min-width: 50%;
-      max-width: 100%;
-      background-color: currentColor;
+      position: relative;
+      display: grid;
+      background-color: var(--readable-color);
+      text-decoration: none;
+      z-index: 5;
       > span {
         display: block;
         margin: 0.75em;
         color: #fff;
+      }
+      @media (hover: hover) {
+        &:hover {
+          background-color: var(--readable-color-hover);
+        }
       }
     `,
     image: css`
       min-width: 100%;
     `,
   }
+  if (!data) return null
   return (
     <DatoLink
       css={styles.link}

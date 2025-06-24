@@ -390,9 +390,6 @@ export const Fragments = graphql`
         ... on DatoCmsFormEmbed {
           ...FormEmbedFragment
         }
-        ... on DatoCmsThumbnailLink {
-          ...ThumbnailLinkFragment
-        }
       }
     }
   }
@@ -400,7 +397,7 @@ export const Fragments = graphql`
     id: originalId
     __typename
     image {
-      gatsbyImageData
+      gatsbyImageData(width: 720, imgixParams: { q: 65 })
       alt
     }
     link {
@@ -548,6 +545,9 @@ export const Fragments = graphql`
       medium: gatsbyImageData(width: 840, imgixParams: { q: 65 })
       wide: gatsbyImageData(width: 960, imgixParams: { q: 65 })
       ...ImageFocalData
+    }
+    thumbnailLink {
+      ...ThumbnailLinkFragment
     }
   }
   fragment LayoutOptionsFragment on DatoCmsLayoutOptionsBlock {
