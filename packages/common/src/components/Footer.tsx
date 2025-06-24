@@ -47,6 +47,8 @@ const Footer = ({
   const theme = useTheme() as ITheme
   const styles = {
     footer: css`
+      position: relative;
+      z-index: 2;
       ${baseGrid}
       background: ${theme.primary};
       color: #fff;

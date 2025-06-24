@@ -88,9 +88,7 @@ const FooterCTA = ({ cta, ctaButtons, ...props }: Props): JSX.Element => {
             data={button}
             highlightColor={highlightColor}
             key={i}
-          >
-            {button.linkText}
-          </DatoLink>
+          />
         ))}
       </div>
     </div>

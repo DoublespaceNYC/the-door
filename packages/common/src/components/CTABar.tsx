@@ -37,6 +37,8 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
   // const colors = setColors()
   const styles = {
     section: css`
+      position: relative;
+      z-index: 2;
       background: ${theme.primaryDark};
       padding: 0.75em var(--margin);
       color: #fff;
