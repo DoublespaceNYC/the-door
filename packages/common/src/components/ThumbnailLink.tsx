@@ -20,7 +20,6 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
 export const ThumbnailLink = ({ data, ...props }: Props) => {
   const styles = {
     link: css`
-      display: block !important;
       margin-right: 1em;
       margin-top: 2em;
       margin-bottom: 2em;
