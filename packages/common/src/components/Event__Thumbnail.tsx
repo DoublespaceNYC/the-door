@@ -56,6 +56,9 @@ const EventThumbnail = ({
           margin-bottom: 2rem;
         }
       `}
+      > span {
+        display: contents;
+      }
     `,
   }
   return (
