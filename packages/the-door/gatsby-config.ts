@@ -131,17 +131,17 @@ const config: GatsbyConfig = {
         },
       },
     },
-    {
-      resolve: "gatsby-plugin-google-tagmanager",
-      options: {
-        id: "GTM-K8TZP8F7",
-        // id: "G-86PJKS11B0",
-        includeInDevelopment: false,
-        defaultDataLayer: { platform: "gatsby" },
-        enableWebVitalsTracking: true,
+    // {
+    //   resolve: "gatsby-plugin-google-tagmanager",
+    //   options: {
+    //     id: "GTM-K8TZP8F7",
+    //     // id: "G-86PJKS11B0",
+    //     includeInDevelopment: false,
+    //     defaultDataLayer: { platform: "gatsby" },
+    //     enableWebVitalsTracking: true,
 
-      },
-    },
+    //   },
+    // },
     `gatsby-plugin-netlify`,
   ],
 }
