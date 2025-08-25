@@ -132,21 +132,23 @@ const ArticleThumbnail = ({
       font-size: 90%;
     `,
   }
-  
+
   return (
     <div
       css={styles.container}
       {...props}
     >
-      <GatsbyImageFocused
-        css={styles.imageWrap}
-        gatsbyImageCss={styles.image}
-        image={article.heroImage.thumbnailImageData}
-        alt={article.heroImage.alt || article.title}
-        originalAspectRatio={article.heroImage.sizes.aspectRatio}
-        aspectRatio={16 / 9}
-        focalPoint={article.heroImage.focalPoint}
-      />
+      {article.heroImage?.thumbnailImageData && (
+        <GatsbyImageFocused
+          css={styles.imageWrap}
+          gatsbyImageCss={styles.image}
+          image={article.heroImage.thumbnailImageData}
+          alt={article.heroImage.alt || article.title}
+          originalAspectRatio={article.heroImage.sizes.aspectRatio}
+          aspectRatio={16 / 9}
+          focalPoint={article.heroImage.focalPoint}
+        />
+      )}
       <div css={styles.text}>
         <h3>{article.title}</h3>
         <div css={styles.details}>
