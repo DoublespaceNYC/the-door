@@ -52,7 +52,6 @@ export const OGRegistrationFormRenderer = ({
     interval.current = setInterval(() => {
       if (!isReady) {
         const hasIframe = (ref.current?.childElementCount || 0) > 0
-        console.log('tick')
         console.log(window.BBEventRegistrationFormLoader)
         console.log(`childElementCount: ${ref.current?.childElementCount}`)
         if (hasIframe) {

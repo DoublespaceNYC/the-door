@@ -320,9 +320,10 @@ const ContentBlock = ({
         css`
           grid-column: 2 / -2;
         `}
-        ${layout === 'Thumbnail Link' && css`
-          grid-row: 4 / 5
-        `} 
+        ${layout === 'Thumbnail Link' &&
+        css`
+          grid-row: 4 / 5;
+        `}
       }
       ${layout === 'No Image' &&
       css`
@@ -386,7 +387,6 @@ const ContentBlock = ({
                   key={i}
                   data={block.body}
                   renderBlock={({ record }) => {
-                    console.log(record.__typename)
                     switch (record.__typename) {
                       case 'DatoCmsFormEmbed': {
                         switch (record.form.__typename) {
