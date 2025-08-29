@@ -53,18 +53,17 @@ const MainNav = ({
   const [navRef, setNavRef] = useState<HTMLElement | null>(null)
   const navHeight = useElementHeight(navRef)
 
-  const [burgerOpen, setBurgerOpen] = useState(false)
-
   const navItemsGroupRef = useRef<HTMLDivElement>(null)
   const dropdownContainerRef = useRef<HTMLDivElement>(null)
+
+  const { activeNavIndex, setActiveNavIndex, burgerOpen, setBurgerOpen } =
+    useNavMenuContext()
 
   useEffect(() => {
     if (windowWidth && windowWidth > breakpoint) {
       setBurgerOpen(false)
     }
-  }, [windowWidth, breakpoint])
-
-  const { activeNavIndex, setActiveNavIndex } = useNavMenuContext()
+  }, [windowWidth, breakpoint, setBurgerOpen])
 
   useEscKeyFunction(() => {
     setActiveNavIndex(null)

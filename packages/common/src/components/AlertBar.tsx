@@ -25,8 +25,8 @@ const AlertBar = ({ alert, showAlert }: AlertBarProps): JSX.Element => {
   const [ref, setRef] = useState<HTMLDivElement | null>(null)
   const { inView, ref: inViewRef } = useInView()
   const alertHeight = useElementHeight(ref)
-  const { activeNavIndex } = useNavMenuContext()
-  const navOpen = activeNavIndex !== null
+  const { activeNavIndex, burgerOpen } = useNavMenuContext()
+  const navOpen = burgerOpen || activeNavIndex !== null
   const { open: lightboxOpen } = useLightboxContext()
 
   const theme = useTheme() as ITheme
