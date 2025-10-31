@@ -1,25 +1,30 @@
 import Hls from 'hls.js'
-import { VideoHTMLAttributes, useCallback, useEffect, useRef } from 'react'
+import { VideoHTMLAttributes, useCallback, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
-  src: string
+  src?: string
   thumbnail?: string
   playing?: boolean
   autoPlay?: boolean
+  maxLoops?: number
 }
 
-const VideoStreamPlayer = ({
+export const VideoStreamPlayer = ({
   src,
   thumbnail,
   playing,
   autoPlay,
-
+  loop,
+  maxLoops = 3,
   ...props
-}: VideoProps): JSX.Element => {
+}: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [iterations, setIterations] = useState(1)
+  const hasReachedLimit = iterations > maxLoops
   useEffect(() => {
     let hls: Hls
-    if (videoRef.current) {
+    if (videoRef.current && src) {
       const video = videoRef.current
 
       if (video.canPlayType('application/vnd.apple.mpegurl')) {
@@ -31,7 +36,9 @@ const VideoStreamPlayer = ({
         hls.loadSource(src)
         hls.attachMedia(video)
       } else {
-        console.error("This is a legacy browser that doesn't support MSE")
+        console.error(
+          "This is a legacy browser that doesn't support MSE"
+        )
       }
     }
 
@@ -40,12 +47,15 @@ const VideoStreamPlayer = ({
         hls.destroy()
       }
     }
-  }, [src])
+  }, [videoRef, src])
+
+  // Prevents returning an empty promise
+  const hasPaused = useRef(false)
 
   // To hide annoying play button when in lower power mode we have to
   // manually try to autoplay the video and catch the NotAllowedError
   const triggerAutoPlay = useCallback(() => {
-    if (autoPlay) {
+    if (!hasReachedLimit && autoPlay) {
       videoRef.current
         ?.play()
         .then()
@@ -53,10 +63,7 @@ const VideoStreamPlayer = ({
           console.log(err)
         })
     }
-  }, [autoPlay])
-
-  // Prevents returning an empty promise
-  const hasPaused = useRef(false)
+  }, [autoPlay, hasReachedLimit])
 
   useEffect(() => {
     // Check to see if video is ready and playing before trying to pause
@@ -66,7 +73,11 @@ const VideoStreamPlayer = ({
       !videoRef.current.paused
     switch (playing) {
       case true:
-        if (hasPaused.current === true && !isPlaying) {
+        if (
+          hasPaused.current === true &&
+          !hasReachedLimit &&
+          !isPlaying
+        ) {
           videoRef.current?.play()
         }
         break
@@ -77,7 +88,24 @@ const VideoStreamPlayer = ({
         }
         break
     }
-  }, [playing])
+  }, [playing, hasReachedLimit])
+
+  const handleLoop = useCallback(() => {
+    const currentVideo = videoRef.current
+    if (!currentVideo) return
+    if (loop && !hasReachedLimit) {
+      currentVideo.currentTime = 0
+      currentVideo.play()
+      setIterations(prev => prev + 1)
+    }
+  }, [loop, hasReachedLimit])
+  useEffect(() => {
+    const currentVideo = videoRef.current
+    currentVideo?.addEventListener('ended', handleLoop)
+    return () => {
+      currentVideo?.removeEventListener('ended', handleLoop)
+    }
+  }, [handleLoop])
 
   return (
     <video
@@ -86,7 +114,6 @@ const VideoStreamPlayer = ({
       // iOS does not load data without autoplay, so preload metadata to fire event
       preload={autoPlay ? 'metadata' : undefined}
       onLoadedMetadata={triggerAutoPlay}
-      // autoPlay={autoPlay}
       {...props}
     >
       {/* In the future, add subtitle support */}
@@ -94,5 +121,3 @@ const VideoStreamPlayer = ({
     </video>
   )
 }
-
-export default VideoStreamPlayer

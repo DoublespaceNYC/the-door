@@ -3,7 +3,7 @@ import AnimateIn from '@the-door/common/src/components/AnimateIn'
 import DatoLink, {
   IDatoLink,
 } from '@the-door/common/src/components/DatoLink'
-import VideoStreamPlayer from '@the-door/common/src/components/VideoStreamPlayer'
+import { VideoStreamPlayer } from '@the-door/common/src/components/VideoStreamPlayer'
 import {
   absoluteFill,
   animateIn,
