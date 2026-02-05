@@ -120,4 +120,4 @@ export const VideoStreamPlayer = ({
       {/* <track default /> */}
     </video>
   )
-} 
+}
