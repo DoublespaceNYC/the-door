@@ -26,8 +26,8 @@ const GlobalStyles = () => {
         'DejaVu Serif', 'Bitstream Vera Serif', 'Liberation Serif', Georgia,
         serif;
 
-      --display-font: 'Almaq Refined', var(--sans-serif);
-      --body-font: 'Brother 1816', var(--sans-serif);
+      --display-font: 'almaq-refined', var(--sans-serif);
+      --body-font: 'brother-1816', var(--sans-serif);
 
       /* Font Sizes */
       --fs-144: calc(4rem + 6.667vw);
