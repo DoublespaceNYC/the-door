@@ -1,8 +1,10 @@
 import { css } from '@emotion/react'
 import { useTheme } from '@emotion/react'
+import { darken } from 'polished'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useElementWidth } from '../hooks/useElementRect'
+import useReadableColor from '../hooks/useReadableColor'
 import { mq } from '../theme/mixins'
 import { IAnchorLink } from './AnchorLink'
 import DatoLink, { IDatoLink } from './DatoLink'
@@ -52,6 +54,8 @@ const PageNav = ({
   const showLanguage = slugLocales && slugLocales.length > 1 && currentLocale
 
   const theme = useTheme() as ITheme
+
+  const readableButtonColor = useReadableColor(theme.tertiary, theme.gray95, 3)
 
   const styles = {
     container: css`
@@ -176,11 +180,11 @@ const PageNav = ({
     ctaButton: css`
       && {
         min-height: 100%;
-        color: ${theme.tertiary};
+        color: ${readableButtonColor};
         background: ${theme.gray95};
         @media (hover: hover) {
           &:hover {
-            color: ${theme.tertiaryDark};
+            color: ${darken(0.1, readableButtonColor)};
           }
         }
         padding: 0.667em max(var(--gtr-m), 1em);
@@ -209,10 +213,7 @@ const PageNav = ({
   }
 
   return (
-    <div
-      css={styles.container}
-      aria-hidden={condensed}
-    >
+    <div css={styles.container}>
       {showLanguage && (
         <PageNavLanguage
           currentLocale={currentLocale}
