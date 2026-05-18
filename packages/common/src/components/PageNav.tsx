@@ -138,7 +138,7 @@ const PageNav = ({
       > button {
         min-height: 100%;
         background: ${theme.gray95};
-        color: ${dropdownOpen && darken(0.1, readableSecondaryColor)};
+        color: ${dropdownOpen && readableSecondaryColor};
       }
       button,
       a {
