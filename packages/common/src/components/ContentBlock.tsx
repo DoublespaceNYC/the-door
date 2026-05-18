@@ -267,7 +267,7 @@ const ContentBlock = ({
       a {
         color: ${readableColorSmall};
         font-weight: 500;
-        display: inline-block;
+        display: inline;
         @media (hover: hover) {
           &:hover {
             color: ${darken(0.1, readableColorSmall)};
