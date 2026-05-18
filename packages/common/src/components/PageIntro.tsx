@@ -1,9 +1,11 @@
 import { css, useTheme } from '@emotion/react'
 import { isLink } from 'datocms-structured-text-utils'
 import { Link } from 'gatsby'
+import { darken } from 'polished'
 import { Fragment, HTMLAttributes } from 'react'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 
+import useReadableColor from '../hooks/useReadableColor'
 import { mq } from '../theme/mixins'
 import { IStructuredText } from '../types'
 import { ITheme } from './Layout'
@@ -19,6 +21,7 @@ const PageIntro = ({
   ...props
 }: Props): JSX.Element => {
   const theme = useTheme() as ITheme
+  const readableColor = useReadableColor(theme.tertiary, '#fff', 4.5)
   const styles = {
     intro: css`
       font-size: var(--fs-21);
@@ -30,10 +33,10 @@ const PageIntro = ({
         font-size: var(--fs-18);
       }
       a {
-        color: ${theme.tertiary};
+        color: ${readableColor};
         @media (hover: hover) {
           &:hover {
-            color: ${theme.tertiaryDark};
+            color: ${darken(0.1, readableColor)};
           }
         }
       }
