@@ -54,6 +54,7 @@ const FooterCTA = ({ cta, ctaButtons, ...props }: Props): JSX.Element => {
       flex-wrap: wrap;
       grid-gap: 0.5em;
       font-size: var(--fs-21);
+      font-size: max(18.66px, var(--fs-21));
       font-weight: 700;
     `,
     button: css`
