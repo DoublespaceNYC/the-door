@@ -6,6 +6,7 @@ import {
 } from 'datocms-structured-text-utils'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 
+import useReadableColor from '../hooks/useReadableColor'
 import { buttonStyle, mq } from '../theme/mixins'
 import DatoLink, { isDatoLink } from './DatoLink'
 import { IExternalLink } from './ExternalLink'
@@ -24,6 +25,7 @@ export type CTABarProps = {
 
 const CTABar = ({ data }: CTABarProps): JSX.Element => {
   const theme = useTheme() as ITheme
+  const readableColor = useReadableColor(theme.tertiary, '#fff', 3)
   // const setColors = () => {
   //   switch (theme) {
   //     case 'The Door':
@@ -87,12 +89,12 @@ const CTABar = ({ data }: CTABarProps): JSX.Element => {
     button: css`
       ${buttonStyle}
       background-color: #fff;
-      color: ${theme.tertiary};
-      font-size: 125%;
+      color: ${readableColor};
+      font-size: max(125%, 18.67px);
       border-radius: 0.2em;
       @media (hover: hover) {
         &:hover {
-          background: ${theme.tertiary};
+          background: ${readableColor};
           color: #fff;
         }
       }
