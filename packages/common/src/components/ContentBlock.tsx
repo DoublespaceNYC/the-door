@@ -133,6 +133,7 @@ const ContentBlock = ({
   const contentRows = content.length
 
   const readableColor = useReadableColor(highlightColor, '#fff', 3)
+  const readableColorSmall = useReadableColor(highlightColor, '#fff', 4.5)
 
   const textGridCss = css`
     ${left &&
@@ -185,7 +186,7 @@ const ContentBlock = ({
       }
     `,
     heading: css`
-      color: ${highlightColor};
+      color: ${readableColor};
       font-size: var(--fs-72);
       z-index: 2;
       line-height: 1;
@@ -264,12 +265,12 @@ const ContentBlock = ({
         margin-top: 2em;
       }
       a {
-        color: ${readableColor};
+        color: ${readableColorSmall};
         font-weight: 500;
         display: inline-block;
         @media (hover: hover) {
           &:hover {
-            color: ${darken(0.1, readableColor)};
+            color: ${darken(0.1, readableColorSmall)};
           }
         }
       }
@@ -292,8 +293,8 @@ const ContentBlock = ({
       }
     `,
     image: css`
-      --readable-color: ${darken(0.1, readableColor)};
-      --readable-color-hover: ${readableColor};
+      --readable-color: ${darken(0.1, readableColorSmall)};
+      --readable-color-hover: ${readableColorSmall};
       grid-row: 1 / span ${contentRows + 4};
       position: relative;
       align-self: flex-start;
