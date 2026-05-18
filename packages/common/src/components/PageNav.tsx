@@ -55,7 +55,16 @@ const PageNav = ({
 
   const theme = useTheme() as ITheme
 
-  const readableButtonColor = useReadableColor(theme.tertiary, theme.gray95, 3)
+  const readableSecondaryColor = useReadableColor(
+    theme.secondary,
+    theme.gray95,
+    3
+  )
+  const readableTertiaryColor = useReadableColor(
+    theme.tertiary,
+    theme.gray95,
+    3
+  )
 
   const styles = {
     container: css`
@@ -113,10 +122,10 @@ const PageNav = ({
       `}
     `,
     anchorLink: css`
-      color: ${theme.secondary};
+      color: ${readableSecondaryColor};
       @media (hover: hover) {
         &:hover {
-          color: ${theme.secondaryDark};
+          color: ${darken(0.1, readableSecondaryColor)};
         }
       }
     `,
@@ -129,17 +138,17 @@ const PageNav = ({
       > button {
         min-height: 100%;
         background: ${theme.gray95};
-        color: ${dropdownOpen && theme.secondaryDark};
+        color: ${dropdownOpen && darken(0.1, readableSecondaryColor)};
       }
       button,
       a {
         position: relative;
         padding: 0.667em;
-        color: ${theme.secondary};
+        color: ${readableSecondaryColor};
         z-index: 2;
         @media (hover: hover) {
           &:hover {
-            color: ${theme.secondaryDark};
+            color: ${darken(0.1, readableSecondaryColor)};
           }
         }
       }
@@ -180,11 +189,11 @@ const PageNav = ({
     ctaButton: css`
       && {
         min-height: 100%;
-        color: ${readableButtonColor};
+        color: ${readableTertiaryColor};
         background: ${theme.gray95};
         @media (hover: hover) {
           &:hover {
-            color: ${darken(0.1, readableButtonColor)};
+            color: ${darken(0.1, readableTertiaryColor)};
           }
         }
         padding: 0.667em max(var(--gtr-m), 1em);
