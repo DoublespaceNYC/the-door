@@ -77,8 +77,9 @@ const ContentBlock = ({
   const left = orientation === 'left'
   const right = orientation === 'right'
 
+  const parsedLayout = !image ? 'No Image' : layout
   const setTextSpan = () => {
-    switch (layout) {
+    switch (parsedLayout) {
       case 'No Image':
         return {
           l: 8,
@@ -107,6 +108,7 @@ const ContentBlock = ({
     }
   }
   const getImage = () => {
+    if (!image) return
     const Image = ({ variant }: { variant: 'narrow' | 'medium' | 'wide' }) => (
       <GatsbyImageFocused
         image={image[variant]}
@@ -121,9 +123,9 @@ const ContentBlock = ({
       case 'Narrow Image':
         return <Image variant="narrow" />
       case 'Medium Image':
-        return <Image variant="narrow" />
+        return <Image variant="medium" />
       case 'Wide Image':
-        return <Image variant="narrow" />
+        return <Image variant="wide" />
       case 'Thumbnail Link':
         return <ThumbnailLink data={thumbnailLink[0]} />
     }
@@ -349,6 +351,8 @@ const ContentBlock = ({
     textBlockButton: css`
       && {
         ${buttonStyle}
+        display: block;
+        max-width: fit-content;
         font-size: var(--fs-21);
         margin: 0.75em 0;
         background: ${readableColor};
@@ -492,7 +496,7 @@ const ContentBlock = ({
         <ContentBlockShape
           shape={shape}
           color={highlightColor}
-          layout={layout}
+          layout={parsedLayout}
           orientation={orientation}
         />
       </div>
