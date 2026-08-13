@@ -36,9 +36,7 @@ export const VideoStreamPlayer = ({
         hls.loadSource(src)
         hls.attachMedia(video)
       } else {
-        console.error(
-          "This is a legacy browser that doesn't support MSE"
-        )
+        console.error("This is a legacy browser that doesn't support MSE")
       }
     }
 
@@ -73,11 +71,7 @@ export const VideoStreamPlayer = ({
       !videoRef.current.paused
     switch (playing) {
       case true:
-        if (
-          hasPaused.current === true &&
-          !hasReachedLimit &&
-          !isPlaying
-        ) {
+        if (hasPaused.current === true && !hasReachedLimit && !isPlaying) {
           videoRef.current?.play()
         }
         break
@@ -107,6 +101,14 @@ export const VideoStreamPlayer = ({
     }
   }, [handleLoop])
 
+  const autoPlayProps = autoPlay
+    ? {
+        autoPlay: true,
+        muted: true,
+        playsInline: true,
+      }
+    : {}
+
   return (
     <video
       ref={videoRef}
@@ -114,6 +116,7 @@ export const VideoStreamPlayer = ({
       // iOS does not load data without autoplay, so preload metadata to fire event
       preload={autoPlay ? 'metadata' : undefined}
       onLoadedMetadata={triggerAutoPlay}
+      {...autoPlayProps}
       {...props}
     >
       {/* In the future, add subtitle support */}
