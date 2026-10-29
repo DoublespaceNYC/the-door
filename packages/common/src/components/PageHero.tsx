@@ -7,7 +7,7 @@ import { ITheme } from './Layout'
 
 type Props = {
   title: string
-  section?: string
+  section?: string | null
   image: IGatsbyImageFocused
 }
 

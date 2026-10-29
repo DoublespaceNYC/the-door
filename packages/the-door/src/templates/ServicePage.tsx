@@ -38,8 +38,8 @@ type DataProps = {
     seo?: ISEO
   }
   section: {
-    title: string
-  }
+    title: string | null
+  } | null
 }
 
 interface ContextProps {
@@ -73,7 +73,7 @@ const ServicePage = ({
       <PageHero
         title={title}
         image={heroImage}
-        section={section.title}
+        section={section?.title}
       />
       <PageNav
         links={[
