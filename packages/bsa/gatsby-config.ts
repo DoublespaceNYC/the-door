@@ -132,9 +132,9 @@ const config: GatsbyConfig = {
       },
     },
     {
-      resolve: 'gatsby-plugin-google-analytics',
+      resolve: 'gatsby-plugin-google-gtag',
       options: {
-        trackingId: 'G-EK1YM534KH',
+        trackingIds: ['G-EK1YM534KH'],
       },
     },
     `gatsby-plugin-netlify`,
