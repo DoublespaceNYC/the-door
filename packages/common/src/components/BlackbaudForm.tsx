@@ -11,7 +11,12 @@ export interface IBlackbaudForm extends Record {
   formId: string
   oGId?: string
   envId?: string
-  bboxVersion: '1.0' | '2.0' | 'Online Giving Donation' | 'Online Giving Registration'
+  bboxVersion:
+    | '1.0'
+    | '2.0'
+    | 'Online Giving Donation'
+    | 'Online Giving Donation 2'
+    | 'Online Giving Registration'
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -30,9 +35,11 @@ const BlackbaudForm = ({ data, ...props }: Props) => {
         />
       )
     case 'Online Giving Donation':
+    case 'Online Giving Donation 2':
       return (
         <OGDonationFormRenderer
           data={data}
+          formVersion={data.bboxVersion}
           {...props}
         />
       )

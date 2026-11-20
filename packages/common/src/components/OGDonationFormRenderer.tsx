@@ -12,6 +12,7 @@ import type { IBlackbaudForm } from './BlackbaudForm'
 type Props = ComponentProps<'div'> & {
   data: IBlackbaudForm
   highlightColor?: string
+  formVersion: 'Online Giving Donation' | 'Online Giving Donation 2'
 }
 
 declare global {
@@ -34,6 +35,7 @@ declare global {
 
 export const OGDonationFormRenderer = ({
   data: { formId, oGId },
+  formVersion,
   highlightColor,
   ...props
 }: Props) => {
@@ -45,9 +47,17 @@ export const OGDonationFormRenderer = ({
   useLayoutEffect(() => {
     const script = document.createElement('script')
     script.async = true
-
-    script.src =
-      'https://sky.blackbaudcdn.net/static/donor-form-loader/2/main.js'
+    script.src = (() => {
+      switch (formVersion) {
+        case 'Online Giving Donation':
+          return 'https://sky.blackbaudcdn.net/static/donor-form-loader/2/main.js'
+        case 'Online Giving Donation 2':
+          return 'https://sky.blackbaudcdn.net/static/og-web-loader/1/main.js'
+        default:
+          return ''
+      }
+    })()
+    script.setAttribute('data-envid', oGId || '')
     document.head.appendChild(script)
     if (!isReady2) {
       interval.current = setInterval(() => {
@@ -93,10 +103,10 @@ export const OGDonationFormRenderer = ({
       window.Blackbaud_OpenUpdateDirectDebitForm = undefined
       window.bbCheckout2_0 = undefined
     }
-  }, [formId, isReady2])
+  }, [formId, oGId, isReady2, formVersion])
 
   useEffect(() => {
-    if (isReady1) {
+    if (isReady1 && formVersion !== 'Online Giving Donation 2') {
       window.BBDonorFormLoader?.newBlackbaudDonationFormZoned(
         'renxt',
         oGId,
@@ -104,8 +114,22 @@ export const OGDonationFormRenderer = ({
         'usa'
       )
     }
-  }, [formId, isReady1, oGId])
+  }, [formId, isReady1, oGId, formVersion])
 
+  const formProps = (() => {
+    switch (formVersion) {
+      case 'Online Giving Donation 2':
+        return {
+          'data-blackbaud-standard-form-id': formId,
+          'data-svc-id': 'renxt',
+          id: `blackbaud-donation-form_${formId}`,
+        }
+      case 'Online Giving Donation':
+        return {
+          id: `blackbaud-donation-form_${formId}`,
+        }
+    }
+  })()
   const styles = {
     form: css`
       width: 100%;
@@ -114,9 +138,9 @@ export const OGDonationFormRenderer = ({
 
   return (
     <div
-      id={`blackbaud-donation-form_${formId}`}
       css={styles.form}
       {...props}
+      {...formProps}
     />
   )
 }
